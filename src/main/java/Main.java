@@ -1,32 +1,33 @@
+import ru.mail.polis.open.task1.FizzBuzz;
 import ru.mail.polis.open.task1.FizzBuzzSolution;
+import ru.mail.polis.open.task1.StringBulderFizzBuzzSolution;
+import ru.mail.polis.open.task1.StringFizzBuzzSolution;
 
-/**
- * @author mikhail.nechaev
- * Since 25/02/2019
- */
 public class Main {
 
+    //границы интервала выводимых чисел
+    private static final int from = 1;
+    private static final int to = 100;
+
     public static void main(String[] args) {
-        //print() test
-        long begin = System.currentTimeMillis();
-        new FizzBuzzSolution().print(1, 10000);
-        long end = System.currentTimeMillis();
-        long simplePrintTime = end - begin;
 
-        //printByStrings() test
-        begin = System.currentTimeMillis();
-        new FizzBuzzSolution().printByStrings(1, 10000);
-        end = System.currentTimeMillis();
-        long stringsPrintTime = end - begin;
+        //прогоняем тесты для каждой реализации
+        long simplePrintTime = testPrintByTime(new FizzBuzzSolution());
+        long stringsPrintTime = testPrintByTime(new StringFizzBuzzSolution());
+        long stringBuilderPrintTime = testPrintByTime(new StringBulderFizzBuzzSolution());
 
-        //printByStringBuilder() test
-        begin = System.currentTimeMillis();
-        new FizzBuzzSolution().printByStringBuilder(1, 10000);
-        end = System.currentTimeMillis();
-        long stringBuilderPrintTime = end - begin;
+        //смотрим что получилось
         System.out.println("Simple time: " + simplePrintTime);
         System.out.println("Strings time: " + stringsPrintTime);
         System.out.println("StringBuilder time: " + stringBuilderPrintTime);
     }
 
+    //метод тестирования по времени
+    //возвращает время работы метода print()
+    private static long testPrintByTime(FizzBuzz solution){
+        long begin = System.currentTimeMillis();
+        solution.print(from, to);
+        long end = System.currentTimeMillis();
+        return end - begin;
+    }
 }

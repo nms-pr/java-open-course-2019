@@ -18,7 +18,4 @@ public interface FizzBuzz {
      */
     void print(int from, int to);
 
-    void printByStrings(int from, int to);
-
-    void printByStringBuilder(int from, int to);
 }
