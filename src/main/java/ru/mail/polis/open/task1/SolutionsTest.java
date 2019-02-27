@@ -1,9 +1,6 @@
-import ru.mail.polis.open.task1.FizzBuzz;
-import ru.mail.polis.open.task1.FizzBuzzSolution;
-import ru.mail.polis.open.task1.StringBulderFizzBuzzSolution;
-import ru.mail.polis.open.task1.StringFizzBuzzSolution;
+package ru.mail.polis.open.task1;
 
-public class Main {
+public class SolutionsTest {
 
     //границы интервала выводимых чисел
     private static final int from = 1;
