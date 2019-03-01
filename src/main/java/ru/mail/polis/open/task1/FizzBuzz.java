@@ -1,9 +1,10 @@
 package ru.mail.polis.open.task1;
 
 /**
- * @author mikhail.nechaev
- * Since 25/02/2019
+ * @author nikita.kulikov
+ * Since 01/03/2019
  */
+
 public interface FizzBuzz {
 
     /**
@@ -18,3 +19,21 @@ public interface FizzBuzz {
      */
     void print(int from, int to);
 }
+
+class Change implements FizzBuzz {
+    public void print(int from, int to) {
+        for (int i = from; i <= to; i++) {
+            if (i % 3 == 0)
+                System.out.println("Fizz");
+            else
+            if (i % 5 == 0)
+                System.out.println("Buzz");
+            else
+            if ((i % 3 == 0) && (i % 5 == 0))
+                System.out.println("FizzBuzz");
+            else
+                System.out.println(i);
+        }
+    }
+}
+
