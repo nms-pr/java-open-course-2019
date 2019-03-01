@@ -1,4 +1,4 @@
-package ru.mail.polis.open;
+package main.java.ru.mail.polis.open;
 
 
 /**
