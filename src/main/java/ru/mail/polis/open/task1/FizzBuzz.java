@@ -15,6 +15,7 @@ public interface FizzBuzz {
      *  то программа должна выводить слово «FizzBuzz»
      * @param from - с какого числа начинать отсчёт
      * @param to - каким числом заканчивать отсчёт
+     *           my str
      */
     void print(int from, int to);
 }
