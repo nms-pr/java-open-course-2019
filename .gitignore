@@ -6,3 +6,5 @@ out
 build
 
 *.class
+.DS_Store
+
