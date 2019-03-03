@@ -18,3 +18,17 @@ public interface FizzBuzz {
      */
     void print(int from, int to);
 }
+
+class Fb implements FizzBuzz {
+    @Override
+    public void print(int from, int to){
+
+        for (int count = from; count <= to; count++){
+            String str = "";
+            if (count % 3 == 0) str+="Fizz";
+            if (count % 5 == 0) str+="Buzz";
+            if (str == "") System.out.println(count);
+            else System.out.println(str);
+        }
+    }
+}
