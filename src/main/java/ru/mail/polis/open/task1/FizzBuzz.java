@@ -4,17 +4,34 @@ package ru.mail.polis.open.task1;
  * @author mikhail.nechaev
  * Since 25/02/2019
  */
-public interface FizzBuzz {
+interface IFizzBuzz{
 
-    /**
-     * Напишите программу, которая выводит на экран числа от 1 до 100.
-     * При этом вместо чисел, кратных трем,
-     *  программа должна выводить слово «Fizz»,
-     *  а вместо чисел, кратных пяти — слово «Buzz».
-     * Если число кратно и 3, и 5,
-     *  то программа должна выводить слово «FizzBuzz»
-     * @param from - с какого числа начинать отсчёт
-     * @param to - каким числом заканчивать отсчёт
-     */
-    void print(int from, int to);
+    void print ( int from, int to);
+
+}
+
+public class FizzBuzz implements IFizzBuzz {
+
+    public static void main(String[] args) {
+        FizzBuzz m = new FizzBuzz();
+        m.print(1,100);
+    }
+
+    @Override
+    public void print(int from, int to) {
+        for ( int i = from; i < to+1; i++){
+            String str = "";
+            if( i % 3 == 0 ) {
+                str += "Fizz";
+            }
+            if( i % 5 == 0) {
+                str += "Buzz";
+            }
+            if (str.length() == 0){
+                str += Integer.toString(i);
+            }
+            System.out.println(str);
+
+        }
+    }
 }
