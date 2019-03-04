@@ -7,11 +7,9 @@ public class Test implements FizzBuzz {
                 System.out.println("FizzBuzz");
             } else if (i % 5 == 0) {
                 System.out.println("Buzz");
-            }
-            else if (i % 3 == 0) {
+            } else if (i % 3 == 0) {
                 System.out.println("Buzz");
-            }
-            else {
+            } else {
                 System.out.println(i);
             }
         }
