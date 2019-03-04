@@ -7,7 +7,7 @@ import ru.mail.polis.open.HelloWorld2;
 public class HelloWorld {
 
     public static void main(String[] args) {
-        System.out.println("Hello world!");
+        System.out.println("Hello 2 world!");
         HelloWorld2.main(null);
     }
 }
