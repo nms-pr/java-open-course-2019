@@ -12,25 +12,29 @@ interface IFizzBuzz{
 
 public class FizzBuzz implements IFizzBuzz {
 
+    StringBuilder sb = new StringBuilder();
+
+
+
     public static void main(String[] args) {
-        FizzBuzz m = new FizzBuzz();
-        m.print(1,100);
+        FizzBuzz fizzBuzz = new FizzBuzz();
+        fizzBuzz.print(1,100);
     }
 
     @Override
     public void print(int from, int to) {
-        for ( int i = from; i < to+1; i++){
-            String str = "";
-            if( i % 3 == 0 ) {
-                str += "Fizz";
+        for (int i = from; i < to + 1; i++) {
+            sb.setLength(0);
+            if (i % 3 == 0) {
+                sb.append("Fizz");
             }
-            if( i % 5 == 0) {
-                str += "Buzz";
+            if (i % 5 == 0) {
+                sb.append("Buzz");
             }
-            if (str.length() == 0){
-                str += Integer.toString(i);
+            if (sb.toString().length() == 0) {
+                sb.append(i);
             }
-            System.out.println(str);
+            System.out.println(sb.toString());
 
         }
     }
