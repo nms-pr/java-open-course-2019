@@ -16,15 +16,15 @@ public interface FizzBuzz {
      * @param from - с какого числа начинать отсчёт
      * @param to - каким числом заканчивать отсчёт
      */
-    void print(int from, int to);
+    void print(int from, int to) throws NumberMismatchException;
 }
 
 class Task1 implements FizzBuzz {
 
     @Override
-    public void print(int from, int to) throws NullPointerException {
+    public void print(int from, int to) throws NumberMismatchException {
         if (from > to) {
-            throw new NullPointerException("Number mismatching");
+            throw new NumberMismatchException("Number mismatching");
         }
 
         for (int i = from; i <= to; i++) {
@@ -44,7 +44,12 @@ class Task1 implements FizzBuzz {
     public static void main(String[] args) {
 
         Task1 task1 = new Task1();
-        task1.print(1, 100);
+        try {
+            task1.print(1, 100);
+        } catch (NumberMismatchException e) {
+            System.out.println("from > to, change it!");
+            e.printStackTrace();
+        }
     }
 }
 
