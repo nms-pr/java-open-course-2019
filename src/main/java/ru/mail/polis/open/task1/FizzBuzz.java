@@ -22,11 +22,14 @@ public interface FizzBuzz {
 class Task1 implements FizzBuzz {
 
     @Override
-    public void print(int from, int to) {
+    public void print(int from, int to) throws NullPointerException {
+        if (from > to) {
+            throw new NullPointerException("Number mismatching");
+        }
 
         for (int i = from; i <= to; i++) {
 
-            if ((i % 3 == 0) && (i % 5 == 0)){
+            if (i % 15 == 0){
                 System.out.println("FizzBuzz");
             } else if (i % 3 == 0) {
                 System.out.println("Fizz");
@@ -42,5 +45,11 @@ class Task1 implements FizzBuzz {
 
         Task1 task1 = new Task1();
         task1.print(1, 100);
+    }
+}
+
+class NumberMismatchException extends Exception {
+    NumberMismatchException(String msg) {
+        super(msg);
     }
 }
