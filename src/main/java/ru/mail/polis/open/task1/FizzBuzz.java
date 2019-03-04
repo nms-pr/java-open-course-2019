@@ -5,18 +5,18 @@ package ru.mail.polis.open.task1;
  * Since 25/02/2019
  */
 interface FizzBuzz {
-    public class BuzzFizz implements FizzBuzz {
-        public void doIt() {
+    class BuzzFizz implements FizzBuzz {
+        void print(int to, int from) {
             int i;
             String s = "";
-            for (i = 1; i < 101; ++i) {
+            for (i = to; i < from; ++i) {
                 if (i % 3 == 0)
-                    s += "Fizz";
+                    s += "Fizz ";
                 else if (i % 5 == 0)
-                    s += "Buzz";
+                    s += "Buzz ";
                 else if (i % 3 == 0 && i % 5 == 0)
-                    s += "FizzBuzz";
-                else s += Integer.toString(i);
+                    s += "FizzBuzz ";
+                else s = s + i + " ";
                 System.out.print(s + "\r");
 
             }
@@ -24,7 +24,7 @@ interface FizzBuzz {
 
         public static void main(String[] args) {
             BuzzFizz buzzFizz = new BuzzFizz();
-            buzzFizz.doIt();
+            buzzFizz.print(1,101);
         }
 
     }
