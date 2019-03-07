@@ -29,11 +29,11 @@ class ConsoleFizzBuzzGameTest {
         defaultSystemOut = System.out;
         testBuffer = new ByteArrayOutputStream();
         System.setOut(
-                new PrintStream(
-                        new BufferedOutputStream(
-                                testBuffer
-                        )
+            new PrintStream(
+                new BufferedOutputStream(
+                    testBuffer
                 )
+            )
         );
         fizzBuzz = new ConsoleFizzBuzzGame(DELIMITER);
     }
@@ -42,15 +42,15 @@ class ConsoleFizzBuzzGameTest {
     void testPrint() {
         fizzBuzz.print(0, 5);
         assertEquals(
-                new StringJoiner(DELIMITER)
-                        .add("FizzBuzz")
-                        .add("1")
-                        .add("2")
-                        .add("Fizz")
-                        .add("4")
-                        .add("Buzz")
-                        .toString(),
-                testBuffer.toString()
+            new StringJoiner(DELIMITER)
+                .add("FizzBuzz")
+                .add("1")
+                .add("2")
+                .add("Fizz")
+                .add("4")
+                .add("Buzz")
+                .toString(),
+            testBuffer.toString()
         );
     }
 

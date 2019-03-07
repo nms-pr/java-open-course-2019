@@ -8,14 +8,48 @@ import ru.mail.polis.open.task1.FizzBuzz;
  */
 public abstract class AbstractFizzBuzzGame implements FizzBuzz {
 
-    protected final String WORD_DELIMITER;
+    private static final int UPPER_BOUND = 100;
+    private static final int LOWER_BOUND = 0;
+    private static final int FIZZ_BUZZ_DIVIDER = 15;
+    private static final int FIZZ_DIVIDER = 3;
+    private static final int BUZZ_DIVIDER = 5;
+
+    private final String wordDelimiter;
 
     public AbstractFizzBuzzGame() {
         this(" ");
     }
 
     public AbstractFizzBuzzGame(String wordDelimiter) {
-        WORD_DELIMITER = wordDelimiter;
+        this.wordDelimiter = wordDelimiter;
+    }
+
+    static void checkArgs(int from, int to) {
+        if (from < LOWER_BOUND) {
+            throw new IllegalArgumentException("from should be in range [0..100]. from = " + from);
+        }
+        if (to > UPPER_BOUND) {
+            throw new IllegalArgumentException("to should be in range [0..100]. to = " + to);
+        }
+        if (from > to) {
+            throw new IllegalArgumentException("from should be less or equal to. from = " + from + ", to = " + to);
+        }
+    }
+
+    static String generateWord(int number) {
+        if (number < LOWER_BOUND || number > UPPER_BOUND) {
+            throw new IllegalArgumentException("number should be in range [0..100]");
+        }
+        if (number % FIZZ_BUZZ_DIVIDER == 0) {
+            return "FizzBuzz";
+        }
+        if (number % BUZZ_DIVIDER == 0) {
+            return "Buzz";
+        }
+        if (number % FIZZ_DIVIDER == 0) {
+            return "Fizz";
+        }
+        return Integer.toString(number);
     }
 
     /**
@@ -34,7 +68,7 @@ public abstract class AbstractFizzBuzzGame implements FizzBuzz {
         checkArgs(from, to);
         for (int number = from; number < to; number++) {
             print(generateWord(number));
-            print(WORD_DELIMITER);
+            print(wordDelimiter);
         }
         print(generateWord(to));
         flush();
@@ -43,33 +77,5 @@ public abstract class AbstractFizzBuzzGame implements FizzBuzz {
     abstract void print(String word);
 
     abstract void flush();
-
-    void checkArgs(int from, int to) {
-        if (from < 0) {
-            throw new IllegalArgumentException("from should be in range [0..100]. from = " + from);
-        }
-        if (to > 100) {
-            throw new IllegalArgumentException("to should be in range [0..100]. to = " + to);
-        }
-        if (from > to) {
-            throw new IllegalArgumentException("from should be less or equal to. from = " + from + ", to = " + to);
-        }
-    }
-
-    String generateWord(int number) {
-        if (number < 0 || number > 100) {
-            throw new IllegalArgumentException("number should be in range [0..100]");
-        }
-        if (number % 15 == 0) {
-            return "FizzBuzz";
-        }
-        if (number % 5 == 0) {
-            return "Buzz";
-        }
-        if (number % 3 == 0) {
-            return "Fizz";
-        }
-        return "" + number;
-    }
 
 }

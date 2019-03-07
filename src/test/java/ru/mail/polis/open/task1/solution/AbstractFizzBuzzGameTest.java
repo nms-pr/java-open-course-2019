@@ -33,12 +33,12 @@ class AbstractFizzBuzzGameTest {
             fail(e);
         }
         assertThrows(
-                IllegalArgumentException.class,
-                () -> stubFizzBuzzGame.checkArgs(-1, 100)
+            IllegalArgumentException.class,
+            () -> stubFizzBuzzGame.checkArgs(-1, 100)
         );
         assertThrows(
-                IllegalArgumentException.class,
-                () -> stubFizzBuzzGame.checkArgs(0, 101)
+            IllegalArgumentException.class,
+            () -> stubFizzBuzzGame.checkArgs(0, 101)
         );
     }
 
@@ -50,27 +50,31 @@ class AbstractFizzBuzzGameTest {
             fail(e);
         }
         assertThrows(
-                IllegalArgumentException.class,
-                () -> stubFizzBuzzGame.checkArgs(2, 1)
+            IllegalArgumentException.class,
+            () -> stubFizzBuzzGame.checkArgs(2, 1)
         );
     }
 
     @Test
     void numberForGeneratedWordShouldBeInRangeFrom0To100() {
-        stubFizzBuzzGame.generateWord(0);
+        try {
+            stubFizzBuzzGame.generateWord(0);
+        } catch (Throwable e) {
+            fail(e);
+        }
         assertThrows(
-                IllegalArgumentException.class,
-                () -> stubFizzBuzzGame.generateWord(-1)
+            IllegalArgumentException.class,
+            () -> stubFizzBuzzGame.generateWord(-1)
         );
         assertThrows(
-                IllegalArgumentException.class,
-                () -> stubFizzBuzzGame.generateWord(101)
+            IllegalArgumentException.class,
+            () -> stubFizzBuzzGame.generateWord(101)
         );
 
     }
 
     @Test
-    void multiplesOf_3_PrintFizz() {
+    void multiplesOf3PrintFizz() {
         assertEquals("Fizz", stubFizzBuzzGame.generateWord(3));
         assertEquals("Fizz", stubFizzBuzzGame.generateWord(6));
         assertEquals("Fizz", stubFizzBuzzGame.generateWord(9));
@@ -79,14 +83,14 @@ class AbstractFizzBuzzGameTest {
     }
 
     @Test
-    void multiplesOf_5_PrintFizz() {
+    void multiplesOf5PrintFizz() {
         assertEquals("Buzz", stubFizzBuzzGame.generateWord(5));
         assertEquals("Buzz", stubFizzBuzzGame.generateWord(10));
         assertTrue(stubFizzBuzzGame.generateWord(15).endsWith("Buzz"));
     }
 
     @Test
-    void multiplesOf_15_PrintFizzBuzz() {
+    void multiplesOf15PrintFizzBuzz() {
         assertEquals("FizzBuzz", stubFizzBuzzGame.generateWord(15));
     }
 
