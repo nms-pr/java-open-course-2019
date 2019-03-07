@@ -4,7 +4,6 @@ import ru.mail.polis.open.task1.interfaces.OutputController;
 
 public class ConsoleOutputController implements OutputController {
     @Override
-    public void print(String s) {
-
+    public void print(String s, char delimiter) {
     }
 }
