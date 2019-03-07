@@ -13,7 +13,7 @@ public class NumberGame {
         this.outputController = outputController;
     }
 
-    public void run(){
+    public void run(int from, int to){
 
     }
 
