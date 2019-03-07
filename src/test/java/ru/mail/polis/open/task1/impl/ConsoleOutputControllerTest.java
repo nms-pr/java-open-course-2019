@@ -13,20 +13,29 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ConsoleOutputControllerTest {
 
+    private static final char DELIMITER = ' ';
+
     private static OutputStream defaultOutputStream;
     private static ByteArrayOutputStream testOutputStream;
+    private static ConsoleOutputController outputController;
 
     @BeforeAll
-    static void prepareOutputStream() {
-        defaultOutputStream = System.out;
+    static void initialize() {
+
+        outputController = new ConsoleOutputController();
         testOutputStream = new ByteArrayOutputStream();
+        defaultOutputStream = System.out;
         System.setOut(new PrintStream(testOutputStream));
     }
 
     @Test
     void print() {
-        assertEquals("testString!", testOutputStream.toString());
-        assertEquals("Another one!!!", testOutputStream.toString());
+        final String testString1 = "testString!";
+        outputController.print(testString1, DELIMITER);
+        assertEquals(testString1 + DELIMITER, testOutputStream.toString());
+        final String testString2 = "Another one!!!";
+        outputController.print(testString2, DELIMITER);
+        assertEquals(testString1 + DELIMITER + testString2 + DELIMITER, testOutputStream.toString());
     }
 
     @AfterEach
