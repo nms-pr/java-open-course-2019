@@ -14,7 +14,9 @@ public class NumberGame {
     }
 
     public void run(int from, int to){
-
+        for (int number = from; number <=to; number++) {
+            outputController.print(strategy.getCorrespondingString(number));
+        }
     }
 
 
