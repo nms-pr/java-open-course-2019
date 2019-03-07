@@ -1,8 +1,8 @@
-package ru.mail.polis.open.task1.Interface;
+package ru.mail.polis.open.task1.interfaces;
 
 /**
  *
- * Interface for getting result from number according to game's rules
+ * interfaces for getting result from number according to game's rules
  *
  * @author artyom.petrov
  * Since 07/03/2019

@@ -1,4 +1,4 @@
-package ru.mail.polis.open.task1.Interface;
+package ru.mail.polis.open.task1.interfaces;
 
 /**
  * @author mikhail.nechaev

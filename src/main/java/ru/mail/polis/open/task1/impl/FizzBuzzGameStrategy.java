@@ -1,6 +1,6 @@
-package ru.mail.polis.open.task1.Impl;
+package ru.mail.polis.open.task1.impl;
 
-import ru.mail.polis.open.task1.Interface.GameStrategy;
+import ru.mail.polis.open.task1.interfaces.GameStrategy;
 /**
  *
  * Implements the rules of FizzBuzz
