@@ -22,7 +22,7 @@ class ConsoleOutputControllerTest {
     @BeforeAll
     static void initialize() {
 
-        outputController = new ConsoleOutputController();
+        outputController = new ConsoleOutputController(DELIMITER);
         testOutputStream = new ByteArrayOutputStream();
         defaultOutputStream = System.out;
         System.setOut(new PrintStream(testOutputStream));
@@ -31,10 +31,10 @@ class ConsoleOutputControllerTest {
     @Test
     void print() {
         final String testString1 = "testString!";
-        outputController.print(testString1, DELIMITER);
+        outputController.print(testString1);
         assertEquals(testString1 + DELIMITER, testOutputStream.toString());
         final String testString2 = "Another one!!!";
-        outputController.print(testString2, DELIMITER);
+        outputController.print(testString2);
         assertEquals(testString1 + DELIMITER + testString2 + DELIMITER, testOutputStream.toString());
     }
 

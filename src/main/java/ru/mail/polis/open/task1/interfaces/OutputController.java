@@ -11,5 +11,5 @@ package ru.mail.polis.open.task1.interfaces;
 
 public interface OutputController {
 
-    void print(String s, char delimiter);
+    void print(String s);
 }
