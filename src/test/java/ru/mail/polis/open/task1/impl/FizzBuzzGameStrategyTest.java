@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class FizzBuzzGameStrategyTest {
 
-    static FizzBuzzGameStrategy strategy;
+    private static FizzBuzzGameStrategy strategy;
 
     @BeforeAll
     static void initialize(){
