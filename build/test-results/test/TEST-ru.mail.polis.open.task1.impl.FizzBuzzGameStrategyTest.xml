@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="ru.mail.polis.open.task1.impl.FizzBuzzGameStrategyTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2019-03-08T12:59:47" hostname="DESKTOP-P7JL0LQ" time="0.016">
+  <properties/>
+  <testcase name="getCorrespondingString_NotInValidRange()" classname="ru.mail.polis.open.task1.impl.FizzBuzzGameStrategyTest" time="0.002"/>
+  <testcase name="getCorrespondingString_IsInValidRange()" classname="ru.mail.polis.open.task1.impl.FizzBuzzGameStrategyTest" time="0.002"/>
+  <testcase name="getCorrespondingString_DividedBy3()" classname="ru.mail.polis.open.task1.impl.FizzBuzzGameStrategyTest" time="0.001"/>
+  <testcase name="getCorrespondingString_DividedBy5()" classname="ru.mail.polis.open.task1.impl.FizzBuzzGameStrategyTest" time="0.001"/>
+  <testcase name="getCorrespondingString_DividedBy15()" classname="ru.mail.polis.open.task1.impl.FizzBuzzGameStrategyTest" time="0.0"/>
+  <testcase name="getCorrespondingString_notDividend()" classname="ru.mail.polis.open.task1.impl.FizzBuzzGameStrategyTest" time="0.007"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

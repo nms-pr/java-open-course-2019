@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="ru.mail.polis.open.task1.solution.AbstractFizzBuzzGameTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2019-03-08T12:59:47" hostname="DESKTOP-P7JL0LQ" time="0.02">
+  <properties/>
+  <testcase name="multiplesOf15PrintFizzBuzz()" classname="ru.mail.polis.open.task1.solution.AbstractFizzBuzzGameTest" time="0.001"/>
+  <testcase name="numberForGeneratedWordShouldBeInRangeFrom0To100()" classname="ru.mail.polis.open.task1.solution.AbstractFizzBuzzGameTest" time="0.002"/>
+  <testcase name="fromAndToForPrintShouldBeInRangeFrom0To100()" classname="ru.mail.polis.open.task1.solution.AbstractFizzBuzzGameTest" time="0.005"/>
+  <testcase name="multiplesOf5PrintFizz()" classname="ru.mail.polis.open.task1.solution.AbstractFizzBuzzGameTest" time="0.001"/>
+  <testcase name="testNumber()" classname="ru.mail.polis.open.task1.solution.AbstractFizzBuzzGameTest" time="0.0"/>
+  <testcase name="fromShouldBeLessOrEqualThanTo()" classname="ru.mail.polis.open.task1.solution.AbstractFizzBuzzGameTest" time="0.007"/>
+  <testcase name="multiplesOf3PrintFizz()" classname="ru.mail.polis.open.task1.solution.AbstractFizzBuzzGameTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
