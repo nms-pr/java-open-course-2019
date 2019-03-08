@@ -1,10 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <checkstyle version="8.17">
-<file name="C:\Techno\java-open-course-2019\src\test\java\ru\mail\polis\open\task1\impl\ConsoleOutputControllerTest.java">
-</file>
-<file name="C:\Techno\java-open-course-2019\src\test\java\ru\mail\polis\open\task1\impl\FizzBuzzGameStrategyTest.java">
-<error line="6" severity="warning" message="Using the &apos;.*&apos; form of import should be avoided - org.junit.jupiter.api.Assertions.*." source="com.puppycrawl.tools.checkstyle.checks.imports.AvoidStarImportCheck"/>
-</file>
 <file name="C:\Techno\java-open-course-2019\src\test\java\ru\mail\polis\open\task1\solution\AbstractFizzBuzzGameTest.java">
 </file>
 <file name="C:\Techno\java-open-course-2019\src\test\java\ru\mail\polis\open\task1\solution\ConsoleFizzBuzzGameTest.java">

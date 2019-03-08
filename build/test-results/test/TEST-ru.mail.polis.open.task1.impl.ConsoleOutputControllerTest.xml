@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="ru.mail.polis.open.task1.impl.ConsoleOutputControllerTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2019-03-08T12:59:47" hostname="DESKTOP-P7JL0LQ" time="0.024">
-  <properties/>
-  <testcase name="print()" classname="ru.mail.polis.open.task1.impl.ConsoleOutputControllerTest" time="0.024"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>
