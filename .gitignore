@@ -3,3 +3,5 @@
 
 *.class
 out
+build
+local.properties
