@@ -5,7 +5,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import ru.mail.polis.open.task1.FizzBuzz;
-import ru.mail.polis.open.task1.NumberMismatchException;
 
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;

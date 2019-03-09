@@ -44,7 +44,7 @@ class Task1 implements FizzBuzz {
     }
 }
 
-public class NumberMismatchException extends Exception {
+class NumberMismatchException extends Exception {
     NumberMismatchException(String msg) {
         super(msg);
     }
