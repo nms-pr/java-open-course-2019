@@ -20,31 +20,7 @@ public interface FizzBuzz {
     void print(int from, int to);
 }
 
-public class Main implements FizzBuzz {
-    public static void main(String[] args) {
-        Scanner in = new Scanner(System.in);
-        String str;
-        int from = in.nextInt();
-        int to = in.nextInt();
-        print(from, to);
-    }
 
-    static void print(int from, int to) {
-        while (from < to + 1) {
-            str = "";
-            if (from % 3 == 0) {
-                str = "Fizz";
-            }
-            if (from % 5 == 0) {
-                str += "Buzz";
-            }
-            if (str == "") {
-                System.out.println(from);
-            } else {
-                System.out.println(str);
-            }
-            from++;
-        }
-    }
-}
+
+
 
