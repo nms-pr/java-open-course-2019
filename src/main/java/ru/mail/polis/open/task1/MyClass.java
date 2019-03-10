@@ -1,6 +1,6 @@
 package ru.mail.polis.open.task1;
 
-public class MyClass implements FizzBuzz{
+public class MyClass implements FizzBuzz {
     public void print(int from, int to) {
         for (int i = from; i <= to; i++) {
             if ((i % 3 == 0) && (i % 5 == 0)) {
