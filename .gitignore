@@ -6,3 +6,5 @@ out
 build
 
 *.class
+
+Main.java
