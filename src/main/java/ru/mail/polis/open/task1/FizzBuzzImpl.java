@@ -3,6 +3,7 @@ package ru.mail.polis.open.task1;
 class FizzBuzzImpl implements FizzBuzz {
 
     public void print(int from, int to) {
+        
         boolean check;
         for (int i = from; i <= to; i++) {
 
