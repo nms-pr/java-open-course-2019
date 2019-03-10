@@ -5,7 +5,5 @@ package ru.mail.polis.open.task1;
  * Since 08/03/2019
  */
 public interface FizzBuzz {
-
-
-    void print(int from, int to) throws NumberMismatchException;
+    void print(int from, int to);
 }

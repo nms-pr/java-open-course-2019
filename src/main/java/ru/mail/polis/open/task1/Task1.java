@@ -2,9 +2,13 @@ package ru.mail.polis.open.task1;
 
 public class Task1 implements FizzBuzz {
     @Override
-    public void print(int from, int to) throws NumberMismatchException {
+    public void print(int from, int to) {
         if ((from != 1) || (to != 100)) {
-            throw new NumberMismatchException("Number mismatching");
+            try {
+                throw new NumberMismatchException("Number mismatching");
+            } catch (NumberMismatchException e) {
+                e.printStackTrace();
+            }
         }
 
         for (int i = from; i <= to; i++) {
@@ -24,11 +28,6 @@ public class Task1 implements FizzBuzz {
     public static void main(String[] args) {
 
         Task1 task1 = new Task1();
-        try {
-            task1.print(1, 100);
-        } catch (NumberMismatchException e) {
-            System.out.println("from > to, change it!");
-            e.printStackTrace();
-        }
+        task1.print(1, 100);
     }
 }
