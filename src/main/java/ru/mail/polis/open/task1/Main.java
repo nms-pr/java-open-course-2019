@@ -23,14 +23,17 @@ public class Main implements FizzBuzz {
         for (; from < to + 1; from++) {
             if (from % 15 == 0) {
                 System.out.println("FizzBuzz");
+                continue;
             }
             if (from % 3 == 0) {
                 System.out.println("Fizz");
+                continue;
             }
             if (from % 5 == 0) {
                 System.out.println("Buzz");
+                continue;
             }
+            System.out.println(from);
         }
     }
-
 }
