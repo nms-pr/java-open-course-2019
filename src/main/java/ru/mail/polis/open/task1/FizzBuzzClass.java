@@ -13,9 +13,9 @@ class FizzBuzzClass implements FizzBuzz {
             throw new IllegalArgumentException();
         StringBuilder out = new StringBuilder();
         for (int i = from; i <= to; i++) {
-            if (i % 3 == 0)
+            if (i % FIZZ_DIVIDER == 0)
                 out.append("Fizz");
-            if (i % 5 == 0)
+            if (i % BUZZ_DIVIDER == 0)
                 out.append("Buzz");
             if (out.length() == 0) System.out.println(i);
             else System.out.println(out);
