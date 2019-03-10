@@ -1,9 +1,17 @@
 plugins {
+    id 'checkstyle'
     id 'java'
+    id 'idea'
 }
 
 group 'java-open-course-2019'
 version '1.0-SNAPSHOT'
+
+checkstyle {
+    toolVersion "8.17"
+    maxWarnings 0
+    maxErrors 0
+}
 
 java {
     sourceCompatibility = JavaVersion.VERSION_11
