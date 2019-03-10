@@ -22,7 +22,6 @@ public class WorkFizzBuzz {
         fizzbazz.print();
     }
 }
-
 class Working implements FizzBuzz {
     @Override
     public void print(int from, int to) {
