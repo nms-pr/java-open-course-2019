@@ -18,7 +18,7 @@ public interface FizzBuzz {
      * @param to   - каким числом заканчивать отсчёт
      */
     default void print(int from, int to) {
-        for (int i = from; i <= to ; i++) {
+        for (int i = from; i <= to; i++) {
             if (i % 15 == 0) {
                 System.out.println("FizzBuzz");
             } else if (i % 5 == 0) {
