@@ -33,12 +33,12 @@ class AbstractFizzBuzzGameTest {
             fail(e);
         }
         assertThrows(
-            IllegalArgumentException.class,
-            () -> stubFizzBuzzGame.checkArgs(-1, 100)
+                IllegalArgumentException.class,
+                () -> stubFizzBuzzGame.checkArgs(-1, 100)
         );
         assertThrows(
-            IllegalArgumentException.class,
-            () -> stubFizzBuzzGame.checkArgs(0, 101)
+                IllegalArgumentException.class,
+                () -> stubFizzBuzzGame.checkArgs(0, 101)
         );
     }
 
@@ -50,8 +50,8 @@ class AbstractFizzBuzzGameTest {
             fail(e);
         }
         assertThrows(
-            IllegalArgumentException.class,
-            () -> stubFizzBuzzGame.checkArgs(2, 1)
+                IllegalArgumentException.class,
+                () -> stubFizzBuzzGame.checkArgs(2, 1)
         );
     }
 
@@ -63,12 +63,12 @@ class AbstractFizzBuzzGameTest {
             fail(e);
         }
         assertThrows(
-            IllegalArgumentException.class,
-            () -> stubFizzBuzzGame.generateWord(-1)
+                IllegalArgumentException.class,
+                () -> stubFizzBuzzGame.generateWord(-1)
         );
         assertThrows(
-            IllegalArgumentException.class,
-            () -> stubFizzBuzzGame.generateWord(101)
+                IllegalArgumentException.class,
+                () -> stubFizzBuzzGame.generateWord(101)
         );
 
     }
