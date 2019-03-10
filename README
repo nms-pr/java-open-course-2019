@@ -1,0 +1,12 @@
+fork project on Github
+clone fork to local
+- git clone https://<your_login>@github.com/your_login/java-open-course-2019.git
+add upstream
+- git remote add upstream https://github.com/nms403/java-open-course-2019
+for pull changes from base repository
+- git pull upstream master
+push changes in fork
+- git push origin master
+
+create branch from master for work
+- git checkout -b <last_name>
