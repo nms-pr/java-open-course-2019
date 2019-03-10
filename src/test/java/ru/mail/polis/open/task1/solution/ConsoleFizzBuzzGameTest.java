@@ -5,7 +5,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import ru.mail.polis.open.task1.FizzBuzz;
-import ru.mail.polis.open.task1.NumberMismatchException;
 
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
@@ -41,11 +40,7 @@ class ConsoleFizzBuzzGameTest {
 
     @Test
     void testPrint() {
-        try {
-            fizzBuzz.print(0, 5);
-        } catch (NumberMismatchException e) {
-            e.printStackTrace();
-        }
+        fizzBuzz.print(0, 5);
         assertEquals(
             new StringJoiner(DELIMITER)
                 .add("FizzBuzz")
