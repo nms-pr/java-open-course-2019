@@ -6,7 +6,6 @@ public class Task1 implements FizzBuzz {
         if ((from != 1) || (to != 100)) {
             throw new IllegalArgumentException("Number mismatching");
         }
-
         for (int i = from; i <= to; i++) {
 
             if (i % 15 == 0) {
