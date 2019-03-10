@@ -4,8 +4,9 @@ public class FizzBuzzRealize implements FizzBuzz {
 
     @Override
     public void print(int from, int to) {
-        for (int counter = from; counter <= to; counter++){
-            boolean mustPrintNumber = true;
+        boolean mustPrintNumber;
+        for (int counter = from; counter <= to; counter++) {
+            mustPrintNumber = true;
             if (counter % 3 == 0) {
                 System.out.print("Fizz");
                 mustPrintNumber = false;
@@ -14,10 +15,10 @@ public class FizzBuzzRealize implements FizzBuzz {
                 System.out.print("Buzz");
                 mustPrintNumber = false;
             }
-            if (mustPrintNumber)
+            if (mustPrintNumber) {
                 System.out.print(counter);
+            }
             System.out.println();
         }
     }
-
 }
