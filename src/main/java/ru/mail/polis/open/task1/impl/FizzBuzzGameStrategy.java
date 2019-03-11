@@ -8,6 +8,7 @@ import ru.mail.polis.open.task1.interfaces.GameStrategy;
  * @author artyom.petrov
  * Since 07/03/2019
  */
+
 public class FizzBuzzGameStrategy implements GameStrategy {
 
     private static final int LOWER_BOUND = 0;

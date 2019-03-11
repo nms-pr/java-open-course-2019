@@ -3,14 +3,16 @@ package ru.mail.polis.open.task1.impl;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class FizzBuzzGameStrategyTest {
 
     private static FizzBuzzGameStrategy strategy;
 
     @BeforeAll
-    static void initialize(){
+    static void initialize() {
         strategy = new FizzBuzzGameStrategy();
     }
 
