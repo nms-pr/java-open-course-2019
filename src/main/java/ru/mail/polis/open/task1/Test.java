@@ -1,6 +1,7 @@
+
 package ru.mail.polis.open.task1;
 
-class Test implements FizzBuzz{
+class Test implements FizzBuzz {
     public void print(int from, int to) {
         if (from > to) {
             System.out.println("\"from\" must be smaller than \"to\".");
