@@ -19,7 +19,7 @@ public class Solution implements FizzBuzz {
             if (i % 3 == 0) {
 
                 str.append("Fizz");
-                            }
+            }
             if (i % 5 == 0) {
                 str.append("Buzz");
             }
