@@ -9,6 +9,8 @@ version '1.0-SNAPSHOT'
 
 checkstyle {
     toolVersion "8.17"
+    maxWarnings 0
+    maxErrors 0
 }
 
 java {
