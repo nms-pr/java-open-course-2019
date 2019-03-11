@@ -1,8 +1,8 @@
 package ru.mail.polis.open.task1;
 
-public class main {
+public class Main {
     public static void main(String[] args) {
-        FizzBuzzClass var = new FizzBuzzClass();
-        var.print(1,100);
+        FizzBuzzClass variable = new FizzBuzzClass();
+        variable.print(1,100);
     }
 }
