@@ -8,20 +8,23 @@ public class Solution implements FizzBuzz {
 
     @Override
     public void print(int from, int to) {
-        for (int i = from;i < to + 1;i++)
-        {
-            if (i % 3 == 0)
-                if (i % 5 == 0)
+        for (int i = from; i <= to; i++) {
+            if (i % 3 == 0) {
+                if (i % 5 == 0) {
                     System.out.println("FizzBuzz");
-                else
+                }
+                else {
                     System.out.println("Fizz");
-            else
-            if (i % 5 == 0)
-                System.out.println("Buzz");
-            else
-                System.out.println(i);
+                }
+            }
+            else {
+                if (i % 5 == 0) {
+                    System.out.println("Buzz");
+                }
+                else {
+                    System.out.println(i);
+                }
+            }
         }
     }
-
-
 }
