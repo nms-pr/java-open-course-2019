@@ -5,21 +5,23 @@ public class CFizzBuzz implements FizzBuzz {
     public void print(int from, int to) {
         StringBuilder s = new StringBuilder();
 
-        for(Integer i = from; i <= to; i++) {
+        for (Integer i = from; i <= to; i++) {
 
             boolean textIs = false;
 
-            if(i%3 == 0) {
+            if (i % 3 == 0) {
                 s.append("Fizz");
                 textIs = true;
             }
 
-            if(i%5 == 0) {
+            if (i % 5 == 0) {
                 s.append("Buzz");
                 textIs = true;
             }
 
-            if(!textIs) s.append(i.toString());
+            if (!textIs) {
+                s.append(i.toString());
+            }
 
             s.append(System.lineSeparator());
         }
