@@ -22,8 +22,7 @@ class FizzBuzzClass implements FizzBuzz {
             }
             if (out.length() == 0) {
                 System.out.println(i);
-            }
-            else {
+            } else {
                 System.out.println(out);
             }
             out.delete(0, out.length());
