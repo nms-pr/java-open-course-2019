@@ -9,4 +9,4 @@ push changes in fork
 - git push origin master
 
 create branch from master for work
-- git checkout -b <last_name>
+- git checkout -b <last_name> 
