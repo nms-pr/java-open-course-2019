@@ -8,7 +8,7 @@ public class Task1 implements FizzBuzz {
     public void print(int from, int to) {
         boolean isMultiple;
 
-        for (int i = from; i <= to ; i++) {
+        for (int i = from; i <= to; i++) {
             isMultiple = false;
 
             if (i % 3 == 0) {
@@ -21,10 +21,12 @@ public class Task1 implements FizzBuzz {
                 isMultiple = true;
             }
 
-            if (!isMultiple)
+            if (!isMultiple) {
                 System.out.println(i);
-            else
+            } else {
                 System.out.print("\n");
+            }
+
         }
     }
 
