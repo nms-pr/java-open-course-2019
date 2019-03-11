@@ -9,16 +9,23 @@ class FizzBuzzClass implements FizzBuzz {
 
     @Override
     public void print(int from, int to) {
-        if (from < LOWER_BOUND || to > UPPER_BOUND || from > to)
+        if (from < LOWER_BOUND || to > UPPER_BOUND || from > to) {
             throw new IllegalArgumentException();
+        }
         StringBuilder out = new StringBuilder();
         for (int i = from; i <= to; i++) {
-            if (i % FIZZ_DIVIDER == 0)
+            if (i % FIZZ_DIVIDER == 0) {
                 out.append("Fizz");
-            if (i % BUZZ_DIVIDER == 0)
+            }
+            if (i % BUZZ_DIVIDER == 0) {
                 out.append("Buzz");
-            if (out.length() == 0) System.out.println(i);
-            else System.out.println(out);
+            }
+            if (out.length() == 0) {
+                System.out.println(i);
+            }
+            else {
+                System.out.println(out);
+            }
             out.delete(0, out.length());
         }
     }
