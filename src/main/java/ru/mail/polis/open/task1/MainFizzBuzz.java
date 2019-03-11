@@ -1,4 +1,4 @@
-package main.java.ru.mail.polis.open.task1;
+package ru.mail.polis.open.task1;
 
 public class MainFizzBuzz {
     public static void main(String[] args) {
