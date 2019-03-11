@@ -1,6 +1,6 @@
 package ru.mail.polis.open.task1;
 
-public class FizzBuzzGame implements FizzBuzz{
+public class FizzBuzzGame implements FizzBuzz {
 
     @Override
     public void print(int from, int to) {
@@ -9,7 +9,7 @@ public class FizzBuzzGame implements FizzBuzz{
             throw new IllegalArgumentException("\"From\" must be less than \"to\".");
         }
 
-        if (from < 1 || to > 100){
+        if (from < 1 || to > 100) {
             throw new IllegalArgumentException("Numbers must be in the range from 1 to 100.");
         }
 
