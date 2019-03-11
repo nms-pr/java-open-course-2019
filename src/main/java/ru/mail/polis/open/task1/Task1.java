@@ -1,7 +1,6 @@
 package ru.mail.polis.open.task1;
 
 public class Task1 implements FizzBuzz {
-
     @Override
     public void print(int from, int to) {
         for (int i = from; i <= to; i++) {
