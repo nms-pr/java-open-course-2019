@@ -21,7 +21,7 @@ public class SolutionsTest {
 
     //метод тестирования по времени
     //возвращает время работы метода print()
-    private static long testPrintByTime(FizzBuzz solution){
+    private static long testPrintByTime(FizzBuzz solution) {
         long begin = System.currentTimeMillis();
         solution.print(from, to);
         long end = System.currentTimeMillis();
