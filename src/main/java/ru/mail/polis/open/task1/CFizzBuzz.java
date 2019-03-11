@@ -1,21 +1,28 @@
-package ru.mail.polis.open.task1;
+package main.java.ru.mail.polis.open.task1;
 
 public class CFizzBuzz implements FizzBuzz {
     @Override
     public void print(int from, int to) {
-        int i;
-        String s;
+        StringBuilder s = new StringBuilder();
 
-        for(i = from; i <= to; i++) {
-            s = "";
+        for(Integer i = from; i <= to; i++) {
 
-            if(i%3 == 0) s += "Fizz";
+            boolean textIs = false;
 
-            if(i%5 == 0) s += "Buzz";
+            if(i%3 == 0) {
+                s.append("Fizz");
+                textIs = true;
+            }
 
-            if(s.equals("")) s += i;
+            if(i%5 == 0) {
+                s.append("Buzz");
+                textIs = true;
+            }
 
-            System.out.println(s);
+            if(!textIs) s.append(i.toString());
+
+            s.append(System.lineSeparator());
         }
+        System.out.println(s.toString());
     }
 }
