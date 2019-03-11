@@ -1,8 +1,8 @@
 package ru.mail.polis.open.task1;
 
 public class Main {
-    static private final int FROM = 1;
-    static private final int TO = 100;
+    private static final int FROM = 1;
+    private static final int TO = 100;
 
     public static void main(String[] args) {
         FizzBuzzClass a = new FizzBuzzClass();
