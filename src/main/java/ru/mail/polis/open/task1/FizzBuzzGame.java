@@ -20,31 +20,38 @@ public class FizzBuzzGame implements FizzBuzz {
     private static final int FIZZ_DIVIDER = 3;
     private static final int BUZZ_DIVIDER = 5;
 
-    private boolean FromAndToAreCorrect(int from, int to) {
-        if ((from >= LOWER_BOUND)&&(to <= UPPER_BOUND)) {
+    private boolean fromAndToAreCorrect(int from, int to) {
+        if ((from >= LOWER_BOUND) && (to <= UPPER_BOUND)) {
             return true;
         }
         return false;
     }
 
     private String createWord(int i) {
-        if (i % FIZZ_BUZZ_DIVIDER == 0) return "FizzBuzz";
-        if (i % FIZZ_DIVIDER == 0) return "Fizz";
-        if (i % BUZZ_DIVIDER == 0) return "Buzz";
+        if (i % FIZZ_BUZZ_DIVIDER == 0) {
+            return "FizzBuzz";
+        }
+        if (i % FIZZ_DIVIDER == 0) {
+            return "Fizz";
+        }
+        if (i % BUZZ_DIVIDER == 0) {
+            return "Buzz";
+        }
         return String.valueOf(i);
     }
 
     @Override
     public void print(int from, int to) {
-        if (FromAndToAreCorrect(from, to)) {
+        if (fromAndToAreCorrect(from, to)) {
             String word;
             for (int i = from; i <= to; i++) {
                 word = createWord(i);
                 System.out.print(word + " ");
             }
             System.out.println();
-        } else throw new IllegalArgumentException
-                ("From should not be less than 1, To should not be more than 100");
+        } else {
+            throw new IllegalArgumentException("From should not be less than 1, To should not be more than 100");
+        }
 
     }
 }
