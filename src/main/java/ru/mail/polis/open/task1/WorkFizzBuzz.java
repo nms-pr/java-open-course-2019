@@ -11,7 +11,7 @@ public class WorkFizzBuzz {
         System.out.println("Введите конечное значение: ");
         int to = scanner.nextInt();
 
-        Working fizzbazz = new Working();
+        WorkingFB fizzbazz = new WorkingFB();
         if (from <= to) {
             fizzbazz.print(from, to);
         } else {
@@ -22,26 +22,3 @@ public class WorkFizzBuzz {
         fizzbazz.print();
     }
 }
-class Working implements FizzBuzz {
-    @Override
-    public void print(int from, int to) {
-        for(int i = from;i <= to;i++){
-            String s ="";
-            if (i%3==0) s = "Fizz";
-            if (i%5==0) s+= "Bazz";
-            if (s =="") s = s.valueOf(i);
-            System.out.println(s);
-        }
-    }
-
-    public void print() {
-        for(int i = 1;i <= 100;i++){
-            String s ="";
-            if (i%3==0) s = "Fizz";
-            if (i%5==0) s+= "Bazz";
-            if (s =="") s = s.valueOf(i);
-            System.out.println(s);
-        }
-    }
-}
-

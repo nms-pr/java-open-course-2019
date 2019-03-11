@@ -15,12 +15,8 @@ public interface FizzBuzz {
      * то программа должна выводить слово «FizzBuzz».
      *
      * @param from - с какого числа начинать отсчёт
-<<<<<<< HEAD
-     * @param to   - каким числом заканчивать отсчёт
-=======
      * @param to - каким числом заканчивать отсчёт
-     *           my str
->>>>>>> 851470e93e1b6d825386725e078687544646f3c8
+     *
      */
     void print(int from, int to);
 }
