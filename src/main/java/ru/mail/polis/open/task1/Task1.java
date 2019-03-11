@@ -4,15 +4,15 @@ public class Task1 implements FizzBuzz {
 
     @Override
     public void print(int from, int to) {
-        for (int j = from; j <= to; j++) {
-            if (j % 15 == 0) {
+        for (int i = from; i <= to; i++) {
+            if (i % 15 == 0) {
                 System.out.println("FizzBuzz");
-            } else if (j % 3 == 0) {
+            } else if (i % 3 == 0) {
                 System.out.println("Fizz");
-            } else if (j % 5 == 0) {
+            } else if (i % 5 == 0) {
                 System.out.println("Buzz");
             } else {
-                System.out.println(j);
+                System.out.println(i);
             }
         }
     }
