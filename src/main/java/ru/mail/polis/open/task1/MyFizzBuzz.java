@@ -3,7 +3,7 @@ package ru.mail.polis.open.task1;
 public class MyFizzBuzz implements FizzBuzz  {
     @java.lang.Override
     public void print(int from, int to) {
-        for (int index = 1; i <= 100; index) {
+        for (int index = 1; i <= 100; index++) {
             switch (index % 15) {
                 case 0:
                     System.out.println("FizzBuzz");
