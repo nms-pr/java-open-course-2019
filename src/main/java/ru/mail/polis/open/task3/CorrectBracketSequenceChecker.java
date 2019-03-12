@@ -24,11 +24,8 @@ import java.util.Stack;
 public final class CorrectBracketSequenceChecker {
 
     private CorrectBracketSequenceChecker() {
-        quantityOfFailedAttempts = 0;
-        quantityOfSuccessfulAttempts = 0;
         /* todo: append code if needed */
     }
-
     private static final char OPENED_ROUND_BRACKET = '(';
     private static final char CLOSED_ROUND_BRACKET = ')';
     private static final char OPENED_FIGURE_BRACKET = '{';
@@ -36,10 +33,10 @@ public final class CorrectBracketSequenceChecker {
     private static final char OPENED_SQUARE_BRACKET = '[';
     private static final char CLOSED_SQUARE_BRACKET = ']';
 
-    static Integer quantityOfSuccessfulAttempts;
-    static Integer quantityOfFailedAttempts;
-    static String lastCorrectSequence;
-    static Stack<Character> stackOfCharacter = new Stack<>();
+    private static Integer quantityOfSuccessfulAttempts = 0;
+    private static Integer quantityOfFailedAttempts = 0;
+    private static String lastCorrectSequence;
+    private static Stack<Character> stackOfCharacter = new Stack<>();
 
     /**
      * Метод проверяющий скобочную последовательность на правильность.
@@ -65,47 +62,70 @@ public final class CorrectBracketSequenceChecker {
      *                                  или если входная строка содержит больше ста символов
      */
     public static boolean checkSequence(@Nullable String sequence) {
+        if (sequence.length() > 100) {
+            quantityOfFailedAttempts++;
+            throw new IllegalArgumentException("You wrote more than 100 symbols");
+        }
+
+        for (int i = 0; i < sequence.length(); i++) {
+            if (((sequence != "")) &&
+                    (sequence.charAt(i) != OPENED_ROUND_BRACKET) &&
+                    (sequence.charAt(i) != OPENED_FIGURE_BRACKET) &&
+                    (sequence.charAt(i) != OPENED_SQUARE_BRACKET) &&
+                    (sequence.charAt(i) != CLOSED_ROUND_BRACKET) &&
+                    (sequence.charAt(i) != CLOSED_FIGURE_BRACKET) &&
+                    (sequence.charAt(i) != CLOSED_SQUARE_BRACKET)) {
+
+                quantityOfFailedAttempts++;
+                throw new IllegalArgumentException("Unknown a symbol : " + sequence.charAt(i));
+            }
+        }
+
+        if (sequence == "") {
+            lastCorrectSequence = sequence;
+            quantityOfSuccessfulAttempts++;
+            return true;
+        }
+
         for (int i = 0; i < sequence.length(); i++) {
             if ((sequence.charAt(i) == OPENED_ROUND_BRACKET) ||
                     (sequence.charAt(i) == OPENED_FIGURE_BRACKET) ||
                     (sequence.charAt(i) == OPENED_SQUARE_BRACKET)) {
 
                 stackOfCharacter.push(sequence.charAt(i));
-            } else if ((sequence.charAt(i) == CLOSED_ROUND_BRACKET) ||
-                    (sequence.charAt(i) == CLOSED_FIGURE_BRACKET) ||
-                    (sequence.charAt(i) == CLOSED_SQUARE_BRACKET)) {
+            } else if (!stackOfCharacter.empty()) {
+                char topCharacterInStack = stackOfCharacter.pop();
 
                 switch (sequence.charAt(i)) {
                     case CLOSED_ROUND_BRACKET : {
-                        if ((stackOfCharacter.pop() != OPENED_ROUND_BRACKET) ||
-                                (stackOfCharacter.empty())) {
+                        if (topCharacterInStack != OPENED_ROUND_BRACKET) {
                             quantityOfFailedAttempts++;
                             return false;
                         }
                         break;
                     } case CLOSED_FIGURE_BRACKET : {
-                        if ((stackOfCharacter.pop() != OPENED_FIGURE_BRACKET) ||
-                                (stackOfCharacter.empty())) {
+                        if (topCharacterInStack != OPENED_FIGURE_BRACKET) {
                             quantityOfFailedAttempts++;
                             return false;
                         }
                         break;
                     } case CLOSED_SQUARE_BRACKET : {
-                        if ((stackOfCharacter.pop() != OPENED_SQUARE_BRACKET) ||
-                                (stackOfCharacter.empty())) {
+                        if (topCharacterInStack != OPENED_SQUARE_BRACKET) {
                             quantityOfFailedAttempts++;
                             return false;
                         }
+                        break;
                     }
                 }
-            } else if (sequence == "") {
-                lastCorrectSequence = sequence;
-                quantityOfSuccessfulAttempts++;
-                return true;
+            } else {
+                quantityOfFailedAttempts++;
+                return false;
             }
-            else {
-                throw new IllegalArgumentException("Unknown a symbol : " + sequence.charAt(i));
-            }
+        }
+
+        if (!stackOfCharacter.empty()) {
+            quantityOfFailedAttempts++;
+            return false;
         }
 
         lastCorrectSequence = sequence;
@@ -144,5 +164,11 @@ public final class CorrectBracketSequenceChecker {
         } else {
             return null;
         }
+    }
+
+    public static void reset() {
+        quantityOfSuccessfulAttempts = 0;
+        quantityOfFailedAttempts = 0;
+        stackOfCharacter = new Stack<>();
     }
 }
