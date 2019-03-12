@@ -9,6 +9,8 @@ version '1.0-SNAPSHOT'
 
 checkstyle {
     toolVersion "8.17"
+    maxWarnings 0
+    maxErrors 0
 }
 
 java {
@@ -21,6 +23,7 @@ repositories {
 }
 
 dependencies {
+    implementation "org.jetbrains:annotations:16.0.3"
     testImplementation "org.junit.jupiter:junit-jupiter-api:5.4.0"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.4.0"
 }
