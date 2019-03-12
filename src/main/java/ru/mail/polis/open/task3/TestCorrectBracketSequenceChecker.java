@@ -60,6 +60,8 @@ public class TestCorrectBracketSequenceChecker {
                         "()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()" +
                         "()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()" +
                         "()()()()()()()()()()()()()()()()()()")));
+        assertThrows(IllegalArgumentException.class,
+                () -> CorrectBracketSequenceChecker.checkSequence(null));
     }
 
     @Test
