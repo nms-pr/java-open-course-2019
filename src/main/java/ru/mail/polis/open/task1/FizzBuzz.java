@@ -1,43 +1,21 @@
 package ru.mail.polis.open.task1;
 
 /**
- * @author bogdan.maschenko
- * Since 08/03/2019
+ * @author mikhail.nechaev
+ * Since 25/02/2019
  */
-public interface FizzBuzz {
+        public interface FizzBuzz {
 
-
-    void print(int from, int to);
-}
-
-class Task1 implements FizzBuzz {
-    @Override
-    public void print(int from, int to) {
-        if ((from != 1) || (to != 100)) {
-            throw new IllegalArgumentException("Number mismatching");
+        /**
+         * Напишите программу, которая выводит на экран числа от 1 до 100.
+         * При этом вместо чисел, кратных трем,
+         * программа должна выводить слово «Fizz»,
+         * а вместо чисел, кратных пяти — слово «Buzz».
+         * Если число кратно и 3, и 5,
+         * то программа должна выводить слово «FizzBuzz».
+         *
+         * @param from - с какого числа начинать отсчёт
+         * @param to   - каким числом заканчивать отсчёт
+         */
+        void print(int from, int to);
         }
-        for (int i = from; i <= to; i++) {
-
-            if (i % 15 == 0) {
-                System.out.println("FizzBuzz");
-            } else if (i % 3 == 0) {
-                System.out.println("Fizz");
-            } else if (i % 5 == 0) {
-                System.out.println("Buzz");
-            } else {
-                System.out.println(i);
-            }
-        }
-    }
-
-    public static void main(String[] args) {
-
-        Task1 task1 = new Task1();
-        try {
-            task1.print(1, 100);
-        } catch (IllegalArgumentException iae) {
-            iae.printStackTrace();
-            System.out.println("Your input data incorrect! Please, will change them");
-        }
-    }
-}
