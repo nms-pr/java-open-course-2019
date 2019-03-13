@@ -1,5 +1,6 @@
 package ru.mail.polis.open.task3;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.nio.CharBuffer;
@@ -11,6 +12,11 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class CorrectBracketSequenceCheckerTest {
+
+    @BeforeEach
+    void clearStatisticsInChecker() {
+        CorrectBracketSequenceChecker.clearAll();
+    }
 
     @Test
     void checkSequence_HasNonStringCharacter() {
@@ -64,6 +70,8 @@ class CorrectBracketSequenceCheckerTest {
 
     @Test
     void getSuccessCheckCount_CountingCorrectly() {
+        assertEquals(0, CorrectBracketSequenceChecker.getSuccessChecksCount());
+
         CorrectBracketSequenceChecker.checkSequence(null);
         assertEquals(1, CorrectBracketSequenceChecker.getSuccessChecksCount());
         CorrectBracketSequenceChecker.checkSequence("");
@@ -77,5 +85,28 @@ class CorrectBracketSequenceCheckerTest {
 
         CorrectBracketSequenceChecker.checkSequence("{");
         assertEquals(5, CorrectBracketSequenceChecker.getSuccessChecksCount());
+    }
+
+    @Test
+    void getFailCheckCount_CountingCorrectly() {
+        assertEquals(0, CorrectBracketSequenceChecker.getFailChecksCount());
+
+        CorrectBracketSequenceChecker.checkSequence(null);
+        assertEquals(0, CorrectBracketSequenceChecker.getFailChecksCount());
+
+        CorrectBracketSequenceChecker.checkSequence("");
+        assertEquals(0, CorrectBracketSequenceChecker.getFailChecksCount());
+
+        CorrectBracketSequenceChecker.checkSequence("{}");
+        assertEquals(0, CorrectBracketSequenceChecker.getFailChecksCount());
+
+        CorrectBracketSequenceChecker.checkSequence("[");
+        assertEquals(1, CorrectBracketSequenceChecker.getFailChecksCount());
+
+        CorrectBracketSequenceChecker.checkSequence("{}{");
+        assertEquals(2, CorrectBracketSequenceChecker.getFailChecksCount());
+
+        CorrectBracketSequenceChecker.checkSequence("{[}]");
+        assertEquals(3, CorrectBracketSequenceChecker.getFailChecksCount());
     }
 }

@@ -32,9 +32,10 @@ public final class CorrectBracketSequenceChecker {
     private static final int LENGTH_LIMIT = 100;
 
     private static int successChecksCount;
+    private static int failChecksCount;
 
     static {
-        successChecksCount = 0;
+        clearAll();
     }
 
     private CorrectBracketSequenceChecker() {
@@ -86,10 +87,12 @@ public final class CorrectBracketSequenceChecker {
 
             if (isCloseBracket(sequence.charAt(i))) {
                 if (charStack.empty()) {
+                    failChecksCount++;
                     return false;
                 }
 
                 if (!charCorrespondsToCharInStack(sequence.charAt(i), charStack.pop())) {
+                    failChecksCount++;
                     return false;
                 }
                 continue;
@@ -104,6 +107,7 @@ public final class CorrectBracketSequenceChecker {
             return true;
         }
         else {
+            failChecksCount++;
             return false;
         }
     }
@@ -157,7 +161,7 @@ public final class CorrectBracketSequenceChecker {
      * @return количество неудачных проверок
      */
     public static int getFailChecksCount() {
-        throw new UnsupportedOperationException("todo: implement this");
+        return failChecksCount;
     }
 
     /**
@@ -167,5 +171,10 @@ public final class CorrectBracketSequenceChecker {
      */
     public static @Nullable String getLastSuccessSequence() {
         throw new UnsupportedOperationException("todo: implement this");
+    }
+
+    public static void clearAll() {
+        successChecksCount = 0;
+        failChecksCount = 0;
     }
 }
