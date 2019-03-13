@@ -41,7 +41,6 @@ class ConsoleFizzBuzzGameTest {
     @Test
     void testPrint() {
         fizzBuzz.print(0, 5);
-
         assertEquals(
             new StringJoiner(DELIMITER)
                 .add("FizzBuzz")
