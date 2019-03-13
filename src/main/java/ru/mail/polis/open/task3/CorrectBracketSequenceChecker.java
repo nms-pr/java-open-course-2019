@@ -23,6 +23,14 @@ import java.util.Stack;
  */
 public final class CorrectBracketSequenceChecker {
 
+    private static final char OPEN_CURLY_BRACKET = '{';
+    private static final char OPEN_ROUND_BRACKET = '(';
+    private static final char OPEN_SQUARE_BRACKET = '[';
+    private static final char CLOSE_CURLY_BRACKET = '}';
+    private static final char CLOSE_ROUND_BRACKET = ')';
+    private static final char CLOSE_SQUARE_BRACKET = ']';
+    private static final int LENGTH_LIMIT = 100;
+
     private CorrectBracketSequenceChecker() {
         /* todo: append code if needed */
     }
@@ -56,7 +64,7 @@ public final class CorrectBracketSequenceChecker {
             return true;
         }
 
-        if (sequence.length() >  100) {
+        if (sequence.length() > LENGTH_LIMIT) {
             throw new IllegalArgumentException("Sequence is more than 100 characters long");
         }
 
@@ -88,16 +96,16 @@ public final class CorrectBracketSequenceChecker {
 
     private static boolean charCorrespondsToCharInStack(char sequenceChar, char stackChar) {
         switch (stackChar) {
-            case '{' : {
-                return sequenceChar == '}';
+            case OPEN_CURLY_BRACKET: {
+                return sequenceChar == CLOSE_CURLY_BRACKET;
             }
 
-            case '(' : {
-                return sequenceChar == ')';
+            case OPEN_ROUND_BRACKET: {
+                return sequenceChar == CLOSE_ROUND_BRACKET;
             }
 
-            case '[' : {
-                return sequenceChar == ']';
+            case OPEN_SQUARE_BRACKET: {
+                return sequenceChar == CLOSE_SQUARE_BRACKET;
             }
 
             default: {
@@ -107,11 +115,15 @@ public final class CorrectBracketSequenceChecker {
     }
 
     private static boolean isCloseBracket(char c) {
-        return (c == ')') || (c == '}') || (c == ']');
+        return (c == CLOSE_ROUND_BRACKET)
+                    || (c == CLOSE_CURLY_BRACKET)
+                    || (c == CLOSE_SQUARE_BRACKET);
     }
 
     private static boolean isOpenBracket(char c) {
-        return (c == '(') || (c == '{') || (c == '[');
+        return (c == OPEN_ROUND_BRACKET)
+                    || (c == OPEN_CURLY_BRACKET)
+                    || (c == OPEN_SQUARE_BRACKET);
     }
 
     /**
