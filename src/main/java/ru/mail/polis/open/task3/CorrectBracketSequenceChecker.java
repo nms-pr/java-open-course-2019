@@ -2,6 +2,8 @@ package ru.mail.polis.open.task3;
 
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Stack;
+
 /**
  * Для проверки класса на корректность следует использовать тесты.
  * Команда {@code ./gradlew clean build} должна завершаться корректно.
@@ -49,7 +51,67 @@ public final class CorrectBracketSequenceChecker {
      *                                  или если входная строка содержит больше ста символов
      */
     public static boolean checkSequence(@Nullable String sequence) {
-        throw new UnsupportedOperationException("todo: implement this");
+
+        if (sequence == null) {
+            return true;
+        }
+
+        if (sequence.length() >  100) {
+            throw new IllegalArgumentException("Sequence is more than 100 characters long");
+        }
+
+        Stack<Character> charStack = new Stack<>();
+
+        for (int i = 0; i < sequence.length(); i++) {
+
+            if (isOpenBracket(sequence.charAt(i))) {
+                charStack.push(sequence.charAt(i));
+                continue;
+            }
+
+            if (isCloseBracket(sequence.charAt(i))) {
+                if (charStack.empty()) {
+                    return false;
+                }
+
+                if (!charCorrespondsToCharInStack(sequence.charAt(i), charStack.pop())) {
+                    return false;
+                }
+                continue;
+            }
+
+            throw new IllegalArgumentException("Sequence contains non-bracket character");
+        }
+
+        return charStack.empty();
+    }
+
+    private static boolean charCorrespondsToCharInStack(char sequenceChar, char stackChar) {
+        switch (stackChar) {
+            case '{' : {
+                return sequenceChar == '}';
+            }
+
+            case '(' : {
+                return sequenceChar == ')';
+            }
+
+            case '[' : {
+                return sequenceChar == ']';
+            }
+
+            default: {
+                throw new IllegalArgumentException("Stack char is not an open bracket");
+            }
+        }
+    }
+
+    private static boolean isCloseBracket(char c) {
+        return (c == ')') || (c == '}') || (c == ']');
+    }
+
+    private static boolean isOpenBracket(char c) {
+        return (c == '(') || (c == '{') || (c == '[');
     }
 
     /**
