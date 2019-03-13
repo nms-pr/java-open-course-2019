@@ -31,6 +31,12 @@ public final class CorrectBracketSequenceChecker {
     private static final char CLOSE_SQUARE_BRACKET = ']';
     private static final int LENGTH_LIMIT = 100;
 
+    private static int successChecksCount;
+
+    static {
+        successChecksCount = 0;
+    }
+
     private CorrectBracketSequenceChecker() {
         /* todo: append code if needed */
     }
@@ -61,6 +67,7 @@ public final class CorrectBracketSequenceChecker {
     public static boolean checkSequence(@Nullable String sequence) {
 
         if (sequence == null) {
+            successChecksCount++;
             return true;
         }
 
@@ -91,7 +98,14 @@ public final class CorrectBracketSequenceChecker {
             throw new IllegalArgumentException("Sequence contains non-bracket character");
         }
 
-        return charStack.empty();
+        if (charStack.empty()) {
+
+            successChecksCount++;
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     private static boolean charCorrespondsToCharInStack(char sequenceChar, char stackChar) {
@@ -133,7 +147,7 @@ public final class CorrectBracketSequenceChecker {
      * @return количество удачных проверок
      */
     public static int getSuccessChecksCount() {
-        throw new UnsupportedOperationException("todo: implement this");
+        return successChecksCount;
     }
 
     /**

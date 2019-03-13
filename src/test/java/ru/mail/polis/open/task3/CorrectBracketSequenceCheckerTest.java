@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class CorrectBracketSequenceCheckerTest {
 
@@ -59,5 +60,22 @@ class CorrectBracketSequenceCheckerTest {
         assertTrue(CorrectBracketSequenceChecker.checkSequence("[]()"));
         assertTrue(CorrectBracketSequenceChecker.checkSequence("([])"));
         assertTrue(CorrectBracketSequenceChecker.checkSequence("([]){}[([])]{}"));
+    }
+
+    @Test
+    void getSuccessCheckCount_CountingCorrectly() {
+        CorrectBracketSequenceChecker.checkSequence(null);
+        assertEquals(1, CorrectBracketSequenceChecker.getSuccessChecksCount());
+        CorrectBracketSequenceChecker.checkSequence("");
+        assertEquals(2, CorrectBracketSequenceChecker.getSuccessChecksCount());
+        CorrectBracketSequenceChecker.checkSequence("{}");
+        assertEquals(3, CorrectBracketSequenceChecker.getSuccessChecksCount());
+
+        CorrectBracketSequenceChecker.checkSequence("{}[]");
+        CorrectBracketSequenceChecker.checkSequence("[]");
+        assertEquals(5, CorrectBracketSequenceChecker.getSuccessChecksCount());
+
+        CorrectBracketSequenceChecker.checkSequence("{");
+        assertEquals(5, CorrectBracketSequenceChecker.getSuccessChecksCount());
     }
 }
