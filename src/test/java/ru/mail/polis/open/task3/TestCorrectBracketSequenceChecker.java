@@ -3,7 +3,11 @@ package ru.mail.polis.open.task3;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class TestCorrectBracketSequenceChecker {
     @AfterEach
@@ -54,14 +58,14 @@ public class TestCorrectBracketSequenceChecker {
     @Test
     void testThrowIllegalArgumentException() {
         assertThrows(IllegalArgumentException.class,
-                () -> CorrectBracketSequenceChecker.checkSequence("[][]][]g[][]"));
+            () -> CorrectBracketSequenceChecker.checkSequence("[][]][]g[][]"));
         assertThrows(IllegalArgumentException.class,
-                () -> assertFalse(CorrectBracketSequenceChecker.checkSequence("()()()()()()()()()()()()" +
-                        "()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()" +
-                        "()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()" +
-                        "()()()()()()()()()()()()()()()()()()")));
+            () -> assertFalse(CorrectBracketSequenceChecker.checkSequence("()()()()()()()()()()()()"
+                    + "()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()"
+                    + "()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()"
+                    + "()()()()()()()()()()()()()()()()()()")));
         assertThrows(IllegalArgumentException.class,
-                () -> CorrectBracketSequenceChecker.checkSequence(null));
+            () -> CorrectBracketSequenceChecker.checkSequence(null));
     }
 
     @Test

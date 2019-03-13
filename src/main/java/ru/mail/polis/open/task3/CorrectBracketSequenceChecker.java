@@ -63,8 +63,6 @@ public final class CorrectBracketSequenceChecker {
      *                                  или если входная строка содержит больше ста символов
      */
     public static boolean checkSequence(@Nullable String sequence) {
-        stackOfCharacter = new Stack<>();
-
         if (sequence == null) {
             quantityOfFailedAttempts++;
             throw new IllegalArgumentException("You passed NULL");
@@ -75,9 +73,16 @@ public final class CorrectBracketSequenceChecker {
             throw new IllegalArgumentException("You wrote more than 100 symbols");
         }
 
+        if (sequence.equals("")) {
+            lastCorrectSequence = sequence;
+            quantityOfSuccessfulAttempts++;
+            return true;
+        }
+
+        stackOfCharacter = new Stack<>();
+
         for (int i = 0; i < sequence.length(); i++) {
-            if (((sequence != ""))
-                    && (sequence.charAt(i) != OPENED_ROUND_BRACKET)
+            if ((sequence.charAt(i) != OPENED_ROUND_BRACKET)
                     && (sequence.charAt(i) != OPENED_FIGURE_BRACKET)
                     && (sequence.charAt(i) != OPENED_SQUARE_BRACKET)
                     && (sequence.charAt(i) != CLOSED_ROUND_BRACKET)
@@ -87,12 +92,6 @@ public final class CorrectBracketSequenceChecker {
                 quantityOfFailedAttempts++;
                 throw new IllegalArgumentException("Unknown a symbol : " + sequence.charAt(i));
             }
-        }
-
-        if (sequence == "") {
-            lastCorrectSequence = sequence;
-            quantityOfSuccessfulAttempts++;
-            return true;
         }
 
         for (int i = 0; i < sequence.length(); i++) {
@@ -123,6 +122,9 @@ public final class CorrectBracketSequenceChecker {
                             return false;
                         }
                         break;
+                    } default : {
+                        quantityOfFailedAttempts++;
+                        throw new IllegalArgumentException("Something wrong");
                     }
                 }
             } else {
