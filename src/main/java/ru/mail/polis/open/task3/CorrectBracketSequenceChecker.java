@@ -36,7 +36,7 @@ public final class CorrectBracketSequenceChecker {
     private static Integer quantityOfSuccessfulAttempts = 0;
     private static Integer quantityOfFailedAttempts = 0;
     private static String lastCorrectSequence;
-    private static Stack<Character> stackOfCharacter = new Stack<>();
+    private static Stack<Character> stackOfCharacter;
 
     /**
      * Метод проверяющий скобочную последовательность на правильность.
@@ -62,6 +62,8 @@ public final class CorrectBracketSequenceChecker {
      *                                  или если входная строка содержит больше ста символов
      */
     public static boolean checkSequence(@Nullable String sequence) {
+        stackOfCharacter = new Stack<>();
+
         if (sequence == null) {
             quantityOfFailedAttempts++;
             throw new IllegalArgumentException("You passed NULL");
@@ -174,6 +176,6 @@ public final class CorrectBracketSequenceChecker {
     public static void reset() {
         quantityOfSuccessfulAttempts = 0;
         quantityOfFailedAttempts = 0;
-        stackOfCharacter = new Stack<>();
+        //stackOfCharacter = new Stack<>();
     }
 }
