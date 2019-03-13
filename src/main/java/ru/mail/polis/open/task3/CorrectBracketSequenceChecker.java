@@ -26,6 +26,7 @@ public final class CorrectBracketSequenceChecker {
     private CorrectBracketSequenceChecker() {
         /* todo: append code if needed */
     }
+
     private static final char OPENED_ROUND_BRACKET = '(';
     private static final char CLOSED_ROUND_BRACKET = ')';
     private static final char OPENED_FIGURE_BRACKET = '{';
@@ -75,13 +76,13 @@ public final class CorrectBracketSequenceChecker {
         }
 
         for (int i = 0; i < sequence.length(); i++) {
-            if (((sequence != "")) &&
-                    (sequence.charAt(i) != OPENED_ROUND_BRACKET) &&
-                    (sequence.charAt(i) != OPENED_FIGURE_BRACKET) &&
-                    (sequence.charAt(i) != OPENED_SQUARE_BRACKET) &&
-                    (sequence.charAt(i) != CLOSED_ROUND_BRACKET) &&
-                    (sequence.charAt(i) != CLOSED_FIGURE_BRACKET) &&
-                    (sequence.charAt(i) != CLOSED_SQUARE_BRACKET)) {
+            if (((sequence != ""))
+                    && (sequence.charAt(i) != OPENED_ROUND_BRACKET)
+                    && (sequence.charAt(i) != OPENED_FIGURE_BRACKET)
+                    && (sequence.charAt(i) != OPENED_SQUARE_BRACKET)
+                    && (sequence.charAt(i) != CLOSED_ROUND_BRACKET)
+                    && (sequence.charAt(i) != CLOSED_FIGURE_BRACKET)
+                    && (sequence.charAt(i) != CLOSED_SQUARE_BRACKET)) {
 
                 quantityOfFailedAttempts++;
                 throw new IllegalArgumentException("Unknown a symbol : " + sequence.charAt(i));
@@ -95,9 +96,9 @@ public final class CorrectBracketSequenceChecker {
         }
 
         for (int i = 0; i < sequence.length(); i++) {
-            if ((sequence.charAt(i) == OPENED_ROUND_BRACKET) ||
-                    (sequence.charAt(i) == OPENED_FIGURE_BRACKET) ||
-                    (sequence.charAt(i) == OPENED_SQUARE_BRACKET)) {
+            if ((sequence.charAt(i) == OPENED_ROUND_BRACKET)
+                    || (sequence.charAt(i) == OPENED_FIGURE_BRACKET)
+                    || (sequence.charAt(i) == OPENED_SQUARE_BRACKET)) {
 
                 stackOfCharacter.push(sequence.charAt(i));
             } else if (!stackOfCharacter.empty()) {
