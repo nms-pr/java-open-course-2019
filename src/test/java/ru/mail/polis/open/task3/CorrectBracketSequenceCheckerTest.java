@@ -55,6 +55,7 @@ class CorrectBracketSequenceCheckerTest {
         assertFalse(CorrectBracketSequenceChecker.checkSequence("}"));
         assertFalse(CorrectBracketSequenceChecker.checkSequence("{[}]"));
         assertFalse(CorrectBracketSequenceChecker.checkSequence("([{]})"));
+        assertFalse(CorrectBracketSequenceChecker.checkSequence("([{]})invalid"));
     }
 
     @Test
