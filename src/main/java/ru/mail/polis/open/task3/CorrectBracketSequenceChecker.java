@@ -36,6 +36,7 @@ public final class CorrectBracketSequenceChecker {
     private static String lastSuccessSequence;
 
     static {
+
         clearAll();
     }
 
@@ -69,11 +70,13 @@ public final class CorrectBracketSequenceChecker {
     public static boolean checkSequence(@Nullable String sequence) {
 
         if (sequence == null) {
+
             onSuccessfulCheck(null);
             return true;
         }
 
         if (sequence.length() > LENGTH_LIMIT) {
+
             throw new IllegalArgumentException("Sequence is more than 100 characters long");
         }
 
@@ -82,17 +85,21 @@ public final class CorrectBracketSequenceChecker {
         for (int i = 0; i < sequence.length(); i++) {
 
             if (isOpenBracket(sequence.charAt(i))) {
+
                 charStack.push(sequence.charAt(i));
                 continue;
             }
 
             if (isCloseBracket(sequence.charAt(i))) {
+
                 if (charStack.empty()) {
+
                     failChecksCount++;
                     return false;
                 }
 
                 if (!charCorrespondsToCharInStack(sequence.charAt(i), charStack.pop())) {
+
                     failChecksCount++;
                     return false;
                 }
@@ -106,19 +113,21 @@ public final class CorrectBracketSequenceChecker {
 
             onSuccessfulCheck(sequence);
             return true;
-        }
-        else {
+        } else {
+
             failChecksCount++;
             return false;
         }
     }
 
     private static void onSuccessfulCheck(String sequence) {
+
         successChecksCount++;
         lastSuccessSequence = sequence;
     }
 
     private static boolean charCorrespondsToCharInStack(char sequenceChar, char stackChar) {
+
         switch (stackChar) {
             case OPEN_CURLY_BRACKET: {
                 return sequenceChar == CLOSE_CURLY_BRACKET;
@@ -139,12 +148,14 @@ public final class CorrectBracketSequenceChecker {
     }
 
     private static boolean isCloseBracket(char c) {
+
         return (c == CLOSE_ROUND_BRACKET)
                     || (c == CLOSE_CURLY_BRACKET)
                     || (c == CLOSE_SQUARE_BRACKET);
     }
 
     private static boolean isOpenBracket(char c) {
+
         return (c == OPEN_ROUND_BRACKET)
                     || (c == OPEN_CURLY_BRACKET)
                     || (c == OPEN_SQUARE_BRACKET);
@@ -157,6 +168,7 @@ public final class CorrectBracketSequenceChecker {
      * @return количество удачных проверок
      */
     public static int getSuccessChecksCount() {
+
         return successChecksCount;
     }
 
@@ -167,6 +179,7 @@ public final class CorrectBracketSequenceChecker {
      * @return количество неудачных проверок
      */
     public static int getFailChecksCount() {
+
         return failChecksCount;
     }
 
@@ -176,10 +189,12 @@ public final class CorrectBracketSequenceChecker {
      * @return последняя правильная скобочная последовательность или null если такой ещё не было
      */
     public static @Nullable String getLastSuccessSequence() {
+
         return lastSuccessSequence;
     }
 
     public static void clearAll() {
+
         successChecksCount = 0;
         failChecksCount = 0;
         lastSuccessSequence = null;
