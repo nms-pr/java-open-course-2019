@@ -33,7 +33,7 @@ public final class CorrectBracketSequenceChecker {
 
     private static int successChecksCount;
     private static int failChecksCount;
-    private static String lastSussessSequence;
+    private static String lastSuccessSequence;
 
     static {
         clearAll();
@@ -69,8 +69,7 @@ public final class CorrectBracketSequenceChecker {
     public static boolean checkSequence(@Nullable String sequence) {
 
         if (sequence == null) {
-            successChecksCount++;
-            lastSussessSequence = null;
+            onSuccessfulCheck(null);
             return true;
         }
 
@@ -105,14 +104,18 @@ public final class CorrectBracketSequenceChecker {
 
         if (charStack.empty()) {
 
-            successChecksCount++;
-            lastSussessSequence = sequence;
+            onSuccessfulCheck(sequence);
             return true;
         }
         else {
             failChecksCount++;
             return false;
         }
+    }
+
+    private static void onSuccessfulCheck(String sequence) {
+        successChecksCount++;
+        lastSuccessSequence = sequence;
     }
 
     private static boolean charCorrespondsToCharInStack(char sequenceChar, char stackChar) {
@@ -173,12 +176,12 @@ public final class CorrectBracketSequenceChecker {
      * @return последняя правильная скобочная последовательность или null если такой ещё не было
      */
     public static @Nullable String getLastSuccessSequence() {
-        return lastSussessSequence;
+        return lastSuccessSequence;
     }
 
     public static void clearAll() {
         successChecksCount = 0;
         failChecksCount = 0;
-        lastSussessSequence = null;
+        lastSuccessSequence = null;
     }
 }
