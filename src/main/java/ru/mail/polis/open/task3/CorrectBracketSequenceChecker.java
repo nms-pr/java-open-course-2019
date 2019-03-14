@@ -23,6 +23,25 @@ import java.util.Stack;
  */
 public final class CorrectBracketSequenceChecker {
 
+
+    /**
+     * Класс, который хранит статистику. Добавил для того, чтобы если внешней программе потребуетс вся статистика,
+     * то можно отдать ее сразу одним экземпляром
+     *
+     */
+    private static class StatisticsKeeper {
+
+        private int successChecksCount;
+        private int failChecksCount;
+        private String lastSuccessSequence;
+
+        private StatisticsKeeper() {
+            successChecksCount = 0;
+            failChecksCount = 0;
+            lastSuccessSequence = null;
+        }
+    }
+
     private static final char OPEN_CURLY_BRACKET = '{';
     private static final char OPEN_ROUND_BRACKET = '(';
     private static final char OPEN_SQUARE_BRACKET = '[';
@@ -31,13 +50,11 @@ public final class CorrectBracketSequenceChecker {
     private static final char CLOSE_SQUARE_BRACKET = ']';
     private static final int LENGTH_LIMIT = 100;
 
-    private static int successChecksCount;
-    private static int failChecksCount;
-    private static String lastSuccessSequence;
+    private static StatisticsKeeper statisticsKeeper;
 
     static {
 
-        clearAll();
+        statisticsKeeper = new StatisticsKeeper();
     }
 
     private CorrectBracketSequenceChecker() {
@@ -94,13 +111,13 @@ public final class CorrectBracketSequenceChecker {
 
                 if (charStack.empty()) {
 
-                    failChecksCount++;
+                    statisticsKeeper.failChecksCount++;
                     return false;
                 }
 
                 if (!charCorrespondsToCharInStack(sequence.charAt(i), charStack.pop())) {
 
-                    failChecksCount++;
+                    statisticsKeeper.failChecksCount++;
                     return false;
                 }
                 continue;
@@ -115,15 +132,15 @@ public final class CorrectBracketSequenceChecker {
             return true;
         } else {
 
-            failChecksCount++;
+            statisticsKeeper.failChecksCount++;
             return false;
         }
     }
 
     private static void onSuccessfulCheck(String sequence) {
 
-        successChecksCount++;
-        lastSuccessSequence = sequence;
+        statisticsKeeper.successChecksCount++;
+        statisticsKeeper.lastSuccessSequence = sequence;
     }
 
     private static boolean charCorrespondsToCharInStack(char sequenceChar, char stackChar) {
@@ -169,7 +186,7 @@ public final class CorrectBracketSequenceChecker {
      */
     public static int getSuccessChecksCount() {
 
-        return successChecksCount;
+        return statisticsKeeper.successChecksCount;
     }
 
     /**
@@ -180,7 +197,7 @@ public final class CorrectBracketSequenceChecker {
      */
     public static int getFailChecksCount() {
 
-        return failChecksCount;
+        return statisticsKeeper.failChecksCount;
     }
 
     /**
@@ -190,13 +207,11 @@ public final class CorrectBracketSequenceChecker {
      */
     public static @Nullable String getLastSuccessSequence() {
 
-        return lastSuccessSequence;
+        return statisticsKeeper.lastSuccessSequence;
     }
 
     public static void clearAll() {
 
-        successChecksCount = 0;
-        failChecksCount = 0;
-        lastSuccessSequence = null;
+        statisticsKeeper = new StatisticsKeeper();
     }
 }
