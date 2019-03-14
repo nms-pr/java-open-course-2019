@@ -6,10 +6,11 @@ import org.junit.jupiter.api.Test;
 import java.nio.CharBuffer;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class CorrectBracketSequenceCheckerTest {
 
@@ -108,5 +109,41 @@ class CorrectBracketSequenceCheckerTest {
 
         CorrectBracketSequenceChecker.checkSequence("{[}]");
         assertEquals(3, CorrectBracketSequenceChecker.getFailChecksCount());
+    }
+
+    @Test
+    void getLastSuccessSequence_If_Never_Checked_Then_Null() {
+        assertNull(null, CorrectBracketSequenceChecker.getLastSuccessSequence());
+    }
+
+
+    @Test
+    void getLastSuccessSequence_Works_Correctly() {
+
+        final String testString1 = "{}[]()";
+        CorrectBracketSequenceChecker.checkSequence(testString1);
+        assertEquals(testString1, CorrectBracketSequenceChecker.getLastSuccessSequence());
+
+
+        final String testString2 = "{{}[]()}";
+        CorrectBracketSequenceChecker.checkSequence(testString2);
+        assertEquals(testString2, CorrectBracketSequenceChecker.getLastSuccessSequence());
+    }
+
+
+    @Test
+    void getLastSuccessSequence_Returns_Correct_When_Previous_Was_Incorrect() {
+
+        final String invalidString = "[";
+
+        CorrectBracketSequenceChecker.checkSequence(invalidString);
+        assertNull(CorrectBracketSequenceChecker.getLastSuccessSequence());
+
+        final String testString = "{}[]()";
+        CorrectBracketSequenceChecker.checkSequence(testString);
+        assertEquals(testString, CorrectBracketSequenceChecker.getLastSuccessSequence());
+
+        CorrectBracketSequenceChecker.checkSequence(invalidString);
+        assertEquals(testString, CorrectBracketSequenceChecker.getLastSuccessSequence());
     }
 }

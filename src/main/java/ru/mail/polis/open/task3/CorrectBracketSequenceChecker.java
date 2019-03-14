@@ -33,6 +33,7 @@ public final class CorrectBracketSequenceChecker {
 
     private static int successChecksCount;
     private static int failChecksCount;
+    private static String lastSussessSequence;
 
     static {
         clearAll();
@@ -69,6 +70,7 @@ public final class CorrectBracketSequenceChecker {
 
         if (sequence == null) {
             successChecksCount++;
+            lastSussessSequence = null;
             return true;
         }
 
@@ -104,6 +106,7 @@ public final class CorrectBracketSequenceChecker {
         if (charStack.empty()) {
 
             successChecksCount++;
+            lastSussessSequence = sequence;
             return true;
         }
         else {
@@ -170,11 +173,12 @@ public final class CorrectBracketSequenceChecker {
      * @return последняя правильная скобочная последовательность или null если такой ещё не было
      */
     public static @Nullable String getLastSuccessSequence() {
-        throw new UnsupportedOperationException("todo: implement this");
+        return lastSussessSequence;
     }
 
     public static void clearAll() {
         successChecksCount = 0;
         failChecksCount = 0;
+        lastSussessSequence = null;
     }
 }
