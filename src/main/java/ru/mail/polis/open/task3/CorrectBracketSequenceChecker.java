@@ -100,28 +100,29 @@ public final class CorrectBracketSequenceChecker {
 
                 dequeOfCharacter.push(sequence.charAt(i));
             } else if (dequeOfCharacter.size() != 0) {
-                char topCharacterInStack = dequeOfCharacter.pop();
+                char topCharacterInDeque = dequeOfCharacter.pop();
 
                 switch (sequence.charAt(i)) {
                     case CLOSED_ROUND_BRACKET : {
-                        if (topCharacterInStack != OPENED_ROUND_BRACKET) {
+                        if (topCharacterInDeque != OPENED_ROUND_BRACKET) {
                             quantityOfFailedAttempts++;
                             return false;
                         }
                         break;
                     } case CLOSED_FIGURE_BRACKET : {
-                        if (topCharacterInStack != OPENED_FIGURE_BRACKET) {
+                        if (topCharacterInDeque != OPENED_FIGURE_BRACKET) {
                             quantityOfFailedAttempts++;
                             return false;
                         }
                         break;
                     } case CLOSED_SQUARE_BRACKET : {
-                        if (topCharacterInStack != OPENED_SQUARE_BRACKET) {
+                        if (topCharacterInDeque != OPENED_SQUARE_BRACKET) {
                             quantityOfFailedAttempts++;
                             return false;
                         }
                         break;
                     } default : {
+                        
                         quantityOfFailedAttempts++;
                         throw new IllegalArgumentException("Something wrong");
                     }
