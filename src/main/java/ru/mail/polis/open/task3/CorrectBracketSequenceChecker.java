@@ -2,7 +2,8 @@ package ru.mail.polis.open.task3;
 
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Stack;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 /**
  * Для проверки класса на корректность следует использовать тесты.
@@ -37,7 +38,7 @@ public final class CorrectBracketSequenceChecker {
     private static Integer quantityOfSuccessfulAttempts = 0;
     private static Integer quantityOfFailedAttempts = 0;
     private static String lastCorrectSequence;
-    private static Stack<Character> stackOfCharacter;
+    private static Deque<Character> dequeOfCharacter;
 
     /**
      * Метод проверяющий скобочную последовательность на правильность.
@@ -79,7 +80,7 @@ public final class CorrectBracketSequenceChecker {
             return true;
         }
 
-        stackOfCharacter = new Stack<>();
+        dequeOfCharacter = new ArrayDeque<>();
 
         for (int i = 0; i < sequence.length(); i++) {
             if ((sequence.charAt(i) != OPENED_ROUND_BRACKET)
@@ -90,18 +91,16 @@ public final class CorrectBracketSequenceChecker {
                     && (sequence.charAt(i) != CLOSED_SQUARE_BRACKET)) {
 
                 quantityOfFailedAttempts++;
-                throw new IllegalArgumentException("Unknown a symbol : " + sequence.charAt(i));
+                throw new IllegalArgumentException("Unknown symbol : " + sequence.charAt(i));
             }
-        }
 
-        for (int i = 0; i < sequence.length(); i++) {
             if ((sequence.charAt(i) == OPENED_ROUND_BRACKET)
                     || (sequence.charAt(i) == OPENED_FIGURE_BRACKET)
                     || (sequence.charAt(i) == OPENED_SQUARE_BRACKET)) {
 
-                stackOfCharacter.push(sequence.charAt(i));
-            } else if (!stackOfCharacter.empty()) {
-                char topCharacterInStack = stackOfCharacter.pop();
+                dequeOfCharacter.push(sequence.charAt(i));
+            } else if (dequeOfCharacter.size() != 0) {
+                char topCharacterInStack = dequeOfCharacter.pop();
 
                 switch (sequence.charAt(i)) {
                     case CLOSED_ROUND_BRACKET : {
@@ -133,7 +132,7 @@ public final class CorrectBracketSequenceChecker {
             }
         }
 
-        if (!stackOfCharacter.empty()) {
+        if (dequeOfCharacter.size() != 0) {
             quantityOfFailedAttempts++;
             return false;
         }
@@ -169,16 +168,12 @@ public final class CorrectBracketSequenceChecker {
      * @return последняя правильная скобочная последовательность или null если такой ещё не было
      */
     public static @Nullable String getLastSuccessSequence() {
-        if (quantityOfSuccessfulAttempts > 0) {
-            return lastCorrectSequence;
-        } else {
-            return null;
-        }
+        return quantityOfSuccessfulAttempts > 0 ? lastCorrectSequence : null;
     }
 
     public static void reset() {
         quantityOfSuccessfulAttempts = 0;
         quantityOfFailedAttempts = 0;
-        //stackOfCharacter = new Stack<>();
+        lastCorrectSequence = null;
     }
 }

@@ -58,7 +58,7 @@ public class TestCorrectBracketSequenceChecker {
     @Test
     void testThrowIllegalArgumentException() {
         assertThrows(IllegalArgumentException.class,
-            () -> CorrectBracketSequenceChecker.checkSequence("[][]][]g[][]"));
+            () -> CorrectBracketSequenceChecker.checkSequence("[][][]g[][]"));
         assertThrows(IllegalArgumentException.class,
             () -> assertFalse(CorrectBracketSequenceChecker.checkSequence("()()()()()()()()()()()()"
                     + "()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()"
@@ -99,24 +99,20 @@ public class TestCorrectBracketSequenceChecker {
         CorrectBracketSequenceChecker.checkSequence("{}({}()[]()[){})[[[)");
         assertEquals(4,
                 CorrectBracketSequenceChecker.getFailChecksCount());
-        try {
-            CorrectBracketSequenceChecker.checkSequence("{}({}()[]yyt()[}}ii}{})[[[)");
-        } catch (IllegalArgumentException iae) {
-            iae.printStackTrace();
-        }
-        try {
-            CorrectBracketSequenceChecker.checkSequence("{}({}()[]()[fefw}}}{})[[[)");
-        } catch (IllegalArgumentException iae) {
-            iae.printStackTrace();
-        }
+
+        assertThrows(IllegalArgumentException.class,
+            () -> CorrectBracketSequenceChecker.checkSequence("{}({}()[]yyt()[}}ii}{})[[[)"));
+
+        assertThrows(IllegalArgumentException.class,
+            () -> CorrectBracketSequenceChecker.checkSequence("{}({}()[]()[fefw}}}{})[[[)"));
+
         CorrectBracketSequenceChecker.checkSequence("{}({}()[]()))))[)");
         assertEquals(7,
                 CorrectBracketSequenceChecker.getFailChecksCount());
-        try {
-            CorrectBracketSequenceChecker.checkSequence("{}({rr}}{})[[[)");
-        } catch (IllegalArgumentException iae) {
-            iae.printStackTrace();
-        }
+
+        assertThrows(IllegalArgumentException.class,
+            () -> CorrectBracketSequenceChecker.checkSequence("{}({rr}}{})[[[)"));
+
         assertEquals(8,
                 CorrectBracketSequenceChecker.getFailChecksCount());
     }
@@ -139,19 +135,13 @@ public class TestCorrectBracketSequenceChecker {
         assertEquals("[()({}{[{}][]})]",
                 CorrectBracketSequenceChecker.getLastSuccessSequence());
 
-        try {
-            CorrectBracketSequenceChecker.checkSequence("{}({}()[]()[fefw}}}{})[[[)");
-        } catch (IllegalArgumentException iae) {
-            iae.printStackTrace();
-        }
+        assertThrows(IllegalArgumentException.class,
+            () -> CorrectBracketSequenceChecker.checkSequence("{}({}()[]()[fefw}}}{})[[[)"));
         assertEquals("[()({}{[{}][]})]",
                 CorrectBracketSequenceChecker.getLastSuccessSequence());
 
-        try {
-            CorrectBracketSequenceChecker.checkSequence("{}({rr}}{})[[[)");
-        } catch (IllegalArgumentException iae) {
-            iae.printStackTrace();
-        }
+        assertThrows(IllegalArgumentException.class,
+            () -> CorrectBracketSequenceChecker.checkSequence("{}({rr}}{})[[[)"));
         CorrectBracketSequenceChecker.checkSequence("[()()()([]{})()({}{[{}][]})]");
         assertEquals("[()()()([]{})()({}{[{}][]})]",
                 CorrectBracketSequenceChecker.getLastSuccessSequence());
