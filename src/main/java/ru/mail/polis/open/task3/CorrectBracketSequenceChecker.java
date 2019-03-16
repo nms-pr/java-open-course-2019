@@ -2,6 +2,11 @@ package ru.mail.polis.open.task3;
 
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Stack;
+
 /**
  * Для проверки класса на корректность следует использовать тесты.
  * Команда {@code ./gradlew clean build} должна завершаться корректно.
@@ -21,8 +26,40 @@ import org.jetbrains.annotations.Nullable;
  */
 public final class CorrectBracketSequenceChecker {
 
+    private static final List<Character> openBrackets = new ArrayList<>(
+            Arrays.asList('(', '[', '{')
+    );
+
+    private static final List<Character> closeBrackets = new ArrayList<>(
+            Arrays.asList(')', ']', '}')
+    );
+
     private CorrectBracketSequenceChecker() {
-        /* todo: append code if needed */
+        Statistic.failChecksCount = 0;
+        Statistic.successChecksCount = 0;
+        Statistic.lastSuccessSequence = null;
+    }
+
+    static boolean isBracket(char c, boolean isOpen){
+        List<Character> brackets;
+
+        if (isOpen) {
+            brackets = openBrackets;
+        } else {
+            brackets = closeBrackets;
+        }
+
+        for (char bracket : brackets) {
+            if (c == bracket) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static void onSuccessfullCheck(@Nullable String sequence) {
+
     }
 
     /**
@@ -49,7 +86,42 @@ public final class CorrectBracketSequenceChecker {
      *                                  или если входная строка содержит больше ста символов
      */
     public static boolean checkSequence(@Nullable String sequence) {
-        throw new UnsupportedOperationException("todo: implement this");
+        if (sequence.isEmpty())
+            return true;
+
+        if (sequence.length() > 100)
+            throw new IllegalArgumentException();
+
+        Stack<Character> open = new Stack<>();
+
+        for(char c : sequence.toCharArray()) {
+            if (isBracket(c, true)) {
+                open.push(c);
+            } else if (isBracket(c, false)) {
+
+                if (open.empty())
+                    return false;
+
+                char currentOpen = open.pop();
+
+                int indexOpenBracket = openBrackets.indexOf(currentOpen);
+                int indexCloseBracket = closeBrackets.indexOf(c);
+
+                if (indexOpenBracket != indexCloseBracket) {
+                    return false;
+                }
+
+            } else {
+                throw new IllegalArgumentException();
+            }
+
+        }
+
+        if (!open.empty())
+            return false;
+
+        return true;
+
     }
 
     /**
@@ -79,5 +151,11 @@ public final class CorrectBracketSequenceChecker {
      */
     public static @Nullable String getLastSuccessSequence() {
         throw new UnsupportedOperationException("todo: implement this");
+    }
+
+    static class Statistic {
+        static int successChecksCount;
+        static int failChecksCount;
+        static String lastSuccessSequence;
     }
 }
