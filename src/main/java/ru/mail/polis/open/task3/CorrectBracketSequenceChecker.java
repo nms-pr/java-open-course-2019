@@ -38,7 +38,7 @@ public final class CorrectBracketSequenceChecker {
         /* todo: append code if needed */
     }
 
-    static boolean isBracket(char c, boolean isOpen){
+    static boolean isBracket(char c, boolean isOpen) {
         List<Character> brackets;
 
         if (isOpen) {
@@ -101,7 +101,7 @@ public final class CorrectBracketSequenceChecker {
 
         Stack<Character> open = new Stack<>();
 
-        for(char c : sequence.toCharArray()) {
+        for (char c : sequence.toCharArray()) {
 
             if (isBracket(c, true)) {
                 open.push(c);

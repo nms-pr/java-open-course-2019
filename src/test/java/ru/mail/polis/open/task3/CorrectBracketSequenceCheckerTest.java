@@ -1,6 +1,5 @@
 package ru.mail.polis.open.task3;
 
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -92,7 +91,7 @@ class CorrectBracketSequenceCheckerTest {
         try {
             CorrectBracketSequenceChecker.checkSequence(" ");
         } catch (IllegalArgumentException e) {
-
+            /*todo: some code*/
         }
 
         Assertions.assertEquals(2, CorrectBracketSequenceChecker.getSuccessChecksCount());
