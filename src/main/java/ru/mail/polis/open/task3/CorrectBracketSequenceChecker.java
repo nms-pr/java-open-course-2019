@@ -35,9 +35,7 @@ public final class CorrectBracketSequenceChecker {
     );
 
     private CorrectBracketSequenceChecker() {
-        Statistic.failChecksCount = 0;
-        Statistic.successChecksCount = 0;
-        Statistic.lastSuccessSequence = null;
+        /* todo: append code if needed */
     }
 
     static boolean isBracket(char c, boolean isOpen){
