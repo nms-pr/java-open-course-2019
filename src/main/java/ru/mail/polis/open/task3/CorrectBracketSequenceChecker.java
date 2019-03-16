@@ -59,7 +59,12 @@ public final class CorrectBracketSequenceChecker {
     }
 
     private static void onSuccessfullCheck(@Nullable String sequence) {
+        Statistic.successChecksCount++;
+        Statistic.lastSuccessSequence = sequence;
+    }
 
+    private static void onFailedCheck() {
+        Statistic.failChecksCount++;
     }
 
     /**
@@ -86,21 +91,28 @@ public final class CorrectBracketSequenceChecker {
      *                                  или если входная строка содержит больше ста символов
      */
     public static boolean checkSequence(@Nullable String sequence) {
-        if (sequence.isEmpty())
+        if (sequence.isEmpty()) {
+            onSuccessfullCheck(sequence);
             return true;
+        }
 
-        if (sequence.length() > 100)
+        if (sequence.length() > 100) {
+            onFailedCheck();
             throw new IllegalArgumentException();
+        }
 
         Stack<Character> open = new Stack<>();
 
         for(char c : sequence.toCharArray()) {
+
             if (isBracket(c, true)) {
                 open.push(c);
             } else if (isBracket(c, false)) {
 
-                if (open.empty())
+                if (open.empty()) {
+                    onFailedCheck();
                     return false;
+                }
 
                 char currentOpen = open.pop();
 
@@ -108,18 +120,23 @@ public final class CorrectBracketSequenceChecker {
                 int indexCloseBracket = closeBrackets.indexOf(c);
 
                 if (indexOpenBracket != indexCloseBracket) {
+                    onFailedCheck();
                     return false;
                 }
 
             } else {
+                onFailedCheck();
                 throw new IllegalArgumentException();
             }
 
         }
 
-        if (!open.empty())
+        if (!open.empty()) {
+            onFailedCheck();
             return false;
+        }
 
+        onSuccessfullCheck(sequence);
         return true;
 
     }
@@ -131,7 +148,7 @@ public final class CorrectBracketSequenceChecker {
      * @return количество удачных проверок
      */
     public static int getSuccessChecksCount() {
-        throw new UnsupportedOperationException("todo: implement this");
+        return Statistic.successChecksCount;
     }
 
     /**
@@ -141,7 +158,7 @@ public final class CorrectBracketSequenceChecker {
      * @return количество неудачных проверок
      */
     public static int getFailChecksCount() {
-        throw new UnsupportedOperationException("todo: implement this");
+        return Statistic.failChecksCount;
     }
 
     /**
@@ -150,7 +167,7 @@ public final class CorrectBracketSequenceChecker {
      * @return последняя правильная скобочная последовательность или null если такой ещё не было
      */
     public static @Nullable String getLastSuccessSequence() {
-        throw new UnsupportedOperationException("todo: implement this");
+        return Statistic.lastSuccessSequence;
     }
 
     static class Statistic {
