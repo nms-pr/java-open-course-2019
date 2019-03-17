@@ -1,10 +1,14 @@
 package ru.mail.polis.open.task3;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
 
 class CorrectBracketSequenceCheckerTest {
 
@@ -19,9 +23,9 @@ class CorrectBracketSequenceCheckerTest {
     private static final String innerCorrect = "(())";
     private static final String complicatedInnerCorrect = "({}[])";
     private static final String moreComplicatedInnerCorrect = "({}[])({}[])";
-    private static final String hugeWrong = "({}[])({}[])({}[])({}[])({}[])({}[])" +
-        "({}[])({}[])({}[])({}[])({}[])({}[])({}[])({}[])({}[])" +
-        "({}[])({}[])({}[])({}[])({}[])({}[])({}[])({}[])({}[])";
+    private static final String hugeWrong = "({}[])({}[])({}[])({}[])({}[])({}[])"
+        + "({}[])({}[])({}[])({}[])({}[])({}[])({}[])({}[])({}[])"
+        + "({}[])({}[])({}[])({}[])({}[])({}[])({}[])({}[])({}[])";
 
     @BeforeEach
     void refresh() {
