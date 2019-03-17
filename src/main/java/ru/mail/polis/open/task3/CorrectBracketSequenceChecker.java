@@ -28,12 +28,12 @@ public final class CorrectBracketSequenceChecker {
     private static int amountOfCorrectSequences;
     private static int amountOfWrongSequences;
 
-    private static final Character roundOpenBracket = '(';
-    private static final Character roundCloseBracket = ')';
-    private static final Character squareOpenBracket = '[';
-    private static final Character squareCloseBracket = ']';
-    private static final Character curlyOpenBracket = '{';
-    private static final Character curlyCloseBracket = '}';
+    private static final Character ROUND_OPEN_BRACKET = '(';
+    private static final Character ROUND_CLOSE_BRACKET = ')';
+    private static final Character SQUARE_OPEN_BRACKET = '[';
+    private static final Character SQUARE_CLOSE_BRACKET = ']';
+    private static final Character CURLY_OPEN_BRACKET = '{';
+    private static final Character CURLY_CLOSE_BRACKET = '}';
 
     private CorrectBracketSequenceChecker() {
         amountOfCorrectSequences = 0;
@@ -137,9 +137,9 @@ public final class CorrectBracketSequenceChecker {
      * @throws IllegalArgumentException если не является открывающей скобкой
      */
     private static void pushInStack(Character character, Deque<Character> stack) {
-        if (!character.equals(roundOpenBracket)
-            && !character.equals(squareOpenBracket)
-            && !character.equals(curlyOpenBracket)) {
+        if (!character.equals(ROUND_OPEN_BRACKET)
+            && !character.equals(SQUARE_OPEN_BRACKET)
+            && !character.equals(CURLY_OPEN_BRACKET)) {
             throw new IllegalArgumentException();
         }
         stack.push(character);
@@ -153,11 +153,11 @@ public final class CorrectBracketSequenceChecker {
     static boolean checkTwoOpenClose(Character open, Character close) {
         switch (open) {
             case '(':
-                return close.equals(roundCloseBracket);
+                return close.equals(ROUND_CLOSE_BRACKET);
             case '[':
-                return close.equals(squareCloseBracket);
+                return close.equals(SQUARE_CLOSE_BRACKET);
             case '{':
-                return close.equals(curlyCloseBracket);
+                return close.equals(CURLY_CLOSE_BRACKET);
             default:
                 return false;
         }
@@ -169,9 +169,9 @@ public final class CorrectBracketSequenceChecker {
      * @return true если обе скобки являются открывающими
      */
     static boolean checkTwoInners(Character first, Character second) {
-        boolean isOpen = second.equals(roundOpenBracket)
-            || second.equals(squareOpenBracket)
-            || second.equals(curlyOpenBracket);
+        boolean isOpen = second.equals(ROUND_OPEN_BRACKET)
+            || second.equals(SQUARE_OPEN_BRACKET)
+            || second.equals(CURLY_OPEN_BRACKET);
         switch (first) {
             case '(':
                 return isOpen;
