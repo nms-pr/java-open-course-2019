@@ -84,6 +84,13 @@ public class CorrectBracketSequenceCheckerTest {
     }
 
     @Test
+    void nullCheckSequence() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            CorrectBracketSequenceChecker.checkSequence(null);
+        });
+    }
+
+    @Test
     void sequenceShouldBeLessThan100() {
         int n = 102;
         char[] chars = new char[n];
