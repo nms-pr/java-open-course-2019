@@ -2,7 +2,10 @@ package ru.mail.polis.open.task3;
 
 import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.EmptyStackException;
+import java.util.Objects;
 
 
 /**
@@ -80,7 +83,7 @@ public final class CorrectBracketSequenceChecker {
                 lastSuccessSequence = sequence;
                 successChecksCount++;
                 return true;
-            } else if (Objects.requireNonNull(sequence).length() > 100 || !sequence.matches("[(){}\\[\\]]+")) {
+            } else if ((Objects.requireNonNull(sequence)).length() > 100 || !sequence.matches("[(){}\\[\\]]+")) {
                 failChecksCount++;
                 throw new IllegalArgumentException();
             } else {
@@ -157,7 +160,7 @@ public final class CorrectBracketSequenceChecker {
     }
 
     public static void main(String[] args) {
-       
+
     }
 }
 
