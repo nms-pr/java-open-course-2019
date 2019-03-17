@@ -157,18 +157,7 @@ public final class CorrectBracketSequenceChecker {
     }
 
     public static void main(String[] args) {
-        List<String> list = new LinkedList<>();
-        list.add("()");
-        list.add("8a");
-        list.add(null);
-        list.add("");
-        list.add("({}[])");
-        for (String elem : list) {
-            checkSequence(elem);
-        }
-        System.out.println(getSuccessChecksCount());
-        System.out.println(getFailChecksCount());
-        System.out.println(getLastSuccessSequence());
+       
     }
 }
 
