@@ -2,6 +2,9 @@ package ru.mail.polis.open.task3;
 
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
+
 /**
  * Для проверки класса на корректность следует использовать тесты.
  * Команда {@code ./gradlew clean build} должна завершаться корректно.
@@ -21,8 +24,23 @@ import org.jetbrains.annotations.Nullable;
  */
 public final class CorrectBracketSequenceChecker {
 
-    private CorrectBracketSequenceChecker() {
-        /* todo: append code if needed */
+    private static final char FIGURE_BRACKET_OPENED = '{';
+    private static final char FIGURE_BRACKET_CLOSED = '}';
+    private static final char SQUARE_BRACKET_OPENED = '[';
+    private static final char SQUARE_BRACKET_CLOSED = ']';
+    private static final char ROUND_BRACKET_OPENED = '(';
+    private static final char ROUND_BRACKET_CLOSED = ')';
+
+    private static int successChecksCount = 0;
+    private static int allChecksCount = 0;
+    private static String lastLine = null;
+
+    private static Deque<Character> stack;
+
+    CorrectBracketSequenceChecker() {
+        successChecksCount = 0;
+        allChecksCount = 0;
+        lastLine = null;
     }
 
     /**
@@ -48,8 +66,67 @@ public final class CorrectBracketSequenceChecker {
      * @throws IllegalArgumentException если в строке содержатся символы, не являющиеся скобками
      *                                  или если входная строка содержит больше ста символов
      */
+
     public static boolean checkSequence(@Nullable String sequence) {
-        throw new UnsupportedOperationException("todo: implement this");
+        allChecksCount++;
+
+        if (sequence == null) {
+            throw new IllegalArgumentException("sequence is null");
+        }
+
+        if (sequence.length() > 100) {
+            throw new IllegalArgumentException("Line is longer than 100 symbols");
+        }
+
+        stack = new ArrayDeque<>(sequence.length() / 2);
+
+        char[] arraySequence = sequence.toCharArray();
+        for (int counter = 0; counter < sequence.length(); counter++) {
+            switch (arraySequence[counter]) {
+                case (FIGURE_BRACKET_OPENED):
+                case (SQUARE_BRACKET_OPENED):
+                case (ROUND_BRACKET_OPENED):
+                    stack.add(arraySequence[counter]);
+                    break;
+                case (FIGURE_BRACKET_CLOSED):
+                    if (isIncorrectClosing(FIGURE_BRACKET_OPENED)) {
+                        return false;
+                    }
+                    break;
+                case (SQUARE_BRACKET_CLOSED):
+                    if (isIncorrectClosing(SQUARE_BRACKET_OPENED)) {
+                        return false;
+                    }
+                    break;
+                case (ROUND_BRACKET_CLOSED):
+                    if (isIncorrectClosing(ROUND_BRACKET_OPENED)) {
+                        return false;
+                    }
+                    break;
+                default:
+                    throw new IllegalArgumentException("There is incorrect symbol in sequence");
+            }
+        }
+        if (stack.isEmpty()) {
+            successChecksCount++;
+            lastLine = sequence;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private static boolean isIncorrectClosing(char left) {
+        try {
+            if (left == stack.getLast()) {
+                stack.removeLast();
+                return false;
+            } else {
+                return true;
+            }
+        } catch (Exception e) {
+            return true;
+        }
     }
 
     /**
@@ -59,7 +136,7 @@ public final class CorrectBracketSequenceChecker {
      * @return количество удачных проверок
      */
     public static int getSuccessChecksCount() {
-        throw new UnsupportedOperationException("todo: implement this");
+        return successChecksCount;
     }
 
     /**
@@ -69,7 +146,7 @@ public final class CorrectBracketSequenceChecker {
      * @return количество неудачных проверок
      */
     public static int getFailChecksCount() {
-        throw new UnsupportedOperationException("todo: implement this");
+        return allChecksCount - successChecksCount;
     }
 
     /**
@@ -78,6 +155,6 @@ public final class CorrectBracketSequenceChecker {
      * @return последняя правильная скобочная последовательность или null если такой ещё не было
      */
     public static @Nullable String getLastSuccessSequence() {
-        throw new UnsupportedOperationException("todo: implement this");
+        return lastLine;
     }
 }
