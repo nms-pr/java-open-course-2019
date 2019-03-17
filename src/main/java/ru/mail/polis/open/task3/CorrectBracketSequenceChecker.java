@@ -2,6 +2,7 @@ package ru.mail.polis.open.task3;
 
 import org.jetbrains.annotations.Nullable;
 
+
 /**
  * Для проверки класса на корректность следует использовать тесты.
  * Команда {@code ./gradlew clean build} должна завершаться корректно.
@@ -24,6 +25,12 @@ public final class CorrectBracketSequenceChecker {
     private CorrectBracketSequenceChecker() {
         /* todo: append code if needed */
     }
+    static final char OPEN_ROUND_BRACE = '(';
+    static final char CLOSE_ROUND_BRACE = ')';
+    static final char OPEN_SQUARE_BRACE = '[';
+    static final char CLOSE_SQUARE_BRACE = ']';
+    static final char OPEN_FIGURE_BRACE = '{';
+    static final char CLOSE_FIGURE_BRACE = '}';
 
     /**
      * Метод проверяющий скобочную последовательность на правильность.
@@ -49,7 +56,35 @@ public final class CorrectBracketSequenceChecker {
      *                                  или если входная строка содержит больше ста символов
      */
     public static boolean checkSequence(@Nullable String sequence) {
-        throw new UnsupportedOperationException("todo: implement this");
+        int numberOfSuccessfulChecks = 0;
+        int numberOfUnsuccessfulChecks = 0;
+
+        if (sequence.length() == 0) {
+            return true;
+        }
+        if (sequence.length() > 100) {
+            return false;
+        }
+        char[] parsedString = sequence.toCharArray();
+
+        for (int i = 0; i < parsedString.length; i++) {
+
+            if ((parsedString[i] == OPEN_ROUND_BRACE) | (parsedString[i] == OPEN_FIGURE_BRACE)
+                 | (parsedString[i] == OPEN_SQUARE_BRACE)) {
+                numberOfSuccessfulChecks++;
+            } else if ((parsedString[i] == CLOSE_ROUND_BRACE) | (parsedString[i] == CLOSE_FIGURE_BRACE)
+                         | (parsedString[i] == CLOSE_SQUARE_BRACE)) {
+                numberOfSuccessfulChecks--;
+            } else {
+                throw new IllegalArgumentException("Unacceptable symbols");
+            }
+
+        }
+        if (numberOfSuccessfulChecks == 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
