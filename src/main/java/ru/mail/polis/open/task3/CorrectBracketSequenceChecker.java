@@ -49,6 +49,7 @@ public final class CorrectBracketSequenceChecker {
      *                                  или если входная строка содержит больше ста символов
      */
     public static boolean checkSequence(@Nullable String sequence) {
+
         throw new UnsupportedOperationException("todo: implement this");
     }
 
