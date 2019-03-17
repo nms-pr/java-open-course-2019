@@ -2,7 +2,8 @@ package ru.mail.polis.open.task3;
 
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Stack;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 /**
  * Для проверки класса на корректность следует использовать тесты.
@@ -97,7 +98,7 @@ public final class CorrectBracketSequenceChecker {
             throw new IllegalArgumentException("Sequence is more than 100 characters long");
         }
 
-        Stack<Character> charStack = new Stack<>();
+        Deque<Character> charStack = new ArrayDeque<>();
 
         for (int i = 0; i < sequence.length(); i++) {
 
@@ -109,7 +110,7 @@ public final class CorrectBracketSequenceChecker {
 
             if (isCloseBracket(sequence.charAt(i))) {
 
-                if (charStack.empty()) {
+                if (charStack.isEmpty()) {
 
                     statisticsKeeper.failChecksCount++;
                     return false;
@@ -126,7 +127,7 @@ public final class CorrectBracketSequenceChecker {
             throw new IllegalArgumentException("Sequence contains non-bracket character");
         }
 
-        if (charStack.empty()) {
+        if (charStack.isEmpty()) {
 
             onSuccessfulCheck(sequence);
             return true;
