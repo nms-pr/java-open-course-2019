@@ -2,6 +2,11 @@ package ru.mail.polis.open.task3;
 
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Stack;
+
 /**
  * Для проверки класса на корректность следует использовать тесты.
  * Команда {@code ./gradlew clean build} должна завершаться корректно.
@@ -21,8 +26,30 @@ import org.jetbrains.annotations.Nullable;
  */
 public final class CorrectBracketSequenceChecker {
 
+    private static final int SYMBOL_AMOUNT_UPPER_BOUND = 100;
+    private static final Map BRACKETS_MATCH;
+
+    static {
+        Map<Character, Character> localMap = new HashMap<>();
+        localMap.put(')', '(');
+        localMap.put(']', '[');
+        localMap.put('}', '{');
+        BRACKETS_MATCH = Collections.unmodifiableMap(localMap);
+    }
+
+    private static int failChecksCount = 0;
+    private static int successChecksCount = 0;
+    private static String lastSuccessSequence;
+    private static Stack<Character> stack = new Stack<>();
+
     private CorrectBracketSequenceChecker() {
         /* todo: append code if needed */
+    }
+
+    private static void checkInput(@Nullable String input) {
+        if (input == null || !input.matches("[()\\[\\]{}]*") || input.length() > SYMBOL_AMOUNT_UPPER_BOUND) {
+            throw new IllegalArgumentException("Illegal input string");
+        }
     }
 
     /**
@@ -49,7 +76,29 @@ public final class CorrectBracketSequenceChecker {
      *                                  или если входная строка содержит больше ста символов
      */
     public static boolean checkSequence(@Nullable String sequence) {
-        throw new UnsupportedOperationException("todo: implement this");
+        checkInput(sequence);
+        if (!sequence.isEmpty()) {
+            stack.push(sequence.charAt(0));
+            for (int i = 1; i < sequence.length(); i++) {
+                char currentChar = sequence.charAt(i);
+                if (BRACKETS_MATCH.containsKey(currentChar)
+                        && !stack.isEmpty()
+                        && BRACKETS_MATCH.get(currentChar).equals(stack.peek())) {
+                    stack.pop();
+                } else {
+                    stack.push(currentChar);
+                }
+            }
+        }
+        if (stack.isEmpty()) {
+            successChecksCount++;
+            lastSuccessSequence = sequence;
+            return true;
+        } else {
+            stack.clear();
+            failChecksCount++;
+            return false;
+        }
     }
 
     /**
@@ -59,7 +108,7 @@ public final class CorrectBracketSequenceChecker {
      * @return количество удачных проверок
      */
     public static int getSuccessChecksCount() {
-        throw new UnsupportedOperationException("todo: implement this");
+        return successChecksCount;
     }
 
     /**
@@ -69,7 +118,7 @@ public final class CorrectBracketSequenceChecker {
      * @return количество неудачных проверок
      */
     public static int getFailChecksCount() {
-        throw new UnsupportedOperationException("todo: implement this");
+        return failChecksCount;
     }
 
     /**
@@ -77,7 +126,16 @@ public final class CorrectBracketSequenceChecker {
      *
      * @return последняя правильная скобочная последовательность или null если такой ещё не было
      */
-    public static @Nullable String getLastSuccessSequence() {
-        throw new UnsupportedOperationException("todo: implement this");
+    public static String getLastSuccessSequence() {
+        if (successChecksCount == 0) {
+            throw new IllegalStateException("There are no successful checks yet!");
+        }
+        return lastSuccessSequence;
+    }
+
+    public static void clear() {
+        failChecksCount = 0;
+        successChecksCount = 0;
+        lastSuccessSequence = null;
     }
 }
