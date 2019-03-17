@@ -2,7 +2,8 @@ package ru.mail.polis.open.task3;
 
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Stack;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 /**
  * Для проверки класса на корректность следует использовать тесты.
@@ -30,10 +31,10 @@ public final class CorrectBracketSequenceChecker {
     private static final char OPEN_BRACKET = '(';
     private static final char CLOSE_BRACKET = ')';
 
-    private static int successChecksCount;
-    private static int failChecksCount;
-    private static StringBuilder lastSuccessSequence = new StringBuilder();
-    private static Stack<Character> bracketStack = new Stack<>();
+    private static int successChecksCount = 0;
+    private static int failChecksCount = 0;
+    private static String lastSuccessSequence;
+    private static Deque<Character> stack;
 
     private CorrectBracketSequenceChecker() {
         /* todo: append code if needed */
@@ -64,7 +65,7 @@ public final class CorrectBracketSequenceChecker {
      */
     public static boolean checkSequence(@Nullable String sequence) {
 
-        refreshParameters();
+        stack = new ArrayDeque<>();
 
         if (sequence == null) {
             throw new IllegalArgumentException("String should not be null.");
@@ -89,32 +90,17 @@ public final class CorrectBracketSequenceChecker {
                 throw new IllegalArgumentException("Sequence should contain only the following brackets: "
                         + "'(', ')', '[', ']', '{', '}'.");
             }
-
-            if (bracketStack.empty()) {
-
-                if (lastSuccessSequence.length() == 0) {
-                    lastSuccessSequence.append(sequence, 0, i + 1);
-                } else {
-                    lastSuccessSequence.replace(0,lastSuccessSequence.length(), sequence.substring(0,i + 1));
-                }
-
-                successChecksCount++;
-            } else {
-                failChecksCount++;
-            }
         }
 
-        return (bracketStack.empty() || sequence.equals(""));
-    }
+        if (stack.size() == 0) {
+            lastSuccessSequence = sequence;
+            successChecksCount++;
+            return true;
+        } else {
+            failChecksCount++;
+            return false;
+        }
 
-    /**
-     *  Возвращение используемых переменных в начальное состояие
-     */
-    private static void refreshParameters() {
-        successChecksCount = 0;
-        failChecksCount = 0;
-        bracketStack.clear();
-        lastSuccessSequence.setLength(0);
     }
 
     /**
@@ -125,15 +111,22 @@ public final class CorrectBracketSequenceChecker {
      */
     private static void bracketHandling(char bracket) {
 
-        if (!bracketStack.empty()
-                && ((bracketStack.peek().equals(OPEN_BRACKET) && bracket == CLOSE_BRACKET)
-                || (bracketStack.peek().equals(OPEN_CURLY_BRACKET) && bracket == CLOSE_CURLY_BRACKET)
-                || (bracketStack.peek().equals(OPEN_SQUARE_BRACKET) && bracket == CLOSE_SQUARE_BRACKET))) {
-            bracketStack.pop();
-        } else {
-            bracketStack.push(bracket);
+        Character firstStackElement = stack.peekFirst();
+
+        if (firstStackElement == null) {
+            stack.addFirst(bracket);
+        } else if ((firstStackElement.equals(OPEN_BRACKET) && bracket == CLOSE_BRACKET)
+                || (firstStackElement.equals(OPEN_CURLY_BRACKET) && bracket == CLOSE_CURLY_BRACKET)
+                || (firstStackElement.equals(OPEN_SQUARE_BRACKET) && bracket == CLOSE_SQUARE_BRACKET)) {
+            stack.pollFirst();
         }
 
+    }
+
+    public static void clearParameters() {
+        successChecksCount = 0;
+        failChecksCount = 0;
+        lastSuccessSequence = null;
     }
 
     /**
@@ -162,6 +155,6 @@ public final class CorrectBracketSequenceChecker {
      * @return последняя правильная скобочная последовательность или null если такой ещё не было
      */
     public static @Nullable String getLastSuccessSequence() {
-        return lastSuccessSequence.toString().equals("") ? null : lastSuccessSequence.toString();
+        return lastSuccessSequence;
     }
 }

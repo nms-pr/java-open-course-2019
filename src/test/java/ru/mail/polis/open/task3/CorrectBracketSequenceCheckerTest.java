@@ -1,11 +1,17 @@
 package ru.mail.polis.open.task3;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.fail;
 
 class CorrectBracketSequenceCheckerTest {
+
+    @BeforeEach
+    void clearParameters() {
+        CorrectBracketSequenceChecker.clearParameters();
+    }
 
     @Test
     void checkCorrectSequence() {
@@ -84,32 +90,33 @@ class CorrectBracketSequenceCheckerTest {
         Assertions.assertEquals(1, CorrectBracketSequenceChecker.getSuccessChecksCount());
 
         CorrectBracketSequenceChecker.checkSequence("(){}[]");
-        Assertions.assertEquals(3, CorrectBracketSequenceChecker.getSuccessChecksCount());
-
-        CorrectBracketSequenceChecker.checkSequence("({})");
-        Assertions.assertEquals(1, CorrectBracketSequenceChecker.getSuccessChecksCount());
-
-        CorrectBracketSequenceChecker.checkSequence("{[]");
-        Assertions.assertEquals(0, CorrectBracketSequenceChecker.getSuccessChecksCount());
+        Assertions.assertEquals(2, CorrectBracketSequenceChecker.getSuccessChecksCount());
 
         CorrectBracketSequenceChecker.checkSequence("[]}");
-        Assertions.assertEquals(1, CorrectBracketSequenceChecker.getSuccessChecksCount());
+        Assertions.assertEquals(2, CorrectBracketSequenceChecker.getSuccessChecksCount());
+
+        CorrectBracketSequenceChecker.checkSequence("({})");
+        Assertions.assertEquals(3, CorrectBracketSequenceChecker.getSuccessChecksCount());
+
+        CorrectBracketSequenceChecker.checkSequence("{[]");
+        Assertions.assertEquals(3, CorrectBracketSequenceChecker.getSuccessChecksCount());
+
     }
 
     @Test
     void failChecksCountTest() {
 
         CorrectBracketSequenceChecker.checkSequence("()");
+        Assertions.assertEquals(0, CorrectBracketSequenceChecker.getFailChecksCount());
+
+        CorrectBracketSequenceChecker.checkSequence("{[]");
         Assertions.assertEquals(1, CorrectBracketSequenceChecker.getFailChecksCount());
 
         CorrectBracketSequenceChecker.checkSequence("(){}[]");
-        Assertions.assertEquals(3, CorrectBracketSequenceChecker.getFailChecksCount());
+        Assertions.assertEquals(1, CorrectBracketSequenceChecker.getFailChecksCount());
 
         CorrectBracketSequenceChecker.checkSequence("({})");
-        Assertions.assertEquals(3, CorrectBracketSequenceChecker.getFailChecksCount());
-
-        CorrectBracketSequenceChecker.checkSequence("{[]");
-        Assertions.assertEquals(3, CorrectBracketSequenceChecker.getFailChecksCount());
+        Assertions.assertEquals(1, CorrectBracketSequenceChecker.getFailChecksCount());
 
         CorrectBracketSequenceChecker.checkSequence("[]}");
         Assertions.assertEquals(2, CorrectBracketSequenceChecker.getFailChecksCount());
@@ -119,7 +126,13 @@ class CorrectBracketSequenceCheckerTest {
     @Test
     void lastSuccessSequenceTest() {
 
+        CorrectBracketSequenceChecker.checkSequence("{[]");
+        Assertions.assertNull(CorrectBracketSequenceChecker.getLastSuccessSequence());
+
         CorrectBracketSequenceChecker.checkSequence("()");
+        Assertions.assertEquals("()", CorrectBracketSequenceChecker.getLastSuccessSequence());
+
+        CorrectBracketSequenceChecker.checkSequence("[]}");
         Assertions.assertEquals("()", CorrectBracketSequenceChecker.getLastSuccessSequence());
 
         CorrectBracketSequenceChecker.checkSequence("(){}[]");
@@ -127,12 +140,6 @@ class CorrectBracketSequenceCheckerTest {
 
         CorrectBracketSequenceChecker.checkSequence("({})");
         Assertions.assertEquals("({})", CorrectBracketSequenceChecker.getLastSuccessSequence());
-
-        CorrectBracketSequenceChecker.checkSequence("{[]");
-        Assertions.assertNull(CorrectBracketSequenceChecker.getLastSuccessSequence());
-
-        CorrectBracketSequenceChecker.checkSequence("[]}");
-        Assertions.assertEquals("[]", CorrectBracketSequenceChecker.getLastSuccessSequence());
     }
 
 }
