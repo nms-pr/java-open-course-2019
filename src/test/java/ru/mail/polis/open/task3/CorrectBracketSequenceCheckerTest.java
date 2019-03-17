@@ -19,6 +19,7 @@ class CorrectBracketSequenceCheckerTest {
     private static final String symbolsWrong = "()1[]";
     private static final String nearCorrect = "()[]{}";
     private static final String spaceWrong = " ";
+    private static final String moreSymbolsWrong = "(f)1231";
     private static final String spaceBetweenWrong = "() ()";
     private static final String innerCorrect = "(())";
     private static final String complicatedInnerCorrect = "({}[])";
@@ -45,6 +46,7 @@ class CorrectBracketSequenceCheckerTest {
         assertTrue(CorrectBracketSequenceChecker.checkSequence(innerCorrect));
         assertTrue(CorrectBracketSequenceChecker.checkSequence(complicatedInnerCorrect));
         assertTrue(CorrectBracketSequenceChecker.checkSequence(moreComplicatedInnerCorrect));
+        assertFalse(CorrectBracketSequenceChecker.checkSequence(moreSymbolsWrong));
         assertThrows(
             IllegalArgumentException.class,
             () -> CorrectBracketSequenceChecker.checkSequence(hugeWrong)

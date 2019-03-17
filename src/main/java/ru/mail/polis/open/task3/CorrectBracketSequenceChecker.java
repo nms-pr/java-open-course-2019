@@ -184,6 +184,10 @@ public final class CorrectBracketSequenceChecker {
         }
     }
 
+    /**
+     * Обнуляет переменные статистики
+     * Используется для более корректного тестирования
+     */
     static void refreshStatistics() {
         amountOfWrongSequences = 0;
         amountOfCorrectSequences = 0;
