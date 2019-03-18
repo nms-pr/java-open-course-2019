@@ -5,11 +5,12 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class CorrectBracketSequenceCheckerTest {
+
     @BeforeEach
     void resetCountersOfClassCorrectBracketSequenceChecker() {
         CorrectBracketSequenceChecker.discard();
@@ -18,13 +19,6 @@ public class CorrectBracketSequenceCheckerTest {
     @Test
     void testReturnTrue() {
         assertTrue(CorrectBracketSequenceChecker.checkSequence(""));
-        assertTrue(CorrectBracketSequenceChecker.checkSequence("[]"));
-        assertTrue(CorrectBracketSequenceChecker.checkSequence("{}"));
-        assertTrue(CorrectBracketSequenceChecker.checkSequence("()[]{}"));
-        assertTrue(CorrectBracketSequenceChecker.checkSequence("(()[]{})"));
-        assertTrue(CorrectBracketSequenceChecker.checkSequence("([](){})"));
-        assertTrue(CorrectBracketSequenceChecker.checkSequence("([{{{([])}}}])"));
-        assertTrue(CorrectBracketSequenceChecker.checkSequence("([]{})[(){}]{()[]}({}()[])[()[]()[{}]]{}"));
     }
 
     @Test
@@ -39,6 +33,7 @@ public class CorrectBracketSequenceCheckerTest {
         assertFalse(CorrectBracketSequenceChecker.checkSequence("(][{{([])}}}])"));
         assertFalse(CorrectBracketSequenceChecker.checkSequence("[]{})[){}]{()[]}({}()[])[()]()[{}]]{}"));
     }
+
     @Test
     void testCorrectWorkingAmountOfSuccessfulAttempts() {
         assertEquals(0,
@@ -92,8 +87,7 @@ public class CorrectBracketSequenceCheckerTest {
         assertEquals("[][][][]({[]})",
                 CorrectBracketSequenceChecker.getLastSuccessSequence());
 
-        assertThrows(IllegalArgumentException.class,
-                () -> CorrectBracketSequenceChecker.checkSequence("(0)"));
+        assertThrows(IllegalArgumentException.class, () -> CorrectBracketSequenceChecker.checkSequence("(0)"));
         assertEquals("[][][][]({[]})",
                 CorrectBracketSequenceChecker.getLastSuccessSequence());
 
@@ -101,14 +95,6 @@ public class CorrectBracketSequenceCheckerTest {
 
     @Test
     void testThrowIllegalArgumentException() {
-        assertThrows(IllegalArgumentException.class,
-                () -> CorrectBracketSequenceChecker.checkSequence("[n]"));
-        assertThrows(IllegalArgumentException.class,
-                () -> assertFalse(CorrectBracketSequenceChecker.checkSequence("[][][][][][][][][][][][]"
-                        + "[][][][]({[]})[][][][]({[]})[][][][]({[]})[][][][]({[]})[][][][]({[]})[][][]"
-                        + "[][][][]({[]})[][][][]({[]})[][][][]({[]})[][][][]({[]})[][][][]({[]})[][][]"
-                        + "[][][][]({[]})[][][][]({[]})[][][][]")));
-        assertThrows(IllegalArgumentException.class,
-                () -> CorrectBracketSequenceChecker.checkSequence(null));
+        assertThrows(IllegalArgumentException.class, () -> CorrectBracketSequenceChecker.checkSequence("[n]"));
     }
 }

@@ -63,6 +63,7 @@ public final class CorrectBracketSequenceChecker {
      * @throws IllegalArgumentException если в строке содержатся символы, не являющиеся скобками
      *                                  или если входная строка содержит больше ста символов
      */
+
     public static boolean checkSequence(@Nullable String sequence) {
         if (sequence == null) {
             throw new IllegalArgumentException("The string cannot be null.");
