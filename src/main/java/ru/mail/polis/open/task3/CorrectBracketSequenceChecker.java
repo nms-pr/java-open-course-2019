@@ -21,7 +21,20 @@ import org.jetbrains.annotations.Nullable;
  */
 public final class CorrectBracketSequenceChecker {
 
-    private CorrectBracketSequenceChecker() {
+    private static final int MAX_SEQUENCE_LENGTH = 100;
+    private static final char OPEN_ROUND_BRACKET = '(';
+    private static final char OPEN_SQUARE_BRACKET = '[';
+    private static final char OPEN_BRACE = '{';
+    private static final char CLOSE_ROUND_BRACKET = ')';
+    private static final char CLOSE_SQUARE_BRACKET = ']';
+    private static final char CLOSE_BRACE = '}';
+
+    private static String lastSuccessSequence = null;
+    private static char[] openingBrackets = new char[MAX_SEQUENCE_LENGTH / 2];
+    private static int successChecksCount = 0;
+    private static int failChecksCount = 0;
+
+    public CorrectBracketSequenceChecker() {
         /* todo: append code if needed */
     }
 
@@ -50,7 +63,70 @@ public final class CorrectBracketSequenceChecker {
      */
     public static boolean checkSequence(@Nullable String sequence) {
 
-        throw new UnsupportedOperationException("todo: implement this");
+        if (sequence == null) {
+            throw new IllegalArgumentException("String equals null.");
+        }
+        if (sequence == "") {
+            successChecksCount++;
+            lastSuccessSequence = sequence;
+            return true;
+        }
+        if (sequence.length() > MAX_SEQUENCE_LENGTH) {
+            throw new IllegalArgumentException("String contains more than 100 characters.");
+        }
+
+        int index = -1;
+
+        for (int i = 0; i < sequence.length(); i++) {
+            if ((sequence.charAt(i) == OPEN_ROUND_BRACKET)
+                    || (sequence.charAt(i) == OPEN_SQUARE_BRACKET)
+                    || (sequence.charAt(i) == OPEN_BRACE)) {
+                index++;
+                if (index > openingBrackets.length - 1) {
+                    failChecksCount++;
+                    return false;
+                }
+                openingBrackets[index] = sequence.charAt(i);
+            } else if ((sequence.charAt(i) == CLOSE_ROUND_BRACKET)
+                    || (sequence.charAt(i) == CLOSE_SQUARE_BRACKET)
+                    || (sequence.charAt(i) == CLOSE_BRACE)) {
+                if (index < 0) {
+                    failChecksCount++;
+                    return false;
+                }
+                if (bracketsArePaired(openingBrackets[index], sequence.charAt(i))) {
+                    index--;
+                } else {
+                    failChecksCount++;
+                    return false;
+                }
+            } else {
+                throw new IllegalArgumentException("String contains non-bracket character.");
+            }
+
+        }
+
+        if (index == -1) {
+            successChecksCount++;
+            lastSuccessSequence = sequence;
+            return true;
+        } else {
+            failChecksCount++;
+            return false;
+        }
+    }
+
+    private static boolean bracketsArePaired(char openBracket, char closeBracket) {
+        if ((openBracket == OPEN_ROUND_BRACKET) && (closeBracket == CLOSE_ROUND_BRACKET)) {
+            return true;
+        }
+        if ((openBracket == OPEN_SQUARE_BRACKET) && (closeBracket == CLOSE_SQUARE_BRACKET)) {
+            return true;
+        }
+        if ((openBracket == OPEN_BRACE) && (closeBracket == CLOSE_BRACE)) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -60,7 +136,7 @@ public final class CorrectBracketSequenceChecker {
      * @return количество удачных проверок
      */
     public static int getSuccessChecksCount() {
-        throw new UnsupportedOperationException("todo: implement this");
+        return successChecksCount;
     }
 
     /**
@@ -70,7 +146,7 @@ public final class CorrectBracketSequenceChecker {
      * @return количество неудачных проверок
      */
     public static int getFailChecksCount() {
-        throw new UnsupportedOperationException("todo: implement this");
+        return failChecksCount;
     }
 
     /**
@@ -79,6 +155,6 @@ public final class CorrectBracketSequenceChecker {
      * @return последняя правильная скобочная последовательность или null если такой ещё не было
      */
     public static @Nullable String getLastSuccessSequence() {
-        throw new UnsupportedOperationException("todo: implement this");
+        return lastSuccessSequence;
     }
 }
