@@ -82,7 +82,7 @@ class CorrectBracketSequenceCheckerTest {
     @Test
     void getLastSuccessSequence() {
         CorrectBracketSequenceChecker.checkSequence("))))))))");
-        assertNull(CorrectBracketSequenceChecker.getLastSuccessSequence(), "message");
+        assertNull(CorrectBracketSequenceChecker.getLastSuccessSequence());
         CorrectBracketSequenceChecker.checkSequence("()()");
         assertEquals("()()", CorrectBracketSequenceChecker.getLastSuccessSequence());
 
