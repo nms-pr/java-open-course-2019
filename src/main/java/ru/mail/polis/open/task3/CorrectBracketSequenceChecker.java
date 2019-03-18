@@ -21,6 +21,14 @@ import org.jetbrains.annotations.Nullable;
  */
 public final class CorrectBracketSequenceChecker {
 
+    private static final String ROUND_BRACKETS = "()";
+    private static final String SQUARE_BRACKETS = "[]";
+    private static final String FIGURATE_BRACKETS = "{}";
+
+    private static int successChecks;
+    private static int failChecks;
+    private static String lastSuccessSequence;
+
     private CorrectBracketSequenceChecker() {
         /* todo: append code if needed */
     }
@@ -49,7 +57,53 @@ public final class CorrectBracketSequenceChecker {
      *                                  или если входная строка содержит больше ста символов
      */
     public static boolean checkSequence(@Nullable String sequence) {
-        throw new UnsupportedOperationException("todo: implement this");
+        String tmpSequence = sequence;
+
+        if (sequence == null) {
+            return false;
+        }
+
+        if (sequence == "") {
+            successChecks++;
+            lastSuccessSequence = sequence;
+            return true;
+        }
+
+        if (sequence.length() > 100) {
+            throw new IllegalArgumentException("входная строка содержит больше ста символов: " + sequence.length());
+        }
+
+        char[] brackets = (ROUND_BRACKETS + SQUARE_BRACKETS + FIGURATE_BRACKETS).toCharArray();
+        boolean isBracket = false;
+        for (int i = 0; i < sequence.length(); i++) {
+            for (int j = 0; j < brackets.length; j++) {
+                if (brackets[j] == sequence.charAt(i)) {
+                    isBracket = true;
+                    break;
+                }
+            }
+            if (!isBracket) {
+                throw new IllegalArgumentException("символ не скобка: " + sequence.charAt(i));
+            }
+            isBracket = false;
+        }
+
+        while (sequence.contains(ROUND_BRACKETS)
+               || sequence.contains(SQUARE_BRACKETS)
+               || sequence.contains(FIGURATE_BRACKETS)) {
+            sequence = sequence.replace(ROUND_BRACKETS, "");
+            sequence = sequence.replace(SQUARE_BRACKETS, "");
+            sequence = sequence.replace(FIGURATE_BRACKETS, "");
+        }
+
+        if (sequence.length() != 0) {
+            failChecks++;
+            return false;
+        }
+
+        successChecks++;
+        lastSuccessSequence = tmpSequence;
+        return true;
     }
 
     /**
@@ -59,7 +113,7 @@ public final class CorrectBracketSequenceChecker {
      * @return количество удачных проверок
      */
     public static int getSuccessChecksCount() {
-        throw new UnsupportedOperationException("todo: implement this");
+        return successChecks;
     }
 
     /**
@@ -69,7 +123,7 @@ public final class CorrectBracketSequenceChecker {
      * @return количество неудачных проверок
      */
     public static int getFailChecksCount() {
-        throw new UnsupportedOperationException("todo: implement this");
+        return failChecks;
     }
 
     /**
@@ -78,6 +132,6 @@ public final class CorrectBracketSequenceChecker {
      * @return последняя правильная скобочная последовательность или null если такой ещё не было
      */
     public static @Nullable String getLastSuccessSequence() {
-        throw new UnsupportedOperationException("todo: implement this");
+        return lastSuccessSequence;
     }
 }
