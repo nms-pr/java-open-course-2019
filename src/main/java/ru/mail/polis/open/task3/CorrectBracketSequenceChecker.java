@@ -34,7 +34,7 @@ public final class CorrectBracketSequenceChecker {
     private static int successChecksCount = 0;
     private static int failChecksCount = 0;
 
-    public CorrectBracketSequenceChecker() {
+    private CorrectBracketSequenceChecker() {
         /* todo: append code if needed */
     }
 

@@ -1,5 +1,4 @@
 import ru.mail.polis.open.HelloWorld2;
-import ru.mail.polis.open.task3.CorrectBracketSequenceChecker;
 
 /**
  * @author mikhail.nechaev
