@@ -35,10 +35,11 @@ public final class CorrectBracketSequenceChecker {
     private static final char OPENED_SQUARE_BRACKET = '[';
     private static final char CLOSED_SQUARE_BRACKET = ']';
 
-    private static Integer quantityOfSuccessfulAttempts = 0;
-    private static Integer quantityOfFailedAttempts = 0;
-    private static String lastCorrectSequence;
-    private static Deque<Character> dequeChar;
+    private static Integer successChecksCount = 0;
+    private static Integer failChecksCount = 0;
+    private static String lastSuccessSequence = null;
+    private static Deque<Character> stack = new ArrayDeque<>();
+
     /**
      * Метод проверяющий скобочную последовательность на правильность.
      * <p>
@@ -65,53 +66,65 @@ public final class CorrectBracketSequenceChecker {
     public static boolean checkSequence(@Nullable String sequence) {
         //throw new UnsupportedOperationException("todo: implement this");
 
+        stack.clear();
+
         if (sequence == null) {
-            quantityOfFailedAttempts++;
+            failChecksCount++;
             throw new IllegalArgumentException("Вы ничего не ввели.");
         }
 
         if (sequence.length() > 100) {
-            quantityOfFailedAttempts++;
+            failChecksCount++;
             throw new IllegalArgumentException("Вы ввели последовательность превышающую 100 символов.");
         }
 
         if (sequence.equals("")) {
-            lastCorrectSequence = sequence;
-            quantityOfSuccessfulAttempts++;
+            lastSuccessSequence = sequence;
+            successChecksCount++;
             return true;
         }
 
-        dequeChar = new ArrayDeque<>();
-
         for (int i = 0; i < sequence.length(); i++) {
+
             if (sequence.charAt(i) == OPENED_ROUND_BRACKET
                     || sequence.charAt(i) == CLOSED_SQUARE_BRACKET
                     || sequence.charAt(i) == OPENED_SQUARE_BRACKET
                     || sequence.charAt(i) == OPENED_FIGURE_BRACKET
                     || sequence.charAt(i) == CLOSED_ROUND_BRACKET
-                    || sequence.charAt(i) == CLOSED_FIGURE_BRACKET ) {
+                    || sequence.charAt(i) == CLOSED_FIGURE_BRACKET) {
+
                 chekedBracket(sequence.charAt(i));
 
             } else {
                 throw new IllegalArgumentException("Последовательность должна содержать только символы: (){}[]");
             }
-
         }
 
+        if (stack.isEmpty()) {
+            lastSuccessSequence = sequence;
+            successChecksCount++;
+        } else {
+            failChecksCount++;
+        }
 
-
-        return true;
+        return (stack.isEmpty());
     }
 
-    private static void chekedBracket( char bracket){
-        if (!dequeChar.isEmpty()
-                && (( dequeChar.peekFirst().equals(OPENED_ROUND_BRACKET) && bracket == CLOSED_ROUND_BRACKET)
-                    || ( dequeChar.peekFirst().equals(OPENED_SQUARE_BRACKET) && bracket == CLOSED_SQUARE_BRACKET)
-                    || ( dequeChar.peekFirst().equals(OPENED_FIGURE_BRACKET) && bracket == CLOSED_FIGURE_BRACKET))) {
-            dequeChar.pop();
+    private static void chekedBracket(char bracket) {
+        if (!stack.isEmpty()
+                && ((stack.peekFirst().equals(OPENED_ROUND_BRACKET) && bracket == CLOSED_ROUND_BRACKET)
+                || (stack.peekFirst().equals(OPENED_SQUARE_BRACKET) && bracket == CLOSED_SQUARE_BRACKET)
+                || (stack.peekFirst().equals(OPENED_FIGURE_BRACKET) && bracket == CLOSED_FIGURE_BRACKET))) {
+            stack.pollFirst();
         } else {
-            dequeChar.addFirst(bracket);
+            stack.addFirst(bracket);
         }
+    }
+
+    public static void reset() {
+        successChecksCount = 0;
+        failChecksCount = 0;
+        lastSuccessSequence = null;
     }
 
     /**
@@ -121,7 +134,7 @@ public final class CorrectBracketSequenceChecker {
      * @return количество удачных проверок
      */
     public static int getSuccessChecksCount() {
-        throw new UnsupportedOperationException("todo: implement this");
+        return successChecksCount;
     }
 
     /**
@@ -131,7 +144,7 @@ public final class CorrectBracketSequenceChecker {
      * @return количество неудачных проверок
      */
     public static int getFailChecksCount() {
-        throw new UnsupportedOperationException("todo: implement this");
+        return failChecksCount;
     }
 
     /**
@@ -140,6 +153,9 @@ public final class CorrectBracketSequenceChecker {
      * @return последняя правильная скобочная последовательность или null если такой ещё не было
      */
     public static @Nullable String getLastSuccessSequence() {
-        throw new UnsupportedOperationException("todo: implement this");
+        //return lastSuccessSequence.equals(null) ? null : lastSuccessSequence;
+        return successChecksCount > 0 ? lastSuccessSequence : null;
     }
+
 }
+
