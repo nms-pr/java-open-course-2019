@@ -5,8 +5,6 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Arrays;
 import java.util.Deque;
 import java.util.ArrayDeque;
-
-
 /**
  * Для проверки класса на корректность следует использовать тесты.
  * Команда {@code ./gradlew clean build} должна завершаться корректно.
@@ -24,6 +22,7 @@ import java.util.ArrayDeque;
  * Внутри package ru.mail.polis.open.task3
  * В нём будут видны public / protected / package_private методы
  */
+
 public final class CorrectBracketSequenceChecker {
 
     private CorrectBracketSequenceChecker() {

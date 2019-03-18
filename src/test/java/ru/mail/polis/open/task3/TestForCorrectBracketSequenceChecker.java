@@ -3,7 +3,11 @@ package ru.mail.polis.open.task3;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class TestForCorrectBracketSequenceChecker {
 
@@ -43,10 +47,9 @@ public class TestForCorrectBracketSequenceChecker {
 
     @Test
     void testThrowIllegalArgumentException() {
-        assertThrows(IllegalArgumentException.class,
-                () -> CorrectBracketSequenceChecker.checkSequence("([b]{l})"));
-        assertThrows(IllegalArgumentException.class,
-                () -> assertFalse(CorrectBracketSequenceChecker.checkSequence("()[]{}()[]{}()[]{}()[]{}"
+        assertThrows(IllegalArgumentException.class, () -> CorrectBracketSequenceChecker.checkSequence("([b]{l})"));
+        assertThrows(IllegalArgumentException.class, () ->
+                assertFalse(CorrectBracketSequenceChecker.checkSequence("()[]{}()[]{}()[]{}()[]{}"
                         + "()[]{}()[]{}()[]{}()[]{}()[]{}()[]{}()[]{}()[]{}()[]{}()[]{}()[]{}()[]{}()[]{}"
                         + "()[]{}()[]{}()[]{}()[]{}()[]{}()[]{}()[]{}()[]{}()[]{}()[]{}()[]{}()[]{}()[]{}"
                         + "()[]{}()[]{}()[]{}()[]{}()[]{}()[]{}()[]{}()[]{}()[]{}()[]{}()[]{}()[]{}")));
@@ -66,8 +69,8 @@ public class TestForCorrectBracketSequenceChecker {
         assertEquals(3,
                 CorrectBracketSequenceChecker.getSuccessChecksCount());
         CorrectBracketSequenceChecker.checkSequence("()()([]{[]}){}");
-        assertThrows(IllegalArgumentException.class,
-                () -> CorrectBracketSequenceChecker.checkSequence("{}({rr}}{})[[[)"));
+        assertThrows(IllegalArgumentException.class, () ->
+                CorrectBracketSequenceChecker.checkSequence("{}({rr}}{})[[[)"));
         assertEquals(4,
                 CorrectBracketSequenceChecker.getSuccessChecksCount());
     }
@@ -86,18 +89,17 @@ public class TestForCorrectBracketSequenceChecker {
         assertEquals(3,
                 CorrectBracketSequenceChecker.getFailChecksCount());
 
-        assertThrows(IllegalArgumentException.class,
-                () -> CorrectBracketSequenceChecker.checkSequence("[o]{(m)}{(y)}"));
+        assertThrows(IllegalArgumentException.class, () ->
+                CorrectBracketSequenceChecker.checkSequence("[o]{(m)}{(y)}"));
 
-        assertThrows(IllegalArgumentException.class,
-                () -> CorrectBracketSequenceChecker.checkSequence("{}({})()[]{{{[heh}}}{}()"));
+        assertThrows(IllegalArgumentException.class, () ->
+                CorrectBracketSequenceChecker.checkSequence("{}({})()[]{{{[heh}}}{}()"));
 
         CorrectBracketSequenceChecker.checkSequence("{}({}()[]()))))[)");
         assertEquals(6,
                 CorrectBracketSequenceChecker.getFailChecksCount());
 
-        assertThrows(IllegalArgumentException.class,
-                () -> CorrectBracketSequenceChecker.checkSequence("{}({.})"));
+        assertThrows(IllegalArgumentException.class, () -> CorrectBracketSequenceChecker.checkSequence("{}({.})"));
 
         assertEquals(7,
                 CorrectBracketSequenceChecker.getFailChecksCount());
@@ -121,8 +123,7 @@ public class TestForCorrectBracketSequenceChecker {
         assertEquals("[()({[]}{})]",
                 CorrectBracketSequenceChecker.getLastSuccessSequence());
 
-        assertThrows(IllegalArgumentException.class,
-                () -> CorrectBracketSequenceChecker.checkSequence("[hello]"));
+        assertThrows(IllegalArgumentException.class, () -> CorrectBracketSequenceChecker.checkSequence("[hello]"));
         assertEquals("[()({[]}{})]",
                 CorrectBracketSequenceChecker.getLastSuccessSequence());
 
