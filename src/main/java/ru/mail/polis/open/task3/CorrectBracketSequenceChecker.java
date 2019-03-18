@@ -73,8 +73,8 @@ public final class CorrectBracketSequenceChecker {
             throw new IllegalArgumentException("входная строка содержит больше ста символов: " + sequence.length());
         }
 
-        if (!sequence.matches("[(){}\\[\\]]")){
-            throw new IllegalArgumentException("в выражении присутствует иной символ: ");
+        if (!sequence.matches("[({)}\\[\\]]+")) {
+            throw new IllegalArgumentException("в выражении присутствует иной символ");
         }
 
         while (sequence.contains(ROUND_BRACKETS)
