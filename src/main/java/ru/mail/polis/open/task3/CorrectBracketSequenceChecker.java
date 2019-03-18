@@ -73,19 +73,8 @@ public final class CorrectBracketSequenceChecker {
             throw new IllegalArgumentException("входная строка содержит больше ста символов: " + sequence.length());
         }
 
-        char[] brackets = (ROUND_BRACKETS + SQUARE_BRACKETS + FIGURATE_BRACKETS).toCharArray();
-        boolean isBracket = false;
-        for (int i = 0; i < sequence.length(); i++) {
-            for (int j = 0; j < brackets.length; j++) {
-                if (brackets[j] == sequence.charAt(i)) {
-                    isBracket = true;
-                    break;
-                }
-            }
-            if (!isBracket) {
-                throw new IllegalArgumentException("символ не скобка: " + sequence.charAt(i));
-            }
-            isBracket = false;
+        if (!sequence.matches("[(){}\\[\\]]")){
+            throw new IllegalArgumentException("в выражении присутствует иной символ: ");
         }
 
         while (sequence.contains(ROUND_BRACKETS)

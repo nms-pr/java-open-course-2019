@@ -1,6 +1,5 @@
 package ru.mail.polis.open.task3;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -27,8 +26,7 @@ class CorrectBracketSequenceCheckerTest {
         for (int i = 0; i < 101; i++) {
             sb.append("(");
         }
-        String sf = sb.toString();
-        assertThrows(IllegalArgumentException.class, () -> CorrectBracketSequenceChecker.checkSequence(sf));
+        assertThrows(IllegalArgumentException.class, () -> CorrectBracketSequenceChecker.checkSequence(sb.toString()));
 
         assertTrue(CorrectBracketSequenceChecker.checkSequence(""));
         assertFalse(CorrectBracketSequenceChecker.checkSequence(null));
@@ -77,10 +75,10 @@ class CorrectBracketSequenceCheckerTest {
     @Test
     void successAndFailCheck() {
         String successSequance = "({}[()]{[]})";
-        String failsequance = "({}][])";
+        String failSequance = "({}][])";
 
         assertTrue(CorrectBracketSequenceChecker.checkSequence(successSequance));
-        assertFalse(CorrectBracketSequenceChecker.checkSequence(failsequance));
+        assertFalse(CorrectBracketSequenceChecker.checkSequence(failSequance));
 
         assertEquals(1, CorrectBracketSequenceChecker.getSuccessChecksCount());
         assertEquals(1, CorrectBracketSequenceChecker.getFailChecksCount());
