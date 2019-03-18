@@ -115,11 +115,22 @@ class CorrectBracketSequenceCheckerTest {
         CorrectBracketSequenceChecker.checkSequence("(){}[]");
         Assertions.assertEquals(1, CorrectBracketSequenceChecker.getFailChecksCount());
 
+        Assertions.assertThrows(IllegalArgumentException.class,
+            () -> CorrectBracketSequenceChecker.checkSequence(null));
+        Assertions.assertEquals(2,CorrectBracketSequenceChecker.getFailChecksCount());
+
         CorrectBracketSequenceChecker.checkSequence("({})");
-        Assertions.assertEquals(1, CorrectBracketSequenceChecker.getFailChecksCount());
+        Assertions.assertEquals(2, CorrectBracketSequenceChecker.getFailChecksCount());
 
         CorrectBracketSequenceChecker.checkSequence("[]}");
-        Assertions.assertEquals(2, CorrectBracketSequenceChecker.getFailChecksCount());
+        Assertions.assertEquals(3, CorrectBracketSequenceChecker.getFailChecksCount());
+
+        String largeTestString = "((((((((((" + "{{{{{{{{{{" + "[[[[[[[[[[" + "))))))))))" + "}}}}}}}}}}"
+                + "))))(({{}[" + "{{}{}{}}}}" + "[]][()))((" + "{{}][({]))" + "[]][][[]][" + "[";
+        Assertions.assertThrows(IllegalArgumentException.class,
+            () -> CorrectBracketSequenceChecker.checkSequence(largeTestString));
+        Assertions.assertEquals(4,CorrectBracketSequenceChecker.getFailChecksCount());
+
 
     }
 

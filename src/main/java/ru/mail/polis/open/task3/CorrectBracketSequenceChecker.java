@@ -34,7 +34,7 @@ public final class CorrectBracketSequenceChecker {
     private static int successChecksCount = 0;
     private static int failChecksCount = 0;
     private static String lastSuccessSequence;
-    private static Deque<Character> stack;
+    private static Deque<Character> stack = new ArrayDeque<>();
 
     private CorrectBracketSequenceChecker() {
         /* todo: append code if needed */
@@ -65,13 +65,15 @@ public final class CorrectBracketSequenceChecker {
      */
     public static boolean checkSequence(@Nullable String sequence) {
 
-        stack = new ArrayDeque<>();
+        stack.clear();
 
         if (sequence == null) {
+            failChecksCount++;
             throw new IllegalArgumentException("String should not be null.");
         }
 
         if (sequence.length() > 100) {
+            failChecksCount++;
             throw new IllegalArgumentException("String must be no more than 100 characters.");
         }
 
