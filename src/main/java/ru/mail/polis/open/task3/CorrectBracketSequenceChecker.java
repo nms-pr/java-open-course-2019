@@ -28,14 +28,15 @@ public final class CorrectBracketSequenceChecker {
         /* todo: append code if needed */
     }
 
-    {
+    static {
         init();
     }
 
-    static void init() {
+    public static void init() {
         successCount = 0;
         failCount = 0;
         lastCorrectSequence = null;
+        stack = new ArrayDeque<Character>(100);
     }
 
     /**
@@ -65,8 +66,7 @@ public final class CorrectBracketSequenceChecker {
             throw new IllegalArgumentException("Sequence length is more than 100");
         }
 
-        stack = new ArrayDeque<Character>(sequence.length());
-
+        stack.clear();
 
         for (int i = 0; i < sequence.length(); i++) {
             char current = sequence.charAt(i);
