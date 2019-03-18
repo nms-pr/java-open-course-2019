@@ -1,7 +1,6 @@
 package ru.mail.polis.open.task1;
 
 public class Solution implements FizzBuzz {
-
     private static StringBuilder str = new StringBuilder();
 
     public static void main(String[] args) {
