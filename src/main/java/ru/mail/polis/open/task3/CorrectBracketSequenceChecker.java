@@ -2,6 +2,10 @@ package ru.mail.polis.open.task3;
 
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Stack;
+
+
+
 /**
  * Для проверки класса на корректность следует использовать тесты.
  * Команда {@code ./gradlew clean build} должна завершаться корректно.
@@ -21,9 +25,16 @@ import org.jetbrains.annotations.Nullable;
  */
 public final class CorrectBracketSequenceChecker {
 
+
+
     private CorrectBracketSequenceChecker() {
+        Statist.LastBrackString = null;
         /* todo: append code if needed */
     }
+
+    final static char[] BrackOpen = new char[] {'(','[','{'};
+    final static char[] BrackClose = new char[] {')',']','}'};
+    final static Stats Statist = new Stats();
 
     /**
      * Метод проверяющий скобочную последовательность на правильность.
@@ -48,8 +59,74 @@ public final class CorrectBracketSequenceChecker {
      * @throws IllegalArgumentException если в строке содержатся символы, не являющиеся скобками
      *                                  или если входная строка содержит больше ста символов
      */
+    public static  boolean Compare(char[] Brack, char Symbol){
+        for(int i = 0; i < Brack.length; i++){
+            if(Symbol == Brack[i]){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean CheckOposit(char a, char b){
+        int indexA = 0;
+        int indexB = 0;
+        for(int i = 0; i < BrackOpen.length; i++){
+            if(a == BrackOpen[i]){
+                indexA = i;
+            }
+            if(b == BrackClose[i]){
+                indexB = i;
+            }
+        }
+        if(indexA == indexB){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    public static class Stats{
+        int SuccessfulChecks;
+        int FailChecks;
+        String LastBrackString;
+    }
+
     public static boolean checkSequence(@Nullable String sequence) {
-        throw new UnsupportedOperationException("todo: implement this");
+        Stack<Character> BrackString = new Stack<>();
+        if(sequence.length()>100){
+            throw new IllegalArgumentException();
+        }
+        for(int i = 0; i < sequence.length(); i++){
+            if(Compare(BrackOpen, sequence.charAt(i))){
+                BrackString.push(sequence.charAt(i));
+            }
+            else{
+                if(Compare(BrackClose, sequence.charAt(i))){
+                    if(CheckOposit(BrackString.peek(), sequence.charAt(i))){
+                        BrackString.pop();
+                    }
+                    else{//скобка не закрылась
+                        Statist.FailChecks++;
+                        return false;
+                    }
+                }
+                else{// встеретилось что-то кроме скобок
+                    throw new IllegalArgumentException();
+                }
+            }
+        }
+        if(BrackString.size()==0){
+            Statist.SuccessfulChecks++;
+            Statist.LastBrackString = sequence;
+            return true;
+        }
+        else{
+            Statist.FailChecks++;
+            return false;
+        }
+
     }
 
     /**
@@ -59,7 +136,7 @@ public final class CorrectBracketSequenceChecker {
      * @return количество удачных проверок
      */
     public static int getSuccessChecksCount() {
-        throw new UnsupportedOperationException("todo: implement this");
+        return Statist.SuccessfulChecks;
     }
 
     /**
@@ -69,7 +146,7 @@ public final class CorrectBracketSequenceChecker {
      * @return количество неудачных проверок
      */
     public static int getFailChecksCount() {
-        throw new UnsupportedOperationException("todo: implement this");
+        return Statist.FailChecks;
     }
 
     /**
@@ -78,6 +155,6 @@ public final class CorrectBracketSequenceChecker {
      * @return последняя правильная скобочная последовательность или null если такой ещё не было
      */
     public static @Nullable String getLastSuccessSequence() {
-        throw new UnsupportedOperationException("todo: implement this");
+        return Statist.LastBrackString;
     }
 }
