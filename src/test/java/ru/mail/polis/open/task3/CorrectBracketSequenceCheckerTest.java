@@ -1,9 +1,14 @@
 package ru.mail.polis.open.task3;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class CorrectBracketSequenceCheckerTest {
 
@@ -34,21 +39,27 @@ class CorrectBracketSequenceCheckerTest {
         assertFalse(CorrectBracketSequenceChecker.checkSequence("(()){"));
         assertFalse(CorrectBracketSequenceChecker.checkSequence("({[]})}"));
     }
+
     @Test
     void checkLongSequence() {
         assertThrows(
-                IllegalArgumentException.class,
-                () -> CorrectBracketSequenceChecker.checkSequence("()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()")
+                IllegalArgumentException.class, () -> CorrectBracketSequenceChecker.checkSequence("()"
+                        + "()()()()()()()()()()()()()"
+                        + "()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()"
+                        + "()()()()()()()()"
+                        + "()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()("
+                        + ")()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()"
+                        + "()()()()()()()()()()()()")
         );
     }
+
     @Test
-    void checkWrongSymbols()
-    {
+    void checkWrongSymbols() {
         assertThrows(
-                IllegalArgumentException.class,
-                () -> CorrectBracketSequenceChecker.checkSequence("000")
+                IllegalArgumentException.class, () -> CorrectBracketSequenceChecker.checkSequence("000")
         );
     }
+
     @Test
     void getSuccessChecksCount() {
         CorrectBracketSequenceChecker.checkSequence("()()");
@@ -57,7 +68,6 @@ class CorrectBracketSequenceCheckerTest {
         CorrectBracketSequenceChecker.checkSequence("((((");
         assertEquals(3, CorrectBracketSequenceChecker.getSuccessChecksCount());
     }
-
 
     @Test
     void getFailChecksCount() {
@@ -72,9 +82,14 @@ class CorrectBracketSequenceCheckerTest {
     @Test
     void getLastSuccessSequence() {
         CorrectBracketSequenceChecker.checkSequence("))))))))");
-        assertNull(CorrectBracketSequenceChecker.getLastSuccessSequence());
+        assertNull(CorrectBracketSequenceChecker.getLastSuccessSequence(), "message");
         CorrectBracketSequenceChecker.checkSequence("()()");
         assertEquals("()()", CorrectBracketSequenceChecker.getLastSuccessSequence());
 
+    }
+
+    @BeforeEach
+    void resetCounters() {
+        CorrectBracketSequenceChecker.reset();
     }
 }

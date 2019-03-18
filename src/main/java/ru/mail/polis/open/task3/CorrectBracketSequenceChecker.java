@@ -30,8 +30,8 @@ public final class CorrectBracketSequenceChecker {
     private static final char OPEN_ROUND_BRACKET = '(';
     private static final char CLOSE_ROUND_BRACKET = ')';
 
-    private static Integer numberOfFailedAttempts = 0;
-    private static Integer numberOfSuccessfulAttempts = 0;
+    private static int numberOfFailedAttempts = 0;
+    private static int numberOfSuccessfulAttempts = 0;
     private static String lastCorrectSequence = null;
     private static Deque<Character> turnOfBrackets = new ArrayDeque<>();
 
@@ -103,7 +103,7 @@ public final class CorrectBracketSequenceChecker {
                             }
                             break;
                         case CLOSE_SQUARE_BRACKET:
-                            if ((turnOfBrackets.isEmpty()) ||(turnOfBrackets.getLast() != OPEN_SQUARE_BRACKET)) {
+                            if ((turnOfBrackets.isEmpty()) || (turnOfBrackets.getLast() != OPEN_SQUARE_BRACKET)) {
                                 numberOfFailedAttempts++;
                                 turnOfBrackets.clear();
                                 sequence = null;
@@ -134,12 +134,14 @@ public final class CorrectBracketSequenceChecker {
             return true;
         }
     }
+
     /**
      * Возвращает количество проверок, в результате которых выяснилось,
      * что входная строка является правильной скобочной последовательностью.
      *
      * @return количество удачных проверок
      */
+
     public static int getSuccessChecksCount() {
         return numberOfSuccessfulAttempts;
     }
@@ -159,7 +161,15 @@ public final class CorrectBracketSequenceChecker {
      *
      * @return последняя правильная скобочная последовательность или null если такой ещё не было
      */
+
     public static @Nullable String getLastSuccessSequence() {
-            return lastCorrectSequence;
+        return lastCorrectSequence;
+    }
+
+    public static void reset() {
+        lastCorrectSequence = null;
+        numberOfSuccessfulAttempts = 0;
+        numberOfFailedAttempts = 0;
+        turnOfBrackets.clear();
     }
 }
