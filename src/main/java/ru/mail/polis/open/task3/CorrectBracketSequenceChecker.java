@@ -86,7 +86,7 @@ public final class CorrectBracketSequenceChecker {
                     && (sequence.charAt(i) != LAST_FIGURED_BRACKET)) {
 
                 amountOfFailedAttemps++;
-                throw new IllegalArgumentException("Unknown symbol : " + sequence.charAt(i));
+                throw new IllegalArgumentException("Unknown character : " + sequence.charAt(i));
             }
 
             if ((sequence.charAt(i) == FIRST_PARENTHESIS)
@@ -99,14 +99,14 @@ public final class CorrectBracketSequenceChecker {
 
                 switch (sequence.charAt(i)) {
                     case LAST_PARENTHESIS : {
-                        if (head != LAST_FIGURED_BRACKET) {
+                        if (head != FIRST_PARENTHESIS) {
                             amountOfFailedAttemps++;
                             return false;
                         }
                         break;
                     }
                     case LAST_FIGURED_BRACKET : {
-                        if (head != FIRST_PARENTHESIS) {
+                        if (head != FIRST_FIGURED_BRACKET) {
                             amountOfFailedAttemps++;
                             return false;
                         }
@@ -167,5 +167,11 @@ public final class CorrectBracketSequenceChecker {
      */
     public static @Nullable String getLastSuccessSequence() {
         return amountOfSuccessfulAttemps != 0 ? lastCorrectSequence : null;
+    }
+
+    public static void discard() {
+        amountOfSuccessfulAttemps = 0;
+        amountOfFailedAttemps = 0;
+        lastCorrectSequence = null;
     }
 }
