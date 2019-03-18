@@ -28,13 +28,13 @@ public final class CorrectBracketSequenceChecker {
 
 
     private CorrectBracketSequenceChecker() {
-        Statist.LastBrackString = null;
+        statist.lastBrackString = null;
         /* todo: append code if needed */
     }
 
-    final static char[] BrackOpen = new char[] {'(','[','{'};
-    final static char[] BrackClose = new char[] {')',']','}'};
-    final static Stats Statist = new Stats();
+    static final char[] BrackOpen = new char[] {'(','[','{'};
+    static final char[] BrackClose = new char[] {')',']','}'};
+    static final Stats statist = new Stats();
 
     /**
      * Метод проверяющий скобочную последовательность на правильность.
@@ -59,16 +59,16 @@ public final class CorrectBracketSequenceChecker {
      * @throws IllegalArgumentException если в строке содержатся символы, не являющиеся скобками
      *                                  или если входная строка содержит больше ста символов
      */
-    public static  boolean Compare(char[] Brack, char Symbol){
-        for(int i = 0; i < Brack.length; i++){
-            if(Symbol == Brack[i]){
+    public static  boolean compare(char[] brack, char symbol) {
+        for(int i = 0; i < brack.length; i++){
+            if(symbol == brack[i]){
                 return true;
             }
         }
         return false;
     }
 
-    public static boolean CheckOposit(char a, char b){
+    public static boolean checkOposit(char a, char b) {
         int indexA = 0;
         int indexB = 0;
         for(int i = 0; i < BrackOpen.length; i++){
@@ -79,51 +79,47 @@ public final class CorrectBracketSequenceChecker {
                 indexB = i;
             }
         }
-        if(indexA == indexB){
+        if (indexA == indexB) {
             return true;
-        }
-        else{
+        } else {
             return false;
         }
     }
 
     public static class Stats{
-        int SuccessfulChecks;
-        int FailChecks;
-        String LastBrackString;
+        int successfulChecks;
+        int failChecks;
+        String lastBrackString;
     }
 
     public static boolean checkSequence(@Nullable String sequence) {
         Stack<Character> BrackString = new Stack<>();
-        if(sequence.length()>100){
+        if (sequence.length()>100){
             throw new IllegalArgumentException();
         }
-        for(int i = 0; i < sequence.length(); i++){
-            if(Compare(BrackOpen, sequence.charAt(i))){
+        for (int i = 0; i < sequence.length(); i++) {
+            if(compare(BrackOpen, sequence.charAt(i))) {
                 BrackString.push(sequence.charAt(i));
-            }
-            else{
-                if(Compare(BrackClose, sequence.charAt(i))){
-                    if(CheckOposit(BrackString.peek(), sequence.charAt(i))){
+            } else {
+                if (compare(BrackClose, sequence.charAt(i))) {
+                    if (checkOposit(BrackString.peek(), sequence.charAt(i))) {
                         BrackString.pop();
-                    }
-                    else{//скобка не закрылась
-                        Statist.FailChecks++;
+                    } else {//скобка не закрылась
+                        statist.failChecks++;
                         return false;
                     }
-                }
-                else{// встеретилось что-то кроме скобок
+                } else {// встеретилось что-то кроме скобок
                     throw new IllegalArgumentException();
                 }
             }
         }
-        if(BrackString.size()==0){
-            Statist.SuccessfulChecks++;
-            Statist.LastBrackString = sequence;
+        if (BrackString.size()==0) {
+            statist.successfulChecks++;
+            statist.lastBrackString = sequence;
             return true;
         }
-        else{
-            Statist.FailChecks++;
+        else {
+            statist.failChecks++;
             return false;
         }
 
@@ -136,7 +132,7 @@ public final class CorrectBracketSequenceChecker {
      * @return количество удачных проверок
      */
     public static int getSuccessChecksCount() {
-        return Statist.SuccessfulChecks;
+        return statist.successfulChecks;
     }
 
     /**
@@ -146,7 +142,7 @@ public final class CorrectBracketSequenceChecker {
      * @return количество неудачных проверок
      */
     public static int getFailChecksCount() {
-        return Statist.FailChecks;
+        return statist.failChecks;
     }
 
     /**
@@ -155,6 +151,6 @@ public final class CorrectBracketSequenceChecker {
      * @return последняя правильная скобочная последовательность или null если такой ещё не было
      */
     public static @Nullable String getLastSuccessSequence() {
-        return Statist.LastBrackString;
+        return statist.lastBrackString;
     }
 }
