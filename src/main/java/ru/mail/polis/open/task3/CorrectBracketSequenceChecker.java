@@ -35,10 +35,10 @@ public final class CorrectBracketSequenceChecker {
     private static final char OPENED_SQUARE_BRACKET = '[';
     private static final char CLOSED_SQUARE_BRACKET = ']';
 
-    private static Integer quantityOfSuccessfulAttempts = 0;
-    private static Integer quantityOfFailedAttempts = 0;
+    private static int quantityOfSuccessfulAttempts = 0;
+    private static int quantityOfFailedAttempts = 0;
     private static String lastCorrectSequence;
-    private static Deque<Character> dequeOfCharacter;
+    private static Deque<Character> dequeOfCharacter = new ArrayDeque<>();
 
     /**
      * Метод проверяющий скобочную последовательность на правильность.
@@ -80,29 +80,31 @@ public final class CorrectBracketSequenceChecker {
             return true;
         }
 
-        dequeOfCharacter = new ArrayDeque<>();
+        dequeOfCharacter.clear();
 
         for (int i = 0; i < sequence.length(); i++) {
-            if ((sequence.charAt(i) != OPENED_ROUND_BRACKET)
-                    && (sequence.charAt(i) != OPENED_FIGURE_BRACKET)
-                    && (sequence.charAt(i) != OPENED_SQUARE_BRACKET)
-                    && (sequence.charAt(i) != CLOSED_ROUND_BRACKET)
-                    && (sequence.charAt(i) != CLOSED_FIGURE_BRACKET)
-                    && (sequence.charAt(i) != CLOSED_SQUARE_BRACKET)) {
+            char currentCharInSequence = sequence.charAt(i);
+
+            if ((currentCharInSequence != OPENED_ROUND_BRACKET)
+                    && (currentCharInSequence != OPENED_FIGURE_BRACKET)
+                    && (currentCharInSequence != OPENED_SQUARE_BRACKET)
+                    && (currentCharInSequence != CLOSED_ROUND_BRACKET)
+                    && (currentCharInSequence != CLOSED_FIGURE_BRACKET)
+                    && (currentCharInSequence != CLOSED_SQUARE_BRACKET)) {
 
                 quantityOfFailedAttempts++;
-                throw new IllegalArgumentException("Unknown symbol : " + sequence.charAt(i));
+                throw new IllegalArgumentException("Unknown symbol : " + currentCharInSequence);
             }
 
-            if ((sequence.charAt(i) == OPENED_ROUND_BRACKET)
-                    || (sequence.charAt(i) == OPENED_FIGURE_BRACKET)
-                    || (sequence.charAt(i) == OPENED_SQUARE_BRACKET)) {
+            if ((currentCharInSequence == OPENED_ROUND_BRACKET)
+                    || (currentCharInSequence == OPENED_FIGURE_BRACKET)
+                    || (currentCharInSequence == OPENED_SQUARE_BRACKET)) {
 
-                dequeOfCharacter.push(sequence.charAt(i));
+                dequeOfCharacter.push(currentCharInSequence);
             } else if (dequeOfCharacter.size() != 0) {
                 char topCharacterInDeque = dequeOfCharacter.pop();
 
-                switch (sequence.charAt(i)) {
+                switch (currentCharInSequence) {
                     case CLOSED_ROUND_BRACKET : {
                         if (topCharacterInDeque != OPENED_ROUND_BRACKET) {
                             quantityOfFailedAttempts++;
@@ -133,7 +135,7 @@ public final class CorrectBracketSequenceChecker {
             }
         }
 
-        if (dequeOfCharacter.size() != 0) {
+        if (!dequeOfCharacter.isEmpty()) {
             quantityOfFailedAttempts++;
             return false;
         }
@@ -169,7 +171,7 @@ public final class CorrectBracketSequenceChecker {
      * @return последняя правильная скобочная последовательность или null если такой ещё не было
      */
     public static @Nullable String getLastSuccessSequence() {
-        return quantityOfSuccessfulAttempts > 0 ? lastCorrectSequence : null;
+        return lastCorrectSequence;
     }
 
     public static void reset() {
