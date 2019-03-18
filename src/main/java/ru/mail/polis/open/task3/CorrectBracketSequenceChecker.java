@@ -60,8 +60,8 @@ public final class CorrectBracketSequenceChecker {
      *                                  или если входная строка содержит больше ста символов
      */
     public static  boolean compare(char[] brack, char symbol) {
-        for(int i = 0; i < brack.length; i++){
-            if(symbol == brack[i]){
+        for (int i = 0; i < brack.length; i++) {
+            if (symbol == brack[i]) {
                 return true;
             }
         }
@@ -71,11 +71,11 @@ public final class CorrectBracketSequenceChecker {
     public static boolean checkOposit(char a, char b) {
         int indexA = 0;
         int indexB = 0;
-        for(int i = 0; i < BrackOpen.length; i++){
-            if(a == BrackOpen[i]){
+        for (int i = 0; i < BrackOpen.length; i++) {
+            if (a == BrackOpen[i]) {
                 indexA = i;
             }
-            if(b == BrackClose[i]){
+            if (b == BrackClose[i]) {
                 indexB = i;
             }
         }
@@ -94,11 +94,11 @@ public final class CorrectBracketSequenceChecker {
 
     public static boolean checkSequence(@Nullable String sequence) {
         Stack<Character> BrackString = new Stack<>();
-        if (sequence.length()>100){
+        if (sequence.length()>100) {
             throw new IllegalArgumentException();
         }
         for (int i = 0; i < sequence.length(); i++) {
-            if(compare(BrackOpen, sequence.charAt(i))) {
+            if (compare(BrackOpen, sequence.charAt(i))) {
                 BrackString.push(sequence.charAt(i));
             } else {
                 if (compare(BrackClose, sequence.charAt(i))) {
