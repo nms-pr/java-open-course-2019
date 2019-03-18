@@ -2,6 +2,8 @@ package ru.mail.polis.open.task3;
 
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayDeque;
+
 /**
  * Для проверки класса на корректность следует использовать тесты.
  * Команда {@code ./gradlew clean build} должна завершаться корректно.
@@ -24,6 +26,12 @@ public final class CorrectBracketSequenceChecker {
     private CorrectBracketSequenceChecker() {
         /* todo: append code if needed */
     }
+
+    private static char symbol;
+    private static int uncorrectCounter = 0;
+    private static int correctCounter = 0;
+    private static String lastCorrectSequence;
+    private static ArrayDeque<Character> deque = new ArrayDeque<>();
 
     /**
      * Метод проверяющий скобочную последовательность на правильность.
@@ -48,8 +56,61 @@ public final class CorrectBracketSequenceChecker {
      * @throws IllegalArgumentException если в строке содержатся символы, не являющиеся скобками
      *                                  или если входная строка содержит больше ста символов
      */
-    public static boolean checkSequence(@Nullable String sequence) {
-        throw new UnsupportedOperationException("todo: implement this");
+
+    static boolean checkSequence(@Nullable String sequence) {
+        if (sequence == null) {
+            correctCounter++;
+            throw new IllegalArgumentException("Вы ввели пустую строку");
+        }
+        if (sequence.length() > 100) {
+            uncorrectCounter++;
+            throw new IllegalArgumentException("Длина строки больше 100 символов");
+        }
+        if (sequence.equals("")) {
+            lastCorrectSequence = sequence;
+            correctCounter++;
+            return true;
+        }
+
+        for (int i = 0; i < sequence.length(); i++) {
+            symbol = sequence.charAt(i);
+            if ((symbol != '(')
+                    && (symbol != ')')
+                    && (symbol != '[')
+                    && (symbol != ']')
+                    && (symbol != '{')
+                    && (symbol != '}')) {
+                uncorrectCounter++;
+                throw new IllegalArgumentException("Неверный символ в строке " + symbol);
+            }
+            if ((symbol == '(')
+                    || (symbol == '[')
+                    || (symbol == '{')) {
+                deque.push(symbol);
+                continue;
+            } else if (deque.isEmpty()) {
+                uncorrectCounter++;
+                return false;
+            }
+            char currentBracket = symbol;
+            char previousBracket = deque.peek();
+            if ((currentBracket == ')' && previousBracket == '(') ||
+                    (currentBracket == ']' && previousBracket == '[') ||
+                    (currentBracket == '}' && previousBracket == '{')) {
+                deque.pop();
+            } else {
+                uncorrectCounter++;
+                return false;
+            }
+        }
+        if (!deque.isEmpty()) {
+            uncorrectCounter++;
+            return false;
+        } else {
+            lastCorrectSequence = sequence;
+            correctCounter++;
+            return true;
+        }
     }
 
     /**
@@ -59,7 +120,7 @@ public final class CorrectBracketSequenceChecker {
      * @return количество удачных проверок
      */
     public static int getSuccessChecksCount() {
-        throw new UnsupportedOperationException("todo: implement this");
+        return correctCounter;
     }
 
     /**
@@ -69,7 +130,7 @@ public final class CorrectBracketSequenceChecker {
      * @return количество неудачных проверок
      */
     public static int getFailChecksCount() {
-        throw new UnsupportedOperationException("todo: implement this");
+        return uncorrectCounter;
     }
 
     /**
@@ -78,6 +139,13 @@ public final class CorrectBracketSequenceChecker {
      * @return последняя правильная скобочная последовательность или null если такой ещё не было
      */
     public static @Nullable String getLastSuccessSequence() {
-        throw new UnsupportedOperationException("todo: implement this");
+        return correctCounter > 0 ? lastCorrectSequence : null;
+    }
+
+    public static void reset() {
+        deque = new ArrayDeque<>();
+        correctCounter = 0;
+        uncorrectCounter = 0;
+        lastCorrectSequence = null;
     }
 }
