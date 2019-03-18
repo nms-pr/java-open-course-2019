@@ -93,32 +93,31 @@ public final class CorrectBracketSequenceChecker {
     }
 
     public static boolean checkSequence(@Nullable String sequence) {
-        Stack<Character> BrackString = new Stack<>();
-        if (sequence.length()>100) {
+        Stack<Character> brackString = new Stack<>();
+        if (sequence.length() > 100) {
             throw new IllegalArgumentException();
         }
         for (int i = 0; i < sequence.length(); i++) {
             if (compare(BrackOpen, sequence.charAt(i))) {
-                BrackString.push(sequence.charAt(i));
+                brackString.push(sequence.charAt(i));
             } else {
                 if (compare(BrackClose, sequence.charAt(i))) {
-                    if (checkOposit(BrackString.peek(), sequence.charAt(i))) {
-                        BrackString.pop();
-                    } else {//скобка не закрылась
+                    if (checkOposit(brackString.peek(), sequence.charAt(i))) {
+                        brackString.pop();
+                    } else { //скобка не закрылась
                         statist.failChecks++;
                         return false;
                     }
-                } else {// встеретилось что-то кроме скобок
+                } else { // встеретилось что-то кроме скобок
                     throw new IllegalArgumentException();
                 }
             }
         }
-        if (BrackString.size()==0) {
+        if (brackString.size() == 0) {
             statist.successfulChecks++;
             statist.lastBrackString = sequence;
             return true;
-        }
-        else {
+        } else {
             statist.failChecks++;
             return false;
         }
