@@ -65,7 +65,7 @@ public final class CorrectBracketSequenceChecker {
 
         if (sequence == "") {
             successChecks++;
-            lastSuccessSequence = sequence;
+            lastSuccessSequence = tmpSequence;
             return true;
         }
 
@@ -89,8 +89,8 @@ public final class CorrectBracketSequenceChecker {
         }
 
         while (sequence.contains(ROUND_BRACKETS)
-               || sequence.contains(SQUARE_BRACKETS)
-               || sequence.contains(FIGURATE_BRACKETS)) {
+                || sequence.contains(SQUARE_BRACKETS)
+                || sequence.contains(FIGURATE_BRACKETS)) {
             sequence = sequence.replace(ROUND_BRACKETS, "");
             sequence = sequence.replace(SQUARE_BRACKETS, "");
             sequence = sequence.replace(FIGURATE_BRACKETS, "");
@@ -133,5 +133,11 @@ public final class CorrectBracketSequenceChecker {
      */
     public static @Nullable String getLastSuccessSequence() {
         return lastSuccessSequence;
+    }
+
+    public static void setDefault() {
+        successChecks = 0;
+        failChecks = 0;
+        lastSuccessSequence = null;
     }
 }
