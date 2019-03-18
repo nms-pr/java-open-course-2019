@@ -35,7 +35,7 @@ public final class CorrectBracketSequenceChecker {
     private static int allChecksCount = 0;
     private static String lastLine = null;
 
-    private static Deque<Character> stack;
+    private static Deque<Character> stack = new ArrayDeque<>(50);
 
     CorrectBracketSequenceChecker() {
         successChecksCount = 0;
@@ -68,6 +68,8 @@ public final class CorrectBracketSequenceChecker {
      */
 
     public static boolean checkSequence(@Nullable String sequence) {
+        stack.clear();
+
         allChecksCount++;
 
         if (sequence == null) {
@@ -77,8 +79,6 @@ public final class CorrectBracketSequenceChecker {
         if (sequence.length() > 100) {
             throw new IllegalArgumentException("Line is longer than 100 symbols");
         }
-
-        stack = new ArrayDeque<>(sequence.length() / 2);
 
         char[] arraySequence = sequence.toCharArray();
         for (int counter = 0; counter < sequence.length(); counter++) {
