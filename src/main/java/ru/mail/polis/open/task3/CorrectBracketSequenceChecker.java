@@ -34,7 +34,7 @@ public final class CorrectBracketSequenceChecker {
 
     static final char[] BrackOpen = new char[] {'(','[','{'};
     static final char[] BrackClose = new char[] {')',']','}'};
-    static final Stats statist = new Stats();
+    static Stats statist = new Stats();
 
     /**
      * Метод проверяющий скобочную последовательность на правильность.
@@ -151,5 +151,9 @@ public final class CorrectBracketSequenceChecker {
      */
     public static @Nullable String getLastSuccessSequence() {
         return statist.lastBrackString;
+    }
+
+    public static void reset() {
+        statist = new Stats();
     }
 }
