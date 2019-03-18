@@ -37,7 +37,7 @@ class CorrectBracketSequenceCheckerTest {
         final String testString1 = CharBuffer.allocate(99).toString().replace('\0', '{');
         assertDoesNotThrow(() -> CorrectBracketSequenceChecker.checkSequence(testString1));
 
-        final String testString2 = CharBuffer.allocate(100).toString().replace('\0', '{');;
+        final String testString2 = CharBuffer.allocate(100).toString().replace('\0', '{');
         assertDoesNotThrow(() -> CorrectBracketSequenceChecker.checkSequence(testString2));
     }
 
@@ -110,6 +110,12 @@ class CorrectBracketSequenceCheckerTest {
 
         CorrectBracketSequenceChecker.checkSequence("{[}]");
         assertEquals(3, CorrectBracketSequenceChecker.getFailChecksCount());
+
+        try {
+            CorrectBracketSequenceChecker.checkSequence("{[d}]");
+        } catch (IllegalArgumentException e) {
+            assertEquals(4, CorrectBracketSequenceChecker.getFailChecksCount());
+        }
     }
 
     @Test

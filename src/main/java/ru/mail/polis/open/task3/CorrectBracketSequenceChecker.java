@@ -24,13 +24,13 @@ import java.util.Deque;
  */
 public final class CorrectBracketSequenceChecker {
 
-
     /**
      * Класс, который хранит статистику. Добавил для того, чтобы если внешней программе потребуетс вся статистика,
      * то можно отдать ее сразу одним экземпляром
      *
      */
     private static class StatisticsKeeper {
+
 
         private int successChecksCount;
         private int failChecksCount;
@@ -41,6 +41,7 @@ public final class CorrectBracketSequenceChecker {
             failChecksCount = 0;
             lastSuccessSequence = null;
         }
+
     }
 
     private static final char OPEN_CURLY_BRACKET = '{';
@@ -51,11 +52,13 @@ public final class CorrectBracketSequenceChecker {
     private static final char CLOSE_SQUARE_BRACKET = ']';
     private static final int LENGTH_LIMIT = 100;
 
+    private static final Deque<Character> charStack;
     private static StatisticsKeeper statisticsKeeper;
 
     static {
 
         statisticsKeeper = new StatisticsKeeper();
+        charStack = new ArrayDeque<>();
     }
 
     private CorrectBracketSequenceChecker() {
@@ -98,7 +101,7 @@ public final class CorrectBracketSequenceChecker {
             throw new IllegalArgumentException("Sequence is more than 100 characters long");
         }
 
-        Deque<Character> charStack = new ArrayDeque<>();
+        charStack.clear();
 
         for (int i = 0; i < sequence.length(); i++) {
 
@@ -124,6 +127,7 @@ public final class CorrectBracketSequenceChecker {
                 continue;
             }
 
+            statisticsKeeper.failChecksCount++;
             throw new IllegalArgumentException("Sequence contains non-bracket character");
         }
 
