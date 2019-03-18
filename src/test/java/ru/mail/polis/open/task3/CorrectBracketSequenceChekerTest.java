@@ -26,7 +26,7 @@ class CorrectBracketSequenceChekerTest {
     void testCheckNullBrackString() {
         String[] input = new String[] {"(((())", "()()(()()", "((((((())))))(", "(()(()())", "(((()))"};
 
-        for(int i = 0; i< input.length; i++) {
+        for (int i = 0; i< input.length; i++) {
             CorrectBracketSequenceChecker.checkSequence(input[i]);
         }
 
@@ -80,7 +80,7 @@ class CorrectBracketSequenceChekerTest {
     void testManyBrackString() {
         String[] input = new String[] {"(((())", "()()()()", "((((((())))))(", "()(()())", "((()))"};
 
-        for(int i = 0; i< input.length; i++) {
+        for (int i = 0; i< input.length; i++) {
             CorrectBracketSequenceChecker.checkSequence(input[i]);
         }
 

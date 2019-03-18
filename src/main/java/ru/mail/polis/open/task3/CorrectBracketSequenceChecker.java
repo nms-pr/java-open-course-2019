@@ -86,7 +86,7 @@ public final class CorrectBracketSequenceChecker {
         }
     }
 
-    public static class Stats{
+    public static class Stats {
         int successfulChecks;
         int failChecks;
         String lastBrackString;
