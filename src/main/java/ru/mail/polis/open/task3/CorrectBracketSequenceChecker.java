@@ -95,7 +95,7 @@ public final class CorrectBracketSequenceChecker {
                     throw new IllegalArgumentException();
             }
         }
-        return count == 0;
+        return count == 0 ;
     }
 
 
