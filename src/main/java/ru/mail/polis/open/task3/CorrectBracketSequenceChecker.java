@@ -1,6 +1,8 @@
 package ru.mail.polis.open.task3;
 
 import org.jetbrains.annotations.Nullable;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 /**
  * Для проверки класса на корректность следует использовать тесты.
@@ -21,6 +23,12 @@ import org.jetbrains.annotations.Nullable;
  */
 public final class CorrectBracketSequenceChecker {
 
+    private static String lastline;
+    private static int fail;
+    private static int success;
+    private static Deque<Character> stack = new ArrayDeque<>();
+
+
     private CorrectBracketSequenceChecker() {
         /* todo: append code if needed */
     }
@@ -34,7 +42,7 @@ public final class CorrectBracketSequenceChecker {
      * — правильная скобочная последовательность.
      * Правильная скобочная последовательность,
      * к которой слева или справа приписана правильная скобочная последовательность
-     * — правильная скобочная последовательность.
+     * — правильная скобочная последовательность.`
      * <p>
      * Последовательности из больше чем ста символов или с символами не скобок — некорректные.
      * <p>
@@ -49,7 +57,72 @@ public final class CorrectBracketSequenceChecker {
      *                                  или если входная строка содержит больше ста символов
      */
     public static boolean checkSequence(@Nullable String sequence) {
-        throw new UnsupportedOperationException("todo: implement this");
+
+        if (sequence == null) {
+            throw new IllegalArgumentException("This string equals null");
+        }
+
+        if (sequence.length() > 100) {
+            throw new IllegalArgumentException("String's length is more than 100");
+        }
+
+
+        for (int i = 0; i < sequence.length(); i++) {
+            switch (sequence.charAt(i)) {
+                case ('{'):
+                case ('['):
+                case ('('):
+                    stack.add(sequence.charAt(i));
+                    break;
+
+                case ('}'):
+                    if (notCont('{')) {
+                        fail++;
+                        return false;
+                    }
+                    break;
+
+                case (']'):
+                    if (notCont('[')) {
+                        fail++;
+                        return false;
+                    }
+                    break;
+
+                case (')'):
+                    if (notCont('(')) {
+                        fail++;
+                        return false;
+                    }
+                    break;
+
+                default:
+                    throw new IllegalArgumentException("Found not bracket.");
+            }
+        }
+
+        if (stack.isEmpty()) {
+            lastline = sequence;
+            success++;
+            return true;
+        } else {
+            fail++;
+            return false;
+        }
+    }
+
+
+    public static boolean notCont(char a) {
+        try {
+            if (a == stack.getLast()) {
+                stack.removeLast();
+                return false;
+            } else {
+                return true;
+            }
+        } catch (Exception e) {
+            return true;
+        }
     }
 
     /**
@@ -59,7 +132,7 @@ public final class CorrectBracketSequenceChecker {
      * @return количество удачных проверок
      */
     public static int getSuccessChecksCount() {
-        throw new UnsupportedOperationException("todo: implement this");
+        return success;
     }
 
     /**
@@ -69,7 +142,7 @@ public final class CorrectBracketSequenceChecker {
      * @return количество неудачных проверок
      */
     public static int getFailChecksCount() {
-        throw new UnsupportedOperationException("todo: implement this");
+        return fail;
     }
 
     /**
@@ -78,6 +151,13 @@ public final class CorrectBracketSequenceChecker {
      * @return последняя правильная скобочная последовательность или null если такой ещё не было
      */
     public static @Nullable String getLastSuccessSequence() {
-        throw new UnsupportedOperationException("todo: implement this");
+        return lastline;
+    }
+
+    public static void reset() {
+        lastline = null;
+        fail = 0;
+        success = 0;
+        stack.clear();
     }
 }
