@@ -1,7 +1,7 @@
 package ru.mail.polis.open.task3;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -17,11 +17,6 @@ public class CorrectBracketSequenceCheckerTest {
     }
 
     @Test
-    void testReturnTrue() {
-        assertTrue(CorrectBracketSequenceChecker.checkSequence(""));
-    }
-
-    @Test
     void testReturnFalse() {
         assertFalse(CorrectBracketSequenceChecker.checkSequence("(()"));
         assertFalse(CorrectBracketSequenceChecker.checkSequence("("));
@@ -32,6 +27,15 @@ public class CorrectBracketSequenceCheckerTest {
         assertFalse(CorrectBracketSequenceChecker.checkSequence("{(})()"));
         assertFalse(CorrectBracketSequenceChecker.checkSequence("(][{{([])}}}])"));
         assertFalse(CorrectBracketSequenceChecker.checkSequence("[]{})[){}]{()[]}({}()[])[()]()[{}]]{}"));
+    }
+
+    @Test
+    void testReturnTrue() {
+        assertTrue(CorrectBracketSequenceChecker.checkSequence(""));
+        assertTrue(CorrectBracketSequenceChecker.checkSequence("(([][][][]{}{}))"));
+        assertTrue(CorrectBracketSequenceChecker.checkSequence("([]{}({})([]))"));
+        assertTrue(CorrectBracketSequenceChecker.checkSequence("(([][]{}{}{{}}))"));
+        assertTrue(CorrectBracketSequenceChecker.checkSequence("([]{}({})([]))"));
     }
 
     @Test
