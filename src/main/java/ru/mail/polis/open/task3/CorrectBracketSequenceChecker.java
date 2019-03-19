@@ -94,9 +94,9 @@ public final class CorrectBracketSequenceChecker {
             }
             char currentBracket = symbol;
             char previousBracket = deque.peek();
-            if ((currentBracket == ')' && previousBracket == '(') ||
-                    (currentBracket == ']' && previousBracket == '[') ||
-                    (currentBracket == '}' && previousBracket == '{')) {
+            if ((currentBracket == ')' && previousBracket == '(')
+                    || (currentBracket == ']' && previousBracket == '[')
+                    || (currentBracket == '}' && previousBracket == '{')) {
                 deque.pop();
             } else {
                 uncorrectCounter++;
