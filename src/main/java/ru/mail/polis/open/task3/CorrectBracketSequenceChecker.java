@@ -57,7 +57,7 @@ public final class CorrectBracketSequenceChecker {
      *                                  или если входная строка содержит больше ста символов
      */
 
-    static boolean checkSequence(@Nullable String sequence) {
+    public static boolean checkSequence(@Nullable String sequence) {
         if (sequence == null) {
             correctCounter++;
             throw new IllegalArgumentException("Вы ввели пустую строку");
