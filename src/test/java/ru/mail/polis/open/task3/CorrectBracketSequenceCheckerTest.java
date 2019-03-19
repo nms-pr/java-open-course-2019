@@ -86,7 +86,7 @@ class CorrectBracketSequenceCheckerTest {
     }
 
     @Test
-    void additionalCheck(){
+    void additionalCheck() {
         String sequance = ")(";
         assertFalse(CorrectBracketSequenceChecker.checkSequence(sequance));
         assertEquals(0, CorrectBracketSequenceChecker.getSuccessChecksCount());
