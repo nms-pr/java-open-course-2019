@@ -1,6 +1,8 @@
 package ru.mail.polis.open.task3;
 
 import org.jetbrains.annotations.Nullable;
+import java.util.Deque;
+import java.util.ArrayDeque;
 
 /**
  * Для проверки класса на корректность следует использовать тесты.
@@ -20,6 +22,9 @@ import org.jetbrains.annotations.Nullable;
  * В нём будут видны public / protected / package_private методы
  */
 public final class CorrectBracketSequenceChecker {
+    private static int successChecksCount = 0;
+    private static int failChecksCount = 0;
+    private static String lastSuccessSequence = null;
 
     private CorrectBracketSequenceChecker() {
         /* todo: append code if needed */
@@ -49,7 +54,41 @@ public final class CorrectBracketSequenceChecker {
      *                                  или если входная строка содержит больше ста символов
      */
     public static boolean checkSequence(@Nullable String sequence) {
-        throw new UnsupportedOperationException("todo: implement this");
+        if (sequence == null || sequence.length() == 0) {
+            lastSuccessSequence = sequence;
+            successChecksCount++;
+            return true;
+        }
+        if (sequence.length() > 100) {
+            throw new IllegalArgumentException();
+        }
+        boolean checkBrackets = false;
+        Deque<Character> bracketDeque = new ArrayDeque<>();
+        for (int i = 0; i < sequence.length(); i++) {
+            if (sequence.charAt(i) == '(' || sequence.charAt(i) == '[' || sequence.charAt(i) == '{') {
+                bracketDeque.add(sequence.charAt(i));
+            } else {
+                if (sequence.charAt(i) == ')' || sequence.charAt(i) == ']' || sequence.charAt(i) == '}') {
+                    if (sequence.charAt(i) == ')' && bracketDeque.pollLast() == '('
+                            || sequence.charAt(i) == ']' && bracketDeque.pollLast() == '['
+                            || sequence.charAt(i) == '}' && bracketDeque.pollLast() == '{') {
+                        checkBrackets = true;
+                    } else {
+                        checkBrackets = false;
+                        break;
+                    }
+                } else {
+                    throw new IllegalArgumentException();
+                }
+            }
+        }
+        if (checkBrackets) {
+            successChecksCount++;
+            lastSuccessSequence = sequence;
+        } else {
+            failChecksCount++;
+        }
+        return checkBrackets;
     }
 
     /**
@@ -59,7 +98,7 @@ public final class CorrectBracketSequenceChecker {
      * @return количество удачных проверок
      */
     public static int getSuccessChecksCount() {
-        throw new UnsupportedOperationException("todo: implement this");
+        return successChecksCount;
     }
 
     /**
@@ -69,7 +108,7 @@ public final class CorrectBracketSequenceChecker {
      * @return количество неудачных проверок
      */
     public static int getFailChecksCount() {
-        throw new UnsupportedOperationException("todo: implement this");
+        return failChecksCount;
     }
 
     /**
@@ -78,6 +117,27 @@ public final class CorrectBracketSequenceChecker {
      * @return последняя правильная скобочная последовательность или null если такой ещё не было
      */
     public static @Nullable String getLastSuccessSequence() {
-        throw new UnsupportedOperationException("todo: implement this");
+        return lastSuccessSequence;
+    }
+
+    /**
+     * Обнуляет количество удачных проверок
+     */
+    public static void resetSuccessChecksCount() {
+        successChecksCount = 0;
+    }
+
+    /**
+     * Обнуляет количество неудачных проверок
+     */
+    public static void resetFailChecksCount() {
+        failChecksCount = 0;
+    }
+
+    /**
+     * Обнуляет последнюю успешную последовательность
+     */
+    public static void resetLastSuccessSequence() {
+        lastSuccessSequence = null;
     }
 }
