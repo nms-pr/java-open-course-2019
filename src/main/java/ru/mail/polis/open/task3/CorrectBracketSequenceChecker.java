@@ -138,6 +138,7 @@ public final class CorrectBracketSequenceChecker {
 
         amountOfSuccessfulAttemps++;
         lastCorrectSequence = sequence;
+
         return true;
     }
 
@@ -174,5 +175,6 @@ public final class CorrectBracketSequenceChecker {
         amountOfSuccessfulAttemps = 0;
         amountOfFailedAttemps = 0;
         lastCorrectSequence = null;
+        bracketDeque = new ArrayDeque<>();
     }
 }
