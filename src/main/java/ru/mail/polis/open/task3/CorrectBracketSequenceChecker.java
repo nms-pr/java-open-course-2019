@@ -60,6 +60,7 @@ public final class CorrectBracketSequenceChecker {
             return true;
         }
         if (sequence.length() > 100) {
+            failChecksCount++;
             throw new IllegalArgumentException();
         }
         boolean checkBrackets = false;
@@ -78,6 +79,7 @@ public final class CorrectBracketSequenceChecker {
                         break;
                     }
                 } else {
+                    failChecksCount++;
                     throw new IllegalArgumentException();
                 }
             }
