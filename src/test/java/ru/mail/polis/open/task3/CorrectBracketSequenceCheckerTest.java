@@ -85,4 +85,11 @@ class CorrectBracketSequenceCheckerTest {
         assertEquals("({}[()]{[]})", CorrectBracketSequenceChecker.getLastSuccessSequence());
     }
 
+    @Test
+    void additionalCheck(){
+        String sequance = ")(";
+        assertFalse(CorrectBracketSequenceChecker.checkSequence(sequance));
+        assertEquals(0, CorrectBracketSequenceChecker.getSuccessChecksCount());
+        assertEquals(1, CorrectBracketSequenceChecker.getFailChecksCount());
+    }
 }
