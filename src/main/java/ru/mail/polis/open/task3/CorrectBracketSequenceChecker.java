@@ -25,6 +25,7 @@ import java.util.Deque;
  */
 public final class CorrectBracketSequenceChecker {
 
+    private static Deque<Character> stack = new ArrayDeque<>();
     private static final int MAX_LENGTH = 100;
     private static final char OPEN_ROUND = '(';
     private static final  char OPEN_SQUARE = '[';
@@ -72,7 +73,7 @@ public final class CorrectBracketSequenceChecker {
         if (sequence.length() > MAX_LENGTH) {
             throw new IllegalArgumentException("Length must be less than " + MAX_LENGTH);
         }
-        Deque<Character> stack = new ArrayDeque<>();
+        stack.clear();
         for (int i = 0; i < sequence.length(); i++) {
             if (isOpening(sequence.charAt(i))) {
                 stack.push(sequence.charAt(i));
