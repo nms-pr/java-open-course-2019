@@ -79,6 +79,7 @@ public final class CorrectBracketSequenceChecker {
                         break;
                     }
                 } else {
+                    bracketDeque.clear();
                     failChecksCount++;
                     throw new IllegalArgumentException();
                 }
