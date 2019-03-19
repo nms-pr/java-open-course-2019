@@ -28,6 +28,8 @@ public final class CorrectBracketSequenceChecker {
     private static int amountOfCorrectSequences;
     private static int amountOfWrongSequences;
 
+    private static Deque<Character> stack = new ArrayDeque<>();
+
     private static final Character ROUND_OPEN_BRACKET = '(';
     private static final Character ROUND_CLOSE_BRACKET = ')';
     private static final Character SQUARE_OPEN_BRACKET = '[';
@@ -64,24 +66,19 @@ public final class CorrectBracketSequenceChecker {
      *                                  или если входная строка содержит больше ста символов
      */
     public static boolean checkSequence(@Nullable String sequence) {
+        //бросаем исключение, если строка null или ее длина больше 100
         char[] sequenceArray;
-        //return true if the sequence is empty
-        if (sequence != null) {
-            sequenceArray = sequence.toCharArray();
-        } else {
-            return true;
-        }
-        //проверяем длину
-        if (sequenceArray.length > 100) {
+        if (sequence == null || sequence.length() > 100) {
             throw new IllegalArgumentException();
+        } else {
+            sequenceArray = sequence.toCharArray();
         }
-        Deque<Character> stack = new ArrayDeque<>();
+        stack.clear();
         Character previousBracket;
-
         //главный цикл
-        for (int i = 0; i < sequenceArray.length; i++) {
+        for (char c : sequenceArray) {
             previousBracket = stack.peekFirst();
-            Character currentBracket = sequenceArray[i];
+            Character currentBracket = c;
             try {
                 // кладем, если стек пустой или скобки вложенные
                 if (previousBracket == null || checkTwoInners(previousBracket, currentBracket)) {
