@@ -19,7 +19,7 @@ class CorrectBracketSequenceCheckerTest {
 
     @Test
     void longInputString() {
-        StringBuilder inputString = new StringBuilder(100);
+        StringBuilder inputString = new StringBuilder();
         for (int i = 0; i < 101; i++) {
             inputString.append('(');
         }
