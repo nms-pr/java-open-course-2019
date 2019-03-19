@@ -31,6 +31,9 @@ public final class CorrectBracketSequenceChecker {
     static final char CLOSE_SQUARE_BRACE = ']';
     static final char OPEN_FIGURE_BRACE = '{';
     static final char CLOSE_FIGURE_BRACE = '}';
+    static int numberOfSuccessfulChecks = 0;
+    static int numberOfUnsuccessfulChecks = 0;
+    static String lastSuccessSequence = "";
 
     /**
      * Метод проверяющий скобочную последовательность на правильность.
@@ -56,8 +59,7 @@ public final class CorrectBracketSequenceChecker {
      *                                  или если входная строка содержит больше ста символов
      */
     public static boolean checkSequence(@Nullable String sequence) {
-        int numberOfSuccessfulChecks = 0;
-        int numberOfUnsuccessfulChecks = 0;
+        int bracesCounter = 0;
 
         if (sequence.length() == 0) {
             return true;
@@ -71,18 +73,21 @@ public final class CorrectBracketSequenceChecker {
 
             if ((parsedString[i] == OPEN_ROUND_BRACE) | (parsedString[i] == OPEN_FIGURE_BRACE)
                  | (parsedString[i] == OPEN_SQUARE_BRACE)) {
-                numberOfSuccessfulChecks++;
+                bracesCounter++;
             } else if ((parsedString[i] == CLOSE_ROUND_BRACE) | (parsedString[i] == CLOSE_FIGURE_BRACE)
                          | (parsedString[i] == CLOSE_SQUARE_BRACE)) {
-                numberOfSuccessfulChecks--;
+                bracesCounter--;
             } else {
                 throw new IllegalArgumentException("Unacceptable symbols");
             }
 
         }
-        if (numberOfSuccessfulChecks == 0) {
+        if (bracesCounter == 0) {
+            lastSuccessSequence = sequence;
+            numberOfSuccessfulChecks++;
             return true;
         } else {
+            numberOfUnsuccessfulChecks++;
             return false;
         }
     }
@@ -94,7 +99,7 @@ public final class CorrectBracketSequenceChecker {
      * @return количество удачных проверок
      */
     public static int getSuccessChecksCount() {
-        throw new UnsupportedOperationException("todo: implement this");
+        return numberOfSuccessfulChecks;
     }
 
     /**
@@ -104,7 +109,7 @@ public final class CorrectBracketSequenceChecker {
      * @return количество неудачных проверок
      */
     public static int getFailChecksCount() {
-        throw new UnsupportedOperationException("todo: implement this");
+        return numberOfUnsuccessfulChecks;
     }
 
     /**
@@ -113,6 +118,10 @@ public final class CorrectBracketSequenceChecker {
      * @return последняя правильная скобочная последовательность или null если такой ещё не было
      */
     public static @Nullable String getLastSuccessSequence() {
-        throw new UnsupportedOperationException("todo: implement this");
+        if (lastSuccessSequence.equals("")) {
+            return null;
+        } else {
+            return lastSuccessSequence;
+        }
     }
 }
