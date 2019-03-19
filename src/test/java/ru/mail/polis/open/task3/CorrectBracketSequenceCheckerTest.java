@@ -3,7 +3,11 @@ package ru.mail.polis.open.task3;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static ru.mail.polis.open.task3.CorrectBracketSequenceChecker.checkSequence;
 
 class CorrectBracketSequenceCheckerTest {
@@ -36,14 +40,14 @@ class CorrectBracketSequenceCheckerTest {
     @Test
     void testThrow() {
         assertThrows(IllegalArgumentException.class, () ->
-                CorrectBracketSequenceChecker.checkSequence("()()()й"));
+            CorrectBracketSequenceChecker.checkSequence("()()()й"));
         assertThrows(IllegalArgumentException.class, () ->
-            assertFalse(CorrectBracketSequenceChecker.checkSequence("(){}[](){}[](){}[](){}[](){}[](){}[](){}[](){}" +
-                    "(){}[](){}[](){}[](){}[](){}[](){}[](){}[](){}[](){}[](){}[](){}[](){}[][](){}[](){}[](){}[]" +
-                    "(){}[](){}[](){}[](){}[](){}[](){}[](){}[](){}[](){}[](){}[](){}[](){}[](){}[](){}[](){}[](){}[](){}[]()" +
-                    "{}[](){}[]{}[](){}[]{}[](){}[]{}[](){}[]{}[](){}[]{}[](){}[]{}[](){}[]{}[](){}[]")));
+            assertFalse(CorrectBracketSequenceChecker.checkSequence("(){}[](){}[](){}[](){}[](){}[](){}[](){}[](){}"
+                + "(){}[](){}[](){}[](){}[](){}[](){}[](){}[](){}[](){}[](){}[](){}[](){}[][](){}[](){}[](){}[]"
+                + "(){}[](){}[](){}[](){}[](){}[](){}[](){}[](){}[](){}[](){}[](){}[](){}[](){}[](){}[](){}[](){}[]()"
+                + "{}[](){}[](){}[]{}[](){}[]{}[](){}[]{}[](){}[]{}[](){}[]{}[](){}[]{}[](){}[]{}[](){}[]")));
         assertThrows(IllegalArgumentException.class, () ->
-                CorrectBracketSequenceChecker.checkSequence(null));
+            CorrectBracketSequenceChecker.checkSequence(null));
     }
 
     @Test
@@ -65,9 +69,9 @@ class CorrectBracketSequenceCheckerTest {
         CorrectBracketSequenceChecker.checkSequence("()()[}");
         assertEquals(3, CorrectBracketSequenceChecker.getFailChecksCount());
         assertThrows(IllegalArgumentException.class, () ->
-                CorrectBracketSequenceChecker.checkSequence("fdwfswefw"));
+            CorrectBracketSequenceChecker.checkSequence("fdwfswefw"));
         assertThrows(IllegalArgumentException.class, () ->
-                CorrectBracketSequenceChecker.checkSequence("()q(){}"));
+            CorrectBracketSequenceChecker.checkSequence("()q(){}"));
         assertEquals(5, CorrectBracketSequenceChecker.getFailChecksCount());
     }
 
@@ -79,7 +83,7 @@ class CorrectBracketSequenceCheckerTest {
         CorrectBracketSequenceChecker.checkSequence("[][][]");
         assertEquals("[][][]", CorrectBracketSequenceChecker.getLastSuccessSequence());
         assertThrows(IllegalArgumentException.class, () ->
-                CorrectBracketSequenceChecker.checkSequence("dsfdgre"));
+            CorrectBracketSequenceChecker.checkSequence("dsfdgre"));
         assertEquals("[][][]", CorrectBracketSequenceChecker.getLastSuccessSequence());
     }
 }
