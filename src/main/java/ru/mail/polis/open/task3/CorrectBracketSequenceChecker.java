@@ -1,5 +1,8 @@
 package ru.mail.polis.open.task3;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
+
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -19,11 +22,24 @@ import org.jetbrains.annotations.Nullable;
  * Внутри package ru.mail.polis.open.task3
  * В нём будут видны public / protected / package_private методы
  */
+
 public final class CorrectBracketSequenceChecker {
 
     private CorrectBracketSequenceChecker() {
         /* todo: append code if needed */
     }
+
+    private static final char OPEN_ROUND_BRACKET = '(';
+    private static final char CLOSE_ROUND_BRACKET = ')';
+    private static final char OPEN_FIGURE_BRACKET = '{';
+    private static final char CLOSE_FIGURE_BRACKET = '}';
+    private static final char OPEN_SQUARE_BRACKET = '[';
+    private static final char CLOSE_SQUARE_BRACKET = ']';
+
+    private static int quantityOfCorrectChecks = 0;
+    private static int quantityOfWrongChecks = 0;
+    private static String lastCorrectSequence;
+    private static Deque<Character> bracketsDeque = new ArrayDeque<>();
 
     /**
      * Метод проверяющий скобочную последовательность на правильность.
@@ -48,8 +64,90 @@ public final class CorrectBracketSequenceChecker {
      * @throws IllegalArgumentException если в строке содержатся символы, не являющиеся скобками
      *                                  или если входная строка содержит больше ста символов
      */
+
     public static boolean checkSequence(@Nullable String sequence) {
-        throw new UnsupportedOperationException("todo: implement this");
+
+        bracketsDeque.clear();
+
+        if (sequence == null) {
+            quantityOfCorrectChecks++;
+            return true;
+        }
+
+        if (sequence.length() > 100) {
+            quantityOfWrongChecks++;
+            throw new IllegalArgumentException("Invalid argument!! The string length is more than 100!");
+        }
+
+        for (int i = 0; i < sequence.length(); i++) {
+
+            if ((sequence.charAt(i) == OPEN_ROUND_BRACKET)
+                    || (sequence.charAt(i) == OPEN_FIGURE_BRACKET)
+                    || (sequence.charAt(i) == OPEN_SQUARE_BRACKET)) {
+
+                bracketsDeque.push(sequence.charAt(i));
+            } else if ((sequence.charAt(i) == CLOSE_ROUND_BRACKET)
+                    || (sequence.charAt(i) == CLOSE_FIGURE_BRACKET)
+                    || (sequence.charAt(i) == CLOSE_SQUARE_BRACKET)) {
+
+                if (bracketsDeque.size() != 0) {
+
+                    switch (sequence.charAt(i)) {
+                        case CLOSE_ROUND_BRACKET: {
+
+                            if (bracketsDeque.pop() != OPEN_ROUND_BRACKET) {
+
+                                quantityOfWrongChecks++;
+                                return false;
+                            }
+                            break;
+                        }
+                        case CLOSE_SQUARE_BRACKET: {
+
+                            if (bracketsDeque.pop() != OPEN_SQUARE_BRACKET) {
+
+                                quantityOfWrongChecks++;
+                                return false;
+                            }
+                            break;
+                        }
+                        case CLOSE_FIGURE_BRACKET: {
+
+                            if (bracketsDeque.pop() != OPEN_FIGURE_BRACKET) {
+
+                                quantityOfWrongChecks++;
+                                return false;
+                            }
+                            break;
+                        }
+                        default: {
+
+                            quantityOfWrongChecks++;
+                            break;
+                        }
+                    }
+                } else {
+
+                    quantityOfWrongChecks++;
+                    return false;
+                }
+            } else {
+
+                quantityOfWrongChecks++;
+                throw new IllegalArgumentException("Invalid argument!! This symbol isn't bracket: "
+                        + sequence.charAt(i));
+            }
+
+        }
+
+        if (bracketsDeque.size() != 0) {
+            quantityOfWrongChecks++;
+            return false;
+        }
+
+        quantityOfCorrectChecks++;
+        lastCorrectSequence = sequence;
+        return true;
     }
 
     /**
@@ -59,7 +157,7 @@ public final class CorrectBracketSequenceChecker {
      * @return количество удачных проверок
      */
     public static int getSuccessChecksCount() {
-        throw new UnsupportedOperationException("todo: implement this");
+        return quantityOfCorrectChecks;
     }
 
     /**
@@ -69,7 +167,7 @@ public final class CorrectBracketSequenceChecker {
      * @return количество неудачных проверок
      */
     public static int getFailChecksCount() {
-        throw new UnsupportedOperationException("todo: implement this");
+        return quantityOfWrongChecks;
     }
 
     /**
@@ -78,6 +176,12 @@ public final class CorrectBracketSequenceChecker {
      * @return последняя правильная скобочная последовательность или null если такой ещё не было
      */
     public static @Nullable String getLastSuccessSequence() {
-        throw new UnsupportedOperationException("todo: implement this");
+        return lastCorrectSequence;
+    }
+
+    public static void reset() {
+        quantityOfCorrectChecks = 0;
+        quantityOfWrongChecks = 0;
+        lastCorrectSequence = null;
     }
 }
