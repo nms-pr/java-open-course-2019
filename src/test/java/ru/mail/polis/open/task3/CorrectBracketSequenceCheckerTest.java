@@ -28,8 +28,8 @@ class CorrectBracketSequenceCheckerTest {
 
     @Test
     void correctSequence() {
-        String test1 = "{([])}";
-        assertEquals(true, CorrectBracketSequenceChecker.checkSequence(test1));
+        assertEquals(true, CorrectBracketSequenceChecker.checkSequence("{([])}"));
+        assertEquals(true, CorrectBracketSequenceChecker.checkSequence("{{}}[[]]"));
     }
 
     @Test
@@ -64,6 +64,12 @@ class CorrectBracketSequenceCheckerTest {
     void isReturnLastSuccessSequence() {
         CorrectBracketSequenceChecker.checkSequence("{{}}");
         Assertions.assertEquals("{{}}", CorrectBracketSequenceChecker.getLastSuccessSequence());
+    }
+
+    @Test
+    void isNoCorrectSequenceAndReturnNull() {
+        CorrectBracketSequenceChecker.checkSequence("{{{");
+        assertEquals(null, CorrectBracketSequenceChecker.getLastSuccessSequence());
     }
 
 }
