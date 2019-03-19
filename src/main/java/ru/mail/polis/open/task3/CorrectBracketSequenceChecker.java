@@ -146,6 +146,7 @@ public final class CorrectBracketSequenceChecker {
         return lastSuccessSequence;
     }
 
+
     public static void main(String[] args) {
         Deque<String> list1 = new ArrayDeque<>();
         list1.add("()");
