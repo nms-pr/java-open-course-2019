@@ -2,6 +2,10 @@ package ru.mail.polis.open.task3;
 
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
+
+
 /**
  * Для проверки класса на корректность следует использовать тесты.
  * Команда {@code ./gradlew clean build} должна завершаться корректно.
@@ -20,6 +24,17 @@ import org.jetbrains.annotations.Nullable;
  * В нём будут видны public / protected / package_private методы
  */
 public final class CorrectBracketSequenceChecker {
+
+    private final static int MAX_LENGTH = 100;
+    private final static char OPEN_ROUND = '(';
+    private final static char OPEN_SQUARE = '[';
+    private final static char OPEN_FIGURE = '{';
+    private final static char CLOSE_ROUND = ')';
+    private final static char CLOSE_SQUARE = ']';
+    private final static char CLOSE_FIGURE = '}';
+    private static int successCheckers = 0;
+    private static int failedCheckers = 0;
+    private static String lastSuccessSequence = "";
 
     private CorrectBracketSequenceChecker() {
         /* todo: append code if needed */
@@ -49,7 +64,35 @@ public final class CorrectBracketSequenceChecker {
      *                                  или если входная строка содержит больше ста символов
      */
     public static boolean checkSequence(@Nullable String sequence) {
-        throw new UnsupportedOperationException("todo: implement this");
+        if (sequence == null || sequence.isEmpty()) {
+            lastSuccessSequence = "";
+            successCheckers++;
+            return true;
+        }
+        if (sequence.length() > MAX_LENGTH) {
+            throw new IllegalArgumentException("Length must be less than " + MAX_LENGTH);
+        }
+        Deque<Character> stack = new ArrayDeque<>();
+        for (int i = 0; i < sequence.length(); i++) {
+            if (isOpening(sequence.charAt(i))) {
+                stack.push(sequence.charAt(i));
+            } else if (isClosing(sequence.charAt(i))) {
+                if (stack.isEmpty() || !arePair(stack.pop(), sequence.charAt(i))) {
+                    failedCheckers++;
+                    return false;
+                }
+            } else {
+                throw new IllegalArgumentException("Invalid sequence, should be brackets only");
+            }
+        }
+        if(!stack.isEmpty()) {
+            failedCheckers++;
+            return false;
+        }
+        lastSuccessSequence = sequence;
+        successCheckers++;
+        return true;
+
     }
 
     /**
@@ -59,7 +102,7 @@ public final class CorrectBracketSequenceChecker {
      * @return количество удачных проверок
      */
     public static int getSuccessChecksCount() {
-        throw new UnsupportedOperationException("todo: implement this");
+        return successCheckers;
     }
 
     /**
@@ -69,7 +112,7 @@ public final class CorrectBracketSequenceChecker {
      * @return количество неудачных проверок
      */
     public static int getFailChecksCount() {
-        throw new UnsupportedOperationException("todo: implement this");
+        return failedCheckers;
     }
 
     /**
@@ -78,6 +121,29 @@ public final class CorrectBracketSequenceChecker {
      * @return последняя правильная скобочная последовательность или null если такой ещё не было
      */
     public static @Nullable String getLastSuccessSequence() {
-        throw new UnsupportedOperationException("todo: implement this");
+        return lastSuccessSequence;
     }
+    static boolean isOpening(Character character) {
+        if (character.equals(OPEN_FIGURE) || character.equals(OPEN_ROUND) || character.equals(OPEN_SQUARE)) {
+            return true;
+        }
+        return false;
+    }
+
+    static boolean isClosing(Character character) {
+        if (character.equals(CLOSE_FIGURE) || character.equals(CLOSE_ROUND) || character.equals(CLOSE_SQUARE)) {
+            return true;
+        }
+        return false;
+    }
+
+    static boolean arePair(Character open, Character close) {
+        if (open.equals(OPEN_SQUARE) && close.equals(CLOSE_SQUARE)
+                || open.equals(OPEN_ROUND) && close.equals(CLOSE_ROUND)
+                || open.equals(OPEN_FIGURE) && close.equals(CLOSE_FIGURE)) {
+            return true;
+        }
+        return false;
+    }
+
 }
