@@ -71,8 +71,8 @@ public final class CorrectBracketSequenceChecker {
      *                                  или если входная строка содержит больше ста символов
      */
     public static boolean checkSequence(@Nullable String sequence) {
-        //пустая строка - правильная
-        if (sequence.equals("")) {
+        //пустая или null строка - правильная
+        if ((sequence == null) || sequence.equals("")) {
             lastSuccessSequence = sequence;
             counterOfCorrectTries++;
             return true;
