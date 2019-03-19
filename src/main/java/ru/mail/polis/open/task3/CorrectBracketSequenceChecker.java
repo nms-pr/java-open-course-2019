@@ -2,10 +2,7 @@ package ru.mail.polis.open.task3;
 
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 /**
  * Для проверки класса на корректность следует использовать тесты.
@@ -65,6 +62,8 @@ public final class CorrectBracketSequenceChecker {
         Statistic.failChecksCount++;
     }
 
+    private static char[] stack = new char[100];
+
     /**
      * Метод проверяющий скобочную последовательность на правильность.
      * <p>
@@ -99,20 +98,20 @@ public final class CorrectBracketSequenceChecker {
             throw new IllegalArgumentException();
         }
 
-        Stack<Character> open = new Stack<>();
+        int current = 0;
 
         for (char c : sequence.toCharArray()) {
 
             if (isBracket(c, true)) {
-                open.push(c);
+                stack[current++] = c;
             } else if (isBracket(c, false)) {
 
-                if (open.empty()) {
+                if (current == 0) {
                     onFailedCheck();
                     return false;
                 }
 
-                char currentOpen = open.pop();
+                char currentOpen = stack[--current];
 
                 int indexOpenBracket = openBrackets.indexOf(currentOpen);
                 int indexCloseBracket = closeBrackets.indexOf(c);
@@ -129,7 +128,7 @@ public final class CorrectBracketSequenceChecker {
 
         }
 
-        if (!open.empty()) {
+        if (current != 0) {
             onFailedCheck();
             return false;
         }
