@@ -1,63 +1,66 @@
 package ru.mail.polis.open.task3;
 
-        import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
-        import static org.junit.jupiter.api.Assertions.*;
+public class CorrectBracketSequenceCheckerTest {
 
-        public class CorrectBracketSequenceCheckerTest {
-
-        @Test
-        void isBracketOpening() {
+    @Test
+    void isBracketOpening() {
         assertTrue(CorrectBracketSequenceChecker.isOpening('{'));
         assertTrue(CorrectBracketSequenceChecker.isOpening('['));
         assertTrue(CorrectBracketSequenceChecker.isOpening('('));
         assertFalse(CorrectBracketSequenceChecker.isOpening('a'));
         assertFalse(CorrectBracketSequenceChecker.isOpening('}'));
-        }
+    }
 
-        @Test
-        void isBracketClosing() {
+    @Test
+    void isBracketClosing() {
         assertTrue(CorrectBracketSequenceChecker.isClosing('}'));
         assertTrue(CorrectBracketSequenceChecker.isClosing(']'));
         assertTrue(CorrectBracketSequenceChecker.isClosing(')'));
         assertFalse(CorrectBracketSequenceChecker.isClosing('c'));
         assertFalse(CorrectBracketSequenceChecker.isClosing('{'));
-        }
+    }
 
-        @Test
-        void arePair() {
+    @Test
+    void arePair() {
         assertTrue(CorrectBracketSequenceChecker.arePair('[', ']'));
         assertTrue(CorrectBracketSequenceChecker.arePair('(', ')'));
         assertTrue(CorrectBracketSequenceChecker.arePair('{', '}'));
         assertFalse(CorrectBracketSequenceChecker.arePair('{', ']'));
         assertFalse(CorrectBracketSequenceChecker.arePair('a', ']'));
-        }
+    }
 
-        @Test
-        void checkValidSequence() {
+    @Test
+    void checkValidSequence() {
         assertTrue(CorrectBracketSequenceChecker.checkSequence(null));
         assertTrue(CorrectBracketSequenceChecker.checkSequence(""));
         assertTrue(CorrectBracketSequenceChecker.checkSequence("[{()}]"));
         assertTrue(CorrectBracketSequenceChecker.checkSequence("[(){}]"));
         assertTrue(CorrectBracketSequenceChecker.checkSequence("[{}]([]{})"));
-        }
+    }
 
-        @Test
-        void checkInvalidSequence() {
+    @Test
+    void checkInvalidSequence() {
         assertFalse(CorrectBracketSequenceChecker.checkSequence("[)"));
         assertFalse(CorrectBracketSequenceChecker.checkSequence("(){]"));
         assertFalse(CorrectBracketSequenceChecker.checkSequence("({}[))"));
         assertFalse(CorrectBracketSequenceChecker.checkSequence("({(]"));
         assertFalse(CorrectBracketSequenceChecker.checkSequence("(])"));
         assertThrows(
-        IllegalArgumentException.class,
-        () -> CorrectBracketSequenceChecker.checkSequence("{a}")
+            IllegalArgumentException.class,
+            () -> CorrectBracketSequenceChecker.checkSequence("{a}")
         );
-        }
+    }
 
-        @Test
-        void successChecksNumber() {
+    @Test
+    void successChecksNumber() {
         CorrectBracketSequenceChecker.checkSequence(null);
         assertEquals(1, CorrectBracketSequenceChecker.getSuccessChecksCount());
         CorrectBracketSequenceChecker.checkSequence("");
@@ -68,10 +71,10 @@ package ru.mail.polis.open.task3;
         assertEquals(4, CorrectBracketSequenceChecker.getSuccessChecksCount());
         CorrectBracketSequenceChecker.checkSequence("[{}]([]{})");
         assertEquals(5, CorrectBracketSequenceChecker.getSuccessChecksCount());
-        }
+    }
 
-        @Test
-        void failedChecksNumber() {
+    @Test
+    void failedChecksNumber() {
         CorrectBracketSequenceChecker.checkSequence("[)");
         assertEquals(1, CorrectBracketSequenceChecker.getFailChecksCount());
         CorrectBracketSequenceChecker.checkSequence("(){]");
@@ -82,10 +85,10 @@ package ru.mail.polis.open.task3;
         assertEquals(4, CorrectBracketSequenceChecker.getFailChecksCount());
         CorrectBracketSequenceChecker.checkSequence("(])");
         assertEquals(5, CorrectBracketSequenceChecker.getFailChecksCount());
-        }
+    }
 
-        @Test
-        void lastSuccessPairInValidSequence() {
+    @Test
+    void lastSuccessPairInValidSequence() {
         CorrectBracketSequenceChecker.checkSequence(null);
         assertEquals("", CorrectBracketSequenceChecker.getLastSuccessSequence());
         CorrectBracketSequenceChecker.checkSequence("");
@@ -96,5 +99,5 @@ package ru.mail.polis.open.task3;
         assertEquals("[(){}]()", CorrectBracketSequenceChecker.getLastSuccessSequence());
         assertFalse(CorrectBracketSequenceChecker.checkSequence("[()"));
         assertEquals("[(){}]()", CorrectBracketSequenceChecker.getLastSuccessSequence());
-        }
-        }
+    }
+}

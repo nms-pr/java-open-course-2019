@@ -25,13 +25,13 @@ import java.util.Deque;
  */
 public final class CorrectBracketSequenceChecker {
 
-    private final static int MAX_LENGTH = 100;
-    private final static char OPEN_ROUND = '(';
-    private final static char OPEN_SQUARE = '[';
-    private final static char OPEN_FIGURE = '{';
-    private final static char CLOSE_ROUND = ')';
-    private final static char CLOSE_SQUARE = ']';
-    private final static char CLOSE_FIGURE = '}';
+    private static final int MAX_LENGTH = 100;
+    private static final char OPEN_ROUND = '(';
+    private static final  char OPEN_SQUARE = '[';
+    private static final char OPEN_FIGURE = '{';
+    private static final char CLOSE_ROUND = ')';
+    private static final char CLOSE_SQUARE = ']';
+    private static final char CLOSE_FIGURE = '}';
     private static int successCheckers = 0;
     private static int failedCheckers = 0;
     private static String lastSuccessSequence = "";
@@ -85,7 +85,7 @@ public final class CorrectBracketSequenceChecker {
                 throw new IllegalArgumentException("Invalid sequence, should be brackets only");
             }
         }
-        if(!stack.isEmpty()) {
+        if (!stack.isEmpty()) {
             failedCheckers++;
             return false;
         }
@@ -123,6 +123,7 @@ public final class CorrectBracketSequenceChecker {
     public static @Nullable String getLastSuccessSequence() {
         return lastSuccessSequence;
     }
+
     static boolean isOpening(Character character) {
         if (character.equals(OPEN_FIGURE) || character.equals(OPEN_ROUND) || character.equals(OPEN_SQUARE)) {
             return true;
