@@ -1,9 +1,17 @@
 plugins {
+    id 'checkstyle'
     id 'java'
+    id 'idea'
 }
 
 group 'java-open-course-2019'
 version '1.0-SNAPSHOT'
+
+checkstyle {
+    toolVersion "8.17"
+    maxWarnings 0
+    maxErrors 0
+}
 
 java {
     sourceCompatibility = JavaVersion.VERSION_11
@@ -12,4 +20,14 @@ java {
 
 repositories {
     mavenCentral()
+}
+
+dependencies {
+    implementation "org.jetbrains:annotations:16.0.3"
+    testImplementation "org.junit.jupiter:junit-jupiter-api:5.4.0"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.4.0"
+}
+
+test {
+    useJUnitPlatform()
 }
