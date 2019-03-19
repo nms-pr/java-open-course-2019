@@ -2,7 +2,6 @@ package ru.mail.polis.open.task3;
 
 import org.jetbrains.annotations.Nullable;
 
-
 /**
  * Для проверки класса на корректность следует использовать тесты.
  * Команда {@code ./gradlew clean build} должна завершаться корректно.
@@ -25,6 +24,7 @@ public final class CorrectBracketSequenceChecker {
     private CorrectBracketSequenceChecker() {
         /* todo: append code if needed */
     }
+
     static final char OPEN_ROUND_BRACE = '(';
     static final char CLOSE_ROUND_BRACE = ')';
     static final char OPEN_SQUARE_BRACE = '[';
