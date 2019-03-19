@@ -2,6 +2,11 @@ package ru.mail.polis.open.task3;
 
 import org.jetbrains.annotations.Nullable;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Stack;
+
 /**
  * Для проверки класса на корректность следует использовать тесты.
  * Команда {@code ./gradlew clean build} должна завершаться корректно.
@@ -21,36 +26,82 @@ import org.jetbrains.annotations.Nullable;
  */
 public final class CorrectBracketSequenceChecker {
 
+    static int count = 0;
+    static Stack<Character> brackets = new Stack<>();
+
     private CorrectBracketSequenceChecker() {
+
         /* todo: append code if needed */
     }
 
-    /**
-     * Метод проверяющий скобочную последовательность на правильность.
-     * <p>
-     * Пустая строка
-     * — правильная скобочная последовательность.
-     * Правильная скобочная последовательность, взятая в скобки одного типа
-     * — правильная скобочная последовательность.
-     * Правильная скобочная последовательность,
-     * к которой слева или справа приписана правильная скобочная последовательность
-     * — правильная скобочная последовательность.
-     * <p>
-     * Последовательности из больше чем ста символов или с символами не скобок — некорректные.
-     * <p>
-     * Скобки бывают:
-     * 1. Круглые '(', ')'
-     * 2. Квадратные '[', ']'
-     * 3. Фигурные '{', '}'
-     *
-     * @param sequence — входная строка
-     * @return {@code true} — если скобочная последовательность корректна и {@code false} иначе
-     * @throws IllegalArgumentException если в строке содержатся символы, не являющиеся скобками
-     *                                  или если входная строка содержит больше ста символов
-     */
-    public static boolean checkSequence(@Nullable String sequence) {
-        throw new UnsupportedOperationException("todo: implement this");
+
+
+    public static void main(String[] args) throws IOException {
+        String result = sequenceReader();
+        System.out.println(checkSequence(result));
     }
+
+    private static String sequenceReader() throws IOException {
+        BufferedReader inputReader = new BufferedReader(new InputStreamReader(System.in));
+        String res = inputReader.readLine();
+        res = res.trim();
+
+        return res;
+    }
+
+
+    public static boolean checkSequence(@Nullable String sequence) throws IllegalArgumentException {
+        if (sequence == null || sequence.length() > 100) {
+            throw new IllegalArgumentException("Incorrect input string");
+        }
+        char[] bracketSequence = sequence.toCharArray();
+
+        for(char item : bracketSequence){
+            switch (item){
+                case '(':
+                    count ++;
+                    brackets.push(item);
+                    break;
+                case '{':
+                    count ++;
+                    brackets.push(item);
+                    break;
+                case '[':
+                    count ++;
+                    brackets.push(item);
+                    break;
+                case ')':
+                    if(count > 0 && brackets.pop() == '('){
+                        count --;
+                    } else {
+                        return false;
+                    }
+                    break;
+                case '}':
+                    if(count > 0 && brackets.pop() == '{'){
+                        count --;
+                    } else {
+                        return false;
+                    }
+                    break;
+                case ']':
+                    if(count > 0 && brackets.pop() == '['){
+                        count --;
+                    } else {
+                        return false;
+                    }
+                    break;
+                default:
+                    throw new IllegalArgumentException();
+            }
+        }
+        return count == 0;
+    }
+
+
+
+
+
 
     /**
      * Возвращает количество проверок, в результате которых выяснилось,
