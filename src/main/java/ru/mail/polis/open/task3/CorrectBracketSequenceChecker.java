@@ -25,6 +25,7 @@ public final class CorrectBracketSequenceChecker {
     private static int successChecksCount = 0;
     private static int failChecksCount = 0;
     private static String lastSuccessSequence = null;
+    private static Deque<Character> bracketDeque = new ArrayDeque<>();
 
     private CorrectBracketSequenceChecker() {
         /* todo: append code if needed */
@@ -64,7 +65,6 @@ public final class CorrectBracketSequenceChecker {
             throw new IllegalArgumentException();
         }
         boolean checkBrackets = false;
-        Deque<Character> bracketDeque = new ArrayDeque<>();
         for (int i = 0; i < sequence.length(); i++) {
             if (sequence.charAt(i) == '(' || sequence.charAt(i) == '[' || sequence.charAt(i) == '{') {
                 bracketDeque.add(sequence.charAt(i));
@@ -84,6 +84,7 @@ public final class CorrectBracketSequenceChecker {
                 }
             }
         }
+        bracketDeque.clear();
         if (checkBrackets) {
             successChecksCount++;
             lastSuccessSequence = sequence;
