@@ -64,6 +64,11 @@ public final class CorrectBracketSequenceChecker {
      *                                  или если входная строка содержит больше ста символов
      */
     public static boolean checkSequence(@Nullable String sequence) {
+        if (sequence == null) {
+            numberOfFailedAttempts++;
+            turnOfBrackets.clear();
+            throw new IllegalArgumentException("String should not be null");
+        }
         if (sequence.length() > 100) {
             sequence = null;
             turnOfBrackets.clear();
