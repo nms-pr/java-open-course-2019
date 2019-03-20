@@ -6,6 +6,8 @@ public class Tree {
 
     private Node head;
 
+    public Tree(){}
+
     public Tree(Expr expr) {
         head = new Node(expr, null);
     }
