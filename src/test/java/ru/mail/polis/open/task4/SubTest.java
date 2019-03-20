@@ -9,11 +9,11 @@ public class SubTest {
     @Test
     void test() {
         assertEquals(
-                5,
-                new Sub(
-                        new Const(9),
-                        new Const(4)
-                ).evaluate()
+            5,
+            new Sub(
+                new Const(9),
+                new Const(4)
+            ).evaluate()
         );
     }
 }

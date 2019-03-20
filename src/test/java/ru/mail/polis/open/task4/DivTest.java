@@ -4,15 +4,15 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class MultTest {
+public class DivTest {
 
     @Test
     void test() {
         assertEquals(
-            24,
-            new Mult(
-                new Const(4),
-                new Const(6)
+            5,
+            new Div(
+                new Const(35),
+                new Const(7)
             ).evaluate()
         );
     }
