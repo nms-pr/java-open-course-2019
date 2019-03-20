@@ -1,8 +1,12 @@
 package ru.mail.polis.open.task3;
 
 import org.jetbrains.annotations.Nullable;
+
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.EmptyStackException;
+import java.util.Objects;
+
 
 /**
  * Для проверки класса на корректность следует использовать тесты.
@@ -23,15 +27,31 @@ import java.util.Deque;
  */
 public final class CorrectBracketSequenceChecker {
 
-    private static String lastline;
-    private static int fail;
-    private static int success;
-    private static Deque<Character> stack = new ArrayDeque<>();
+    private static final char OPEN_ROUND_BRACKET = '(';
+    private static final char CLOSE_ROUND_BRACKET = ')';
+    private static final char OPEN_SQUARE_BRACKET = '[';
+    private static final char CLOSE_SQUARE_BRACKET = ']';
+    private static final char OPEN_FIGURE_BRACKET = '{';
+    private static final char CLOSE_FIGURE_BRACKET = '}';
 
+    private static int successChecksCount;
+    private static int failChecksCount;
+    private static String lastSuccessSequence;
+
+    private static Deque<Character> deque = new ArrayDeque<>();
+
+    public static void setSuccessChecksCount(int successChecksCount) {
+        CorrectBracketSequenceChecker.successChecksCount = successChecksCount;
+    }
+
+    public static void setFailChecksCount(int failChecksCount) {
+        CorrectBracketSequenceChecker.failChecksCount = failChecksCount;
+    }
 
     private CorrectBracketSequenceChecker() {
         /* todo: append code if needed */
     }
+
 
     /**
      * Метод проверяющий скобочную последовательность на правильность.
@@ -42,7 +62,7 @@ public final class CorrectBracketSequenceChecker {
      * — правильная скобочная последовательность.
      * Правильная скобочная последовательность,
      * к которой слева или справа приписана правильная скобочная последовательность
-     * — правильная скобочная последовательность.`
+     * — правильная скобочная последовательность.
      * <p>
      * Последовательности из больше чем ста символов или с символами не скобок — некорректные.
      * <p>
@@ -57,72 +77,54 @@ public final class CorrectBracketSequenceChecker {
      *                                  или если входная строка содержит больше ста символов
      */
     public static boolean checkSequence(@Nullable String sequence) {
-
-        if (sequence == null) {
-            throw new IllegalArgumentException("This string equals null");
-        }
-
-        if (sequence.length() > 100) {
-            throw new IllegalArgumentException("String's length is more than 100");
-        }
-
-
-        for (int i = 0; i < sequence.length(); i++) {
-            switch (sequence.charAt(i)) {
-                case ('{'):
-                case ('['):
-                case ('('):
-                    stack.add(sequence.charAt(i));
-                    break;
-
-                case ('}'):
-                    if (notCont('{')) {
-                        fail++;
+        deque.clear();
+        try {
+            if (sequence != null && sequence.isEmpty()) {
+                lastSuccessSequence = sequence;
+                successChecksCount++;
+                return true;
+            } else if ((Objects.requireNonNull(sequence)).length() > 100 || !sequence.matches("[(){}\\[\\]]+")) {
+                failChecksCount++;
+                throw new IllegalArgumentException();
+            } else {
+                for (int i = 0; i < sequence.length(); i++) {
+                    if (sequence.charAt(i) == OPEN_ROUND_BRACKET
+                            || sequence.charAt(i) == OPEN_FIGURE_BRACKET
+                            || sequence.charAt(i) == OPEN_SQUARE_BRACKET) {
+                        deque.addFirst(sequence.charAt(i));
+                    } else if (((deque.peekFirst() == oppositeBracket(sequence.charAt(i))))) {
+                        deque.removeFirst();
+                    } else {
+                        failChecksCount++;
                         return false;
                     }
-                    break;
-
-                case (']'):
-                    if (notCont('[')) {
-                        fail++;
-                        return false;
-                    }
-                    break;
-
-                case (')'):
-                    if (notCont('(')) {
-                        fail++;
-                        return false;
-                    }
-                    break;
-
-                default:
-                    throw new IllegalArgumentException("Found not bracket.");
+                }
             }
-        }
-
-        if (stack.isEmpty()) {
-            lastline = sequence;
-            success++;
-            return true;
-        } else {
-            fail++;
+        } catch (EmptyStackException | NullPointerException | IllegalArgumentException e) {
+            failChecksCount++;
             return false;
         }
-    }
-
-
-    public static boolean notCont(char a) {
-        try {
-            if (a == stack.getLast()) {
-                stack.removeLast();
-                return false;
-            } else {
-                return true;
-            }
-        } catch (Exception e) {
+        if (deque.isEmpty()) {
+            lastSuccessSequence = sequence;
+            successChecksCount++;
             return true;
         }
+        failChecksCount++;
+        return false;
+        //throw new UnsupportedOperationException("todo: implement this");
+    }
+
+    public static char oppositeBracket(char bracket) {
+        if (bracket == CLOSE_FIGURE_BRACKET) {
+            return OPEN_FIGURE_BRACKET;
+        }
+        if (bracket == CLOSE_ROUND_BRACKET) {
+            return OPEN_ROUND_BRACKET;
+        }
+        if (bracket == CLOSE_SQUARE_BRACKET) {
+            return OPEN_SQUARE_BRACKET;
+        }
+        throw new IllegalArgumentException();
     }
 
     /**
@@ -132,7 +134,8 @@ public final class CorrectBracketSequenceChecker {
      * @return количество удачных проверок
      */
     public static int getSuccessChecksCount() {
-        return success;
+        return successChecksCount;
+        //throw new UnsupportedOperationException("todo: implement this");
     }
 
     /**
@@ -142,7 +145,8 @@ public final class CorrectBracketSequenceChecker {
      * @return количество неудачных проверок
      */
     public static int getFailChecksCount() {
-        return fail;
+        return failChecksCount;
+        //throw new UnsupportedOperationException("todo: implement this");
     }
 
     /**
@@ -151,13 +155,11 @@ public final class CorrectBracketSequenceChecker {
      * @return последняя правильная скобочная последовательность или null если такой ещё не было
      */
     public static @Nullable String getLastSuccessSequence() {
-        return lastline;
+        return lastSuccessSequence;
+        //throw new UnsupportedOperationException("todo: implement this");
     }
 
-    public static void reset() {
-        lastline = null;
-        fail = 0;
-        success = 0;
-        stack.clear();
+    public static void main(String[] args) {
+
     }
 }
