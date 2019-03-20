@@ -25,15 +25,15 @@ public final class CorrectBracketSequenceChecker {
         /* todo: append code if needed */
     }
 
-    static final char OPEN_ROUND_BRACE = '(';
-    static final char CLOSE_ROUND_BRACE = ')';
-    static final char OPEN_SQUARE_BRACE = '[';
-    static final char CLOSE_SQUARE_BRACE = ']';
-    static final char OPEN_FIGURE_BRACE = '{';
-    static final char CLOSE_FIGURE_BRACE = '}';
-    static int numberOfSuccessfulChecks = 0;
-    static int numberOfUnsuccessfulChecks = 0;
-    static String lastSuccessSequence = "";
+    private static final char OPEN_ROUND_BRACE = '(';
+    private static final char CLOSE_ROUND_BRACE = ')';
+    private static final char OPEN_SQUARE_BRACE = '[';
+    private static final char CLOSE_SQUARE_BRACE = ']';
+    private static final char OPEN_FIGURE_BRACE = '{';
+    private static final char CLOSE_FIGURE_BRACE = '}';
+    private static int numberOfSuccessfulChecks = 0;
+    private static int numberOfUnsuccessfulChecks = 0;
+    private static String lastSuccessSequence = "";
 
     /**
      * Метод проверяющий скобочную последовательность на правильность.
@@ -59,36 +59,42 @@ public final class CorrectBracketSequenceChecker {
      *                                  или если входная строка содержит больше ста символов
      */
     public static boolean checkSequence(@Nullable String sequence) {
-        int bracesCounter = 0;
+        // обнуление переменных для корректного тестирования
+        numberOfSuccessfulChecks = 0;
+        numberOfUnsuccessfulChecks = 0;
+        lastSuccessSequence = "";
+        int counterOfStack = 0;
 
         if (sequence.length() == 0) {
             return true;
         }
-        if (sequence.length() > 100) {
+        if ((sequence.length() > 100) | (sequence.length() == 1)) {
             return false;
         }
         char[] parsedString = sequence.toCharArray();
-
+        char[] stackOfSymbols = new char[parsedString.length];
         for (int i = 0; i < parsedString.length; i++) {
 
-            if ((parsedString[i] == OPEN_ROUND_BRACE) | (parsedString[i] == OPEN_FIGURE_BRACE)
-                 | (parsedString[i] == OPEN_SQUARE_BRACE)) {
-                bracesCounter++;
-            } else if ((parsedString[i] == CLOSE_ROUND_BRACE) | (parsedString[i] == CLOSE_FIGURE_BRACE)
-                         | (parsedString[i] == CLOSE_SQUARE_BRACE)) {
-                bracesCounter--;
-            } else {
-                throw new IllegalArgumentException("Unacceptable symbols");
+            switch (parsedString[i]) {
+                case OPEN_ROUND_BRACE:
+                case OPEN_SQUARE_BRACE:
+                case OPEN_FIGURE_BRACE:
+                    stackOfSymbols[counterOfStack] = parsedString[i];
+                    counterOfStack++;
+                    break;
+                case CLOSE_ROUND_BRACE:
+                case CLOSE_SQUARE_BRACE:
+                case CLOSE_FIGURE_BRACE:
+                    if ((stackOfSymbols[counterOfStack - 1] != OPEN_ROUND_BRACE)
+                        | (stackOfSymbols[counterOfStack - 1] != OPEN_SQUARE_BRACE)
+                        | (stackOfSymbols[counterOfStack - 1] != OPEN_FIGURE_BRACE)) {
+                        numberOfUnsuccessfulChecks++;
+                        return false;
+                    }
+                    break;
+                default:
+                    throw new IllegalArgumentException("Unacceptable symbols");
             }
-
-        }
-        if (bracesCounter == 0) {
-            lastSuccessSequence = sequence;
-            numberOfSuccessfulChecks++;
-            return true;
-        } else {
-            numberOfUnsuccessfulChecks++;
-            return false;
         }
     }
 

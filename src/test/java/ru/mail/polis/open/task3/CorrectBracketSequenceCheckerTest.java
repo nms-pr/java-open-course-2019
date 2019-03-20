@@ -1,19 +1,12 @@
 package ru.mail.polis.open.task3;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class CorrectBracketSequenceCheckerTest {
-    @BeforeEach
-    void nullingVariables() {
-        CorrectBracketSequenceChecker.numberOfSuccessfulChecks = 0;
-        CorrectBracketSequenceChecker.numberOfUnsuccessfulChecks = 0;
-        CorrectBracketSequenceChecker.lastSuccessSequence = "";
-    }
 
     @Test
     void emptyStringTest() {
