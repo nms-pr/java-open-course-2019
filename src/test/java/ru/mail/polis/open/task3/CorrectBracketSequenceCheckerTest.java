@@ -23,19 +23,18 @@ class CorrectBracketSequenceCheckerTest {
     void correctSequence() {
         assertEquals(true, CorrectBracketSequenceChecker.checkSequence("{([])}"));
         assertEquals(true, CorrectBracketSequenceChecker.checkSequence("{{}}[[]]"));
+        assertEquals(true, CorrectBracketSequenceChecker.checkSequence("{}"));
     }
 
     @Test
     void incorrectSequence() {
-        String test = new String("(({{}");
-        assertEquals(false, CorrectBracketSequenceChecker.checkSequence(test));
+        assertEquals(false, CorrectBracketSequenceChecker.checkSequence("(({{}"));
         assertEquals(false, CorrectBracketSequenceChecker.checkSequence(")("));
     }
 
     @Test
     void incorrectSymbolsInString() {
-        String test = new String("{{ff}}");
-        assertThrows(IllegalArgumentException.class, () -> CorrectBracketSequenceChecker.checkSequence(test)
+        assertThrows(IllegalArgumentException.class, () -> CorrectBracketSequenceChecker.checkSequence("{{ff}}")
         );
         assertThrows(IllegalArgumentException.class, () -> CorrectBracketSequenceChecker.checkSequence("f{}")
         );
@@ -43,8 +42,7 @@ class CorrectBracketSequenceCheckerTest {
 
     @Test
     void correctSequenceWithSpaces() {
-        String test = new String("{{  }}");
-        assertThrows(IllegalArgumentException.class, () -> CorrectBracketSequenceChecker.checkSequence(test)
+        assertThrows(IllegalArgumentException.class, () -> CorrectBracketSequenceChecker.checkSequence("{{  }}")
         );
     }
 
