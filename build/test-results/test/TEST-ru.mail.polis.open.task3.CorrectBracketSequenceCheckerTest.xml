@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="ru.mail.polis.open.task3.CorrectBracketSequenceCheckerTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2019-03-18T21:49:28" hostname="DESKTOP-CG32947" time="0.043">
+  <properties/>
+  <testcase name="getSuccessChecksCount()" classname="ru.mail.polis.open.task3.CorrectBracketSequenceCheckerTest" time="0.011"/>
+  <testcase name="checkSequence()" classname="ru.mail.polis.open.task3.CorrectBracketSequenceCheckerTest" time="0.004"/>
+  <testcase name="getLastSuccessSequence()" classname="ru.mail.polis.open.task3.CorrectBracketSequenceCheckerTest" time="0.005"/>
+  <testcase name="getFailChecksCount()" classname="ru.mail.polis.open.task3.CorrectBracketSequenceCheckerTest" time="0.001"/>
+  <testcase name="oppositeBracket()" classname="ru.mail.polis.open.task3.CorrectBracketSequenceCheckerTest" time="0.006"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

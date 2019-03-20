@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle version="8.17">
+<file name="D:\IdeaProjects\java-open-course-2019\src\main\java\HelloWorld.java">
+</file>
+<file name="D:\IdeaProjects\java-open-course-2019\src\main\java\ru\mail\polis\open\HelloWorld2.java">
+</file>
+<file name="D:\IdeaProjects\java-open-course-2019\src\main\java\ru\mail\polis\open\task1\FizzBuzz.java">
+</file>
+<file name="D:\IdeaProjects\java-open-course-2019\src\main\java\ru\mail\polis\open\task1\Task1.java">
+</file>
+<file name="D:\IdeaProjects\java-open-course-2019\src\main\java\ru\mail\polis\open\task1\solution\AbstractFizzBuzzGame.java">
+</file>
+<file name="D:\IdeaProjects\java-open-course-2019\src\main\java\ru\mail\polis\open\task1\solution\ConsoleFizzBuzzGame.java">
+</file>
+<file name="D:\IdeaProjects\java-open-course-2019\src\main\java\ru\mail\polis\open\task3\CorrectBracketSequenceChecker.java">
+</file>
+</checkstyle>
