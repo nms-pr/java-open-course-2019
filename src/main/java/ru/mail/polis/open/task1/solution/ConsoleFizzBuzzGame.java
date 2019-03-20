@@ -1,5 +1,7 @@
 package ru.mail.polis.open.task1.solution;
 
+import ru.mail.polis.open.task1.solution.AbstractFizzBuzzGame;
+
 /**
  * @author mikhail.nechaev
  * Since 04/03/2019
