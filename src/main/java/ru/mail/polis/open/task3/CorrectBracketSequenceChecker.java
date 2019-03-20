@@ -2,6 +2,9 @@ package ru.mail.polis.open.task3;
 
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
+
 /**
  * Для проверки класса на корректность следует использовать тесты.
  * Команда {@code ./gradlew clean build} должна завершаться корректно.
@@ -20,6 +23,17 @@ import org.jetbrains.annotations.Nullable;
  * В нём будут видны public / protected / package_private методы
  */
 public final class CorrectBracketSequenceChecker {
+    private static final char OPEN_ROUND_BRACKET = '(';
+    private static final char CLOSE_ROUND_BRACKET = ')';
+    private static final char OPEN_SQUARE_BRACKET = '[';
+    private static final char CLOSE_SQUARE_BRACKET = ']';
+    private static final char OPEN_FIGURE_BRACKET = '{';
+    private static final char CLOSE_FIGURE_BRACKET = '}';
+
+    public static int successChecksCount = 0;
+    public static int failChecksCount = 0;
+    public static String lastSuccessSequence = null;
+    public static Deque<Character> bracets = new ArrayDeque<>();
 
     private CorrectBracketSequenceChecker() {
         /* todo: append code if needed */
@@ -49,7 +63,56 @@ public final class CorrectBracketSequenceChecker {
      *                                  или если входная строка содержит больше ста символов
      */
     public static boolean checkSequence(@Nullable String sequence) {
-        throw new UnsupportedOperationException("todo: implement this");
+        if (sequence == null) {
+            failChecksCount++;
+            throw new IllegalArgumentException("String equals null.");
+        } else if ((sequence != null) && (sequence.isEmpty())) {
+            lastSuccessSequence = sequence;
+            successChecksCount++;
+            return true;
+        } else if (sequence.length() > 100) {
+            failChecksCount++;
+            throw new IllegalArgumentException("String contains more than 100 characters.");
+        } else if (!sequence.matches("[(){}\\[\\]]+")) {
+            failChecksCount++;
+            throw new IllegalArgumentException("Invalid string format.");
+        }
+        for (int i = 0; i < sequence.length(); i++) {
+            if ((sequence.charAt(i) == OPEN_ROUND_BRACKET)
+                    || (sequence.charAt(i) == OPEN_FIGURE_BRACKET)
+                    || (sequence.charAt(i) == OPEN_SQUARE_BRACKET)) {
+                bracets.addFirst(sequence.charAt(i));
+            } else if (((bracets.size() != 0 && bracets.peekFirst() == reverseBracket(sequence.charAt(i))))) {
+                bracets.removeFirst();
+            } else {
+                failChecksCount++;
+                return false;
+            }
+        }
+
+        if (bracets.isEmpty()) {
+            lastSuccessSequence = sequence;
+            successChecksCount++;
+            return true;
+        }
+
+
+        return true;
+    }
+
+
+    public static char reverseBracket(char bracket) {
+        if (bracket == CLOSE_FIGURE_BRACKET) {
+            return OPEN_FIGURE_BRACKET;
+        }
+        if (bracket == CLOSE_ROUND_BRACKET) {
+            return OPEN_ROUND_BRACKET;
+        }
+        if (bracket == CLOSE_SQUARE_BRACKET) {
+            return OPEN_SQUARE_BRACKET;
+        }
+        throw new IllegalArgumentException();
+
     }
 
     /**
@@ -59,7 +122,7 @@ public final class CorrectBracketSequenceChecker {
      * @return количество удачных проверок
      */
     public static int getSuccessChecksCount() {
-        throw new UnsupportedOperationException("todo: implement this");
+        return successChecksCount;
     }
 
     /**
@@ -69,7 +132,7 @@ public final class CorrectBracketSequenceChecker {
      * @return количество неудачных проверок
      */
     public static int getFailChecksCount() {
-        throw new UnsupportedOperationException("todo: implement this");
+        return failChecksCount;
     }
 
     /**
@@ -78,6 +141,32 @@ public final class CorrectBracketSequenceChecker {
      * @return последняя правильная скобочная последовательность или null если такой ещё не было
      */
     public static @Nullable String getLastSuccessSequence() {
-        throw new UnsupportedOperationException("todo: implement this");
+        return lastSuccessSequence;
     }
+
+    public static void reset() {
+        successChecksCount = 0;
+        failChecksCount = 0;
+        lastSuccessSequence = null;
+        bracets.clear();
+    }
+
+    public static void main(String[] args) {
+        Deque<String> list1 = new ArrayDeque<>();
+        list1.add("()");
+        list1.add("[]");
+        list1.add("xx");
+        list1.add("");
+        list1.add("({}[])");
+        list1.add(null);
+        for (String elem : list1) {
+            checkSequence(elem);
+        }
+        System.out.println(getSuccessChecksCount());
+        System.out.println(getFailChecksCount());
+        System.out.println(getLastSuccessSequence());
+
+    }
+
+
 }
