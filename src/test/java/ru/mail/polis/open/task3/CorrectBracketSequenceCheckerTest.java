@@ -3,11 +3,12 @@ package ru.mail.polis.open.task3;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.fail;
 
 public class CorrectBracketSequenceCheckerTest {
 
@@ -18,11 +19,7 @@ public class CorrectBracketSequenceCheckerTest {
 
     @Test
     void testIllegalInputs() {
-        try {
-            CorrectBracketSequenceChecker.checkSequence("()");
-        } catch (Throwable e) {
-            fail(e);
-        }
+        assertDoesNotThrow(() -> CorrectBracketSequenceChecker.checkSequence("()"));
         assertThrows(IllegalArgumentException.class, () -> CorrectBracketSequenceChecker.checkSequence(null));
         assertThrows(IllegalArgumentException.class, () -> CorrectBracketSequenceChecker.checkSequence("{("
                 + "[Letters])}"));
@@ -33,7 +30,7 @@ public class CorrectBracketSequenceCheckerTest {
 
     @Test
     void testLegalInputs() {
-        assertThrows(IllegalStateException.class, CorrectBracketSequenceChecker::getLastSuccessSequence);
+        assertNull(CorrectBracketSequenceChecker.getLastSuccessSequence());
         assertTrue(CorrectBracketSequenceChecker.checkSequence("(){}[[()]]"));
         assertEquals("(){}[[()]]", CorrectBracketSequenceChecker.getLastSuccessSequence());
         assertFalse(CorrectBracketSequenceChecker.checkSequence("(({]]]"));
@@ -50,6 +47,6 @@ public class CorrectBracketSequenceCheckerTest {
         CorrectBracketSequenceChecker.clear();
         assertEquals(0, CorrectBracketSequenceChecker.getSuccessChecksCount());
         assertEquals(0, CorrectBracketSequenceChecker.getFailChecksCount());
-        assertThrows(IllegalStateException.class, CorrectBracketSequenceChecker::getLastSuccessSequence);
+        assertNull(CorrectBracketSequenceChecker.getLastSuccessSequence());
     }
 }

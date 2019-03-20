@@ -2,8 +2,6 @@ package ru.mail.polis.open.task3;
 
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
 
@@ -27,19 +25,11 @@ import java.util.Stack;
 public final class CorrectBracketSequenceChecker {
 
     private static final int SYMBOL_AMOUNT_UPPER_BOUND = 100;
-    private static final Map BRACKETS_MATCH;
-
-    static {
-        Map<Character, Character> localMap = new HashMap<>();
-        localMap.put(')', '(');
-        localMap.put(']', '[');
-        localMap.put('}', '{');
-        BRACKETS_MATCH = Collections.unmodifiableMap(localMap);
-    }
+    private static final Map BRACKETS_MATCH = Map.of(')', '(', ']', '[', '}', '{');
 
     private static int failChecksCount = 0;
     private static int successChecksCount = 0;
-    private static String lastSuccessSequence;
+    private static String lastSuccessSequence = null;
     private static Stack<Character> stack = new Stack<>();
 
     private CorrectBracketSequenceChecker() {
@@ -47,7 +37,7 @@ public final class CorrectBracketSequenceChecker {
     }
 
     private static void checkInput(@Nullable String input) {
-        if (input == null || !input.matches("[()\\[\\]{}]*") || input.length() > SYMBOL_AMOUNT_UPPER_BOUND) {
+        if (input == null || input.length() > SYMBOL_AMOUNT_UPPER_BOUND || !input.matches("[()\\[\\]{}]*")) {
             throw new IllegalArgumentException("Illegal input string");
         }
     }
@@ -78,6 +68,10 @@ public final class CorrectBracketSequenceChecker {
     public static boolean checkSequence(@Nullable String sequence) {
         checkInput(sequence);
         if (!sequence.isEmpty()) {
+            if (BRACKETS_MATCH.containsKey(sequence.charAt(0))) {
+                failChecksCount++;
+                return false;
+            }
             stack.push(sequence.charAt(0));
             for (int i = 1; i < sequence.length(); i++) {
                 char currentChar = sequence.charAt(i);
@@ -126,10 +120,7 @@ public final class CorrectBracketSequenceChecker {
      *
      * @return последняя правильная скобочная последовательность или null если такой ещё не было
      */
-    public static String getLastSuccessSequence() {
-        if (successChecksCount == 0) {
-            throw new IllegalStateException("There are no successful checks yet!");
-        }
+    public static @Nullable String getLastSuccessSequence() {
         return lastSuccessSequence;
     }
 
