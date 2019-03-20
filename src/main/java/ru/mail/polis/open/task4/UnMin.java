@@ -4,15 +4,15 @@ import java.util.Objects;
 
 public final class UnMin implements Expr {
 
-    private final Expr opperand;
+    private final Expr operand;
 
-    public UnMin(Expr opperand) {
-        this.opperand = opperand;
+    public UnMin(Expr operand) {
+        this.operand = operand;
     }
 
     @Override
     public int evaluate() {
-        return - opperand.evaluate();
+        return - operand.evaluate();
     }
 
     @Override
@@ -20,11 +20,11 @@ public final class UnMin implements Expr {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UnMin unMin = (UnMin) o;
-        return Objects.equals(opperand, unMin.opperand);
+        return Objects.equals(operand, unMin.operand);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(opperand);
+        return Objects.hash(operand);
     }
 }

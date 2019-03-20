@@ -1,16 +1,183 @@
 package ru.mail.polis.open.task4;
 
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Deque;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.StringTokenizer;
+
 public class ExprBuilderImplements implements ExprBuilder {
 
-    @Override
-    public Expr build(String input) {
-        if (input == null || input.length() == 0) {
+    public ExprBuilderImplements() {
+        operationsPriority = new HashMap<>();
+        operationsPriority.put("-", 1);
+        operationsPriority.put("^", 2);
+        operationsPriority.put("*", 3);
+        operationsPriority.put("/", 3);
+        operationsPriority.put("+", 4);
+        operationsPriority.put("—", 4);
+    }
+
+    private Map<String, Integer> operationsPriority;
+
+    public String transformationExpression (String expression,
+                                            Map<String, Integer> operations,
+                                            String leftBracket,
+                                            String rightBracket) {
+        if (expression == null
+            || expression.length() == 0
+            || operations == null
+            || operations.isEmpty()) {
             throw new IllegalArgumentException("Incorrect input expression");
         }
 
-        input.replace(" ", "");
+        List<String> symbolsOfExpression = new ArrayList<>();
+        Deque<String> operationOfExpression = new ArrayDeque<>();
 
+        expression = expression.replace(" ", "");
 
-        return null;
+        Set<String> symbolsNotOperationsAndOperand = new HashSet<>(operations.keySet());
+        symbolsNotOperationsAndOperand.add(leftBracket);
+        symbolsNotOperationsAndOperand.add(rightBracket);
+
+        int indexOfEndsParsingStringLastIteration = 0;
+        boolean findNext = true;
+
+        while(findNext) {
+            int nextOperationIndex = expression.length();
+            String nextOperation = "";
+            for (String operation : symbolsNotOperationsAndOperand) {
+                int i = expression.indexOf(operation,
+                    indexOfEndsParsingStringLastIteration);
+                if (i >= 0 && i < nextOperationIndex) {
+                    nextOperation = operation;
+                    indexOfEndsParsingStringLastIteration = i;
+                }
+            }
+
+            if (nextOperationIndex == expression.length()) {
+                findNext = false;
+            } else {
+                if (indexOfEndsParsingStringLastIteration != nextOperationIndex) {
+                    symbolsOfExpression.add(expression.substring(indexOfEndsParsingStringLastIteration,
+                        nextOperationIndex));
+                }
+
+                if (nextOperation.equals(leftBracket)) {
+                    operationOfExpression.push(nextOperation);
+                } else if (nextOperation.equals(rightBracket)) {
+                    while (operationOfExpression.peek().equals(leftBracket)) {
+                        symbolsOfExpression.add(operationOfExpression.pop());
+                        if (operationOfExpression.isEmpty()) {
+                            throw new IllegalArgumentException("Unmatched brackets");
+                        }
+                    }
+                    operationOfExpression.pop();
+                } else {
+                    while (!operationOfExpression.isEmpty()
+                        && !operationOfExpression.peek().equals(leftBracket)
+                        && operations.get(nextOperation) >= operations.get(operationOfExpression.peek())) {
+
+                        symbolsOfExpression.add(operationOfExpression.pop());
+                    }
+                    operationOfExpression.push(nextOperation);
+                }
+                indexOfEndsParsingStringLastIteration = nextOperationIndex + nextOperation.length();
+            }
+        }
+        if (indexOfEndsParsingStringLastIteration != expression.length()) {
+            symbolsOfExpression.add(expression.substring(indexOfEndsParsingStringLastIteration));
+        }
+
+        while (!operationOfExpression.isEmpty()) {
+            symbolsOfExpression.add(operationOfExpression.pop());
+        }
+
+        StringBuffer result = new StringBuffer();
+        if (!symbolsOfExpression.isEmpty()) {
+            result.append(symbolsOfExpression.remove(0));
+        }
+
+        while (!symbolsOfExpression.isEmpty()) {
+            result.append(" ").append(symbolsOfExpression.remove(0));
+        }
+
+        return result.toString();
+    }
+
+    public String transformationExpression(String expression, Map<String, Integer> operations) {
+        return transformationExpression(expression, operations, "(", ")");
+    }
+
+    @Override
+    public Expr build(String input) {
+        String expressionAfterTransformation = transformationExpression(input, operationsPriority);
+        StringTokenizer tokenizer = new StringTokenizer(expressionAfterTransformation, " ");
+        Deque<Expr> deque = new ArrayDeque<>();
+        while (tokenizer.hasMoreTokens()) {
+            String token = tokenizer.nextToken();
+
+            if (!operationsPriority.keySet().contains(token)) {
+                Integer operand = Integer.valueOf(token);
+                deque.push(new Const(operand));
+            } else {
+                //may be something wrong
+                Const operand2 = (Const) deque.pop();
+                if (token.equals("-")){
+                    deque.push(new UnMin(operand2));
+                } else {
+                    if (!deque.isEmpty()) {
+                        Const operand1 = (Const) deque.pop();
+
+                        if (token.equals("^")) {
+                            deque.push(
+                                new Pow(
+                                    operand1,
+                                    operand2
+                                )
+                            );
+                        } else if (token.equals("*")) {
+                            deque.push(
+                                new Mult(
+                                    operand1,
+                                    operand2
+                                )
+                            );
+                        } else if (token.equals("/")) {
+                            deque.push(
+                                new Div(
+                                    operand1,
+                                    operand2
+                                )
+                            );
+                        } else if (token.equals("+")) {
+                            deque.push(
+                                new Add(
+                                    operand1,
+                                    operand2
+                                )
+                            );
+                        } else if (token.equals("—")) {
+                            deque.push(
+                                new Sub(
+                                    operand1,
+                                    operand2
+                                )
+                            );
+                        }
+                    } else {
+                        throw new IllegalArgumentException("Incorrect data");
+                    }
+                }
+            }
+        }
+        if (deque.size() != 1) {
+            throw new IllegalArgumentException("Expression syntax error.");
+        }
+        return deque.pop();
     }
 }
