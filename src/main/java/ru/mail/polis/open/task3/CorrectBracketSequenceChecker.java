@@ -50,7 +50,6 @@ public final class CorrectBracketSequenceChecker {
      * 1. Круглые '(', ')'
      * 2. Квадратные '[', ']'
      * 3. Фигурные '{', '}'
-     *
      * @param sequence — входная строка
      * @return {@code true} — если скобочная последовательность корректна и {@code false} иначе
      * @throws IllegalArgumentException если в строке содержатся символы, не являющиеся скобками
