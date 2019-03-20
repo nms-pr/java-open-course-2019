@@ -1,8 +1,11 @@
 package ru.mail.polis.open.task3;
 
+//import org.jetbrains.annotations.Nullable;
+
 import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 /**
  * Для проверки класса на корректность следует использовать тесты.
@@ -73,19 +76,19 @@ public final class CorrectBracketSequenceChecker {
             lastSuccessSequence = sequence;
             successChecksCount++;
             return true;
-        }
-        if (sequence.length() > 100) {
+        } else if (sequence.length() > 100) {
             failChecksCount++;
             throw new IllegalArgumentException("String contains more than 100 characters.");
-        }
-        if (!sequence.matches("[(){}\\[\\]]+")) {
+        } else if (!sequence.matches("[(){}\\[\\]]+")) {
             failChecksCount++;
             throw new IllegalArgumentException("Invalid string format.");
         }
         for (int i = 0; i < sequence.length(); i++) {
-            if ((sequence.charAt(i) == OPEN_ROUND_BRACKET) || (sequence.charAt(i) == OPEN_FIGURE_BRACKET) || (sequence.charAt(i) == OPEN_SQUARE_BRACKET)) {
+            if ((sequence.charAt(i) == OPEN_ROUND_BRACKET)
+                    || (sequence.charAt(i) == OPEN_FIGURE_BRACKET)
+                    || (sequence.charAt(i) == OPEN_SQUARE_BRACKET)) {
                 bracets.addFirst(sequence.charAt(i));
-            } else if (((bracets.peekFirst() == reverseBracket(sequence.charAt(i))))) {
+            } else if (((bracets.size() != 0 && bracets.peekFirst() == reverseBracket(sequence.charAt(i))))) {
                 bracets.removeFirst();
             } else {
                 failChecksCount++;
@@ -99,8 +102,7 @@ public final class CorrectBracketSequenceChecker {
             return true;
         }
 
-        failChecksCount++;
-        return false;
+        return true;
     }
 
 
@@ -146,6 +148,13 @@ public final class CorrectBracketSequenceChecker {
         return lastSuccessSequence;
     }
 
+    public static void reset(){
+        successChecksCount = 0;
+        failChecksCount = 0;
+        lastSuccessSequence = null;
+        bracets.clear();
+    }
+
 
     public static void main(String[] args) {
         Deque<String> list1 = new ArrayDeque<>();
@@ -162,4 +171,5 @@ public final class CorrectBracketSequenceChecker {
         System.out.println(getFailChecksCount());
         System.out.println(getLastSuccessSequence());
     }
+
 }
