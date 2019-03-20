@@ -16,4 +16,23 @@ class UnaryMinusTest {
         );
 
     }
+
+    @Test
+    void equals() {
+        UnaryMinus unaryMinus = new UnaryMinus(
+            new Const(2)
+        );
+
+        assertEquals(unaryMinus, unaryMinus);
+
+        assertEquals(
+            new UnaryMinus(
+                new Const(2)
+            ),
+
+            new UnaryMinus(
+                new Const(2)
+            )
+        );
+    }
 }

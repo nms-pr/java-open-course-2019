@@ -16,4 +16,26 @@ class SubtractTest {
         );
     }
 
+    @Test
+    void equals() {
+        Subtract subtract = new Subtract(
+            new Const(2),
+            new Const(3)
+        );
+
+        assertEquals(subtract, subtract);
+
+        assertEquals(
+            new Subtract(
+                new Const(2),
+                new Const(3)
+            ),
+
+            new Subtract(
+                new Const(2),
+                new Const(3)
+            )
+        );
+    }
+
 }

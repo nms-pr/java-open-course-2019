@@ -16,4 +16,26 @@ class MultiplyTest {
             ).evaluate()
         );
     }
+
+    @Test
+    void equals() {
+        Multiply multiply = new Multiply(
+            new Const(2),
+            new Const(3)
+        );
+
+        assertEquals(multiply, multiply);
+
+        assertEquals(
+            new Multiply(
+                new Const(2),
+                new Const(3)
+            ),
+
+            new Multiply(
+                new Const(2),
+                new Const(3)
+            )
+        );
+    }
 }

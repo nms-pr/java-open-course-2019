@@ -15,4 +15,26 @@ class PowerTest {
                 ).evaluate()
         );
     }
+
+    @Test
+    void equals() {
+        Power power = new Power(
+            new Const(2),
+            new Const(3)
+        );
+
+        assertEquals(power, power);
+
+        assertEquals(
+            new Power(
+                new Const(2),
+                new Const(3)
+            ),
+
+            new Power(
+                new Const(2),
+                new Const(3)
+            )
+        );
+    }
 }

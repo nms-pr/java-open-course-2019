@@ -1,5 +1,7 @@
 package ru.mail.polis.open.task4;
 
+import java.util.Objects;
+
 public class Power implements Expr {
 
     private final Expr base;
@@ -8,6 +10,20 @@ public class Power implements Expr {
     public Power(Expr base, Expr power) {
         this.base = base;
         this.power = power;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Power power1 = (Power) o;
+        return base.equals(power1.base) &&
+                power.equals(power1.power);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(base, power);
     }
 
     @Override

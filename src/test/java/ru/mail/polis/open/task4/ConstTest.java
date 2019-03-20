@@ -17,4 +17,14 @@ class ConstTest {
         );
     }
 
+    @Test
+    void equals() {
+        Const c = new Const(5);
+        assertEquals(c, c);
+
+        assertEquals(
+            new Const(5),
+            new Const(5)
+        );
+    }
 }
