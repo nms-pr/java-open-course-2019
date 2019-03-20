@@ -16,4 +16,19 @@ public class DivTest {
             ).evaluate()
         );
     }
+
+    @Test
+    void testWorkingEquals() {
+        Div div1 = new Div(
+            new Const(35),
+            new Const(7)
+        );
+
+        Div div2 = new Div(
+            new Const(35),
+            new Const(7)
+        );
+
+        assertEquals(div1, div2);
+    }
 }

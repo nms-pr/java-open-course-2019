@@ -16,4 +16,19 @@ public class PowTest {
             ).evaluate()
         );
     }
+
+    @Test
+    void testWorkingEquals() {
+        Pow pow1 = new Pow(
+            new Const(3),
+            new Const(5)
+        );
+
+        Pow pow2 = new Pow(
+            new Const(3),
+            new Const(5)
+        );
+
+        assertEquals(pow1, pow2);
+    }
 }

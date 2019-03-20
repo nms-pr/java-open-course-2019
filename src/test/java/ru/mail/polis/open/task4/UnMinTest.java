@@ -15,4 +15,19 @@ public class UnMinTest {
             ).evaluate()
         );
     }
+
+    @Test
+    void testWorkingEquals() {
+        UnMin unMin1 = new UnMin(
+            new Const(
+                9)
+        );
+
+        UnMin unMin2 = new UnMin(
+            new Const(
+                9)
+        );
+
+        assertEquals(unMin1, unMin2);
+    }
 }

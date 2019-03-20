@@ -17,4 +17,10 @@ class ConstTest {
         );
     }
 
+    @Test
+    void testWorkingEquals() {
+        Const const1 = new Const(4);
+        Const const2 = new Const(4);
+        assertEquals(const1, const2);
+    }
 }

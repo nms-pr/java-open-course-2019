@@ -16,4 +16,19 @@ public class MultTest {
             ).evaluate()
         );
     }
+
+    @Test
+    void testWorkingEquals() {
+        Mult mult1 = new Mult(
+            new Const(4),
+            new Const(6)
+        );
+
+        Mult mult2 = new Mult(
+            new Const(4),
+            new Const(6)
+        );
+
+        assertEquals(mult1, mult2);
+    }
 }

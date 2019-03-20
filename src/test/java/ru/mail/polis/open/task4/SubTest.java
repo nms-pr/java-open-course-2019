@@ -16,4 +16,19 @@ public class SubTest {
             ).evaluate()
         );
     }
+
+    @Test
+    void testWorkingEquals() {
+        Sub sub1 = new Sub(
+            new Const(9),
+            new Const(4)
+        );
+
+        Sub sub2 = new Sub(
+            new Const(9),
+            new Const(4)
+        );
+
+        assertEquals(sub1, sub2);
+    }
 }
