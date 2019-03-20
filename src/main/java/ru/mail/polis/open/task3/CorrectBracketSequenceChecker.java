@@ -85,16 +85,39 @@ public final class CorrectBracketSequenceChecker {
                 case CLOSE_ROUND_BRACE:
                 case CLOSE_SQUARE_BRACE:
                 case CLOSE_FIGURE_BRACE:
-                    if ((stackOfSymbols[counterOfStack - 1] != OPEN_ROUND_BRACE)
-                        | (stackOfSymbols[counterOfStack - 1] != OPEN_SQUARE_BRACE)
-                        | (stackOfSymbols[counterOfStack - 1] != OPEN_FIGURE_BRACE)) {
+                    if (stackOfSymbols[0] == '\u0000') { //проверка если первый же символ в последовательности
+                        // - закрывающая скобка
                         numberOfUnsuccessfulChecks++;
                         return false;
+                    }
+                    if (stackOfSymbols[counterOfStack - 1] != OPEN_ROUND_BRACE) {
+                        if (stackOfSymbols[counterOfStack - 1] != OPEN_SQUARE_BRACE) {
+                            if (stackOfSymbols[counterOfStack - 1] != OPEN_FIGURE_BRACE) {
+                                numberOfUnsuccessfulChecks++;
+                                return false;
+                            }
+                        }
+                    }
+                    if (counterOfStack != 0) {
+                        counterOfStack--;
+                    }
+                    if ((stackOfSymbols[counterOfStack] == OPEN_ROUND_BRACE)
+                        | (stackOfSymbols[counterOfStack] == OPEN_SQUARE_BRACE)
+                        | (stackOfSymbols[counterOfStack] == OPEN_FIGURE_BRACE)) {
+                        stackOfSymbols[counterOfStack] = '0';
                     }
                     break;
                 default:
                     throw new IllegalArgumentException("Unacceptable symbols");
             }
+        }
+        if (stackOfSymbols[0] == '0') {
+            lastSuccessSequence = sequence;
+            numberOfSuccessfulChecks++;
+            return true;
+        } else {
+            numberOfUnsuccessfulChecks++;
+            return false;
         }
     }
 

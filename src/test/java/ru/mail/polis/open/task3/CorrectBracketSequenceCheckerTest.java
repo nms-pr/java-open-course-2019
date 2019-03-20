@@ -29,6 +29,7 @@ class CorrectBracketSequenceCheckerTest {
     void incorrectSequence() {
         String test = new String("(({{}");
         assertEquals(false, CorrectBracketSequenceChecker.checkSequence(test));
+        assertEquals(false, CorrectBracketSequenceChecker.checkSequence(")("));
     }
 
     @Test
