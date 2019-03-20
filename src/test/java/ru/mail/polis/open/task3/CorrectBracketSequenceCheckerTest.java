@@ -37,6 +37,8 @@ class CorrectBracketSequenceCheckerTest {
         String test = new String("{{ff}}");
         assertThrows(IllegalArgumentException.class, () -> CorrectBracketSequenceChecker.checkSequence(test)
         );
+        assertThrows(IllegalArgumentException.class, () -> CorrectBracketSequenceChecker.checkSequence("f{}")
+        );
     }
 
     @Test
