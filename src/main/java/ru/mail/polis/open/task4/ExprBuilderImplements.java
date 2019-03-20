@@ -180,4 +180,10 @@ public class ExprBuilderImplements implements ExprBuilder {
         }
         return deque.pop();
     }
+
+    public static void main(String[] args) {
+        ExprBuilderImplements test = new ExprBuilderImplements();
+        Expr result = test.build("2 + 15");
+        System.out.println(result.evaluate());
+    }
 }
