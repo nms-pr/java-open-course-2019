@@ -1,5 +1,7 @@
 package ru.mail.polis.open.task4;
 
+import org.jetbrains.annotations.Nullable;
+
 @FunctionalInterface
 public interface ExprBuilder {
 
@@ -28,5 +30,5 @@ public interface ExprBuilder {
      * @return арифметическое выражение
      * @throws IllegalArgumentException если арифметическое выражение некорректно
      */
-    Expr build(String input);
+    Expr build(@Nullable String input);
 }
