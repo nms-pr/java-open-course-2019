@@ -3,7 +3,9 @@ package ru.mail.polis.open.task4;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class ExprBuilderImplTest {
 
@@ -139,8 +141,8 @@ class ExprBuilderImplTest {
 
         assertEquals(
             new Add(
-                new Const (42),
-                new Const (64)
+                new Const(42),
+                new Const(64)
             ),
             builder.build("42+64")
         );

@@ -14,11 +14,15 @@ public final class Add implements Expr {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Add add = (Add) o;
-        return left.equals(add.left) &&
-                right.equals(add.right);
+        return left.equals(add.left)
+            && right.equals(add.right);
     }
 
     @Override

@@ -12,8 +12,12 @@ public class UnaryMinus implements Expr {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         UnaryMinus that = (UnaryMinus) o;
         return expr.equals(that.expr);
     }

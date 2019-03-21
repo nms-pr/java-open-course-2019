@@ -14,11 +14,15 @@ public class Divide implements Expr {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Divide divide = (Divide) o;
-        return divident.equals(divide.divident) &&
-                divider.equals(divide.divider);
+        return divident.equals(divide.divident)
+            && divider.equals(divide.divider);
     }
 
     @Override

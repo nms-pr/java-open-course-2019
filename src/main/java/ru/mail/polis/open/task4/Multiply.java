@@ -14,11 +14,15 @@ public class Multiply implements Expr {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Multiply multiply = (Multiply) o;
-        return left.equals(multiply.left) &&
-                right.equals(multiply.right);
+        return left.equals(multiply.left)
+            && right.equals(multiply.right);
     }
 
     @Override

@@ -5,22 +5,22 @@ import java.util.Deque;
 
 public class ExprBuilderImpl implements ExprBuilder {
 
-    private final char PLUS_SIGN = '+';
-    private final char MINUS_SIGN = '-';
-    private final char MULTIPLY_SIGN = '*';
-    private final char DIVIDE_SIGN = '/';
-    private final char POWER_SIGN = '^';
-    private final char UNARY_MINUS_SIGN = 'm';
-    private final char OPEN_BRACE = '(';
-    private final char CLOSE_BRACE = ')';
+    private static final char PLUS_SIGN = '+';
+    private static final char MINUS_SIGN = '-';
+    private static final char MULTIPLY_SIGN = '*';
+    private static final char DIVIDE_SIGN = '/';
+    private static final char POWER_SIGN = '^';
+    private static final char UNARY_MINUS_SIGN = 'm';
+    private static final char OPEN_BRACE = '(';
+    private static final char CLOSE_BRACE = ')';
 
-    private final char OPERAND_FRONT_SEPARATOR = '{';
-    private final char OPERAND_END_SEPARATOR = '}';
+    private static final char OPERAND_FRONT_SEPARATOR = '{';
+    private static final char OPERAND_END_SEPARATOR = '}';
 
-    private final int ADDITIVE_OPERATION_PRIORITY = 1;
-    private final int MULTIPLICATIVE_OPERATION_PRIORITY = 2;
-    private final int POWER_OPERATION_PRIORITY = 3;
-    private final int UNARY_OPERATION_PRIORITY = 4;
+    private static final int ADDITIVE_OPERATION_PRIORITY = 1;
+    private static final int MULTIPLICATIVE_OPERATION_PRIORITY = 2;
+    private static final int POWER_OPERATION_PRIORITY = 3;
+    private static final int UNARY_OPERATION_PRIORITY = 4;
 
     private Deque<Expr> operands;
     private Deque<Character> operations;
@@ -71,10 +71,10 @@ public class ExprBuilderImpl implements ExprBuilder {
     /**
      * Creates new operand, corresponding to operation, and pushes it to stack
      *
-     * @param currentChar - symbolic representation of operation to perform
+     * @param operation - symbolic representation of operation to perform
      */
-    private void onOperationFound(char currentChar) {
-        switch (currentChar) {
+    private void onOperationFound(char operation) {
+        switch (operation) {
 
             case PLUS_SIGN : {
                 Expr operand2 = operands.pop();
@@ -143,6 +143,10 @@ public class ExprBuilderImpl implements ExprBuilder {
                     )
                 );
                 break;
+            }
+
+            default : {
+                throw new IllegalArgumentException("No such operation found:" + operation);
             }
         }
     }
@@ -276,7 +280,7 @@ public class ExprBuilderImpl implements ExprBuilder {
                     continue;
                 }
 
-                if(
+                if (
                     hasBiggerPriority(currentChar, operations.peek())
                     || isUnaryOperation(currentChar)
                 ) {
@@ -387,8 +391,8 @@ public class ExprBuilderImpl implements ExprBuilder {
     }
 
     private boolean isBinaryOperation(char operation) {
-        return (operation == PLUS_SIGN) || (operation == MINUS_SIGN) ||
-            (operation == MULTIPLY_SIGN) || (operation == DIVIDE_SIGN) ||
-            (operation == POWER_SIGN);
+        return (operation == PLUS_SIGN) || (operation == MINUS_SIGN)
+            || (operation == MULTIPLY_SIGN) || (operation == DIVIDE_SIGN)
+            || (operation == POWER_SIGN);
     }
 }

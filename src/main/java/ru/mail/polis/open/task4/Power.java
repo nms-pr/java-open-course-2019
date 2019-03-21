@@ -14,11 +14,15 @@ public class Power implements Expr {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Power power1 = (Power) o;
-        return base.equals(power1.base) &&
-                power.equals(power1.power);
+        return base.equals(power1.base)
+            && power.equals(power1.power);
     }
 
     @Override

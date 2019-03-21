@@ -17,10 +17,14 @@ public final class Const implements Expr {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Const aConst = (Const) o;
-        return value == aConst.value;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Const other = (Const) o;
+        return value == other.value;
     }
 
     @Override

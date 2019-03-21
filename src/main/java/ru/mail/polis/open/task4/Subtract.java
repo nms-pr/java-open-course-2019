@@ -19,11 +19,15 @@ public class Subtract implements Expr {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Subtract subtract = (Subtract) o;
-        return left.equals(subtract.left) &&
-                right.equals(subtract.right);
+        return left.equals(subtract.left)
+            && right.equals(subtract.right);
     }
 
     @Override
