@@ -19,11 +19,15 @@ public final class Pow implements Expr {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Pow pow = (Pow) o;
-        return Objects.equals(left, pow.left) &&
-            Objects.equals(right, pow.right);
+        return Objects.equals(left, pow.left)
+            && Objects.equals(right, pow.right);
     }
 
     @Override

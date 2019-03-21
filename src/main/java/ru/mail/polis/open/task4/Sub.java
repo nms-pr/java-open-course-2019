@@ -19,11 +19,15 @@ public final class Sub implements Expr {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Sub sub = (Sub) o;
-        return Objects.equals(left, sub.left) &&
-            Objects.equals(right, sub.right);
+        return Objects.equals(left, sub.left)
+            && Objects.equals(right, sub.right);
     }
 
     @Override

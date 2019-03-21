@@ -17,8 +17,12 @@ public final class UnMin implements Expr {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         UnMin unMin = (UnMin) o;
         return Objects.equals(operand, unMin.operand);
     }

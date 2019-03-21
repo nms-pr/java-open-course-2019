@@ -19,11 +19,16 @@ public final class Div implements Expr {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null
+            || getClass() != o.getClass()) {
+            return false;
+        }
         Div div = (Div) o;
-        return Objects.equals(left, div.left) &&
-            Objects.equals(right, div.right);
+        return Objects.equals(left, div.left)
+            && Objects.equals(right, div.right);
     }
 
     @Override

@@ -24,10 +24,10 @@ public class ExprBuilderImplements implements ExprBuilder {
 
     Map<String, Integer> operationsPriority;
 
-    public String transformationExpression (String expression,
-                                            Map<String, Integer> operations,
-                                            String leftBracket,
-                                            String rightBracket) {
+    public String transformationExpression(String expression,
+                                           Map<String, Integer> operations,
+                                           String leftBracket,
+                                           String rightBracket) {
         if (expression == null
             || expression.length() == 0
             || operations == null
@@ -47,7 +47,7 @@ public class ExprBuilderImplements implements ExprBuilder {
         int indexOfEndsParsingStringLastIteration = 0;
         boolean findNext = true;
 
-        while(findNext) {
+        while (findNext) {
             int nextOperationIndex = expression.length();
             String nextOperation = "";
             for (String operation : symbolsNotOperand) {
@@ -138,7 +138,7 @@ public class ExprBuilderImplements implements ExprBuilder {
             } else {
                 //may be something wrong
                 Expr operand2 = deque.pop();
-                if (token.equals("-")){
+                if (token.equals("-")) {
                     deque.push(new UnMin(operand2));
                 } else {
                     if (!deque.isEmpty()) {

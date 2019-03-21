@@ -19,11 +19,15 @@ public final class Mult implements Expr {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Mult mult = (Mult) o;
-        return Objects.equals(left, mult.left) &&
-            Objects.equals(right, mult.right);
+        return Objects.equals(left, mult.left)
+            && Objects.equals(right, mult.right);
     }
 
     @Override
