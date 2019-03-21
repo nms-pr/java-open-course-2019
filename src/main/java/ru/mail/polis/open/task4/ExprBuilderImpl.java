@@ -5,102 +5,142 @@ import java.util.Deque;
 
 public class ExprBuilderImpl implements ExprBuilder {
 
+    private final char PLUS_SIGN = '+';
+    private final char MINUS_SIGN = '-';
+    private final char MULTIPLY_SIGN = '*';
+    private final char DIVIDE_SIGN = '/';
+    private final char POWER_SIGN = '^';
+    private final char UNARY_MINUS_SIGN = 'm';
+    private final char OPEN_BRACE = '(';
+    private final char CLOSE_BRACE = ')';
+
+    private final int ADDITIVE_OPERATION_PRIORITY = 1;
+    private final int MULTIPLICATIVE_OPERATION_PRIORITY = 2;
+    private final int POWER_OPERATION_PRIORITY = 3;
+    private final int UNARY_OPERATION_PRIORITY = 4;
+
     private Deque<Expr> operands;
     private Deque<Character> operations;
 
     public ExprBuilderImpl() {
+
         operands = new ArrayDeque<>();
         operations = new ArrayDeque<>();
+
     }
 
     @Override
     public Expr build(String input) {
 
-        operands.clear();
         String postfixForm = generatePostfixForm(input);
 
+        operands.clear();
+
         for (int index = 0; index < postfixForm.length(); index++) {
+            char currentChar = postfixForm.charAt(index);
 
-            if (isOperand(postfixForm.charAt(index))) {
-                operands.push(
-                    new Const(
-                        Character.getNumericValue(postfixForm.charAt(index))
-                    )
-                );
-
-            } else if (isOperation(postfixForm.charAt(index))) {
-                switch (postfixForm.charAt(index)) {
-                    case '+' : {
-                        Expr operand2 = operands.pop();
-                        Expr operand1 = operands.pop();
-                        operands.push(
-                            new Add(
-                                operand1,
-                                operand2
-                            )
-                        );
-                        break;
-                    }
-                    case '-' : {
-                        Expr operand2 = operands.pop();
-                        Expr operand1 = operands.pop();
-                        operands.push(
-                            new Subtract(
-                                operand1,
-                                operand2
-                            )
-                        );
-                        break;
-                    }
-                    case '*' : {
-                        Expr operand2 = operands.pop();
-                        Expr operand1 = operands.pop();
-                        operands.push(
-                            new Multiply(
-                                operand1,
-                                operand2
-                            )
-                        );
-                        break;
-                    }
-                    case '/' : {
-                        Expr operand2 = operands.pop();
-                        Expr operand1 = operands.pop();
-                        operands.push(
-                            new Divide(
-                                operand1,
-                                operand2
-                            )
-                        );
-                        break;
-                    }
-                    case '^' : {
-                        Expr operand2 = operands.pop();
-                        Expr operand1 = operands.pop();
-                        operands.push(
-                            new Power(
-                                operand1,
-                                operand2
-                            )
-                        );
-                        break;
-                    }
-                    case 'm' : {
-                        operands.push(
-                            new UnaryMinus(
-                                operands.pop()
-                            )
-                        );
-                        break;
-                    }
-                }
+            if (isOperand(currentChar)) {
+                onOperandFound(currentChar);
+            } else if (isOperation(currentChar)) {
+                onOperationFound(currentChar);
             }
-
         }
 
         return operands.pop();
     }
 
+    private void onOperandFound(char currentChar) {
+        operands.push(
+            new Const(
+                Character.getNumericValue(currentChar)
+            )
+        );
+    }
+
+    /**
+     * Creates new operand, corresponding to operation, and pushes it to stack
+     *
+     * @param currentChar - symbolic representation of operation to perform
+     */
+    private void onOperationFound(char currentChar) {
+        switch (currentChar) {
+
+            case PLUS_SIGN : {
+                Expr operand2 = operands.pop();
+                Expr operand1 = operands.pop();
+                operands.push(
+                    new Add(
+                        operand1,
+                        operand2
+                    )
+                );
+                break;
+            }
+
+            case MINUS_SIGN : {
+                Expr operand2 = operands.pop();
+                Expr operand1 = operands.pop();
+                operands.push(
+                    new Subtract(
+                        operand1,
+                        operand2
+                    )
+                );
+                break;
+            }
+
+            case MULTIPLY_SIGN : {
+                Expr operand2 = operands.pop();
+                Expr operand1 = operands.pop();
+                operands.push(
+                    new Multiply(
+                        operand1,
+                        operand2
+                    )
+                );
+                break;
+            }
+
+            case DIVIDE_SIGN : {
+                Expr operand2 = operands.pop();
+                Expr operand1 = operands.pop();
+                operands.push(
+                    new Divide(
+                        operand1,
+                        operand2
+                    )
+                );
+                break;
+            }
+
+            case POWER_SIGN : {
+                Expr operand2 = operands.pop();
+                Expr operand1 = operands.pop();
+                operands.push(
+                    new Power(
+                        operand1,
+                        operand2
+                    )
+                );
+                break;
+            }
+
+            case UNARY_MINUS_SIGN : {
+                operands.push(
+                    new UnaryMinus(
+                        operands.pop()
+                    )
+                );
+                break;
+            }
+        }
+    }
+
+    /**
+     * Checks whether the string is valid
+     *
+     * @param infixForm - string to validate
+     */
     private void checkValidity(String infixForm) {
 
         if (infixForm.isEmpty()) {
@@ -112,14 +152,17 @@ public class ExprBuilderImpl implements ExprBuilder {
         int binaryOperationCount = 0;
         int operandsCount = 0;
         boolean wasBinaryOperationPresent = false;
+
         for (int index = 0; index < infixForm.length(); index++) {
+
             char currentChar = infixForm.charAt(index);
 
-            if (currentChar == '(') {
+            if (currentChar == OPEN_BRACE) {
                 openBraceCount++;
                 continue;
             }
-            if (currentChar == ')') {
+
+            if (currentChar == CLOSE_BRACE) {
                 closedBraceCount++;
                 continue;
             }
@@ -158,15 +201,23 @@ public class ExprBuilderImpl implements ExprBuilder {
         }
     }
 
+    /**
+     * Creates postfix form from infix
+     *
+     * @param infixForm - valid source string
+     * @return string in postfix form
+     */
     private String generatePostfixForm(String infixForm) {
 
+        String intermediateForm = generateSpacelessUnaryOperationsReplacedForm(infixForm);
 
-        String intermediateForm = generateSpacelessUnaryReplacedForm(infixForm);
         checkValidity(intermediateForm);
 
-        StringBuilder postfix = new StringBuilder();
         operations.clear();
+        StringBuilder postfix = new StringBuilder();
+
         for (int index = 0; index < intermediateForm.length(); index++) {
+
             char currentChar = intermediateForm.charAt(index);
 
             if (isOperand(currentChar)) {
@@ -174,28 +225,36 @@ public class ExprBuilderImpl implements ExprBuilder {
                 continue;
             }
 
-            if ((currentChar == '(') || (currentChar == ')') || (isOperation(currentChar))) {
-                if (currentChar == '(') {
-                    operations.push(currentChar);
-                    continue;
+            if (currentChar == OPEN_BRACE) {
+                operations.push(currentChar);
+                continue;
+            }
+
+            if (currentChar == CLOSE_BRACE) {
+
+                while (operations.peek() != OPEN_BRACE) {
+                    postfix.append(operations.pop());
                 }
 
-                if (currentChar == ')') {
-                    while (operations.peek() != '(') {
-                        postfix.append(operations.pop());
-                    }
-                    operations.pop();
-                    continue;
-                }
+                operations.pop();
+                continue;
+
+            }
+
+            if (isOperation(currentChar)) {
 
                 if (operations.isEmpty()) {
                     operations.push(currentChar);
                     continue;
                 }
 
-                if(hasMorePriority(currentChar, operations.peek()) || currentChar == 'm') {
+                if(
+                    hasBiggerPriority(currentChar, operations.peek())
+                    || isUnaryOperation(currentChar)
+                ) {
                     operations.push(currentChar);
                 } else {
+
                     postfix.append(operations.pop());
                     operations.push(currentChar);
                 }
@@ -209,13 +268,23 @@ public class ExprBuilderImpl implements ExprBuilder {
         return postfix.toString();
     }
 
-    private String generateSpacelessUnaryReplacedForm(String infixForm) {
+    /**
+     *
+     * Deletes all whitespaces and replaces unary minus operation '-' with 'm' (e.g. -5 -> m5)
+     *
+     * @param input - string to modify
+     * @return modified string
+     */
+    private String generateSpacelessUnaryOperationsReplacedForm(String input) {
+
         operations.clear();
         StringBuilder spacelessForm = new StringBuilder();
-        for (int index = 0; index < infixForm.length(); index++) {
-            char currentChar = infixForm.charAt(index);
 
-            if (currentChar == ' ') {
+        for (int index = 0; index < input.length(); index++) {
+
+            char currentChar = input.charAt(index);
+
+            if (currentChar == Character.SPACE_SEPARATOR) {
                 continue;
             }
 
@@ -223,12 +292,17 @@ public class ExprBuilderImpl implements ExprBuilder {
                 spacelessForm.append(currentChar);
             }
 
-            if (currentChar == '-' && (spacelessForm.length() == 0 || spacelessForm.charAt(spacelessForm.length() - 1) == '(' || isOperation(spacelessForm.charAt(spacelessForm.length() - 1)))) {
-                spacelessForm.append('m');
+            if (currentChar == MINUS_SIGN
+                && (spacelessForm.length() == 0
+                    || spacelessForm.charAt(spacelessForm.length() - 1) == OPEN_BRACE
+                    || isOperation(spacelessForm.charAt(spacelessForm.length() - 1))
+                )
+            ) {
+                spacelessForm.append(UNARY_MINUS_SIGN);
                 continue;
             }
 
-            if (isOperation(currentChar) || currentChar == '(' || currentChar == ')') {
+            if (isOperation(currentChar) || currentChar == OPEN_BRACE || currentChar == CLOSE_BRACE) {
                 spacelessForm.append(currentChar);
                 continue;
             }
@@ -237,31 +311,32 @@ public class ExprBuilderImpl implements ExprBuilder {
         return spacelessForm.toString();
     }
 
-    private boolean hasMorePriority(char newOperation, Character storedOperation) {
+    private boolean hasBiggerPriority(char newOperation, Character storedOperation) {
         return getPriority(newOperation) > getPriority(storedOperation);
     }
 
     private int getPriority(Character operation) {
+
         switch (operation) {
-            case '(' :
+            case OPEN_BRACE :
                 return 0;
 
-            case '+' :
-            case '-' : {
-                return 1;
+            case PLUS_SIGN :
+            case MINUS_SIGN : {
+                return ADDITIVE_OPERATION_PRIORITY;
             }
 
-            case '*' :
-            case '/' : {
-                return 2;
+            case MULTIPLY_SIGN :
+            case DIVIDE_SIGN : {
+                return MULTIPLICATIVE_OPERATION_PRIORITY;
             }
 
-            case '^' : {
-                return 3;
+            case POWER_SIGN : {
+                return POWER_OPERATION_PRIORITY;
             }
 
-            case 'm' : {
-                return 4;
+            case UNARY_MINUS_SIGN : {
+                return UNARY_OPERATION_PRIORITY;
             }
 
             default: {
@@ -279,12 +354,12 @@ public class ExprBuilderImpl implements ExprBuilder {
     }
 
     private boolean isUnaryOperation(char operation) {
-        return operation == 'm';
+        return operation == UNARY_MINUS_SIGN;
     }
 
     private boolean isBinaryOperation(char operation) {
-        return (operation == '+') || (operation == '-') ||
-            (operation == '*') || (operation == '/') ||
-            (operation == '^');
+        return (operation == PLUS_SIGN) || (operation == MINUS_SIGN) ||
+            (operation == MULTIPLY_SIGN) || (operation == DIVIDE_SIGN) ||
+            (operation == POWER_SIGN);
     }
 }
