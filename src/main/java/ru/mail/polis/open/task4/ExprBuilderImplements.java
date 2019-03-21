@@ -40,9 +40,9 @@ public class ExprBuilderImplements implements ExprBuilder {
 
         expression = expression.replace(" ", "");
 
-        Set<String> symbolsNotOperationsAndOperand = new HashSet<>(operations.keySet());
-        symbolsNotOperationsAndOperand.add(leftBracket);
-        symbolsNotOperationsAndOperand.add(rightBracket);
+        Set<String> symbolsNotOperand = new HashSet<>(operations.keySet());
+        symbolsNotOperand.add(leftBracket);
+        symbolsNotOperand.add(rightBracket);
 
         int indexOfEndsParsingStringLastIteration = 0;
         boolean findNext = true;
@@ -50,12 +50,12 @@ public class ExprBuilderImplements implements ExprBuilder {
         while(findNext) {
             int nextOperationIndex = expression.length();
             String nextOperation = "";
-            for (String operation : symbolsNotOperationsAndOperand) {
+            for (String operation : symbolsNotOperand) {
                 int i = expression.indexOf(operation,
                     indexOfEndsParsingStringLastIteration);
                 if (i >= 0 && i < nextOperationIndex) {
                     nextOperation = operation;
-                    indexOfEndsParsingStringLastIteration = i;
+                    nextOperationIndex = i;
                 }
             }
 
@@ -63,14 +63,18 @@ public class ExprBuilderImplements implements ExprBuilder {
                 findNext = false;
             } else {
                 if (indexOfEndsParsingStringLastIteration != nextOperationIndex) {
-                    symbolsOfExpression.add(expression.substring(indexOfEndsParsingStringLastIteration,
-                        nextOperationIndex));
+                    symbolsOfExpression.add(
+                        expression.substring(
+                            indexOfEndsParsingStringLastIteration,
+                            nextOperationIndex
+                        )
+                    );
                 }
 
                 if (nextOperation.equals(leftBracket)) {
                     operationOfExpression.push(nextOperation);
                 } else if (nextOperation.equals(rightBracket)) {
-                    while (operationOfExpression.peek().equals(leftBracket)) {
+                    while (!operationOfExpression.peek().equals(leftBracket)) {
                         symbolsOfExpression.add(operationOfExpression.pop());
                         if (operationOfExpression.isEmpty()) {
                             throw new IllegalArgumentException("Unmatched brackets");
@@ -80,17 +84,24 @@ public class ExprBuilderImplements implements ExprBuilder {
                 } else {
                     while (!operationOfExpression.isEmpty()
                         && !operationOfExpression.peek().equals(leftBracket)
-                        && operations.get(nextOperation) >= operations.get(operationOfExpression.peek())) {
+                        && operations.get(nextOperation)
+                        >= operations.get(operationOfExpression.peek())) {
 
                         symbolsOfExpression.add(operationOfExpression.pop());
                     }
                     operationOfExpression.push(nextOperation);
                 }
-                indexOfEndsParsingStringLastIteration = nextOperationIndex + nextOperation.length();
+                indexOfEndsParsingStringLastIteration
+                    = nextOperationIndex
+                    + nextOperation.length();
             }
         }
         if (indexOfEndsParsingStringLastIteration != expression.length()) {
-            symbolsOfExpression.add(expression.substring(indexOfEndsParsingStringLastIteration));
+            symbolsOfExpression.add(
+                expression.substring(
+                    indexOfEndsParsingStringLastIteration
+                )
+            );
         }
 
         while (!operationOfExpression.isEmpty()) {
@@ -122,16 +133,16 @@ public class ExprBuilderImplements implements ExprBuilder {
             String token = tokenizer.nextToken();
 
             if (!operationsPriority.keySet().contains(token)) {
-                Integer operand = Integer.valueOf(token);
+                int operand = Integer.parseInt(token.trim());
                 deque.push(new Const(operand));
             } else {
                 //may be something wrong
-                Const operand2 = (Const) deque.pop();
+                Expr operand2 = deque.pop();
                 if (token.equals("-")){
                     deque.push(new UnMin(operand2));
                 } else {
                     if (!deque.isEmpty()) {
-                        Const operand1 = (Const) deque.pop();
+                        Expr operand1 = deque.pop();
 
                         if (token.equals("^")) {
                             deque.push(
@@ -183,7 +194,7 @@ public class ExprBuilderImplements implements ExprBuilder {
 
     public static void main(String[] args) {
         ExprBuilderImplements test = new ExprBuilderImplements();
-        Expr result = test.build("2 + 15");
+        Expr result = test.build("- ((- 5 + 1) ^ 2 * 10 —  - 15) / (3 + 10) * 14");
         System.out.println(result.evaluate());
     }
 }
