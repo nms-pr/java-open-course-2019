@@ -22,7 +22,7 @@ public class ExprBuilderImplements implements ExprBuilder {
         operationsPriority.put("—", 4);
     }
 
-    private Map<String, Integer> operationsPriority;
+    Map<String, Integer> operationsPriority;
 
     public String transformationExpression (String expression,
                                             Map<String, Integer> operations,
@@ -190,11 +190,5 @@ public class ExprBuilderImplements implements ExprBuilder {
             throw new IllegalArgumentException("Expression syntax error.");
         }
         return deque.pop();
-    }
-
-    public static void main(String[] args) {
-        ExprBuilderImplements test = new ExprBuilderImplements();
-        Expr result = test.build("- ((- 5 + 1) ^ 2 * 10 —  - 15) / (3 + 10) * 14");
-        System.out.println(result.evaluate());
     }
 }
