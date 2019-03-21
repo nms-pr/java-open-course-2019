@@ -1,13 +1,15 @@
 package ru.mail.polis.open.task4;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Objects;
 
 public class UnaryMinus implements Expr {
 
-    private final Expr expr;
+    private final @NotNull Expr expr;
 
-    public UnaryMinus(Expr expr) {
-        this.expr = expr;
+    public UnaryMinus(final @NotNull Expr expr) {
+        this.expr = Objects.requireNonNull(expr);
     }
 
     @Override

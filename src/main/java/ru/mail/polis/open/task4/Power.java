@@ -1,15 +1,17 @@
 package ru.mail.polis.open.task4;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Objects;
 
 public class Power implements Expr {
 
-    private final Expr base;
-    private final Expr power;
+    private final @NotNull Expr base;
+    private final @NotNull Expr power;
 
-    public Power(Expr base, Expr power) {
-        this.base = base;
-        this.power = power;
+    public Power(final @NotNull Expr base, final @NotNull Expr power) {
+        this.base = Objects.requireNonNull(base);
+        this.power = Objects.requireNonNull(power);
     }
 
     @Override

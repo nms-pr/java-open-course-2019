@@ -1,15 +1,17 @@
 package ru.mail.polis.open.task4;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Objects;
 
 public class Divide implements Expr {
 
-    private final Expr divident;
-    private final Expr divider;
+    private final @NotNull Expr divident;
+    private final @NotNull Expr divider;
 
-    public Divide(Expr divident, Expr divider) {
-        this.divident = divident;
-        this.divider = divider;
+    public Divide(final @NotNull Expr divident, final @NotNull Expr divider) {
+        this.divident = Objects.requireNonNull(divident);
+        this.divider = Objects.requireNonNull(divider);
     }
 
     @Override
