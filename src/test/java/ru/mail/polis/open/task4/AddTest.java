@@ -9,7 +9,8 @@ class AddTest {
 
     @Test
     void test() {
-        assertEquals(3,
+        assertEquals(
+            3,
             new Add(
                 new Const(1),
                 new Const(2)

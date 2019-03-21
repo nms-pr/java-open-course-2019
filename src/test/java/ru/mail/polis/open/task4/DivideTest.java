@@ -8,7 +8,8 @@ class DivideTest {
 
     @Test
     void evaluate() {
-        assertEquals(3,
+        assertEquals(
+            3,
                 new Divide(
                         new Const(15),
                         new Const(5)

@@ -8,7 +8,8 @@ class SubtractTest {
 
     @Test
     void evaluate() {
-        assertEquals(5,
+        assertEquals(
+            5,
                 new Subtract(
                         new Const(8),
                         new Const(3)

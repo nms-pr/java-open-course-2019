@@ -9,7 +9,8 @@ class MultiplyTest {
     @Test
     void evaluate() {
 
-        assertEquals(15,
+        assertEquals(
+            15,
             new Multiply(
                     new Const(3),
                     new Const(5)

@@ -8,7 +8,8 @@ class UnaryMinusTest {
 
     @Test
     void evaluate() {
-        assertEquals(-5,
+        assertEquals(
+            -5,
                 new UnaryMinus(
                         new Const(5)
                 ).evaluate()

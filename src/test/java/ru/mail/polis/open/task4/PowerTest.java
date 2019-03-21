@@ -8,7 +8,8 @@ class PowerTest {
 
     @Test
     void evaluate() {
-        assertEquals(8,
+        assertEquals(
+            8,
                 new Power(
                         new Const(2),
                         new Const(3)
