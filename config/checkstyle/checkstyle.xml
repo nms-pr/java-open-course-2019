@@ -6,84 +6,80 @@
 <!--
     Checkstyle configuration that checks the Google coding conventions from Google Java Style
     that can be found at https://google.github.io/styleguide/javaguide.html.
-
     Checkstyle is very configurable. Be sure to read the documentation at
     http://checkstyle.sf.net (or in your downloaded distribution).
-
     To completely disable a check, just comment it out or delete it from the file.
-
     Authors: Max Vetrenko, Ruslan Diachenko, Roman Ivanov.
-
     * with some custom improvements
  -->
 
 <module name = "Checker">
-    <property name="charset" expr="UTF-8"/>
+    <property name="charset" value="UTF-8"/>
 
-    <property name="severity" expr="warning"/>
+    <property name="severity" value="warning"/>
 
-    <property name="fileExtensions" expr="java, properties, xml"/>
+    <property name="fileExtensions" value="java, properties, xml"/>
 
     <module name="FileTabCharacter">
-        <property name="eachLine" expr="true"/>
+        <property name="eachLine" value="true"/>
     </module>
 
     <module name="TreeWalker">
         <module name="SuppressionCommentFilter">
-            <property name="offCommentFormat" expr="CHECKSTYLE_OFF\: ([\w\|]+)"/>
-            <property name="onCommentFormat" expr="CHECKSTYLE_ON\: ([\w\|]+)"/>
-            <property name="checkFormat" expr="$1"/>
+            <property name="offCommentFormat" value="CHECKSTYLE_OFF\: ([\w\|]+)"/>
+            <property name="onCommentFormat" value="CHECKSTYLE_ON\: ([\w\|]+)"/>
+            <property name="checkFormat" value="$1"/>
         </module>
         <module name="OuterTypeFilename"/>
         <module name="IllegalTokenText">
-            <property name="tokens" expr="STRING_LITERAL, CHAR_LITERAL"/>
+            <property name="tokens" value="STRING_LITERAL, CHAR_LITERAL"/>
             <property name="format"
-                      expr="\\u00(09|0(a|A)|0(c|C)|0(d|D)|22|27|5(C|c))|\\(0(10|11|12|14|15|42|47)|134)"/>
+                      value="\\u00(09|0(a|A)|0(c|C)|0(d|D)|22|27|5(C|c))|\\(0(10|11|12|14|15|42|47)|134)"/>
             <property name="message"
-                      expr="Consider using special escape sequence instead of octal expr or Unicode escaped expr."/>
+                      value="Consider using special escape sequence instead of octal value or Unicode escaped value."/>
         </module>
         <module name="AvoidEscapedUnicodeCharacters">
-            <property name="allowEscapesForControlCharacters" expr="true"/>
-            <property name="allowByTailComment" expr="true"/>
-            <property name="allowNonPrintableEscapes" expr="true"/>
+            <property name="allowEscapesForControlCharacters" value="true"/>
+            <property name="allowByTailComment" value="true"/>
+            <property name="allowNonPrintableEscapes" value="true"/>
         </module>
         <module name="LineLength">
-            <property name="max" expr="120"/>
-            <property name="ignorePattern" expr="^package.*|^import.*|a href|href|http://|https://|ftp://"/>
+            <property name="max" value="120"/>
+            <property name="ignorePattern" value="^package.*|^import.*|a href|href|http://|https://|ftp://"/>
         </module>
         <module name="AvoidStarImport"/>
         <module name="OneTopLevelClass"/>
         <module name="NoLineWrap"/>
         <module name="EmptyBlock">
-            <property name="option" expr="TEXT"/>
+            <property name="option" value="TEXT"/>
             <property name="tokens"
-                      expr="LITERAL_TRY, LITERAL_FINALLY, LITERAL_IF, LITERAL_ELSE, LITERAL_SWITCH"/>
+                      value="LITERAL_TRY, LITERAL_FINALLY, LITERAL_IF, LITERAL_ELSE, LITERAL_SWITCH"/>
         </module>
         <module name="NeedBraces"/>
         <module name="LeftCurly"/>
         <module name="RightCurly">
-            <property name="id" expr="RightCurlySame"/>
+            <property name="id" value="RightCurlySame"/>
             <property name="tokens"
-                      expr="LITERAL_TRY, LITERAL_CATCH, LITERAL_FINALLY, LITERAL_IF, LITERAL_ELSE,
+                      value="LITERAL_TRY, LITERAL_CATCH, LITERAL_FINALLY, LITERAL_IF, LITERAL_ELSE,
                     LITERAL_DO"/>
         </module>
         <module name="RightCurly">
-            <property name="id" expr="RightCurlyAlone"/>
-            <property name="option" expr="alone"/>
+            <property name="id" value="RightCurlyAlone"/>
+            <property name="option" value="alone"/>
             <property name="tokens"
-                      expr="CLASS_DEF, METHOD_DEF, CTOR_DEF, LITERAL_FOR, LITERAL_WHILE, STATIC_INIT,
+                      value="CLASS_DEF, METHOD_DEF, CTOR_DEF, LITERAL_FOR, LITERAL_WHILE, STATIC_INIT,
                     INSTANCE_INIT"/>
         </module>
         <module name="WhitespaceAround">
-            <property name="allowEmptyConstructors" expr="true"/>
-            <property name="allowEmptyLambdas" expr="true"/>
-            <property name="allowEmptyMethods" expr="true"/>
-            <property name="allowEmptyTypes" expr="true"/>
-            <property name="allowEmptyLoops" expr="true"/>
+            <property name="allowEmptyConstructors" value="true"/>
+            <property name="allowEmptyLambdas" value="true"/>
+            <property name="allowEmptyMethods" value="true"/>
+            <property name="allowEmptyTypes" value="true"/>
+            <property name="allowEmptyLoops" value="true"/>
             <message key="ws.notFollowed"
-                     expr="WhitespaceAround: ''{0}'' is not followed by whitespace. Empty blocks may only be represented as '{}' when not part of a multi-block statement (4.1.3)"/>
+                     value="WhitespaceAround: ''{0}'' is not followed by whitespace. Empty blocks may only be represented as '{}' when not part of a multi-block statement (4.1.3)"/>
             <message key="ws.notPreceded"
-                     expr="WhitespaceAround: ''{0}'' is not preceded with whitespace."/>
+                     value="WhitespaceAround: ''{0}'' is not preceded with whitespace."/>
         </module>
         <module name="OneStatementPerLine"/>
         <module name="MultipleVariableDeclarations"/>
@@ -93,149 +89,149 @@
         <module name="UpperEll"/>
         <module name="ModifierOrder"/>
         <module name="EmptyLineSeparator">
-            <property name="allowNoEmptyLineBetweenFields" expr="true"/>
+            <property name="allowNoEmptyLineBetweenFields" value="true"/>
         </module>
         <module name="SeparatorWrap">
-            <property name="id" expr="SeparatorWrapDot"/>
-            <property name="tokens" expr="DOT"/>
-            <property name="option" expr="nl"/>
+            <property name="id" value="SeparatorWrapDot"/>
+            <property name="tokens" value="DOT"/>
+            <property name="option" value="nl"/>
         </module>
         <module name="SeparatorWrap">
-            <property name="id" expr="SeparatorWrapComma"/>
-            <property name="tokens" expr="COMMA"/>
-            <property name="option" expr="EOL"/>
+            <property name="id" value="SeparatorWrapComma"/>
+            <property name="tokens" value="COMMA"/>
+            <property name="option" value="EOL"/>
         </module>
         <module name="SeparatorWrap">
             <!-- ELLIPSIS is EOL until https://github.com/google/styleguide/issues/258 -->
-            <property name="id" expr="SeparatorWrapEllipsis"/>
-            <property name="tokens" expr="ELLIPSIS"/>
-            <property name="option" expr="EOL"/>
+            <property name="id" value="SeparatorWrapEllipsis"/>
+            <property name="tokens" value="ELLIPSIS"/>
+            <property name="option" value="EOL"/>
         </module>
         <module name="SeparatorWrap">
             <!-- ARRAY_DECLARATOR is EOL until https://github.com/google/styleguide/issues/259 -->
-            <property name="id" expr="SeparatorWrapArrayDeclarator"/>
-            <property name="tokens" expr="ARRAY_DECLARATOR"/>
-            <property name="option" expr="EOL"/>
+            <property name="id" value="SeparatorWrapArrayDeclarator"/>
+            <property name="tokens" value="ARRAY_DECLARATOR"/>
+            <property name="option" value="EOL"/>
         </module>
         <module name="SeparatorWrap">
-            <property name="id" expr="SeparatorWrapMethodRef"/>
-            <property name="tokens" expr="METHOD_REF"/>
-            <property name="option" expr="nl"/>
+            <property name="id" value="SeparatorWrapMethodRef"/>
+            <property name="tokens" value="METHOD_REF"/>
+            <property name="option" value="nl"/>
         </module>
         <module name="PackageName">
-            <property name="format" expr="^[a-z]+(\.[a-z][a-z0-9]*)*$"/>
+            <property name="format" value="^[a-z]+(\.[a-z][a-z0-9]*)*$"/>
             <message key="name.invalidPattern"
-                     expr="Package name ''{0}'' must match pattern ''{1}''."/>
+                     value="Package name ''{0}'' must match pattern ''{1}''."/>
         </module>
         <module name="TypeName">
             <message key="name.invalidPattern"
-                     expr="Type name ''{0}'' must match pattern ''{1}''."/>
+                     value="Type name ''{0}'' must match pattern ''{1}''."/>
         </module>
         <module name="MemberName">
-            <property name="format" expr="^[a-z][a-z0-9][a-zA-Z0-9]*$"/>
+            <property name="format" value="^[a-z][a-z0-9][a-zA-Z0-9]*$"/>
             <message key="name.invalidPattern"
-                     expr="Member name ''{0}'' must match pattern ''{1}''."/>
+                     value="Member name ''{0}'' must match pattern ''{1}''."/>
         </module>
         <module name="ParameterName">
-            <property name="format" expr="^[a-z]([a-z0-9][a-zA-Z0-9]*)?$"/>
+            <property name="format" value="^[a-z]([a-z0-9][a-zA-Z0-9]*)?$"/>
             <message key="name.invalidPattern"
-                     expr="Parameter name ''{0}'' must match pattern ''{1}''."/>
+                     value="Parameter name ''{0}'' must match pattern ''{1}''."/>
         </module>
         <module name="LambdaParameterName">
-            <property name="format" expr="^[a-z]([a-z0-9][a-zA-Z0-9]*)?$"/>
+            <property name="format" value="^[a-z]([a-z0-9][a-zA-Z0-9]*)?$"/>
             <message key="name.invalidPattern"
-                     expr="Lambda parameter name ''{0}'' must match pattern ''{1}''."/>
+                     value="Lambda parameter name ''{0}'' must match pattern ''{1}''."/>
         </module>
         <module name="CatchParameterName">
-            <property name="format" expr="^[a-z]([a-z0-9][a-zA-Z0-9]*)?$"/>
+            <property name="format" value="^[a-z]([a-z0-9][a-zA-Z0-9]*)?$"/>
             <message key="name.invalidPattern"
-                     expr="Catch parameter name ''{0}'' must match pattern ''{1}''."/>
+                     value="Catch parameter name ''{0}'' must match pattern ''{1}''."/>
         </module>
         <module name="LocalVariableName">
-            <property name="tokens" expr="VARIABLE_DEF"/>
-            <property name="format" expr="^[a-z]([a-z0-9][a-zA-Z0-9]*)?$"/>
+            <property name="tokens" value="VARIABLE_DEF"/>
+            <property name="format" value="^[a-z]([a-z0-9][a-zA-Z0-9]*)?$"/>
             <message key="name.invalidPattern"
-                     expr="Local variable name ''{0}'' must match pattern ''{1}''."/>
+                     value="Local variable name ''{0}'' must match pattern ''{1}''."/>
         </module>
         <module name="ClassTypeParameterName">
-            <property name="format" expr="(^[A-Z][0-9]?)$|([A-Z][a-zA-Z0-9]*[T]$)"/>
+            <property name="format" value="(^[A-Z][0-9]?)$|([A-Z][a-zA-Z0-9]*[T]$)"/>
             <message key="name.invalidPattern"
-                     expr="Class type name ''{0}'' must match pattern ''{1}''."/>
+                     value="Class type name ''{0}'' must match pattern ''{1}''."/>
         </module>
         <module name="MethodTypeParameterName">
-            <property name="format" expr="(^[A-Z][0-9]?)$|([A-Z][a-zA-Z0-9]*[T]$)"/>
+            <property name="format" value="(^[A-Z][0-9]?)$|([A-Z][a-zA-Z0-9]*[T]$)"/>
             <message key="name.invalidPattern"
-                     expr="Method type name ''{0}'' must match pattern ''{1}''."/>
+                     value="Method type name ''{0}'' must match pattern ''{1}''."/>
         </module>
         <module name="InterfaceTypeParameterName">
-            <property name="format" expr="(^[A-Z][0-9]?)$|([A-Z][a-zA-Z0-9]*[T]$)"/>
+            <property name="format" value="(^[A-Z][0-9]?)$|([A-Z][a-zA-Z0-9]*[T]$)"/>
             <message key="name.invalidPattern"
-                     expr="Interface type name ''{0}'' must match pattern ''{1}''."/>
+                     value="Interface type name ''{0}'' must match pattern ''{1}''."/>
         </module>
         <module name="NoFinalizer"/>
         <module name="GenericWhitespace">
             <message key="ws.followed"
-                     expr="GenericWhitespace ''{0}'' is followed by whitespace."/>
+                     value="GenericWhitespace ''{0}'' is followed by whitespace."/>
             <message key="ws.preceded"
-                     expr="GenericWhitespace ''{0}'' is preceded with whitespace."/>
+                     value="GenericWhitespace ''{0}'' is preceded with whitespace."/>
             <message key="ws.illegalFollow"
-                     expr="GenericWhitespace ''{0}'' should followed by whitespace."/>
+                     value="GenericWhitespace ''{0}'' should followed by whitespace."/>
             <message key="ws.notPreceded"
-                     expr="GenericWhitespace ''{0}'' is not preceded with whitespace."/>
+                     value="GenericWhitespace ''{0}'' is not preceded with whitespace."/>
         </module>
         <module name="Indentation">
-            <property name="basicOffset" expr="4"/>
-            <property name="braceAdjustment" expr="0"/>
-            <property name="caseIndent" expr="4"/>
-            <property name="throwsIndent" expr="4"/>
-            <property name="lineWrappingIndentation" expr="4"/>
-            <property name="arrayInitIndent" expr="4"/>
+            <property name="basicOffset" value="4"/>
+            <property name="braceAdjustment" value="0"/>
+            <property name="caseIndent" value="4"/>
+            <property name="throwsIndent" value="4"/>
+            <property name="lineWrappingIndentation" value="4"/>
+            <property name="arrayInitIndent" value="4"/>
         </module>
         <module name="AbbreviationAsWordInName">
-            <property name="ignoreFinal" expr="false"/>
-            <property name="allowedAbbreviationLength" expr="1"/>
+            <property name="ignoreFinal" value="false"/>
+            <property name="allowedAbbreviationLength" value="1"/>
         </module>
         <module name="OverloadMethodsDeclarationOrder"/>
         <module name="VariableDeclarationUsageDistance"/>
         <module name="CustomImportOrder">
-            <property name="separateLineBetweenGroups" expr="true"/>
+            <property name="separateLineBetweenGroups" value="true"/>
         </module>
         <module name="MethodParamPad"/>
         <module name="NoWhitespaceBefore">
             <property name="tokens"
-                      expr="COMMA, SEMI, POST_INC, POST_DEC, DOT, ELLIPSIS, METHOD_REF"/>
-            <property name="allowLineBreaks" expr="true"/>
+                      value="COMMA, SEMI, POST_INC, POST_DEC, DOT, ELLIPSIS, METHOD_REF"/>
+            <property name="allowLineBreaks" value="true"/>
         </module>
         <module name="ParenPad"/>
         <module name="OperatorWrap">
-            <property name="option" expr="NL"/>
+            <property name="option" value="NL"/>
             <property name="tokens"
-                      expr="BAND, BOR, BSR, BXOR, DIV, EQUAL, GE, GT, LAND, LE, LITERAL_INSTANCEOF, LOR,
+                      value="BAND, BOR, BSR, BXOR, DIV, EQUAL, GE, GT, LAND, LE, LITERAL_INSTANCEOF, LOR,
                     LT, MINUS, MOD, NOT_EQUAL, PLUS, QUESTION, SL, SR, STAR, METHOD_REF "/>
         </module>
         <module name="AnnotationLocation">
-            <property name="id" expr="AnnotationLocationMostCases"/>
+            <property name="id" value="AnnotationLocationMostCases"/>
             <property name="tokens"
-                      expr="CLASS_DEF, INTERFACE_DEF, ENUM_DEF, METHOD_DEF, CTOR_DEF"/>
+                      value="CLASS_DEF, INTERFACE_DEF, ENUM_DEF, METHOD_DEF, CTOR_DEF"/>
         </module>
         <module name="AnnotationLocation">
-            <property name="id" expr="AnnotationLocationVariables"/>
-            <property name="tokens" expr="VARIABLE_DEF"/>
-            <property name="allowSamelineMultipleAnnotations" expr="true"/>
+            <property name="id" value="AnnotationLocationVariables"/>
+            <property name="tokens" value="VARIABLE_DEF"/>
+            <property name="allowSamelineMultipleAnnotations" value="true"/>
         </module>
         <module name="NonEmptyAtclauseDescription"/>
         <module name="AtclauseOrder">
-            <property name="tagOrder" expr="@param, @return, @throws, @deprecated"/>
+            <property name="tagOrder" value="@param, @return, @throws, @deprecated"/>
             <property name="target"
-                      expr="CLASS_DEF, INTERFACE_DEF, ENUM_DEF, METHOD_DEF, CTOR_DEF, VARIABLE_DEF"/>
+                      value="CLASS_DEF, INTERFACE_DEF, ENUM_DEF, METHOD_DEF, CTOR_DEF, VARIABLE_DEF"/>
         </module>
         <module name="MethodName">
-            <property name="format" expr="^[a-z][a-z0-9][a-zA-Z0-9_]*$"/>
+            <property name="format" value="^[a-z][a-z0-9][a-zA-Z0-9_]*$"/>
             <message key="name.invalidPattern"
-                     expr="Method name ''{0}'' must match pattern ''{1}''."/>
+                     value="Method name ''{0}'' must match pattern ''{1}''."/>
         </module>
         <module name="EmptyCatchBlock">
-            <property name="exceptionVariableName" expr="expected"/>
+            <property name="exceptionVariableName" value="expected"/>
         </module>
         <module name="CommentsIndentation"/>
     </module>

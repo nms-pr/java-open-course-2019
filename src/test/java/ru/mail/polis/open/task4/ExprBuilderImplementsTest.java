@@ -23,8 +23,8 @@ public class ExprBuilderImplementsTest {
         assertEquals(
             "2 2 2 * +",
             ebi.transformationExpression(
-               "2 + 2 * 2",
-               ebi.operationsPriority
+                "2 + 2 * 2",
+                ebi.operationsPriority
             )
         );
 
