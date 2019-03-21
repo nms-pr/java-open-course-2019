@@ -37,6 +37,7 @@ class ExprBuilderImplTest {
         assertDoesNotThrow(() -> builder.build("-3+5^2"));
         assertDoesNotThrow(() -> builder.build("-(9)"));
         assertDoesNotThrow(() -> builder.build("-(4+6)"));
+        assertDoesNotThrow(() -> builder.build("42+64"));
     }
 
     @Test
@@ -134,6 +135,14 @@ class ExprBuilderImplTest {
                 new Const(2)
             ),
             builder.build("3^2")
+        );
+
+        assertEquals(
+            new Add(
+                new Const (42),
+                new Const (64)
+            ),
+            builder.build("42+64")
         );
     }
 }

@@ -14,6 +14,9 @@ public class ExprBuilderImpl implements ExprBuilder {
     private final char OPEN_BRACE = '(';
     private final char CLOSE_BRACE = ')';
 
+    private final char OPERAND_FRONT_SEPARATOR = '{';
+    private final char OPERAND_END_SEPARATOR = '}';
+
     private final int ADDITIVE_OPERATION_PRIORITY = 1;
     private final int MULTIPLICATIVE_OPERATION_PRIORITY = 2;
     private final int POWER_OPERATION_PRIORITY = 3;
@@ -34,13 +37,15 @@ public class ExprBuilderImpl implements ExprBuilder {
 
         String postfixForm = generatePostfixForm(input);
 
+        checkValidity(postfixForm);
+
         operands.clear();
 
         for (int index = 0; index < postfixForm.length(); index++) {
             char currentChar = postfixForm.charAt(index);
 
-            if (isOperand(currentChar)) {
-                onOperandFound(currentChar);
+            if (isBeginningOfOperand(currentChar)) {
+                onOperandFound(postfixForm, index);
             } else if (isOperation(currentChar)) {
                 onOperationFound(currentChar);
             }
@@ -49,10 +54,16 @@ public class ExprBuilderImpl implements ExprBuilder {
         return operands.pop();
     }
 
-    private void onOperandFound(char currentChar) {
+    private void onOperandFound(String string, int startIndex) {
+        startIndex++;
+        int endIndex = startIndex;
+        while (string.charAt(endIndex) != OPERAND_END_SEPARATOR) {
+            endIndex++;
+        }
+
         operands.push(
             new Const(
-                Character.getNumericValue(currentChar)
+                Integer.parseInt(string.substring(startIndex, endIndex))
             )
         );
     }
@@ -136,14 +147,15 @@ public class ExprBuilderImpl implements ExprBuilder {
         }
     }
 
+
     /**
      * Checks whether the string is valid
      *
-     * @param infixForm - string to validate
+     * @param postfixForm - string to validate
      */
-    private void checkValidity(String infixForm) {
+    private void checkValidity(String postfixForm) {
 
-        if (infixForm.isEmpty()) {
+        if (postfixForm.isEmpty()) {
             throw new IllegalArgumentException("Input cannot be empty");
         }
 
@@ -153,9 +165,9 @@ public class ExprBuilderImpl implements ExprBuilder {
         int operandsCount = 0;
         boolean wasBinaryOperationPresent = false;
 
-        for (int index = 0; index < infixForm.length(); index++) {
+        for (int index = 0; index < postfixForm.length(); index++) {
 
-            char currentChar = infixForm.charAt(index);
+            char currentChar = postfixForm.charAt(index);
 
             if (currentChar == OPEN_BRACE) {
                 openBraceCount++;
@@ -180,8 +192,12 @@ public class ExprBuilderImpl implements ExprBuilder {
                 continue;
             }
 
-            if (isOperand(currentChar)) {
+            if (isBeginningOfOperand(currentChar)) {
                 operandsCount++;
+                continue;
+            }
+
+            if (Character.isDigit(currentChar) || currentChar == OPERAND_END_SEPARATOR) {
                 continue;
             }
 
@@ -201,8 +217,10 @@ public class ExprBuilderImpl implements ExprBuilder {
         }
     }
 
+
     /**
-     * Creates postfix form from infix
+     * Creates postfix form from infix,
+     * surrounds operands with | | (e.g. 5 -> |5|) to handle multi-character numbers
      *
      * @param infixForm - valid source string
      * @return string in postfix form
@@ -211,8 +229,6 @@ public class ExprBuilderImpl implements ExprBuilder {
 
         String intermediateForm = generateSpacelessUnaryOperationsReplacedForm(infixForm);
 
-        checkValidity(intermediateForm);
-
         operations.clear();
         StringBuilder postfix = new StringBuilder();
 
@@ -220,8 +236,20 @@ public class ExprBuilderImpl implements ExprBuilder {
 
             char currentChar = intermediateForm.charAt(index);
 
-            if (isOperand(currentChar)) {
-                postfix.append(currentChar);
+            int endIndex = index;
+            while (Character.isDigit(intermediateForm.charAt(endIndex))) {
+                endIndex++;
+
+                if (endIndex == intermediateForm.length()) {
+                    break;
+                }
+            }
+
+            if (endIndex != index) {
+                postfix.append(OPERAND_FRONT_SEPARATOR)
+                    .append(intermediateForm, index, endIndex)
+                    .append(OPERAND_END_SEPARATOR);
+                index = endIndex - 1;
                 continue;
             }
 
@@ -268,6 +296,7 @@ public class ExprBuilderImpl implements ExprBuilder {
         return postfix.toString();
     }
 
+
     /**
      *
      * Deletes all whitespaces and replaces unary minus operation '-' with 'm' (e.g. -5 -> m5)
@@ -288,7 +317,7 @@ public class ExprBuilderImpl implements ExprBuilder {
                 continue;
             }
 
-            if (isOperand(currentChar)) {
+            if (Character.isDigit(currentChar)) {
                 spacelessForm.append(currentChar);
             }
 
@@ -345,8 +374,8 @@ public class ExprBuilderImpl implements ExprBuilder {
         }
     }
 
-    private boolean isOperand(char operand) {
-        return Character.isDigit(operand);
+    private boolean isBeginningOfOperand(char operand) {
+        return operand == OPERAND_FRONT_SEPARATOR;
     }
 
     private boolean isOperation(char operation) {
