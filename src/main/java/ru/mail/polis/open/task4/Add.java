@@ -18,4 +18,24 @@ public final class Add implements Expr {
     public int evaluate() {
         return left.evaluate() + right.evaluate();
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null
+                || getClass() != o.getClass()) {
+            return false;
+        }
+        Add add = (Add) o;
+        return Objects.equals(left, add.left)
+                && Objects.equals(right, add.right);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(left, right);
+    }
+
 }
