@@ -2,7 +2,10 @@ package ru.mail.polis.open.task3;
 
 import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 
 /**
  * Для проверки класса на корректность следует использовать тесты.
