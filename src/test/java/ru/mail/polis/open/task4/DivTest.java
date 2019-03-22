@@ -25,8 +25,8 @@ public class DivTest {
         );
 
         Div div2 = new Div(
-            new Const(35),
-            new Const(7)
+            new Const(15),
+            new Const(3)
         );
 
         assertEquals(div1, div2);

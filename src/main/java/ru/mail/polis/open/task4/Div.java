@@ -27,12 +27,7 @@ public final class Div implements Expr {
             return false;
         }
         Div div = (Div) o;
-        return Objects.equals(left, div.left)
-            && Objects.equals(right, div.right);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(left, right);
+        return evaluate()
+            == div.evaluate();
     }
 }

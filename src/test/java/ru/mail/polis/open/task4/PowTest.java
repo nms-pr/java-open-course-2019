@@ -20,13 +20,13 @@ public class PowTest {
     @Test
     void testWorkingEquals() {
         Pow pow1 = new Pow(
-            new Const(3),
-            new Const(5)
+            new Const(9),
+            new Const(3)
         );
 
         Pow pow2 = new Pow(
             new Const(3),
-            new Const(5)
+            new Const(6)
         );
 
         assertEquals(pow1, pow2);

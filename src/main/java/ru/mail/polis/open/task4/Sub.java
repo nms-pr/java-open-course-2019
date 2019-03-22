@@ -26,12 +26,7 @@ public final class Sub implements Expr {
             return false;
         }
         Sub sub = (Sub) o;
-        return Objects.equals(left, sub.left)
-            && Objects.equals(right, sub.right);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(left, right);
+        return evaluate()
+            == sub.evaluate();
     }
 }

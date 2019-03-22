@@ -29,12 +29,7 @@ public final class Add implements Expr {
             return false;
         }
         Add add = (Add) o;
-        return Objects.equals(left, add.left)
-            && Objects.equals(right, add.right);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(left, right);
+        return evaluate()
+            == add.evaluate();
     }
 }
