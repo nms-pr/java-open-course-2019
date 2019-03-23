@@ -29,6 +29,6 @@ public final class Const implements Expr {
 
     @Override
     public int hashCode() {
-        return (value * 3 - 8) * 2 ;
+        return value;
     }
 }

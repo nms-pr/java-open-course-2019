@@ -31,6 +31,6 @@ public final class Sub implements Expr {
 
     @Override
     public int hashCode() {
-        return 2 * (left.hashCode() - right.hashCode()) + 5;
+        return left.hashCode() - right.hashCode();
     }
 }

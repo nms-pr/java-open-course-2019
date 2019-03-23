@@ -32,6 +32,6 @@ public final class Div implements Expr {
 
     @Override
     public int hashCode() {
-        return 3 * (left.hashCode() / right.hashCode()) + 1;
+        return left.hashCode() / right.hashCode();
     }
 }

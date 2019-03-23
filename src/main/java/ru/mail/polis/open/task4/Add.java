@@ -34,6 +34,6 @@ public final class Add implements Expr {
 
     @Override
     public int hashCode() {
-        return 2 * (left.hashCode() + right.hashCode()) - 10;
+        return (left.hashCode() + right.hashCode());
     }
 }

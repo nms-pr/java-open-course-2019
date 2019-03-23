@@ -31,6 +31,6 @@ public final class Mult implements Expr {
 
     @Override
     public int hashCode() {
-        return ((left.hashCode() * right.hashCode()) / 3 - 3);
+        return left.hashCode() * right.hashCode();
     }
 }

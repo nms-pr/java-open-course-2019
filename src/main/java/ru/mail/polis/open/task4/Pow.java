@@ -31,6 +31,6 @@ public final class Pow implements Expr {
 
     @Override
     public int hashCode() {
-        return (int)(Math.pow(left.hashCode(), right.hashCode()) / 10) + 3;
+        return (int)Math.pow(left.hashCode(), right.hashCode());
     }
 }
