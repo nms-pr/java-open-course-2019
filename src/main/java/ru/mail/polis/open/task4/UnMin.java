@@ -24,7 +24,11 @@ public final class UnMin implements Expr {
             return false;
         }
         UnMin unMin = (UnMin) o;
-        return evaluate()
-            == unMin.evaluate();
+        return hashCode() == unMin.hashCode();
+    }
+
+    @Override
+    public int hashCode() {
+        return operand.hashCode() * 3 - 23;
     }
 }

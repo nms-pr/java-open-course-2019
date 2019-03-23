@@ -26,7 +26,11 @@ public final class Sub implements Expr {
             return false;
         }
         Sub sub = (Sub) o;
-        return evaluate()
-            == sub.evaluate();
+        return hashCode() == sub.hashCode();
+    }
+
+    @Override
+    public int hashCode() {
+        return 2 * (left.hashCode() - right.hashCode()) + 5;
     }
 }

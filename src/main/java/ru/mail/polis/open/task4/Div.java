@@ -27,7 +27,11 @@ public final class Div implements Expr {
             return false;
         }
         Div div = (Div) o;
-        return evaluate()
-            == div.evaluate();
+        return hashCode() == div.hashCode();
+    }
+
+    @Override
+    public int hashCode() {
+        return 3 * (left.hashCode() / right.hashCode()) + 1;
     }
 }

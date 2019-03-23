@@ -26,7 +26,11 @@ public final class Pow implements Expr {
             return false;
         }
         Pow pow = (Pow) o;
-        return evaluate()
-            == pow.evaluate();
+        return hashCode() == pow.hashCode();
+    }
+
+    @Override
+    public int hashCode() {
+        return (int)(Math.pow(left.hashCode(), right.hashCode()) / 10) + 3;
     }
 }

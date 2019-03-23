@@ -29,7 +29,11 @@ public final class Add implements Expr {
             return false;
         }
         Add add = (Add) o;
-        return evaluate()
-            == add.evaluate();
+        return hashCode() == add.hashCode();
+    }
+
+    @Override
+    public int hashCode() {
+        return 2 * (left.hashCode() + right.hashCode()) - 10;
     }
 }
