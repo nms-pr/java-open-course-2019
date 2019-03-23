@@ -24,16 +24,16 @@ public final class Add implements Expr {
         if (this == o) {
             return true;
         }
-        if (o == null
-            || getClass() != o.getClass()) {
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
         Add add = (Add) o;
-        return hashCode() == add.hashCode();
+        return left.equals(add.left)
+            && right.equals(add.right);
     }
 
     @Override
     public int hashCode() {
-        return (left.hashCode() + right.hashCode());
+        return Objects.hash(left, right);
     }
 }

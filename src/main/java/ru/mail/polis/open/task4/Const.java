@@ -24,11 +24,6 @@ public final class Const implements Expr {
             return false;
         }
         Const temp = (Const) o;
-        return hashCode() == temp.hashCode();
-    }
-
-    @Override
-    public int hashCode() {
-        return value;
+        return value == temp.value;
     }
 }

@@ -25,8 +25,8 @@ public class PowTest {
         );
 
         Pow pow2 = new Pow(
-            new Const(3),
-            new Const(6)
+            new Const(9),
+            new Const(3)
         );
 
         assertEquals(pow1, pow2);

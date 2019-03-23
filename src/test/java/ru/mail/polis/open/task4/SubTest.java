@@ -25,8 +25,8 @@ public class SubTest {
         );
 
         Sub sub2 = new Sub(
-            new Const(11),
-            new Const(6)
+            new Const(9),
+            new Const(4)
         );
 
         assertEquals(sub1, sub2);

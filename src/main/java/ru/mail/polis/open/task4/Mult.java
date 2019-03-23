@@ -26,11 +26,7 @@ public final class Mult implements Expr {
             return false;
         }
         Mult mult = (Mult) o;
-        return hashCode() == mult.hashCode();
-    }
-
-    @Override
-    public int hashCode() {
-        return left.hashCode() * right.hashCode();
+        return Objects.equals(left, mult.left)
+            && Objects.equals(right, mult.right);
     }
 }

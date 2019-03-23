@@ -25,8 +25,8 @@ public class MultTest {
         );
 
         Mult mult2 = new Mult(
-            new Const(3),
-            new Const(8)
+            new Const(4),
+            new Const(6)
         );
 
         assertEquals(mult1, mult2);

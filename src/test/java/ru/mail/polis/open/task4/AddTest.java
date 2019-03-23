@@ -26,8 +26,8 @@ class AddTest {
         );
 
         Add add2 = new Add(
-            new Const(2),
-            new Const(15)
+            new Const(4),
+            new Const(13)
         );
 
         assertEquals(add1, add2);

@@ -22,16 +22,11 @@ public final class Div implements Expr {
         if (this == o) {
             return true;
         }
-        if (o == null
-            || getClass() != o.getClass()) {
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
         Div div = (Div) o;
-        return hashCode() == div.hashCode();
-    }
-
-    @Override
-    public int hashCode() {
-        return left.hashCode() / right.hashCode();
+        return Objects.equals(left, div.left)
+            && Objects.equals(right, div.right);
     }
 }
