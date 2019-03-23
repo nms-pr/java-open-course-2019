@@ -1,11 +1,9 @@
 package ru.mail.polis.open.task4;
 
 import java.util.ArrayDeque;
-import java.util.ArrayList;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.StringTokenizer;
@@ -13,37 +11,48 @@ import java.util.StringTokenizer;
 public class ExprBuilderImplements implements ExprBuilder {
 
     public  ExprBuilderImplements() {
+        operationOfExpression = new ArrayDeque<>();
         operationsPriority = new HashMap<>();
+        expressionContainer = new ArrayDeque<>();
         operationsPriority.put("-", 1);
         operationsPriority.put("^", 2);
         operationsPriority.put("*", 3);
         operationsPriority.put("/", 3);
         operationsPriority.put("+", 4);
         operationsPriority.put("—", 4);
+        symbolsNotOperand = new HashSet<>(operationsPriority.keySet());
+        symbolsNotOperand.add(LEFT_BRACKET);
+        symbolsNotOperand.add(RIGHT_BRACKET);
     }
 
-    static Map<String, Integer> operationsPriority;
+    private static Map<String, Integer> operationsPriority;
+    private Deque<String> operationOfExpression;
+    private Set<String> symbolsNotOperand;
+    private Deque<Expr> expressionContainer;
 
-    public String transformationExpression(String expression,
-                                           Map<String, Integer> operations,
-                                           String leftBracket,
-                                           String rightBracket) {
-        if (expression == null
-            || expression.length() == 0
-            || operations == null
-            || operations.isEmpty()) {
-            throw new IllegalArgumentException("Incorrect input expression");
+    private static final String ADD = "+";
+    private static final String UN_MIN = "-";
+    private static final String POW = "^";
+    private static final String DIV = "/";
+    private static final String MULT = "*";
+    private static final String SUB = "—";
+    private static final String LEFT_BRACKET = "(";
+    private static final String RIGHT_BRACKET = ")";
+
+
+    String transformationExpression(String expression) {
+
+        if (expression == null) {
+            throw new IllegalArgumentException("You wrote a NULL that wrong");
         }
-
-        List<String> symbolsOfExpression = new ArrayList<>();
-        Deque<String> operationOfExpression = new ArrayDeque<>();
 
         expression = expression.replace(" ", "");
 
-        Set<String> symbolsNotOperand = new HashSet<>(operations.keySet());
-        symbolsNotOperand.add(leftBracket);
-        symbolsNotOperand.add(rightBracket);
+        if (expression.isEmpty()) {
+            throw new IllegalArgumentException("Incorrect input expression");
+        }
 
+        StringBuilder resultString = new StringBuilder();
         int indexOfEndsParsingStringLastIteration = 0;
         boolean findNext = true;
 
@@ -63,19 +72,19 @@ public class ExprBuilderImplements implements ExprBuilder {
                 findNext = false;
             } else {
                 if (indexOfEndsParsingStringLastIteration != nextOperationIndex) {
-                    symbolsOfExpression.add(
+                    resultString.append(
                         expression.substring(
                             indexOfEndsParsingStringLastIteration,
                             nextOperationIndex
                         )
-                    );
+                    ).append(" ");
                 }
 
-                if (nextOperation.equals(leftBracket)) {
+                if (nextOperation.equals(LEFT_BRACKET)) {
                     operationOfExpression.push(nextOperation);
-                } else if (nextOperation.equals(rightBracket)) {
-                    while (!operationOfExpression.peek().equals(leftBracket)) {
-                        symbolsOfExpression.add(operationOfExpression.pop());
+                } else if (nextOperation.equals(RIGHT_BRACKET)) {
+                    while (!operationOfExpression.peek().equals(LEFT_BRACKET)) {
+                        resultString.append(operationOfExpression.pop()).append(" ");
                         if (operationOfExpression.isEmpty()) {
                             throw new IllegalArgumentException("Unmatched brackets");
                         }
@@ -83,11 +92,11 @@ public class ExprBuilderImplements implements ExprBuilder {
                     operationOfExpression.pop();
                 } else {
                     while (!operationOfExpression.isEmpty()
-                        && !operationOfExpression.peek().equals(leftBracket)
-                        && operations.get(nextOperation)
-                        >= operations.get(operationOfExpression.peek())) {
+                        && !operationOfExpression.peek().equals(LEFT_BRACKET)
+                        && operationsPriority.get(nextOperation)
+                        >= operationsPriority.get(operationOfExpression.peek())) {
 
-                        symbolsOfExpression.add(operationOfExpression.pop());
+                        resultString.append(operationOfExpression.pop()).append(" ");
                     }
                     operationOfExpression.push(nextOperation);
                 }
@@ -97,83 +106,69 @@ public class ExprBuilderImplements implements ExprBuilder {
             }
         }
         if (indexOfEndsParsingStringLastIteration != expression.length()) {
-            symbolsOfExpression.add(
+            resultString.append(
                 expression.substring(
                     indexOfEndsParsingStringLastIteration
                 )
-            );
+            ).append(" ");
         }
 
         while (!operationOfExpression.isEmpty()) {
-            symbolsOfExpression.add(operationOfExpression.pop());
+            resultString.append(operationOfExpression.pop()).append(" ");
         }
-
-        StringBuffer result = new StringBuffer();
-        if (!symbolsOfExpression.isEmpty()) {
-            result.append(symbolsOfExpression.remove(0));
-        }
-
-        while (!symbolsOfExpression.isEmpty()) {
-            result.append(" ").append(symbolsOfExpression.remove(0));
-        }
-
-        return result.toString();
-    }
-
-    private String transformationExpression(String expression, Map<String, Integer> operations) {
-        return transformationExpression(expression, operations, "(", ")");
+        resultString.deleteCharAt(resultString.lastIndexOf("") - 1);
+        return resultString.toString();
     }
 
     @Override
     public Expr build(String input) {
-        String expressionAfterTransformation = transformationExpression(input, operationsPriority);
+        String expressionAfterTransformation = transformationExpression(input);
         StringTokenizer tokenizer = new StringTokenizer(expressionAfterTransformation, " ");
-        Deque<Expr> deque = new ArrayDeque<>();
+        expressionContainer.clear();
         while (tokenizer.hasMoreTokens()) {
             String token = tokenizer.nextToken();
 
-            if (!operationsPriority.keySet().contains(token)) {
+            if (!operationsPriority.containsKey(token)) {
                 int operand = Integer.parseInt(token.trim());
-                deque.push(new Const(operand));
+                expressionContainer.push(new Const(operand));
             } else {
-                //may be something wrong
-                Expr operand2 = deque.pop();
-                if (token.equals("-")) {
-                    deque.push(new UnMin(operand2));
+                Expr operand2 = expressionContainer.pop();
+                if (token.equals(UN_MIN)) {
+                    expressionContainer.push(new UnMin(operand2));
                 } else {
-                    if (!deque.isEmpty()) {
-                        Expr operand1 = deque.pop();
+                    if (!expressionContainer.isEmpty()) {
+                        Expr operand1 = expressionContainer.pop();
 
-                        if (token.equals("^")) {
-                            deque.push(
+                        if (token.equals(POW)) {
+                            expressionContainer.push(
                                 new Pow(
                                     operand1,
                                     operand2
                                 )
                             );
-                        } else if (token.equals("*")) {
-                            deque.push(
+                        } else if (token.equals(MULT)) {
+                            expressionContainer.push(
                                 new Mult(
                                     operand1,
                                     operand2
                                 )
                             );
-                        } else if (token.equals("/")) {
-                            deque.push(
+                        } else if (token.equals(DIV)) {
+                            expressionContainer.push(
                                 new Div(
                                     operand1,
                                     operand2
                                 )
                             );
-                        } else if (token.equals("+")) {
-                            deque.push(
+                        } else if (token.equals(ADD)) {
+                            expressionContainer.push(
                                 new Add(
                                     operand1,
                                     operand2
                                 )
                             );
-                        } else if (token.equals("—")) {
-                            deque.push(
+                        } else if (token.equals(SUB)) {
+                            expressionContainer.push(
                                 new Sub(
                                     operand1,
                                     operand2
@@ -186,9 +181,9 @@ public class ExprBuilderImplements implements ExprBuilder {
                 }
             }
         }
-        if (deque.size() != 1) {
+        if (expressionContainer.size() != 1) {
             throw new IllegalArgumentException("Expression syntax error.");
         }
-        return deque.pop();
+        return expressionContainer.pop();
     }
 }

@@ -14,42 +14,27 @@ public class ExprBuilderImplementsTest {
     void testMethodsTransformationExpressionWhichReturnCorrectString() {
         assertEquals(
             "2 2 +",
-            ebi.transformationExpression(
-                "2 + 2",
-                ebi.operationsPriority
-            )
+            ebi.transformationExpression("2 + 2")
         );
 
         assertEquals(
             "2 2 2 * +",
-            ebi.transformationExpression(
-                "2 + 2 * 2",
-                ebi.operationsPriority
-            )
+            ebi.transformationExpression("2 + 2 * 2")
         );
 
         assertEquals(
             "2 2 2 3 5 + ^ * +",
-            ebi.transformationExpression(
-                "2 + 2 * 2 ^ (3 + 5)",
-                ebi.operationsPriority
-            )
+            ebi.transformationExpression("2 + 2 * 2 ^ (3 + 5)")
         );
 
         assertEquals(
             "2 2 2 3 5 + ^ * + 34 7 5 — / — 5 - 20 + 2 6 2 — * — + 1 —",
-            ebi.transformationExpression(
-                "2 + 2 * 2 ^ (3 + 5) — 34 / (7 — 5) + (-5 + 20 — 2 * (6 — 2)) — 1",
-                ebi.operationsPriority
-            )
+            ebi.transformationExpression("2 + 2 * 2 ^ (3 + 5) — 34 / (7 — 5) + (-5 + 20 — 2 * (6 — 2)) — 1")
         );
 
         assertEquals(
             "2 2 2 3 5 + ^ * + 34 — 7 5 — 5 - 20 + 2 6 2 — * — + 1 — / -",
-            ebi.transformationExpression(
-                "-((2 + 2 * 2 ^ (3 + 5) — 34) / ((7 — 5) + (-5 + 20 — 2 * (6 — 2)) — 1))",
-                ebi.operationsPriority
-            )
+            ebi.transformationExpression("-((2 + 2 * 2 ^ (3 + 5) — 34) / ((7 — 5) + (-5 + 20 — 2 * (6 — 2)) — 1))")
         );
     }
 
