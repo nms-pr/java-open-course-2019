@@ -31,4 +31,9 @@ public final class Add implements Expr {
         return left.equals(add.left)
             && right.equals(add.right);
     }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(left, right);
+    }
 }

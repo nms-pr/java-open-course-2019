@@ -26,4 +26,9 @@ public final class UnMin implements Expr {
         UnMin unMin = (UnMin) o;
         return Objects.equals(operand, unMin.operand);
     }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(operand);
+    }
 }

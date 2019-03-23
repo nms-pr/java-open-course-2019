@@ -12,7 +12,7 @@ import java.util.StringTokenizer;
 
 public class ExprBuilderImplements implements ExprBuilder {
 
-    public ExprBuilderImplements() {
+    public  ExprBuilderImplements() {
         operationsPriority = new HashMap<>();
         operationsPriority.put("-", 1);
         operationsPriority.put("^", 2);
@@ -22,7 +22,7 @@ public class ExprBuilderImplements implements ExprBuilder {
         operationsPriority.put("—", 4);
     }
 
-    Map<String, Integer> operationsPriority;
+    static Map<String, Integer> operationsPriority;
 
     public String transformationExpression(String expression,
                                            Map<String, Integer> operations,
@@ -120,7 +120,7 @@ public class ExprBuilderImplements implements ExprBuilder {
         return result.toString();
     }
 
-    public String transformationExpression(String expression, Map<String, Integer> operations) {
+    private String transformationExpression(String expression, Map<String, Integer> operations) {
         return transformationExpression(expression, operations, "(", ")");
     }
 

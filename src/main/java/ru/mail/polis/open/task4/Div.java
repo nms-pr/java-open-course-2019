@@ -29,4 +29,9 @@ public final class Div implements Expr {
         return Objects.equals(left, div.left)
             && Objects.equals(right, div.right);
     }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(left, right);
+    }
 }

@@ -29,4 +29,9 @@ public final class Sub implements Expr {
         return Objects.equals(left, sub.left)
             && Objects.equals(right, sub.right);
     }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(left, right);
+    }
 }
