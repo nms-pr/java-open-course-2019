@@ -19,6 +19,11 @@ public class ExprBuilderImplements implements ExprBuilder {
     private static final String LEFT_BRACKET = "(";
     private static final String RIGHT_BRACKET = ")";
 
+    private static Map<String, Integer> operationsPriority;
+    private Deque<String> operationOfExpression;
+    private Set<String> symbolsNotOperand;
+    private Deque<Expr> expressionContainer;
+
     public  ExprBuilderImplements() {
         operationOfExpression = new ArrayDeque<>();
         operationsPriority = new HashMap<>();
@@ -33,11 +38,6 @@ public class ExprBuilderImplements implements ExprBuilder {
         symbolsNotOperand.add(LEFT_BRACKET);
         symbolsNotOperand.add(RIGHT_BRACKET);
     }
-
-    private static Map<String, Integer> operationsPriority;
-    private Deque<String> operationOfExpression;
-    private Set<String> symbolsNotOperand;
-    private Deque<Expr> expressionContainer;
 
     String transformationExpression(String expression) {
 
