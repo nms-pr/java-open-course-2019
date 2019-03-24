@@ -5,6 +5,16 @@ import java.util.Deque;
 import org.jetbrains.annotations.Nullable;
 
 public class RecursuveDescentExprBuilder implements ExprBuilder {
+    private static final char PLUS = '+';
+    private static final char MINUS = '-';
+    private static final char MULTIP = '*';
+    private static final char DIVIDE = '/';
+    private static final char UNARY_MINUS = '-';
+    private static final char EXPONENT = '^';
+    private static final char L_PARENTHESIS = '(';
+    private static final char R_PARENTHESIS = ')';
+    private static final char SPACE = ' ';
+
     private InputCharBuffer inputBuffer;
 
     public RecursuveDescentExprBuilder() {
@@ -23,7 +33,7 @@ public class RecursuveDescentExprBuilder implements ExprBuilder {
                 restOfInput.clear();
             }
             for (int i = 0; i < expression.length(); i++) {
-                if (expression.charAt(i) != ' ') {
+                if (expression.charAt(i) != SPACE) {
                     restOfInput.add(expression.charAt(i));
                 }
             }
@@ -65,12 +75,13 @@ public class RecursuveDescentExprBuilder implements ExprBuilder {
     private Expr valueOfExpr() throws IllegalArgumentException {
         Expr result = valueOfTerm();
 
-        while (!inputBuffer.isEmpty() && (inputBuffer.peek() == '+' || inputBuffer.peek() == '-')) {
+        while (!inputBuffer.isEmpty()
+                && (inputBuffer.peek() == PLUS || inputBuffer.peek() == MINUS)) {
             char operator = inputBuffer.poll();
 
             Expr right = valueOfTerm();
 
-            if (operator == '+') {
+            if (operator == PLUS) {
                 result = new Add(result, right);
             } else {
                 result = new Subtract(result, right);
@@ -82,12 +93,13 @@ public class RecursuveDescentExprBuilder implements ExprBuilder {
     private Expr valueOfTerm() throws IllegalArgumentException {
         Expr result = valueOfFactor();
 
-        while (!inputBuffer.isEmpty() && (inputBuffer.peek() == '*' || inputBuffer.peek() == '/')) {
+        while (!inputBuffer.isEmpty()
+                && (inputBuffer.peek() == MULTIP || inputBuffer.peek() == DIVIDE)) {
             char operator = inputBuffer.poll();
 
             Expr right = valueOfFactor();
 
-            if (operator == '*') {
+            if (operator == MULTIP) {
                 result = new Multiply(result, right);
             } else {
                 result = new Divide(result, right);
@@ -99,7 +111,7 @@ public class RecursuveDescentExprBuilder implements ExprBuilder {
     private Expr valueOfFactor() throws IllegalArgumentException {
         Expr result = valueOfPrimary();
 
-        if (!inputBuffer.isEmpty() && inputBuffer.peek() == '^') {
+        if (!inputBuffer.isEmpty() && inputBuffer.peek() == EXPONENT) {
             inputBuffer.consume();
 
             Expr right = valueOfFactor();
@@ -125,23 +137,23 @@ public class RecursuveDescentExprBuilder implements ExprBuilder {
             int number = Integer.parseInt(digits.toString());
 
             return new Const(number);
-        } else if (inputBuffer.peek() == '(') {
+        } else if (inputBuffer.peek() == L_PARENTHESIS) {
             inputBuffer.consume();
 
             Expr insideBrackets = valueOfExpr();
 
-            if (inputBuffer.isEmpty() || inputBuffer.poll() != ')') {
+            if (inputBuffer.isEmpty() || inputBuffer.poll() != R_PARENTHESIS) {
                 throw new IllegalArgumentException("Brackets are not closed");
             }
             return insideBrackets;
-        } else if (inputBuffer.peek() == '-') {
+        } else if (inputBuffer.peek() == UNARY_MINUS) {
             inputBuffer.consume();
 
             Expr insideUnaryMinus = valueOfPrimary();
 
             return new UnaryMinus(insideUnaryMinus);
         } else {
-            throw new IllegalArgumentException("Cannot parse character " + inputBuffer.peek());
+            throw new IllegalArgumentException("Can't parse character " + inputBuffer.peek());
         }
     }
 }
