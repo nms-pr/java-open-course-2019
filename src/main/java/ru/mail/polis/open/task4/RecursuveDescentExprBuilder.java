@@ -24,11 +24,14 @@ public class RecursuveDescentExprBuilder implements ExprBuilder {
     private class InputCharBuffer {
         private Deque<Character> restOfInput;
 
-        public InputCharBuffer() {
+        InputCharBuffer() {
             this.restOfInput = new ArrayDeque<Character>();
         }
 
-        public void load(String expression) {
+        void load(@Nullable String expression) throws IllegalArgumentException {
+            if (expression == null) {
+                throw new IllegalArgumentException("Input string cannot be null");
+            }
             if (!restOfInput.isEmpty()) {
                 restOfInput.clear();
             }
@@ -39,30 +42,26 @@ public class RecursuveDescentExprBuilder implements ExprBuilder {
             }
         }
 
-        public char peek() {
+        char peek() {
             return restOfInput.getFirst();
         }
 
-        public void consume() {
+        void consume() {
             restOfInput.removeFirst();
         }
 
-        public char poll() {
+        char poll() {
             return restOfInput.pollFirst();
         }
 
-        public boolean isEmpty() {
+        boolean isEmpty() {
             return restOfInput.isEmpty();
         }
     }
 
     @Override
     public Expr build(@Nullable String input) throws IllegalArgumentException {
-        if (input == null) {
-            throw new IllegalArgumentException("Input string cannot be null");
-        }
-
-        inputBuffer.load(input);
+        loadToBuffer(input);
 
         Expr result = valueOfExpr();
 
@@ -72,7 +71,11 @@ public class RecursuveDescentExprBuilder implements ExprBuilder {
         return result;
     }
 
-    private Expr valueOfExpr() throws IllegalArgumentException {
+    void loadToBuffer(@Nullable String input) {
+        inputBuffer.load(input);
+    }
+
+    Expr valueOfExpr() throws IllegalArgumentException {
         Expr result = valueOfTerm();
 
         while (!inputBuffer.isEmpty()
@@ -90,7 +93,7 @@ public class RecursuveDescentExprBuilder implements ExprBuilder {
         return result;
     }
 
-    private Expr valueOfTerm() throws IllegalArgumentException {
+    Expr valueOfTerm() throws IllegalArgumentException {
         Expr result = valueOfFactor();
 
         while (!inputBuffer.isEmpty()
@@ -108,7 +111,7 @@ public class RecursuveDescentExprBuilder implements ExprBuilder {
         return result;
     }
 
-    private Expr valueOfFactor() throws IllegalArgumentException {
+    Expr valueOfFactor() throws IllegalArgumentException {
         Expr result = valueOfPrimary();
 
         if (!inputBuffer.isEmpty() && inputBuffer.peek() == EXPONENT) {
@@ -122,7 +125,7 @@ public class RecursuveDescentExprBuilder implements ExprBuilder {
         }
     }
 
-    private Expr valueOfPrimary() throws IllegalArgumentException {
+    Expr valueOfPrimary() throws IllegalArgumentException {
         if (inputBuffer.isEmpty()) {
             throw new IllegalArgumentException("Buffer is empty");
         }
