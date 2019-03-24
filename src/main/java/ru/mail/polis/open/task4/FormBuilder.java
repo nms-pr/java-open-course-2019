@@ -8,21 +8,21 @@ import java.util.List;
 
 class FormBuilder {
 
-    static final String PLUS_SIGN = "+";
-    static final String MINUS_SIGN = "-";
-    static final String MULTIPLY_SIGN = "*";
-    static final String DIVIDE_SIGN = "/";
-    static final String POWER_SIGN = "^";
-    static final String UNARY_MINUS_SIGN = "m";
-    private static final String OPEN_BRACE = "(";
-    private static final String CLOSE_BRACE = ")";
+    static final char PLUS_SIGN = '+';
+    static final char MINUS_SIGN = '-';
+    static final char MULTIPLY_SIGN = '*';
+    static final char DIVIDE_SIGN = '/';
+    static final char POWER_SIGN = '^';
+    static final char UNARY_MINUS_SIGN = 'm';
+    private static final char OPEN_BRACE = '(';
+    private static final char CLOSE_BRACE = ')';
     private static final int ADDITIVE_OPERATION_PRIORITY = 1;
     private static final int MULTIPLICATIVE_OPERATION_PRIORITY = 2;
     private static final int POWER_OPERATION_PRIORITY = 3;
     private static final int UNARY_OPERATION_PRIORITY = 4;
 
     private static Deque<String> operations;
-    private static HashMap<String, Integer> operationToPriority;
+    private static HashMap<Character, Integer> operationToPriority;
 
     static {
         operations = new ArrayDeque<>();
@@ -57,13 +57,13 @@ class FormBuilder {
                 continue;
             }
 
-            if (token.equals(OPEN_BRACE)) {
+            if (token.charAt(0) == OPEN_BRACE) {
                 operations.push(token);
                 continue;
             }
 
-            if (token.equals(CLOSE_BRACE)) {
-                while (!operations.peek().equals(OPEN_BRACE)) {
+            if (token.charAt(0) == CLOSE_BRACE) {
+                while (operations.peek().charAt(0) != OPEN_BRACE) {
                     postfix.add(operations.pop());
 
                     if (operations.size() == 0) {
@@ -118,12 +118,12 @@ class FormBuilder {
         for (int indexOfToken = 0; indexOfToken < intermediateForm.size(); indexOfToken++) {
             String token = intermediateForm.get(indexOfToken);
 
-            if (token.equals(OPEN_BRACE)) {
+            if (token.charAt(0) == OPEN_BRACE) {
                 openBraceCount++;
                 continue;
             }
 
-            if (token.equals(CLOSE_BRACE)) {
+            if (token.charAt(0) == CLOSE_BRACE) {
                 closedBraceCount++;
                 continue;
             }
@@ -141,7 +141,7 @@ class FormBuilder {
                 String nextToken = intermediateForm.get(indexOfToken + 1);
 
                 if (!Character.isDigit(nextToken.charAt(0))
-                    && !nextToken.equals(OPEN_BRACE)
+                    && !(nextToken.charAt(0) == OPEN_BRACE)
                     && !isUnaryOperation(nextToken)
                 ) {
                     onInvalidOperation("unary", "", token, nextToken);
@@ -170,8 +170,8 @@ class FormBuilder {
 
                 if (isOperation(previousToken)                                   // + /
                     || isOperation(nextToken)                                    // / +
-                    || previousToken.equals(OPEN_BRACE)                          // ( /
-                    || nextToken.equals(CLOSE_BRACE)                             // / )
+                    || previousToken.charAt(0) == OPEN_BRACE                     // ( /
+                    || nextToken.charAt(0) == CLOSE_BRACE                        // / )
                 ) {
                     onInvalidOperation("binary", previousToken, token, nextToken);
                 }
@@ -219,19 +219,19 @@ class FormBuilder {
                 continue;
             }
 
-            if (currentChar == MINUS_SIGN.charAt(0)
+            if (currentChar == MINUS_SIGN
                 && (intermediateForm.size() == 0
-                || intermediateForm.get(intermediateForm.size() - 1).charAt(0) == OPEN_BRACE.charAt(0)
-                || isOperation(intermediateForm.get(intermediateForm.size() - 1))
+                    || intermediateForm.get(intermediateForm.size() - 1).charAt(0) == OPEN_BRACE
+                    || isOperation(intermediateForm.get(intermediateForm.size() - 1))
                 )
             ) {
-                intermediateForm.add(UNARY_MINUS_SIGN);
+                intermediateForm.add(Character.toString(UNARY_MINUS_SIGN));
                 continue;
             }
 
             if (isBinaryOperation(currentChar)
-                || currentChar == OPEN_BRACE.charAt(0)
-                || currentChar == CLOSE_BRACE.charAt(0)
+                || currentChar == OPEN_BRACE
+                || currentChar == CLOSE_BRACE
             ) {
                 intermediateForm.add(Character.toString(currentChar));
                 continue;
@@ -244,7 +244,13 @@ class FormBuilder {
     }
 
     private static boolean hasBiggerPriority(String newOperation, String storedOperation) {
-        return operationToPriority.get(newOperation) > operationToPriority.get(storedOperation);
+        if (newOperation.length() > 1) {
+            throw new IllegalArgumentException("Invalid operation " + newOperation);
+        }
+        if (storedOperation.length() > 1) {
+            throw new IllegalArgumentException("Invalid operation " + storedOperation);
+        }
+        return operationToPriority.get(newOperation.charAt(0)) > operationToPriority.get(storedOperation.charAt(0));
     }
 
     private static boolean isOperation(String operation) {
@@ -252,16 +258,22 @@ class FormBuilder {
     }
 
     private static boolean isUnaryOperation(String operation) {
-        return operation.equals(UNARY_MINUS_SIGN);
-    }
-
-    private static boolean isBinaryOperation(char operation) {
-        return isBinaryOperation(Character.toString(operation));
+        if (operation.length() > 1) {
+            return false;
+        }
+        return operation.charAt(0) == UNARY_MINUS_SIGN;
     }
 
     private static boolean isBinaryOperation(String operation) {
-        return (operation.equals(PLUS_SIGN)) || (operation.equals(MINUS_SIGN))
-            || (operation.equals(MULTIPLY_SIGN)) || (operation.equals(DIVIDE_SIGN))
-            || (operation.equals(POWER_SIGN));
+        if (operation.length() > 1) {
+            return false;
+        }
+        return isBinaryOperation(operation.charAt(0));
+    }
+
+    private static boolean isBinaryOperation(char operation) {
+        return (operation == PLUS_SIGN) || (operation == MINUS_SIGN)
+            || (operation == MULTIPLY_SIGN) || (operation == DIVIDE_SIGN)
+            || (operation == POWER_SIGN);
     }
 }

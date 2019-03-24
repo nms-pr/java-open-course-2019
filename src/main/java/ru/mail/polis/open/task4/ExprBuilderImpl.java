@@ -45,7 +45,7 @@ public class ExprBuilderImpl implements ExprBuilder {
      * @param operation - symbolic representation of operation to perform
      */
     private void onOperationFound(String operation) {
-        switch (operation) {
+        switch (operation.charAt(0)) {
 
             case FormBuilder.PLUS_SIGN: {
                 Expr operand2 = operands.pop();
