@@ -37,6 +37,8 @@ class FormBuilder {
         operationToPriority.put(OPEN_BRACE, 0);
     }
 
+    private FormBuilder() {}
+
     static List<String> generatePostfixTokenForm(String input) {
         List<String> intermediateForm = generateIntermediateTokenForm(input);
         checkValidity(intermediateForm);
