@@ -32,7 +32,6 @@ public class ExprBuilderImpl implements ExprBuilder {
     }
 
     private void onOperandFound(String operand) {
-
         operands.push(
             new Const(
                 Integer.parseInt(operand)

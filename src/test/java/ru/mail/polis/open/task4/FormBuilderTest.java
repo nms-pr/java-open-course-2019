@@ -5,7 +5,9 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class FormBuilderTest {
 
@@ -105,22 +107,5 @@ class FormBuilderTest {
             () -> FormBuilder.checkValidity(FormBuilder.generateIntermediateTokenForm("2//2 2")));
         assertThrows(IllegalArgumentException.class,
             () -> FormBuilder.checkValidity(FormBuilder.generateIntermediateTokenForm("(/2)")));
-    }
-
-
-    @Test
-    void hasBiggerPriority() {
-    }
-
-    @Test
-    void getPriority() {
-    }
-
-    @Test
-    void isBeginningOfOperand() {
-    }
-
-    @Test
-    void isOperation() {
     }
 }

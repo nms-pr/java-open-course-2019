@@ -40,6 +40,7 @@ class FormBuilder {
     static List<String> generatePostfixTokenForm(String input) {
         List<String> intermediateForm = generateIntermediateTokenForm(input);
         checkValidity(intermediateForm);
+
         return generatePostfixTokenForm(intermediateForm);
     }
 
@@ -97,6 +98,11 @@ class FormBuilder {
         return postfix;
     }
 
+    private static void onInvalidOperation(String type, String before, String operation, String after) {
+        // e.g. "Invalid binary operation ( / 5"
+        throw new IllegalArgumentException("Invalid " + type + " operation: " + before + operation + after);
+    }
+
     static void checkValidity(List<String> intermediateForm) {
 
         if (intermediateForm.isEmpty()) {
@@ -105,10 +111,10 @@ class FormBuilder {
 
         int openBraceCount = 0;
         int closedBraceCount = 0;
-        int operandsCount = 0;
+        boolean hadOperands = false;
 
-        for (int i = 0; i < intermediateForm.size(); i++) {
-            String token = intermediateForm.get(i);
+        for (int indexOfToken = 0; indexOfToken < intermediateForm.size(); indexOfToken++) {
+            String token = intermediateForm.get(indexOfToken);
 
             if (token.equals(OPEN_BRACE)) {
                 openBraceCount++;
@@ -121,32 +127,55 @@ class FormBuilder {
             }
 
             if (Character.isDigit(token.charAt(0))) {
-                operandsCount++;
+                hadOperands = true;
                 continue;
             }
 
             if (isUnaryOperation(token)) {
-                if (i == intermediateForm.size() - 1) {
-                    throw new IllegalArgumentException("Invalid unary operation " + token + "[endString]");
+                if (indexOfToken == intermediateForm.size() - 1) {
+                    onInvalidOperation("unary", "", token, "[endOfString]");
                 }
-                if (!Character.isDigit(intermediateForm.get(i + 1).charAt(0)) && !intermediateForm.get(i + 1).equals(OPEN_BRACE) && !isUnaryOperation(intermediateForm.get(i + 1))) {
-                    throw new IllegalArgumentException("Invalid unary operation " + token + intermediateForm.get(i + 1));
+
+                String nextToken = intermediateForm.get(indexOfToken + 1);
+
+                if (!Character.isDigit(nextToken.charAt(0))
+                    && !nextToken.equals(OPEN_BRACE)
+                    && !isUnaryOperation(nextToken)
+                ) {
+                    onInvalidOperation("unary", "", token, nextToken);
                 }
                 continue;
             }
 
             if (isBinaryOperation(token)) {
-                if (i == 0) {
-                    throw new IllegalArgumentException("Invalid binary operation [beginString]" + token + intermediateForm.get(i + 1));
+                if (indexOfToken == 0) {
+                    onInvalidOperation("binary",
+                        "[beginningOfString]",
+                        token,
+                        intermediateForm.get(indexOfToken + 1)
+                    );
                 }
-                if (i == intermediateForm.size() - 1) {
-                    throw new IllegalArgumentException("Invalid binary operation " + intermediateForm.get(i - 1) + token + "[endString]");
+                if (indexOfToken == intermediateForm.size() - 1) {
+                    onInvalidOperation("binary",
+                        intermediateForm.get(indexOfToken - 1),
+                        token,
+                        "[endString]"
+                    );
                 }
-                if (isOperation(intermediateForm.get(i - 1)) || isOperation(intermediateForm.get(i + 1)) || intermediateForm.get(i - 1).equals(OPEN_BRACE) || intermediateForm.get(i+1).equals(CLOSE_BRACE)) {
-                    throw new IllegalArgumentException("Invalid binary operation " + intermediateForm.get(i - 1) + token + intermediateForm.get(i + 1));
+
+                String previousToken = intermediateForm.get(indexOfToken - 1);
+                String nextToken = intermediateForm.get(indexOfToken + 1);
+
+                if (isOperation(previousToken)                                   // + /
+                    || isOperation(nextToken)                                    // / +
+                    || previousToken.equals(OPEN_BRACE)                          // ( /
+                    || nextToken.equals(CLOSE_BRACE)                             // / )
+                ) {
+                    onInvalidOperation("binary", previousToken, token, nextToken);
                 }
                 continue;
             }
+
             throw new IllegalArgumentException("Cannot resolve token: " + token);
 
         }
@@ -155,7 +184,7 @@ class FormBuilder {
             throw new IllegalArgumentException("Number of opened braces does not match number of closed ones");
         }
 
-        if (operandsCount == 0) {
+        if (!hadOperands) {
             throw new IllegalArgumentException("No operands in expression");
         }
     }
@@ -192,13 +221,16 @@ class FormBuilder {
                 && (intermediateForm.size() == 0
                 || intermediateForm.get(intermediateForm.size() - 1).charAt(0) == OPEN_BRACE.charAt(0)
                 || isOperation(intermediateForm.get(intermediateForm.size() - 1))
-            )
+                )
             ) {
                 intermediateForm.add(UNARY_MINUS_SIGN);
                 continue;
             }
 
-            if (isOperation(Character.toString(currentChar)) || currentChar == OPEN_BRACE.charAt(0) || currentChar == CLOSE_BRACE.charAt(0)) {
+            if (isBinaryOperation(currentChar)
+                || currentChar == OPEN_BRACE.charAt(0)
+                || currentChar == CLOSE_BRACE.charAt(0)
+            ) {
                 intermediateForm.add(Character.toString(currentChar));
                 continue;
             }
@@ -208,7 +240,6 @@ class FormBuilder {
 
         return intermediateForm;
     }
-
 
     private static boolean hasBiggerPriority(String newOperation, String storedOperation) {
         return operationToPriority.get(newOperation) > operationToPriority.get(storedOperation);
@@ -220,6 +251,10 @@ class FormBuilder {
 
     private static boolean isUnaryOperation(String operation) {
         return operation.equals(UNARY_MINUS_SIGN);
+    }
+
+    private static boolean isBinaryOperation(char operation) {
+        return isBinaryOperation(Character.toString(operation));
     }
 
     private static boolean isBinaryOperation(String operation) {
