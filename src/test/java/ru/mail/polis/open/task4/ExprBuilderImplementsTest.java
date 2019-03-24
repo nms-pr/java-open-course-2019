@@ -29,12 +29,14 @@ public class ExprBuilderImplementsTest {
 
         assertEquals(
             "2 2 2 3 5 + ^ * + 34 7 5 — / — 5 - 20 + 2 6 2 — * — + 1 —",
-            testInstanceOfExprBuilderImplements.transformationExpression("2 + 2 * 2 ^ (3 + 5) — 34 / (7 — 5) + (-5 + 20 — 2 * (6 — 2)) — 1")
+            testInstanceOfExprBuilderImplements.transformationExpression("2 + 2 * 2 ^ (3 + 5) — "
+                + "34 / (7 — 5) + (-5 + 20 — 2 * (6 — 2)) — 1")
         );
 
         assertEquals(
             "2 2 2 3 5 + ^ * + 34 — 7 5 — 5 - 20 + 2 6 2 — * — + 1 — / -",
-            testInstanceOfExprBuilderImplements.transformationExpression("-((2 + 2 * 2 ^ (3 + 5) — 34) / ((7 — 5) + (-5 + 20 — 2 * (6 — 2)) — 1))")
+            testInstanceOfExprBuilderImplements.transformationExpression("-((2 + 2 * 2 ^ (3 + 5) — 34)"
+                + " / ((7 — 5) + (-5 + 20 — 2 * (6 — 2)) — 1))")
         );
     }
 
@@ -87,7 +89,8 @@ public class ExprBuilderImplementsTest {
 
         assertThrows(
             IllegalArgumentException.class,
-            () -> testInstanceOfExprBuilderImplements.build("-((2 + 2 * 2 ^ (3 + 5) — 34) / ((7 — 5) - (-5 + 20 — 2 * (6 — 2)) — 1))")
+            () -> testInstanceOfExprBuilderImplements.build("-((2 + 2 * 2 ^ (3 + 5) — 34) / ((7 — 5)"
+                + " - (-5 + 20 — 2 * (6 — 2)) — 1))")
         );
 
         assertDoesNotThrow(() -> testInstanceOfExprBuilderImplements.build("2 + 2"));
@@ -96,7 +99,8 @@ public class ExprBuilderImplementsTest {
         assertDoesNotThrow(() -> testInstanceOfExprBuilderImplements.build("(2 + 2)"));
         assertDoesNotThrow(() -> testInstanceOfExprBuilderImplements.build("-(2 + 2)"));
         assertDoesNotThrow(() -> testInstanceOfExprBuilderImplements.build("-(((2 + 2) ^ 3) + 95 — 3 * 2)"));
-        assertDoesNotThrow(() -> testInstanceOfExprBuilderImplements.build("-(((((2 + 2) ^ 3) + 95 — 3 * 2) / 2 + 46) / 4)"));
+        assertDoesNotThrow(() -> testInstanceOfExprBuilderImplements.build("-(((((2 + 2) ^ 3) + 95 — 3 * 2)"
+            + " / 2 + 46) / 4)"));
     }
 
     @Test
