@@ -8,33 +8,33 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class ExprBuilderImplementsTest {
 
-    ExprBuilderImplements ebi = new ExprBuilderImplements();
+    ExprBuilderImplements testInstanceOfExprBuilderImplements = new ExprBuilderImplements();
 
     @Test
     void testMethodsTransformationExpressionWhichReturnCorrectString() {
         assertEquals(
             "2 2 +",
-            ebi.transformationExpression("2 + 2")
+            testInstanceOfExprBuilderImplements.transformationExpression("2 + 2")
         );
 
         assertEquals(
             "2 2 2 * +",
-            ebi.transformationExpression("2 + 2 * 2")
+            testInstanceOfExprBuilderImplements.transformationExpression("2 + 2 * 2")
         );
 
         assertEquals(
             "2 2 2 3 5 + ^ * +",
-            ebi.transformationExpression("2 + 2 * 2 ^ (3 + 5)")
+            testInstanceOfExprBuilderImplements.transformationExpression("2 + 2 * 2 ^ (3 + 5)")
         );
 
         assertEquals(
             "2 2 2 3 5 + ^ * + 34 7 5 — / — 5 - 20 + 2 6 2 — * — + 1 —",
-            ebi.transformationExpression("2 + 2 * 2 ^ (3 + 5) — 34 / (7 — 5) + (-5 + 20 — 2 * (6 — 2)) — 1")
+            testInstanceOfExprBuilderImplements.transformationExpression("2 + 2 * 2 ^ (3 + 5) — 34 / (7 — 5) + (-5 + 20 — 2 * (6 — 2)) — 1")
         );
 
         assertEquals(
             "2 2 2 3 5 + ^ * + 34 — 7 5 — 5 - 20 + 2 6 2 — * — + 1 — / -",
-            ebi.transformationExpression("-((2 + 2 * 2 ^ (3 + 5) — 34) / ((7 — 5) + (-5 + 20 — 2 * (6 — 2)) — 1))")
+            testInstanceOfExprBuilderImplements.transformationExpression("-((2 + 2 * 2 ^ (3 + 5) — 34) / ((7 — 5) + (-5 + 20 — 2 * (6 — 2)) — 1))")
         );
     }
 
@@ -42,61 +42,61 @@ public class ExprBuilderImplementsTest {
     void testThrowOrNotThrowExceptionInMethodsBuild() {
         assertThrows(
             IllegalArgumentException.class,
-            () -> ebi.build(null)
+            () -> testInstanceOfExprBuilderImplements.build(null)
         );
 
         assertThrows(
             IllegalArgumentException.class,
-            () -> ebi.build("")
+            () -> testInstanceOfExprBuilderImplements.build("")
         );
 
         assertThrows(
             IllegalArgumentException.class,
-            () -> ebi.build(" ")
+            () -> testInstanceOfExprBuilderImplements.build(" ")
         );
 
         assertThrows(
             IllegalArgumentException.class,
-            () -> ebi.build("hsnskjl")
+            () -> testInstanceOfExprBuilderImplements.build("hsnskjl")
         );
 
         assertThrows(
             IllegalArgumentException.class,
-            () -> ebi.build("2 ++ 2")
+            () -> testInstanceOfExprBuilderImplements.build("2 ++ 2")
         );
 
         assertThrows(
             IllegalArgumentException.class,
-            () -> ebi.build("(2 + 2")
+            () -> testInstanceOfExprBuilderImplements.build("(2 + 2")
         );
 
         assertThrows(
             IllegalArgumentException.class,
-            () -> ebi.build("1 - (2 + 2)")
+            () -> testInstanceOfExprBuilderImplements.build("1 - (2 + 2)")
         );
 
         assertThrows(
             IllegalArgumentException.class,
-            () -> ebi.build(" 2 - 2")
+            () -> testInstanceOfExprBuilderImplements.build(" 2 - 2")
         );
 
         assertThrows(
             IllegalArgumentException.class,
-            () -> ebi.build("(2 + 2) + 34 ^ 2)")
+            () -> testInstanceOfExprBuilderImplements.build("(2 + 2) + 34 ^ 2)")
         );
 
         assertThrows(
             IllegalArgumentException.class,
-            () -> ebi.build("-((2 + 2 * 2 ^ (3 + 5) — 34) / ((7 — 5) - (-5 + 20 — 2 * (6 — 2)) — 1))")
+            () -> testInstanceOfExprBuilderImplements.build("-((2 + 2 * 2 ^ (3 + 5) — 34) / ((7 — 5) - (-5 + 20 — 2 * (6 — 2)) — 1))")
         );
 
-        assertDoesNotThrow(() -> ebi.build("2 + 2"));
-        assertDoesNotThrow(() -> ebi.build("2 + 2 * 34 — 34"));
-        assertDoesNotThrow(() -> ebi.build("(2 + 2) ^ 3 * 3 — 2 ^ 6 "));
-        assertDoesNotThrow(() -> ebi.build("(2 + 2)"));
-        assertDoesNotThrow(() -> ebi.build("-(2 + 2)"));
-        assertDoesNotThrow(() -> ebi.build("-(((2 + 2) ^ 3) + 95 — 3 * 2)"));
-        assertDoesNotThrow(() -> ebi.build("-(((((2 + 2) ^ 3) + 95 — 3 * 2) / 2 + 46) / 4)"));
+        assertDoesNotThrow(() -> testInstanceOfExprBuilderImplements.build("2 + 2"));
+        assertDoesNotThrow(() -> testInstanceOfExprBuilderImplements.build("2 + 2 * 34 — 34"));
+        assertDoesNotThrow(() -> testInstanceOfExprBuilderImplements.build("(2 + 2) ^ 3 * 3 — 2 ^ 6 "));
+        assertDoesNotThrow(() -> testInstanceOfExprBuilderImplements.build("(2 + 2)"));
+        assertDoesNotThrow(() -> testInstanceOfExprBuilderImplements.build("-(2 + 2)"));
+        assertDoesNotThrow(() -> testInstanceOfExprBuilderImplements.build("-(((2 + 2) ^ 3) + 95 — 3 * 2)"));
+        assertDoesNotThrow(() -> testInstanceOfExprBuilderImplements.build("-(((((2 + 2) ^ 3) + 95 — 3 * 2) / 2 + 46) / 4)"));
     }
 
     @Test
@@ -106,7 +106,7 @@ public class ExprBuilderImplementsTest {
                 new Const(5),
                 new Const(5)
             ),
-            ebi.build(
+            testInstanceOfExprBuilderImplements.build(
                 "5 + 5"
             )
         );
@@ -122,7 +122,7 @@ public class ExprBuilderImplementsTest {
                 ),
                 new Const(2)
             ),
-            ebi.build(
+            testInstanceOfExprBuilderImplements.build(
                 "5 * 2 — 1 + 2"
             )
         );
@@ -146,7 +146,7 @@ public class ExprBuilderImplementsTest {
                     )
                 )
             ),
-            ebi.build(
+            testInstanceOfExprBuilderImplements.build(
                 "50 / 5 * (10 ^ 2 — -(5 + 15))"
             )
         );
@@ -156,42 +156,42 @@ public class ExprBuilderImplementsTest {
     void testCalculateExpression() {
         assertEquals(
             10,
-            ebi.build(
+            testInstanceOfExprBuilderImplements.build(
                 "5 + 5"
             ).evaluate()
         );
 
         assertEquals(
             11,
-            ebi.build(
+            testInstanceOfExprBuilderImplements.build(
                 "5 * 2 — 1 + 2"
             ).evaluate()
         );
 
         assertEquals(
             1200,
-            ebi.build(
+            testInstanceOfExprBuilderImplements.build(
                 "50 / 5 * (10 ^ 2 — -(5 + 15))"
             ).evaluate()
         );
 
         assertEquals(
             503,
-            ebi.build(
+            testInstanceOfExprBuilderImplements.build(
                 "2 + 2 * 2 ^ (3 + 5) — 34 / (7 — 5) + (-5 + 20 — 2 * (6 — 2)) — 1"
             ).evaluate()
         );
 
         assertEquals(
             -30,
-            ebi.build(
+            testInstanceOfExprBuilderImplements.build(
                 "-(((((2 + 2) ^ 3) + 95 — 3 * 2) / 2 + 46) / 4)"
             ).evaluate()
         );
 
         assertEquals(
             -60,
-            ebi.build(
+            testInstanceOfExprBuilderImplements.build(
                 "-((2 + 2 * 2 ^ (3 + 5) — 34) / ((7 — 5) + (-5 + 20 — 2 * (6 — 2)) — 1))"
             ).evaluate()
         );

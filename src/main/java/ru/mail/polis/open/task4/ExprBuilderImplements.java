@@ -10,26 +10,6 @@ import java.util.StringTokenizer;
 
 public class ExprBuilderImplements implements ExprBuilder {
 
-    public  ExprBuilderImplements() {
-        operationOfExpression = new ArrayDeque<>();
-        operationsPriority = new HashMap<>();
-        expressionContainer = new ArrayDeque<>();
-        operationsPriority.put("-", 1);
-        operationsPriority.put("^", 2);
-        operationsPriority.put("*", 3);
-        operationsPriority.put("/", 3);
-        operationsPriority.put("+", 4);
-        operationsPriority.put("—", 4);
-        symbolsNotOperand = new HashSet<>(operationsPriority.keySet());
-        symbolsNotOperand.add(LEFT_BRACKET);
-        symbolsNotOperand.add(RIGHT_BRACKET);
-    }
-
-    private static Map<String, Integer> operationsPriority;
-    private Deque<String> operationOfExpression;
-    private Set<String> symbolsNotOperand;
-    private Deque<Expr> expressionContainer;
-
     private static final String ADD = "+";
     private static final String UN_MIN = "-";
     private static final String POW = "^";
@@ -39,6 +19,25 @@ public class ExprBuilderImplements implements ExprBuilder {
     private static final String LEFT_BRACKET = "(";
     private static final String RIGHT_BRACKET = ")";
 
+    public  ExprBuilderImplements() {
+        operationOfExpression = new ArrayDeque<>();
+        operationsPriority = new HashMap<>();
+        expressionContainer = new ArrayDeque<>();
+        operationsPriority.put(UN_MIN, 1);
+        operationsPriority.put(POW, 2);
+        operationsPriority.put(MULT, 3);
+        operationsPriority.put(DIV, 3);
+        operationsPriority.put(ADD, 4);
+        operationsPriority.put(SUB, 4);
+        symbolsNotOperand = new HashSet<>(operationsPriority.keySet());
+        symbolsNotOperand.add(LEFT_BRACKET);
+        symbolsNotOperand.add(RIGHT_BRACKET);
+    }
+
+    private static Map<String, Integer> operationsPriority;
+    private Deque<String> operationOfExpression;
+    private Set<String> symbolsNotOperand;
+    private Deque<Expr> expressionContainer;
 
     String transformationExpression(String expression) {
 
