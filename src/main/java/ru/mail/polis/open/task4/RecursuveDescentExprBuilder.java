@@ -5,16 +5,16 @@ import java.util.Deque;
 import org.jetbrains.annotations.Nullable;
 
 public class RecursuveDescentExprBuilder implements ExprBuilder {
-    private InputBuffer inputBuffer;
+    private InputCharBuffer inputBuffer;
 
     public RecursuveDescentExprBuilder() {
-        this.inputBuffer = new InputBuffer();
+        this.inputBuffer = new InputCharBuffer();
     }
 
-    private class InputBuffer {
+    private class InputCharBuffer {
         private Deque<Character> restOfInput;
 
-        public InputBuffer() {
+        public InputCharBuffer() {
             this.restOfInput = new ArrayDeque<Character>();
         }
 
@@ -29,15 +29,15 @@ public class RecursuveDescentExprBuilder implements ExprBuilder {
             }
         }
 
-        public char getFirst() {
+        public char peek() {
             return restOfInput.getFirst();
         }
 
-        public void removeFirst() {
+        public void consume() {
             restOfInput.removeFirst();
         }
 
-        public char pollFirst() {
+        public char poll() {
             return restOfInput.pollFirst();
         }
 
@@ -54,7 +54,7 @@ public class RecursuveDescentExprBuilder implements ExprBuilder {
 
         inputBuffer.load(input);
 
-        Expr result = tryToFormAddSubtract();
+        Expr result = valueOfExpr();
 
         if (!inputBuffer.isEmpty()) {
             throw new IllegalArgumentException("Something went wrong for " + input);
@@ -62,140 +62,86 @@ public class RecursuveDescentExprBuilder implements ExprBuilder {
         return result;
     }
 
-    private Expr tryToFormAddSubtract() throws IllegalArgumentException {
-        if (inputBuffer.isEmpty()) {
-            throw new IllegalArgumentException("Buffer is empty");
-        }
+    private Expr valueOfExpr() throws IllegalArgumentException {
+        Expr result = valueOfTerm();
 
-        Expr result = tryToFormMultiplyDivide();
+        while (!inputBuffer.isEmpty() && (inputBuffer.peek() == '+' || inputBuffer.peek() == '-')) {
+            char operator = inputBuffer.poll();
 
-        while (true) {
-            if (inputBuffer.isEmpty()) {
-                return result;
-            }
+            Expr right = valueOfTerm();
 
-            char sign = inputBuffer.getFirst();
-
-            if (sign != '+' && sign != '-') {
-                return result;
-            }
-
-            inputBuffer.removeFirst();
-
-            Expr right = tryToFormMultiplyDivide();
-
-            if (sign == '+') {
+            if (operator == '+') {
                 result = new Add(result, right);
             } else {
                 result = new Subtract(result, right);
             }
         }
+        return result;
     }
 
-    private Expr tryToFormMultiplyDivide() throws IllegalArgumentException {
-        if (inputBuffer.isEmpty()) {
-            throw new IllegalArgumentException("Buffer is empty");
-        }
+    private Expr valueOfTerm() throws IllegalArgumentException {
+        Expr result = valueOfFactor();
 
-        Expr result = tryToFormPower();
+        while (!inputBuffer.isEmpty() && (inputBuffer.peek() == '*' || inputBuffer.peek() == '/')) {
+            char operator = inputBuffer.poll();
 
-        while (true) {
-            if (inputBuffer.isEmpty()) {
-                return result;
-            }
+            Expr right = valueOfFactor();
 
-            char sign = inputBuffer.getFirst();
-
-            if (sign != '*' && sign != '/') {
-                return result;
-            }
-
-            inputBuffer.removeFirst();
-
-            Expr right = tryToFormPower();
-
-            if (sign == '*') {
+            if (operator == '*') {
                 result = new Multiply(result, right);
             } else {
                 result = new Divide(result, right);
             }
         }
+        return result;
     }
 
-    private Expr tryToFormPower() throws IllegalArgumentException {
+    private Expr valueOfFactor() throws IllegalArgumentException {
+        Expr result = valueOfPrimary();
+
+        if (!inputBuffer.isEmpty() && inputBuffer.peek() == '^') {
+            inputBuffer.consume();
+
+            Expr right = valueOfFactor();
+
+            return new Power(result, right);
+        } else {
+            return result;
+        }
+    }
+
+    private Expr valueOfPrimary() throws IllegalArgumentException {
         if (inputBuffer.isEmpty()) {
             throw new IllegalArgumentException("Buffer is empty");
         }
 
-        Expr result = tryToFormBrackets();
+        if (Character.isDigit(inputBuffer.peek())) {
+            StringBuilder digits = new StringBuilder();
 
-        while (true) {
-            if (inputBuffer.isEmpty()) {
-                return result;
-            }
+            do {
+                digits.append(inputBuffer.poll());
+            } while (!inputBuffer.isEmpty() && Character.isDigit(inputBuffer.peek()));
 
-            char sign = inputBuffer.getFirst();
+            int number = Integer.parseInt(digits.toString());
 
-            if (sign != '^') {
-                return result;
-            }
+            return new Const(number);
+        } else if (inputBuffer.peek() == '(') {
+            inputBuffer.consume();
 
-            inputBuffer.removeFirst();
+            Expr insideBrackets = valueOfExpr();
 
-            Expr right = tryToFormBrackets();
-
-            result = new Power(result, right);
-        }
-    }
-
-    private Expr tryToFormBrackets() throws IllegalArgumentException {
-        if (inputBuffer.isEmpty()) {
-            throw new IllegalArgumentException("Buffer is empty");
-        }
-
-        if (inputBuffer.getFirst() == '(') {
-            inputBuffer.removeFirst();
-
-            Expr insideBrackets = tryToFormAddSubtract();
-
-            if (inputBuffer.isEmpty() || inputBuffer.pollFirst() != ')') {
+            if (inputBuffer.isEmpty() || inputBuffer.poll() != ')') {
                 throw new IllegalArgumentException("Brackets are not closed");
             }
             return insideBrackets;
+        } else if (inputBuffer.peek() == '-') {
+            inputBuffer.consume();
+
+            Expr insideUnaryMinus = valueOfPrimary();
+
+            return new UnaryMinus(insideUnaryMinus);
         } else {
-            return tryToFormConst();
+            throw new IllegalArgumentException("Cannot parse character " + inputBuffer.peek());
         }
-    }
-
-    private Expr tryToFormConst() throws IllegalArgumentException {
-        if (inputBuffer.isEmpty()) {
-            throw new IllegalArgumentException("Buffer is empty");
-        }
-
-        boolean isNegative = false;
-
-        // обработаем унарный минус
-        if (inputBuffer.getFirst() == '-') {
-            isNegative = true;
-            inputBuffer.removeFirst();
-        }
-
-        StringBuilder digits = new StringBuilder();
-
-        while (!inputBuffer.isEmpty() && Character.isDigit(inputBuffer.getFirst())) {
-            digits.append(inputBuffer.pollFirst());
-        }
-
-        if (digits.length() == 0) {
-            throw new IllegalArgumentException("Can't get valid number");
-        }
-
-        int number = Integer.parseInt(digits.toString());
-
-        if (isNegative) {
-            number = -number;
-        }
-
-        return new Const(number);
     }
 }
