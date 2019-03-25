@@ -12,4 +12,9 @@ public final class Const implements Expr {
     public int evaluate() {
         return value;
     }
+
+    @Override
+    public String toString() {
+        return "Const(" + value + ")";
+    }
 }
