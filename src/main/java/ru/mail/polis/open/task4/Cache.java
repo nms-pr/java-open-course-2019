@@ -25,7 +25,7 @@ public class Cache {
 
     public void put(String newInput, Expr newExpression) {
         if (lastElement == sizeBlock - 1) {
-            if (cache.length - 1 >= 0) {
+            if (cache.length >= 1) {
                 System.arraycopy(cache, 1, cache, 0, cache.length - 1);
             }
         } else {

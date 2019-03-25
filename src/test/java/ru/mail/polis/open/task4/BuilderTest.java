@@ -10,7 +10,9 @@ class BuilderTest {
     @Test
     void test() {
         assertThrows(IllegalArgumentException.class, () -> new Builder().build(null));
-        assertEquals(-12, new Builder().build("(-  12)").evaluate());
+        assertThrows(IllegalArgumentException.class, () -> new Builder().build("(-  12)").evaluate());
+        assertEquals(-12, new Builder().build(" - 12").evaluate());
+        assertThrows(IllegalArgumentException.class, () -> new Builder().build("  (3)"));
         assertEquals(3, new Builder().build("3").evaluate());
         assertThrows(IllegalArgumentException.class, () -> new Builder().build("12 + 48 - A"));
         assertThrows(IllegalArgumentException.class, () -> new Builder().build("12) + 47- (34-70)"));
