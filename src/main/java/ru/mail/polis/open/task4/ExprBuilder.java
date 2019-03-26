@@ -30,5 +30,5 @@ public interface ExprBuilder {
      * @return арифметическое выражение
      * @throws IllegalArgumentException если арифметическое выражение некорректно
      */
-    Expr build(@Nullable String input);
+    ExprBuilder build(@Nullable String input);
 }
