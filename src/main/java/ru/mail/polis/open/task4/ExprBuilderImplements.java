@@ -1,11 +1,8 @@
 package ru.mail.polis.open.task4;
 
-import org.jetbrains.annotations.Nullable;
-
 import java.util.ArrayDeque;
-import java.util.ArrayList;
 import java.util.Deque;
-import java.util.List;
+
 
 public class ExprBuilderImplements implements ExprBuilder {
 
@@ -16,25 +13,20 @@ public class ExprBuilderImplements implements ExprBuilder {
     private static final char POW_SIGN = '^';
     private static final char UNMIN_SIGN = 'm';
 
-    private Deque<Integer> operands = new ArrayDeque<>();
-    private Deque<Character> operations = new ArrayDeque<>();
-    static Deque<Expr> expression = new ArrayDeque<>();
-    private List<Character> list = new ArrayList<>();
+    Deque<Expr> expression =  new ArrayDeque<>();
 
-    public static void main(String[] args) {
-            ExprBuilder exprBuilder = new ExprBuilderImplements();
-//            exprBuilder =  exprBuilder.build("m1 - (5 + 5)*2");
-            System.out.println(expression.peek());
+      public static void main(String[] args) {
+        ExprBuilderImplements exprBuilderImplements = new ExprBuilderImplements();
+        Expr e = exprBuilderImplements.build("(5 + 5)*2 + m1 ");
+          System.out.println(e.evaluate());
+      }
 
+/*
+    public void ExprBuilderImplements() {
+        expression = new ArrayDeque<>();
     }
-
-
+*/
     @Override
-    public ExprBuilder build(@Nullable String input) {
-//        Deque<Expr> expression = new ArrayDeque<>();
-
-    }
-
     public Expr build (String input) {
         String str = ExpressionToPostFix(input);
         String operand = "";
@@ -61,8 +53,7 @@ public class ExprBuilderImplements implements ExprBuilder {
                     case MULT_SIGN: expression.addFirst(new Mylt(left,right)); break;
                     case DIV_SIGN: expression.addFirst(new Div(left,right)); break;
                     case POW_SIGN: expression.addFirst(new Pow(left,right)); break;
-                    default:
-                        break;
+                    default: break;
                 }
             }
 
