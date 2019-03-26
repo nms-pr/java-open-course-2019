@@ -1,4 +1,6 @@
-package ru.mail.polis.open.task4;
+package ru.mail.polis.open.task4.expressions;
+
+import ru.mail.polis.open.task4.Expr;
 
 public final class Const implements Expr {
 
