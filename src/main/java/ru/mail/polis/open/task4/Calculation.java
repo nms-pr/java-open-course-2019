@@ -129,7 +129,7 @@ public class Calculation implements ExprBuilder {
     Expr constant(String input) {
         if (input.charAt(0) == UNARY_MINUS) {
             input = input.substring(1);
-            unaryMinus(input);
+            return unaryMinus(input);
         }
         if (!(input.chars().allMatch(Character::isDigit))) {
             throw new IllegalArgumentException();

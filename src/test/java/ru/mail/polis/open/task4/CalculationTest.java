@@ -10,7 +10,8 @@ public class CalculationTest {
 
     @Test
     void validCalculation() {
-        //assertEquals(-1,calculationTest.build("-3+2").evaluate());
+        assertEquals(-1,calculationTest.build("-3+2").evaluate());
+        assertEquals(2,calculationTest.build("2*(-3+2)^2").evaluate());
         //assertEquals(0,calculationTest.build("2—2").evaluate());
         //assertEquals(-3,calculationTest.build("2+2—7").evaluate());
         assertEquals(27,calculationTest.build("(1+2)*3^2").evaluate());
