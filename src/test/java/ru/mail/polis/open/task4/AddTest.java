@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-//todo
 class AddTest {
 
     @Test
@@ -15,6 +14,13 @@ class AddTest {
                 new Const(1),
                 new Const(2)
             ).evaluate()
+        );
+        assertEquals(
+                75,
+                new Add(
+                        new Const(50),
+                        new Const(25)
+                ).evaluate()
         );
     }
 

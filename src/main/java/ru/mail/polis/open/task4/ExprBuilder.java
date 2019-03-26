@@ -24,7 +24,7 @@ public interface ExprBuilder {
      * <p>
      * Примеры:
      * "5 + 5" = 10 -> Add(Const(5),Const(5))
-     * "5 * 2 - 1 + 2" = 11 -> Add( Sub( Mult( Const(5),Const(2) ), Const(1)), Const(2))
+     * "5 * 2 - 1 + 2" = 11 -> Add( Subtraction( Multiplication( Const(5),Const(2) ), Const(1)), Const(2))
      *
      * @param input — входная строка
      * @return арифметическое выражение
