@@ -4,21 +4,14 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-//todo
-class ConstTest {
-
+class MultiplyTest {
     @Test
     void test() {
         assertEquals(
-            5,
-            new Const(
-                5
-            ).evaluate()
-        );
-        assertEquals(
-                10,
-                new Const(
-                        10
+                38,
+                new Multiply(
+                        new Const(19),
+                        new Const(2)
                 ).evaluate()
         );
     }
