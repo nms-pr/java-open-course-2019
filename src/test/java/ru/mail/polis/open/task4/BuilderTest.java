@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class BuilderTest {
 
     private static final @Nullable String CORRECT_LINE_1 = "((7 + ( 25 - 4 * 5 ) + ( 4 / 2 )))";
-    private static final @Nullable String CORRECT_LINE_2 = "7+7+7+7*2";
+    private static final @Nullable String CORRECT_LINE_2 = "-7+7+7+7*2";
     private static final @Nullable String CORRECT_LINE_3 = "(2+2)*(4-2)-(2+3*2)-3";
     private static final @Nullable String CORRECT_LINE_4 = "(77+3)*(97-2)-(7+7*2)-3+4^2-4";
     private static final @Nullable String CORRECT_LINE_5 = "((10 - 5) * ((5 - 1) / 2))";
@@ -23,7 +23,7 @@ public class BuilderTest {
         Builder correctBuilder1 = new Builder(CORRECT_LINE_1);
         assertEquals(14, correctBuilder1.evaluate());
         Builder correctBuilder2 = new Builder(CORRECT_LINE_2);
-        assertEquals(35, correctBuilder2.evaluate());
+        assertEquals(21, correctBuilder2.evaluate());
         Builder correctBuilder3 = new Builder(CORRECT_LINE_3);
         assertEquals(-3, correctBuilder3.evaluate());
         Builder correctBuilder4 = new Builder(CORRECT_LINE_4);
