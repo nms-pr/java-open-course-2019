@@ -3,6 +3,15 @@ package ru.mail.polis.open.task4;
 import org.jetbrains.annotations.Nullable;
 
 public class Builder implements ExprBuilder {
+    /*
+    * Парсер математических выражений.
+    * Суть данного парсера состоит в том, что он разделяется на свои подзадачи
+    * В свою очередь подзадача должна работать только с тем, с чем умеет работать
+    * если условия не удовлетворяются передавать управление дальше
+    * Если же условия удовлетворены, делаем вычисления и передаем оставшуюся часть необработанного текста
+    * Выполнение происходит до тех пор, пока текст все еще есть или же
+    * если ни одна подзадача не может обработать текущее состояние.
+    */
     private static final char ADD_OPERAND = '+';
     private static final char SUBSTRACT_OPERAND = '-';
     private static final char MULTIPLY_OPERAND = '*';
@@ -23,6 +32,7 @@ public class Builder implements ExprBuilder {
             throw new IllegalArgumentException("Error: Empty string");
         }
 
+        //отправляем строку парситься
         Pair result = plusMinus(input);
         if (!result.restLine.isEmpty()) {
             throw new IllegalArgumentException("Error: can't full parse. restLine: " + result.restLine);
