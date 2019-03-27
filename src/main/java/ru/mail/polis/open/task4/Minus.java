@@ -1,6 +1,4 @@
-package ru.mail.polis.open.task4.expressions;
-
-import ru.mail.polis.open.task4.Expr;
+package ru.mail.polis.open.task4;
 
 public class Minus implements Expr {
 

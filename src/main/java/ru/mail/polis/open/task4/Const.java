@@ -1,4 +1,4 @@
-package ru.mail.polis.open.task4.expressions;
+package ru.mail.polis.open.task4;
 
 import ru.mail.polis.open.task4.Expr;
 

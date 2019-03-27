@@ -4,20 +4,21 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class AddTest {
+
+class DivTest {
 
     @Test
     void test() {
         assertEquals(
-            3,
-            new Add(
-                new Const(1),
+            2,
+            new Div(
+                new Const(5),
                 new Const(2)
             ).evaluate()
         );
         assertEquals(
-            7,
-            new Add(
+            1,
+            new Div(
                 new Mult(
                     new Const(2),
                     new Const(2)
@@ -25,16 +26,13 @@ class AddTest {
                 new Const(3)).evaluate()
         );
         assertEquals(
-            5,
-            new Add(
+            2,
+            new Div(
                 new Div(
                     new Const(4),
                     new Const(2)
                 ),
-                new Const(3)).evaluate()
+                new Const(1)).evaluate()
         );
     }
-
-
-
 }

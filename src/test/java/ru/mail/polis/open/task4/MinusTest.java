@@ -4,20 +4,21 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class ConstTest {
+
+class MinusTest {
 
     @Test
     void test() {
         assertEquals(
-            5,
-            new Const(
+            -5,
+            new Minus(
                 5
             ).evaluate()
         );
         assertEquals(
-            -1,
-            new Const(
-                -1
+            -3,
+            new Minus(
+                3
             ).evaluate()
         );
         assertEquals(
@@ -27,5 +28,4 @@ class ConstTest {
             ).evaluate()
         );
     }
-
 }

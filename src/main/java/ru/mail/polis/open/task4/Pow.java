@@ -1,7 +1,6 @@
-package ru.mail.polis.open.task4.expressions;
+package ru.mail.polis.open.task4;
 
 import org.jetbrains.annotations.NotNull;
-import ru.mail.polis.open.task4.Expr;
 
 import java.util.Objects;
 
