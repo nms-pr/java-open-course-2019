@@ -15,6 +15,18 @@ public final class Mylt implements Expr {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || this.getClass() != o.getClass()) {
+            return false;
+        }
+        Mylt mylt = (Mylt) o;
+        return mylt.left.equals(this.left) && mylt.right.equals(this.right);
+    }
+
+    @Override
     public int evaluate() {
         return left.evaluate() * right.evaluate();
     }

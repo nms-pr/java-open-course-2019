@@ -15,6 +15,18 @@ public final class Sub implements Expr {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || this.getClass() != o.getClass()) {
+            return false;
+        }
+        Sub sub = (Sub) o;
+        return sub.left.equals(this.left) && sub.right.equals(this.right);
+    }
+
+    @Override
     public int evaluate() {
         return left.evaluate() - right.evaluate();
     }

@@ -16,24 +16,12 @@ public class ExprBuilderImplements implements ExprBuilder {
     private static final char CLOSE_BRACKET = ')';
     private static Deque<Expr> expression =  new ArrayDeque<>();
 
-    public static void main(String[] args) {
-        String s = " (6/2 - 9/3^2 + 4*6) + m8";
-        String s2 = expressionToPostFix(s);
-        System.out.println(s2);
-
-        StringTokenizer st = new StringTokenizer(s2, " ");
-        ExprBuilderImplements expr = new ExprBuilderImplements();
-        Expr ex = expr.build(s);
-
-        System.out.println(ex.evaluate());
-        System.out.println(ex);
-    }
-
     @Override
     public Expr build(String input) {
 
         expression.clear();
-        String str = expressionToPostFix(input);
+        StringBuilder stringBuilder = expressionToPostFix(input);
+        String str = String.valueOf(stringBuilder);
         StringTokenizer st = new StringTokenizer(str, " ");
 
         while (st.hasMoreTokens()) {
@@ -44,11 +32,21 @@ public class ExprBuilderImplements implements ExprBuilder {
                 int operand = Integer.parseInt(token);
                 expression.push(new Const(operand));
             } else {
+
+                if (expression.isEmpty()) {
+                    throw new IllegalArgumentException("Systax error");
+                }
                 Expr right = expression.pop();
+
                 if (token.charAt(0) == UNMIN_SIGN) {
                     expression.push(new UnMin(right));
                 } else {
+
+                    if (expression.isEmpty()) {
+                        throw new IllegalArgumentException("Systax error");
+                    }
                     Expr left = expression.pop();
+
                     switch (token.charAt(0)) {
                         case PLUS_SIGN:
                             expression.addFirst(new Add(left, right));
@@ -66,7 +64,7 @@ public class ExprBuilderImplements implements ExprBuilder {
                             expression.addFirst(new Pow(left, right));
                             break;
                         default:
-                            break;
+                            throw new IllegalArgumentException("Error in data");
                     }
                 }
             }
@@ -82,48 +80,75 @@ public class ExprBuilderImplements implements ExprBuilder {
     /*
     @param входное выражение
     @return постфиксная форма выражения, в которой операнды и операции разделены пробелами
+    если в выражении присудствует m,
+    то операнд до него сдвигается на один пробел больше
+    На подсчёт это не влияет
      */
-    public static String expressionToPostFix(String input) {
+    public static StringBuilder expressionToPostFix(String input) {
 
+        if (input == null) {
+            throw  new IllegalArgumentException("Input is null");
+        }
+        StringBuilder currentBuilder  = new StringBuilder("");
         String current = "";
         Deque<Character> stack = new ArrayDeque<>();
         int preority;
 
-        String str = input.replaceAll(""," ");
+        String str = input.replaceAll(" ","");
+
+        if (input == "") {
+            throw  new IllegalArgumentException("Input nothing ");
+        }
 
         for (int i = 0; i < str.length(); i++) {
             preority = getPriority(str.charAt(i));
 
             if (preority == 0) {
+                currentBuilder.append(str.charAt(i));
                 current += str.charAt(i);
-            } else  if (preority == 1) {
+            } else if (preority == 1) {
                 stack.addFirst(str.charAt(i));
             } else if (preority > 1) {
+                currentBuilder.append(' ');
                 current += ' ';
                 while (!stack.isEmpty()) {
                     if (getPriority(stack.peekFirst()) >= preority) {
+                        currentBuilder.append(stack.pollFirst());
                         current += stack.pollFirst();
                     } else {
                         break;
                     }
+                    currentBuilder.append(' ');
                     current += ' ';
                 }
                 stack.addFirst(str.charAt(i));
             } else if (preority == -1) {
-                while (getPriority(stack.peekFirst()) != 1) {
+
+                while (!stack.isEmpty() && getPriority(stack.peekFirst()) != 1) {
+                    currentBuilder.append(' ');
                     current += ' ';
+                    currentBuilder.append(stack.pollFirst());
                     current += stack.pollFirst();
                 }
-                stack.pollFirst();
+                if (stack.isEmpty()) {
+                    throw new IllegalArgumentException(" not left bracket");
+                } else {
+                    stack.pollFirst();
+                }
             }
         }
 
         while (!stack.isEmpty()) {
+            if (getPriority(stack.peekFirst()) == 1) {
+                throw new IllegalArgumentException(" Error");
+            }
+            currentBuilder.append(' ');
             current += ' ';
+            currentBuilder.append(stack.pollFirst());
             current += stack.pollFirst();
         }
 
-        return current;
+        return currentBuilder;
     }
 
     /*
@@ -162,7 +187,7 @@ public class ExprBuilderImplements implements ExprBuilder {
         if (token == CLOSE_BRACKET) {
             return -1;
         } else {
-            throw new IllegalArgumentException("Incorrect char");
+            throw new IllegalArgumentException("No correct char");
         }
     }
 }

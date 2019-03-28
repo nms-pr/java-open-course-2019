@@ -9,6 +9,20 @@ public final class Const implements Expr {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Const temp = (Const) o;
+        return this.value == temp.value;
+    }
+
+
+
+    @Override
     public int evaluate() {
         return value;
     }

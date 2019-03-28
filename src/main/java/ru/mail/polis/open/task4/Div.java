@@ -15,6 +15,18 @@ public final class Div implements Expr {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || this.getClass() != o.getClass()) {
+            return false;
+        }
+        Div div = (Div) o;
+        return div.left.equals(this.left) && div.right.equals(this.right);
+    }
+
+    @Override
     public int evaluate() {
         return left.evaluate() / right.evaluate();
     }
