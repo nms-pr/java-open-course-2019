@@ -20,8 +20,7 @@ public class ExprBuilderImplements implements ExprBuilder {
     public Expr build(String input) {
 
         expression.clear();
-        StringBuilder stringBuilder = expressionToPostFix(input);
-        String str = String.valueOf(stringBuilder);
+        String str = expressionToPostFix(input);
         StringTokenizer st = new StringTokenizer(str, " ");
 
         while (st.hasMoreTokens()) {
@@ -84,12 +83,12 @@ public class ExprBuilderImplements implements ExprBuilder {
     то операнд до него сдвигается на один пробел больше
     На подсчёт это не влияет
      */
-    public static StringBuilder expressionToPostFix(String input) {
+    public static String expressionToPostFix(String input) {
 
         if (input == null) {
             throw  new IllegalArgumentException("Input is null");
         }
-        StringBuilder currentBuilder  = new StringBuilder("");
+
         String current = "";
         Deque<Character> stack = new ArrayDeque<>();
         int preority;
@@ -104,30 +103,24 @@ public class ExprBuilderImplements implements ExprBuilder {
             preority = getPriority(str.charAt(i));
 
             if (preority == 0) {
-                currentBuilder.append(str.charAt(i));
                 current += str.charAt(i);
             } else if (preority == 1) {
                 stack.addFirst(str.charAt(i));
             } else if (preority > 1) {
-                currentBuilder.append(' ');
                 current += ' ';
                 while (!stack.isEmpty()) {
                     if (getPriority(stack.peekFirst()) >= preority) {
-                        currentBuilder.append(stack.pollFirst());
                         current += stack.pollFirst();
                     } else {
                         break;
                     }
-                    currentBuilder.append(' ');
                     current += ' ';
                 }
                 stack.addFirst(str.charAt(i));
             } else if (preority == -1) {
 
                 while (!stack.isEmpty() && getPriority(stack.peekFirst()) != 1) {
-                    currentBuilder.append(' ');
                     current += ' ';
-                    currentBuilder.append(stack.pollFirst());
                     current += stack.pollFirst();
                 }
                 if (stack.isEmpty()) {
@@ -142,13 +135,11 @@ public class ExprBuilderImplements implements ExprBuilder {
             if (getPriority(stack.peekFirst()) == 1) {
                 throw new IllegalArgumentException(" Error");
             }
-            currentBuilder.append(' ');
             current += ' ';
-            currentBuilder.append(stack.pollFirst());
             current += stack.pollFirst();
         }
 
-        return currentBuilder;
+        return current;
     }
 
     /*
