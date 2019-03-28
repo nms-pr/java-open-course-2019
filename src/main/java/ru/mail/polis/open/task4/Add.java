@@ -18,7 +18,7 @@ public final class Add implements Expr {
     public int evaluate() {
         return left.evaluate() + right.evaluate();
     }
-/*
+    /*
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -37,5 +37,5 @@ public final class Add implements Expr {
     public int hashCode() {
         return Objects.hash(left, right);
     }
-*/
+    */
 }
