@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class OperationTest {
 
-    Expr expr;
+    private static Expr expr;
 
     @Test
     void testAdd() {
