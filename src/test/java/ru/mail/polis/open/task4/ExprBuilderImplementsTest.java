@@ -72,5 +72,4 @@ class ExprBuilderImplementsTest {
                 "50 / 5 * (10 ^ 2 - m(5 + 15))").evaluate());
     }
 
-
 }
