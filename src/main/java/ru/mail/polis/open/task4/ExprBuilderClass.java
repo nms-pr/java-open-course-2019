@@ -17,48 +17,39 @@ public class ExprBuilderClass implements ExprBuilder {
         if (input == null || input.isEmpty()) {
             throw new IllegalArgumentException();
         }
+        //remove first and last brackets
         String newInput = input.replaceAll(" ", "");
-        return brackets(newInput);
-    }
-
-    private Expr brackets(String input) {
-        if (input.isEmpty()) {
-            throw new IllegalArgumentException();
-        }
-        if (input.charAt(0) == OPENING_BRACKET && input.charAt(input.length() - 1) == CLOSING_BRACKET) {
-            for (int i = 0; i < input.length(); i++) {
-                if (input.charAt(i) == OPENING_BRACKET) {
+        if (newInput.charAt(0) == OPENING_BRACKET && newInput.charAt(newInput.length() - 1) == CLOSING_BRACKET) {
+            for (int i = 0; i < newInput.length(); i++) {
+                if (newInput.charAt(i) == OPENING_BRACKET) {
                     bracketCount++;
-                } else if (input.charAt(i) == CLOSING_BRACKET) {
+                } else if (newInput.charAt(i) == CLOSING_BRACKET) {
                     bracketCount--;
                 }
                 if (bracketCount == 0) {
-                    if (i == input.length() - 1) {
-                        input = input.substring(1, input.length() - 1);
+                    if (i == newInput.length() - 1) {
+                        newInput = newInput.substring(1, newInput.length() - 1);
                     } else {
                         break;
                     }
                 }
             }
         }
-        return plusMinus(input);
-    }
-
-    private Expr plusMinus(String input) {
-        for (int i = 0; i < input.length(); i++) {
-            if (input.charAt(i) == OPENING_BRACKET) {
+        //plus and minus
+        for (int i = 0; i < newInput.length(); i++) {
+            if (newInput.charAt(i) == OPENING_BRACKET) {
                 bracketCount++;
             } else {
-                if (input.charAt(i) == CLOSING_BRACKET) {
+                if (newInput.charAt(i) == CLOSING_BRACKET) {
                     bracketCount--;
                 }
             }
             if (bracketCount == 0) {
-                if (input.charAt(i) == PLUS) {
-                    return new Add(brackets(input.substring(0, i)), brackets(input.substring(i + 1)));
+                if (newInput.charAt(i) == PLUS) {
+                    return new Add(build(newInput.substring(0, i)), build(newInput.substring(i + 1)));
                 }
                 if (input.charAt(i) == MINUS) {
-                    return new Sub(brackets(input.substring(0, i)), brackets(input.substring(i + 1)));
+                    return new Sub(build(newInput.substring(0, i)), build(newInput.substring(i + 1)));
                 }
             }
         }
@@ -66,57 +57,48 @@ public class ExprBuilderClass implements ExprBuilder {
             bracketCount = 0;
             throw new IllegalArgumentException();
         }
-        return multDiv(input);
-    }
-
-    private Expr multDiv(String input) {
-        for (int i = 0; i < input.length(); i++) {
-            if (input.charAt(i) == OPENING_BRACKET) {
+        //mult and div
+        for (int i = 0; i < newInput.length(); i++) {
+            if (newInput.charAt(i) == OPENING_BRACKET) {
                 bracketCount++;
             } else {
-                if (input.charAt(i) == CLOSING_BRACKET) {
+                if (newInput.charAt(i) == CLOSING_BRACKET) {
                     bracketCount--;
                 }
             }
             if (bracketCount == 0) {
-                if (input.charAt(i) == MULT) {
-                    return new Mult(brackets(input.substring(0, i)), brackets(input.substring(i + 1)));
+                if (newInput.charAt(i) == MULT) {
+                    return new Mult(build(newInput.substring(0, i)), build(newInput.substring(i + 1)));
                 }
                 if (input.charAt(i) == DIV) {
-                    return new Div(brackets(input.substring(0, i)), brackets(input.substring(i + 1)));
+                    return new Div(build(newInput.substring(0, i)), build(newInput.substring(i + 1)));
                 }
             }
         }
-        return power(input);
-    }
-
-    private Expr power(String input) {
-        for (int i = 0; i < input.length(); i++) {
-            if (input.charAt(i) == OPENING_BRACKET) {
+        //power
+        for (int i = 0; i < newInput.length(); i++) {
+            if (newInput.charAt(i) == OPENING_BRACKET) {
                 bracketCount++;
             } else {
-                if (input.charAt(i) == CLOSING_BRACKET) {
+                if (newInput.charAt(i) == CLOSING_BRACKET) {
                     bracketCount--;
                 }
             }
             if (bracketCount == 0) {
-                if (input.charAt(i) == POW) {
-                    return new Pow(brackets(input.substring(0, i)), brackets(input.substring(i + 1)));
+                if (newInput.charAt(i) == POW) {
+                    return new Pow(build(newInput.substring(0, i)), build(newInput.substring(i + 1)));
                 }
             }
         }
-        return unaryMinusConstant(input);
-    }
-
-    private Expr unaryMinusConstant(String input) {
-        if (input.charAt(0) == UNARY_MINUS) {
-            return new UnaryMinus(Integer.parseInt(input.substring(1)));
+        //unary minus and constants
+        if (newInput.charAt(0) == UNARY_MINUS) {
+            return new UnaryMinus(Integer.parseInt(newInput.substring(1)));
         }
-        for (int i = 0; i < input.length(); i++) {
-            if (!Character.isDigit(input.charAt(i))) {
+        for (int i = 0; i < newInput.length(); i++) {
+            if (!Character.isDigit(newInput.charAt(i))) {
                 throw new IllegalArgumentException();
             }
         }
-        return new Const(Integer.parseInt(input));
+        return new Const(Integer.parseInt(newInput));
     }
 }
