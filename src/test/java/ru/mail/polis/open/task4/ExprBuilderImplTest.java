@@ -17,7 +17,7 @@ class ExprBuilderImplTest {
     }
 
     @Test
-    void addAndSub(){
+    void addAndSub() {
         String e1 = "+5";
         assertThrows(IllegalArgumentException.class, () -> exprBuilder.build(e1));
 
@@ -43,7 +43,7 @@ class ExprBuilderImplTest {
     }
 
     @Test
-    void multOrDiv(){
+    void multOrDiv() {
         String e1 = "*5";
         assertThrows(IllegalArgumentException.class, () -> exprBuilder.build(e1));
 
@@ -63,17 +63,17 @@ class ExprBuilderImplTest {
         assertEquals(" Mult(Const(5), Const(5))", exprBuilder.build(e6).toString());
         assertEquals(25, exprBuilder.build(e6).evaluate());
 
-        String e7 = "5 * 5 / 4";
-        int f = 5/4;
+        String e7 = "5 * 5 / 4"; //понижение до int и ожидаем 6
+        int f = 5 / 4; //ошибка из за рекурсивнго спуска, сначала /, потом *. получаем ошибку округления
         f = 5 * 5;
-        f = f/4;
+        f = f / 4;
         assertEquals(" Mult(Const(5),  Div(Const(5), Const(4)))", exprBuilder.build(e7).toString());
-//        assertEquals(f, exprBuilder.build(e7).evaluate());
-        assertEquals(5, exprBuilder.build(e7).evaluate());
+        assertEquals(f, exprBuilder.build(e7).evaluate());
+//        assertEquals(6, exprBuilder.build(e7).evaluate());
     }
 
     @Test
-    void pow(){
+    void pow() {
         String e1 = "^5";
         assertThrows(IllegalArgumentException.class, () -> exprBuilder.build(e1));
 
@@ -99,11 +99,9 @@ class ExprBuilderImplTest {
     }
 
     @Test
-    void unary(){
+    void unary() {
         String e0 = "- -5";
-        assertEquals(" Sub(Const(0), Const(5))", exprBuilder.build(e0).toString());
-        assertEquals(-5, exprBuilder.build(e0).evaluate());
-
+        assertThrows(IllegalArgumentException.class, () -> exprBuilder.build(e0));
 
         String e1 = "- 5";
         assertEquals(" Sub(Const(0), Const(5))", exprBuilder.build(e1).toString());
@@ -116,9 +114,7 @@ class ExprBuilderImplTest {
         assertThrows(IllegalArgumentException.class, () -> exprBuilder.build(e3));
 
         String e4 = "5 - 51 -- 4";
-        assertEquals("", exprBuilder.build(e4));
-        assertEquals(-4, exprBuilder.build(e4).evaluate());
-//        assertThrows(IllegalArgumentException.class, () -> exprBuilder.build(e4));
+        assertThrows(IllegalArgumentException.class, () -> exprBuilder.build(e4));
 
         String e5 = "5 - 51 - 4";
         assertThrows(IllegalArgumentException.class, () -> exprBuilder.build(e5));
@@ -128,30 +124,30 @@ class ExprBuilderImplTest {
         assertEquals(-5, exprBuilder.build(e6).evaluate());
 
         String e7 = "-2 — 2";
-        assertEquals(" Sub(Const(0),  Sub(Const(2), Const(2)))", exprBuilder.build(e7).toString());
+        assertEquals(" Sub( Sub(Const(0), Const(2)), Const(2))", exprBuilder.build(e7).toString());
         assertEquals(-4, exprBuilder.build(e7).evaluate());
     }
 
-//    @Test
-//    void uncorrectExprAllOperation() {
-//        String e1 = "5 + 51 +";
-//        String e2 = "* 5 * 2 — 1 + 2";
-//        String e3 = "5 ** 2 — 1 + 2";
-//        String e4 = "5 * 2 / 1 ++ 2";
-//        String e5 = "5 * 2 *— 1 + 2";
-//        String e6 = "5 * 2 — 1 + 2^";
-//        String e7 = " +3";
-//        String e8 = "6 - 3";
-//
-//        assertThrows(IllegalArgumentException.class, () -> exprBuilder.build(e1));
-//        assertThrows(IllegalArgumentException.class, () -> exprBuilder.build(e2));
-//        assertThrows(IllegalArgumentException.class, () -> exprBuilder.build(e3));
-//        assertThrows(IllegalArgumentException.class, () -> exprBuilder.build(e4));
-//        assertThrows(IllegalArgumentException.class, () -> exprBuilder.build(e5));
-//        assertThrows(IllegalArgumentException.class, () -> exprBuilder.build(e6));
-//        assertThrows(IllegalArgumentException.class, () -> exprBuilder.build(e7));
-//        assertThrows(IllegalArgumentException.class, () -> exprBuilder.build(e8));
-//    }
+    @Test
+    void uncorrectExprAllOperation() {
+        String e1 = "5 + 51 +";
+        String e2 = "* 5 * 2 — 1 + 2";
+        String e3 = "5 ** 2 — 1 + 2";
+        String e4 = "5 * 2 / 1 ++ 2";
+        String e5 = "5 * 2 *— 1 + 2";
+        String e6 = "5 * 2 — 1 + 2^";
+        String e7 = " +3";
+        String e8 = "6 - 3";
+
+        assertThrows(IllegalArgumentException.class, () -> exprBuilder.build(e1));
+        assertThrows(IllegalArgumentException.class, () -> exprBuilder.build(e2));
+        assertThrows(IllegalArgumentException.class, () -> exprBuilder.build(e3));
+        assertThrows(IllegalArgumentException.class, () -> exprBuilder.build(e4));
+        assertThrows(IllegalArgumentException.class, () -> exprBuilder.build(e5));
+        assertThrows(IllegalArgumentException.class, () -> exprBuilder.build(e6));
+        assertThrows(IllegalArgumentException.class, () -> exprBuilder.build(e7));
+        assertThrows(IllegalArgumentException.class, () -> exprBuilder.build(e8));
+    }
 //
 //    @Test
 //    void uncorrectExprBrackets() {

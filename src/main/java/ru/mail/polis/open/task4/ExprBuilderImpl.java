@@ -71,6 +71,9 @@ public class ExprBuilderImpl implements ExprBuilder {
         } else {
             leftAndRight = input.split(Character.toString(operation), 2);
             if (operation == UNARY_MINUS) {
+                if (!leftAndRight[0].isEmpty() || leftAndRight[1].isEmpty() || !Character.isDigit(leftAndRight[1].charAt(0))){
+                    throw new IllegalArgumentException("проблема с унарым минуном");
+                }
                 leftAndRight[0] = "0"; //for 0 - COUNT
             }
         }
