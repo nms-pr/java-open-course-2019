@@ -34,11 +34,12 @@ public class ExprParser implements ExprBuilder {
     }
 
     /**
-     * Принимает строку, проверяет на пустоту, передает строку в метод, обрабатывающий скобки
-     * и дальше по спуску в операцию с наименьшим приоритетом
+     * Принимает строку, проверяет на пустоту и обрабатывает скобки.
+     * Далее вызываются методы нахождения арифметических действий.
+     * Если очередной метод возвращает null, вызывается следующий по порядку увеличения приоритета.
      *
      * @param tokens - арифметическое выражение
-     * @return переход в метод обработки сложения и вычитания
+     * @return арифметическое выражение Expr
      * @throws IllegalArgumentException если строка пустая
      */
     private Expr getExpression(String tokens) {
@@ -46,8 +47,21 @@ public class ExprParser implements ExprBuilder {
             throw new IllegalArgumentException();
         }
         tokens = handleBrackets(tokens);
-
-        return addSub(tokens);
+        Expr expression;
+        expression = addSub(tokens);
+        if (expression == null) {
+            expression = divMult(tokens);
+        }
+        if (expression == null) {
+            expression = pow(tokens);
+        }
+        if (expression == null) {
+            expression = minus(tokens);
+        }
+        if (expression == null) {
+            expression = constant(tokens);
+        }
+        return expression;
     }
 
     /**
@@ -55,7 +69,7 @@ public class ExprParser implements ExprBuilder {
      * вызывает спуск с самого начала рекурсивно для обеих частей
      *
      * @param tokens - арифметическое выражение
-     * @return переход в метод обработки деления и умножения
+     * @return null в случае отсутствия операций сложения/вычитания
      */
     private Expr addSub(String tokens) {
         tokensArray = tokens.toCharArray();
@@ -92,7 +106,7 @@ public class ExprParser implements ExprBuilder {
             }
 
         }
-        return divMult(tokens);
+        return null;
     }
 
     /**
@@ -100,7 +114,7 @@ public class ExprParser implements ExprBuilder {
      * вызывает спуск с самого начала рекурсивно для обеих частей
      *
      * @param tokens - арифметическое выражение
-     * @return переход в метод обработки операции возведения в степень
+     * @return null в случае отсутствия операций деления/умножения
      */
     private Expr divMult(String tokens) {
         tokensArray = tokens.toCharArray();
@@ -136,7 +150,7 @@ public class ExprParser implements ExprBuilder {
                     break;
             }
         }
-        return pow(tokens);
+        return null;
     }
 
     /**
@@ -144,7 +158,7 @@ public class ExprParser implements ExprBuilder {
      * вызывает спуск с самого начала рекурсивно для обеих частей
      *
      * @param tokens - арифметическое выражение
-     * @return переход в метод обработки выражения с унарным минусом
+     * @return null в случае отсутствия операции возведения в степень
      */
     private Expr pow(String tokens) {
         tokensArray = tokens.toCharArray();
@@ -170,7 +184,7 @@ public class ExprParser implements ExprBuilder {
                     break;
             }
         }
-        return minus(tokens);
+        return null;
     }
 
     /**
@@ -184,7 +198,7 @@ public class ExprParser implements ExprBuilder {
         if (tokens.startsWith(String.valueOf(MINUS))) {
             return new Minus(Integer.valueOf(tokens.substring(1)));
         } else {
-            return constant(tokens);
+            return null;
         }
     }
 
