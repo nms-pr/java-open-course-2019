@@ -26,7 +26,6 @@ public final class Pow implements Expr {
         return pow.left.equals(this.left) && pow.right.equals(this.right);
     }
 
-
     @Override
     public int evaluate() {
         return (int) Math.pow(left.evaluate(),right.evaluate());
