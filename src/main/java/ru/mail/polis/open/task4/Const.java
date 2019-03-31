@@ -20,8 +20,6 @@ public final class Const implements Expr {
         return this.value == temp.value;
     }
 
-
-
     @Override
     public int evaluate() {
         return value;
