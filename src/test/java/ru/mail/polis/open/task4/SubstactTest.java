@@ -4,16 +4,10 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-//todo
-class ConstTest {
+public class SubstactTest {
 
     @Test
     void test() {
-        assertEquals(
-            5,
-            new Const(
-                5
-            ).evaluate()
-        );
+        assertEquals(10, new Substract(new Const(17), new Const(7)).evaluate());
     }
 }

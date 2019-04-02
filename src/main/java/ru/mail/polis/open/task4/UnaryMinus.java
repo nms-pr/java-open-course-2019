@@ -1,17 +1,15 @@
 package ru.mail.polis.open.task4;
 
-import java.util.Objects;
-
-public final class Const implements Expr {
+public class UnaryMinus implements Expr {
 
     private final int value;
 
-    public Const(int value) {
+    public UnaryMinus(int value) {
         this.value = value;
     }
 
     @Override
     public int evaluate() {
-        return value;
+        return -value;
     }
 }

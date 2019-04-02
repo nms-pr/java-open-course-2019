@@ -4,16 +4,10 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-//todo
-class ConstTest {
+public class MultyTest {
 
     @Test
     void test() {
-        assertEquals(
-            5,
-            new Const(
-                5
-            ).evaluate()
-        );
+        assertEquals(77, new Multiplication(new Const(7), new Const(11)).evaluate());
     }
 }
