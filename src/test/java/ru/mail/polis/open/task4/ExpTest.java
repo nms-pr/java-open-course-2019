@@ -10,11 +10,4 @@ public class ExpTest {
     void test() {
         assertEquals(125, new Exponential(new Const(5), new Const(3)).evaluate());
     }
-
-    @Test
-    void testWorkEquals() {
-        Exponential firstExp = new Exponential(new Const(5), new Const(3));
-        Exponential secondExp = new Exponential(new Const(5), new Const(3));
-        assertEquals(firstExp, secondExp);
-    }
 }

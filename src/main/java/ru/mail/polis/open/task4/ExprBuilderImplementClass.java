@@ -5,11 +5,11 @@ import org.jetbrains.annotations.Nullable;
 public class ExprBuilderImplementClass implements ExprBuilder {
 
     private static final char ADD = '+';
-    private static final char MIN = '–';
+    private static final char MIN = '-';
     private static final char MULTI = '*';
     private static final char DIV = '/';
     private static final char EXP = '^';
-    private static final char UN_MIN = '-';
+    private static final char UN_MIN = '_';
     private static final char LEFT_BRACKET = '(';
     private static final char RIGHT_BRACKET = ')';
 
@@ -21,8 +21,8 @@ public class ExprBuilderImplementClass implements ExprBuilder {
             throw new IllegalArgumentException("Wrong input.");
         }
         String replaceInput = input.replaceAll(" ", "");
-        if (replaceInput.charAt(0) == LEFT_BRACKET &&
-            replaceInput.charAt(replaceInput.length() - 1) == RIGHT_BRACKET) {
+        if (replaceInput.charAt(0) == LEFT_BRACKET
+            && replaceInput.charAt(replaceInput.length() - 1) == RIGHT_BRACKET) {
             for (int i = 0; i < replaceInput.length(); i++) {
                 bracketCounter(replaceInput, i);
                 if (countOfBrackets == 0) {
@@ -45,6 +45,8 @@ public class ExprBuilderImplementClass implements ExprBuilder {
                     case MIN:
                         return new Substract(build(replaceInput.substring(0, i)),
                             build(replaceInput.substring(i + 1)));
+                    default:
+                        break;
                 }
             }
         }
@@ -63,6 +65,8 @@ public class ExprBuilderImplementClass implements ExprBuilder {
                     case DIV:
                         return new Divide(build(replaceInput.substring(0, i)),
                             build(replaceInput.substring(i + 1)));
+                    default:
+                        break;
                 }
             }
         }
