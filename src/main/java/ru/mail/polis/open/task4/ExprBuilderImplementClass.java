@@ -5,7 +5,7 @@ import org.jetbrains.annotations.Nullable;
 public class ExprBuilderImplementClass implements ExprBuilder {
 
     private static final char ADD = '+';
-    private static final char MIN = '─';
+    private static final char MIN = '–';
     private static final char MULTI = '*';
     private static final char DIV = '/';
     private static final char EXP = '^';
