@@ -25,6 +25,8 @@ public class LibrarianImpl extends AbstractPerson implements Librarian {
     public Book giveBook(String name, String author, VisitorImpl visitor) {
         Book book = searchSuchBooks(name, author);
         updateInfoAfterTakenBook(book, visitor);
+        Library.getBusyBooks().add(book);
+        Library.showAvailableBooks().remove(book);
         return book;
     }
 
@@ -32,6 +34,8 @@ public class LibrarianImpl extends AbstractPerson implements Librarian {
     public Book giveBook(long ID, VisitorImpl visitor) {
         Book book = searchSuchBooks(ID);
         updateInfoAfterTakenBook(book, visitor);
+        Library.getBusyBooks().add(book);
+        Library.showAvailableBooks().remove(book);
         return book;
     }
 
@@ -49,14 +53,21 @@ public class LibrarianImpl extends AbstractPerson implements Librarian {
             book.getShelfSpace()
         )
         ) {
-            book = Library
-                .librarian
-                .searchPlaceForBook(book);
+            Library
+                .getBusyBooks()
+                .remove(book);
+
+            book = searchPlaceForBook(book);
+
             Library
                 .showAvailableBooks()
                 .add(book);
             return;
         }
+        Library
+            .getBusyBooks()
+            .remove(book);
+
         Library
             .getLibraryBookcase()
             .get(book.getBookcaseNumber())
@@ -67,6 +78,7 @@ public class LibrarianImpl extends AbstractPerson implements Librarian {
                 book.getShelfSpace(),
                 book
             );
+
         Library
             .showAvailableBooks()
             .add(book);
@@ -87,13 +99,11 @@ public class LibrarianImpl extends AbstractPerson implements Librarian {
         for (Bookcase wardrobe : Library.getLibraryBookcase().values()) {
             for (Shelf shelf : wardrobe.getShelfInBookcase().values()) {
                 for (Book book : shelf.getBookShelf().values()) {
-                    if (book
-                        .getName()
-                        .equals(name)
-                    && book
-                    .getAuthor()
-                    .equals(author)) {
-                        return book;
+                    if (book.getName().equals(name)
+                    && book.getAuthor().equals(author)) {
+                        return shelf
+                            .getBookShelf()
+                            .remove(book);
                     }
                 }
             }
@@ -106,7 +116,9 @@ public class LibrarianImpl extends AbstractPerson implements Librarian {
             for (Shelf shelf : wardrobe.getShelfInBookcase().values()) {
                 for (Book book : shelf.getBookShelf().values()) {
                     if (book.getID() == ID) {
-                        return book;
+                        return shelf
+                            .getBookShelf()
+                            .remove(book);
                     }
                 }
             }
@@ -161,6 +173,18 @@ public class LibrarianImpl extends AbstractPerson implements Librarian {
         book.setTimeOfReceiptTheBook(setupTimeTakenBook());
         book.setTimeOfReturnTheBook(setupTimeGiveAwayBook());
         book.setUser(visitor);
-        Library.busyBooks.add(book);
+        Library.getBusyBooks().add(book);
+    }
+
+    void InfoAboutUserSpecificBook(VisitorImpl visitor) {
+        for (Book book : Library.getBusyBooks()) {
+            if (book.getUser().equals(visitor)) {
+                System.out.println("Name " + visitor.getName()
+                    + " Surname " + visitor.getSurname()
+                    + " Patronymic " + visitor.getPatronymic()
+                    + " taken a book :");
+                visitor.takenBook();
+            }
+        }
     }
 }

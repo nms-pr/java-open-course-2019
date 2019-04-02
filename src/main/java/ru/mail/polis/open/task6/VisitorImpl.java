@@ -2,6 +2,7 @@ package ru.mail.polis.open.task6;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class VisitorImpl extends AbstractPerson implements Visitor {
 
@@ -32,7 +33,8 @@ public class VisitorImpl extends AbstractPerson implements Visitor {
             .librarian
             .giveBook(
                 name,
-                author
+                author,
+                this
             )
         );
     }
@@ -44,7 +46,7 @@ public class VisitorImpl extends AbstractPerson implements Visitor {
         }
         List<Book> books = new ArrayList<>();
         for (int i = 0; i < names.length; i++) {
-            books.add(Library.librarian.giveBook(names[i], authors[i]));
+            books.add(Library.librarian.giveBook(names[i], authors[i], this));
         }
     }
 
@@ -53,7 +55,7 @@ public class VisitorImpl extends AbstractPerson implements Visitor {
          takenBooks.add(
              Library
             .librarian
-            .giveBook(ID)
+            .giveBook(ID, this)
          );
     }
 
@@ -61,7 +63,7 @@ public class VisitorImpl extends AbstractPerson implements Visitor {
     public void takeBook(long[] IDs) {
         List<Book> books = new ArrayList<>();
         for (int i = 0; i < IDs.length; i++) {
-            books.add(Library.librarian.giveBook(IDs[i]));
+            books.add(Library.librarian.giveBook(IDs[i], this));
         }
     }
 
@@ -102,5 +104,60 @@ public class VisitorImpl extends AbstractPerson implements Visitor {
 
     public List<Book> getTakenBooks() {
         return takenBooks;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(
+            age,
+            salary,
+            gender,
+            name,
+            surname,
+            patronymic
+        );
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        VisitorImpl visitor = (VisitorImpl) o;
+        return age == visitor.getAge()
+            && salary == visitor.getSalary()
+            && gender == visitor.getGender()
+            && Objects.equals(name, visitor.getName())
+            && Objects.equals(surname, visitor.getSurname())
+            && Objects.equals(patronymic, visitor.getPatronymic());
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public int getSalary() {
+        return salary;
+    }
+
+    public char getGender() {
+        return gender;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public String getPatronymic() {
+        return patronymic;
+    }
+
+    public void takenBook() {
+        for (Book book : takenBooks) {
+            book.toString();
+        }
     }
 }

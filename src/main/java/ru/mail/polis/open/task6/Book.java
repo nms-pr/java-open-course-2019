@@ -114,23 +114,35 @@ public class Book {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Book book = (Book) o;
-        return getID() == book.getID()
-            && getPages() == book.getPages()
-            && Objects.equals(getName(), book.getName())
-            && Objects.equals(getAuthor(), book.getAuthor())
-            && Objects.equals(getSection(), book.getSection()
-        );
+        return ID == book.getID()
+            && pages == book.getPages()
+            && Objects.equals(name, book.getName())
+            && Objects.equals(author, book.getAuthor())
+            && Objects.equals(section, book.getSection());
     }
 
     @Override
     public int hashCode() {
         return
             Objects.hash(
-                getID(),
-                getPages(),
-                getName(),
-                getAuthor(),
-                getSection()
+                ID,
+                pages,
+                name,
+                author,
+                section
             );
+    }
+
+    @Override
+    public String toString() {
+        return "Book{"
+            + "ID=" + ID
+            + ", pages=" + pages
+            + ", name='" + name + '\''
+            + ", author='" + author + '\''
+            + ", section='" + section + '\''
+            + ", timeOfReceiptTheBook=" + timeOfReceiptTheBook
+            + ", timeOfReturnTheBook=" + timeOfReturnTheBook
+            + '}';
     }
 }

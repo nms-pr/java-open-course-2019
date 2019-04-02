@@ -23,21 +23,37 @@ public final class Library {
         15000
     );
     static List<VisitorImpl> visitors = new ArrayList<>();
-    static List<Book> busyBooks = new ArrayList<>();
 
+    private static List<Book> busyBooks = new ArrayList<>();
     private static List<Book> books = new ArrayList<>();
-    private static final int QUANTITY_WARDROBE = 45;
+    private static final int QUANTITY_WARDROBE = 10;
     private static Map<Integer, Bookcase> libraryBookcase = new HashMap<>();
     private static boolean isOpened = false;
     private static boolean isFirstDayWorking = true;
 
     private Library() {}
 
+    public static boolean isOpened() {
+        return isOpened;
+    }
+
+    public static void setOpened(boolean opened) {
+        isOpened = opened;
+    }
+
+    public static Map<Integer, Bookcase> getLibraryBookcase() {
+        return libraryBookcase;
+    }
+
+    public static List<Book> getBusyBooks() {
+        return busyBooks;
+    }
+
     static List<Book> showAvailableBooks() {
         return books;
     }
 
-    private static void startWorking() {
+    static void startWorking() {
         if (isFirstDayWorking) {
             for (int i = 0; i < QUANTITY_WARDROBE; i++) {
                 libraryBookcase.put(i, new Bookcase(i));
@@ -48,41 +64,46 @@ public final class Library {
                     books.addAll(shelf.getBookShelf().values());
                 }
             }
-
-            visitors.add(
-                new VisitorImpl(
-                    "Fedorov",
-                    "Sergey",
-                    "Alekseevich",
-                    'M',
-                    19,
-                    25000
-                )
-            );
-            visitors.add(
-                new VisitorImpl(
-                    "Fedorov",
-                    "Dmitriy",
-                    "Mickhailovich",
-                    'M',
-                    18,
-                    23000
-                )
-            );
-            visitors.add(
-                new VisitorImpl(
-                    "Bogdanova",
-                    "Irina",
-                    "Genadievna",
-                    'F',
-                    23,
-                    30000
-                )
-            );
             isFirstDayWorking = false;
         }
 
+        visitors.add(
+            new VisitorImpl(
+                "Fedorov",
+                "Sergey",
+                "Alekseevich",
+                'M',
+                19,
+                25000
+            )
+        );
+        visitors.add(
+            new VisitorImpl(
+                "Fedorov",
+                "Dmitriy",
+                "Mickhailovich",
+                'M',
+                18,
+                23000
+            )
+        );
+        visitors.add(
+            new VisitorImpl(
+                "Bogdanova",
+                "Irina",
+                "Genadievna",
+                'F',
+                23,
+                30000
+            )
+        );
+
         isOpened = true;
+    }
+
+    static void endWorking() {
+        visitors.clear();
+        isOpened = false;
     }
 
     static boolean isBusyPlace (
@@ -97,17 +118,5 @@ public final class Library {
             .get(shelfNumber)
             .getBookShelf()
             .containsKey(placeNumber);
-    }
-
-    public static boolean isOpened() {
-        return isOpened;
-    }
-
-    public static void setOpened(boolean opened) {
-        isOpened = opened;
-    }
-
-    public static Map<Integer, Bookcase> getLibraryBookcase() {
-        return libraryBookcase;
     }
 }

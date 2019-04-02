@@ -33,6 +33,7 @@ public class ManagerImpl extends AbstractPerson implements Manager {
             book = Library
                 .librarian
                 .searchPlaceForBook(book);
+
             Library
                 .showAvailableBooks()
                 .add(book);
@@ -48,6 +49,7 @@ public class ManagerImpl extends AbstractPerson implements Manager {
                 book.getShelfSpace(),
                 book
             );
+
         Library
             .showAvailableBooks()
             .add(book);
@@ -74,6 +76,7 @@ public class ManagerImpl extends AbstractPerson implements Manager {
                 .get(book.getShelfNumber())
                 .getBookShelf()
                 .remove(book.getShelfSpace());
+
             Library
                 .showAvailableBooks()
                 .remove(book);
