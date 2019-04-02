@@ -1,52 +1,52 @@
 package ru.mail.polis.open.task6;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Book {
-    private final int ID;
+    private final long ID;
     private final int pages;
     private final String name;
     private final String author;
     private final String section;
 
-    private int wardrobeNumber;
+    private int bookcaseNumber;
     private int shelfNumber;
     private int shelfSpace;
-//    private int quantity;
-    private int timeOfReceiptTheBook;
-    private int timeOfReturnTheBook;
-    private String userName;
+    private LocalDateTime timeOfReceiptTheBook;
+    private LocalDateTime timeOfReturnTheBook;
+    private VisitorImpl user;
 
     public Book(
-        int wardrobeNumber,
+        int bookcaseNumber,
         int shelfNumber,
         int shelfSpace,
         int pages,
-        int quantity,
         String name,
         String author,
         String section
     ) {
-        this.ID = (int)(Math.random() * 100000);
-        this.wardrobeNumber = wardrobeNumber;
+        this.ID = pages
+            * name.length()
+            * author.length()
+            * section.length()
+            * 10 + 5;
+        this.bookcaseNumber = bookcaseNumber;
         this.shelfNumber = shelfNumber;
         this.shelfSpace = shelfSpace;
         this.pages = pages;
-//        this.quantity = quantity;
-        this.timeOfReceiptTheBook = 0;
-        this.timeOfReturnTheBook = 0;
         this.name = name;
         this.author = author;
         this.section = section;
-        this.userName = null;
+        this.user = null;
     }
 
-    public int getID() {
+    public long getID() {
         return ID;
     }
 
-    public int getWardrobeNumber() {
-        return wardrobeNumber;
+    public int getBookcaseNumber() {
+        return bookcaseNumber;
     }
 
     public int getShelfNumber() {
@@ -73,28 +73,32 @@ public class Book {
         return section;
     }
 
-    public int getTimeOfReceiptTheBook() {
+    public LocalDateTime getTimeOfReceiptTheBook() {
         return timeOfReceiptTheBook;
     }
 
-    public int getTimeOfReturnTheBook() {
+    public LocalDateTime getTimeOfReturnTheBook() {
         return timeOfReturnTheBook;
     }
 
-    public String getUserName() {
-        return userName;
+    public void setTimeOfReceiptTheBook(LocalDateTime timeOfReceiptTheBook) {
+        this.timeOfReceiptTheBook = timeOfReceiptTheBook;
     }
 
-//    public int getQuantity() {
-//        return quantity;
-//    }
-//
-//    public void setQuantity(int quantity) {
-//        this.quantity = quantity;
-//    }
+    public void setTimeOfReturnTheBook(LocalDateTime timeOfReturnTheBook) {
+        this.timeOfReturnTheBook = timeOfReturnTheBook;
+    }
 
-    public void setWardrobeNumber(int wardrobeNumber) {
-        this.wardrobeNumber = wardrobeNumber;
+    public VisitorImpl getUser() {
+        return user;
+    }
+
+    public void setUser(VisitorImpl user) {
+        this.user = user;
+    }
+
+    public void setBookcaseNumber(int wardrobeNumber) {
+        this.bookcaseNumber = wardrobeNumber;
     }
 
     public void setShelfNumber(int shelfNumber) {

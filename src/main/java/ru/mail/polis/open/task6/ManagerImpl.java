@@ -1,7 +1,5 @@
 package ru.mail.polis.open.task6;
 
-import org.jetbrains.annotations.NotNull;
-
 public class ManagerImpl extends AbstractPerson implements Manager {
 
     public ManagerImpl(
@@ -26,25 +24,33 @@ public class ManagerImpl extends AbstractPerson implements Manager {
         if (book == null) {
             throw new NullPointerException("Book cannot be a NULL");
         }
-        if (isBusyPlace(
-            book.getWardrobeNumber(),
+        if (Library.isBusyPlace(
+            book.getBookcaseNumber(),
             book.getShelfNumber(),
             book.getShelfSpace()
         )
         ) {
-            book = searchPlaceForBook(book);
+            book = Library
+                .librarian
+                .searchPlaceForBook(book);
+            Library
+                .showAvailableBooks()
+                .add(book);
             return book;
         }
         Library
-            .getLibraryWardrobe()
-            .get(book.getWardrobeNumber())
-            .getShelfInWardrobe()
+            .getLibraryBookcase()
+            .get(book.getBookcaseNumber())
+            .getShelfInBookcase()
             .get(book.getShelfNumber())
             .getBookShelf()
             .put(
                 book.getShelfSpace(),
                 book
             );
+        Library
+            .showAvailableBooks()
+            .add(book);
         return book;
     }
 
@@ -54,20 +60,23 @@ public class ManagerImpl extends AbstractPerson implements Manager {
             throw new NullPointerException("Book cannot be a NULL");
         }
         if (Library
-            .getLibraryWardrobe()
-            .get(book.getWardrobeNumber())
-            .getShelfInWardrobe()
+            .getLibraryBookcase()
+            .get(book.getBookcaseNumber())
+            .getShelfInBookcase()
             .get(book.getShelfNumber())
             .getBookShelf()
             .containsKey(book.getShelfSpace())
         ) {
             Library
-                .getLibraryWardrobe()
-                .get(book.getWardrobeNumber())
-                .getShelfInWardrobe()
+                .getLibraryBookcase()
+                .get(book.getBookcaseNumber())
+                .getShelfInBookcase()
                 .get(book.getShelfNumber())
                 .getBookShelf()
                 .remove(book.getShelfSpace());
+            Library
+                .showAvailableBooks()
+                .remove(book);
             return;
         }
         throw new NoSuchBookException("Library haven't this book");
@@ -91,53 +100,5 @@ public class ManagerImpl extends AbstractPerson implements Manager {
     @Override
     void farewell() {
         System.out.println("Всего хорошего!");
-    }
-
-//    Book searchSameBooks(Book book) {
-//        for (Wardrobe wardrobe : Library.getLibraryWardrobe().values()) {
-//            for (Shelf shelf : wardrobe.getShelfInWardrobe().values()) {
-//                for (Book bookOnShelf : shelf.getBookShelf().values()) {
-//                    if (bookOnShelf.equals(book)) {
-//                        book.setQuantity(
-//                            book.getQuantity() + bookOnShelf.getQuantity()
-//                        );
-//                        return book;
-//                    }
-//                }
-//            }
-//        }
-//        return book;
-//    }
-
-    boolean isBusyPlace (
-        int wardrobeNumber,
-        int shelfNumber,
-        int placeNumber
-    ) {
-        return Library
-            .getLibraryWardrobe()
-            .get(wardrobeNumber)
-            .getShelfInWardrobe()
-            .get(shelfNumber)
-            .getBookShelf()
-            .containsKey(placeNumber);
-    }
-
-    Book searchPlaceForBook(Book book) {
-        for (Wardrobe wardrobe : Library.getLibraryWardrobe().values()) {
-            for (Shelf shelf : wardrobe.getShelfInWardrobe().values()) {
-                int space = 0;
-                while (shelf.getBookShelf().containsKey(++space))
-                {}
-                if (space <= shelf.getCapacity()) {
-                    shelf.getBookShelf().put(space, book);
-                    book.setShelfSpace(space);
-                    book.setShelfNumber(shelf.getShelfNumber());
-                    book.setWardrobeNumber(wardrobe.getWardrobeNumber());
-                    return book;
-                }
-            }
-        }
-        throw new NoSpaceForBookException("Haven't space in Library for this book");
     }
 }
