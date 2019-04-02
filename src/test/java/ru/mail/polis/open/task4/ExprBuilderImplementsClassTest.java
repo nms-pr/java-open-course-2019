@@ -24,8 +24,8 @@ public class ExprBuilderImplementsClassTest {
     @Test
     void testNotThrowExceprion() {
         assertDoesNotThrow(() -> builderObject.build("7 + 7"));
-        assertDoesNotThrow(() -> builderObject.build(" 1 * 2 — 1"));
-        assertDoesNotThrow(() -> builderObject.build("3 — 2 ^ 8 / 1 + 7"));
+        assertDoesNotThrow(() -> builderObject.build(" 1 * 2 ─ 1"));
+        assertDoesNotThrow(() -> builderObject.build("3 ─ 2 ^ 8 / 1 + 7"));
     }
 
     @Test
