@@ -27,7 +27,7 @@ public final class Library {
     private static List<VisitorImpl> blackListOfVisitors = new ArrayList<>();
     private static List<Book> busyBooks = new ArrayList<>();
     private static List<Book> books = new ArrayList<>();
-    private static final int QUANTITY_WARDROBE = 10;
+    private static final int QUANTITY_WARDROBE = 4;
     private static Map<Integer, Bookcase> libraryBookcase = new HashMap<>();
     private static boolean isOpened = false;
     private static boolean isFirstDayWorking = true;
@@ -62,12 +62,6 @@ public final class Library {
         if (isFirstDayWorking) {
             for (int i = 0; i < QUANTITY_WARDROBE; i++) {
                 libraryBookcase.put(i, new Bookcase(i));
-            }
-
-            for (Bookcase bookcase : libraryBookcase.values()) {
-                for (Shelf shelf : bookcase.getShelfInBookcase().values()) {
-                    books.addAll(shelf.getBookShelf().values());
-                }
             }
 
             initBasicBooks();
@@ -212,8 +206,8 @@ public final class Library {
                 "Проза",
                 416,
                 1,
-                1,
-                5
+                2,
+                1
             )
         );
         books.add(
@@ -234,8 +228,8 @@ public final class Library {
                 "Проза",
                 592,
                 1,
-                1,
-                6
+                2,
+                2
             )
         );
 

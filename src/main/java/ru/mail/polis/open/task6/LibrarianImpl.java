@@ -23,7 +23,7 @@ public class LibrarianImpl extends AbstractPerson implements Librarian {
 
     @Override
     public Book giveBook(String name, String author, VisitorImpl visitor) {
-        if (toBeInVlackList(visitor)) {
+        if (toBeInBlackList(visitor)) {
             throw new PresenceOfTheBlackListException("You are in black list. We cannot give you book");
         }
         Book book = searchSuchBooks(name, author);
@@ -35,7 +35,7 @@ public class LibrarianImpl extends AbstractPerson implements Librarian {
 
     @Override
     public Book giveBook(long ID, VisitorImpl visitor) {
-        if (toBeInVlackList(visitor)) {
+        if (toBeInBlackList(visitor)) {
             throw new PresenceOfTheBlackListException("You are in black list. We cannot give you book");
         }
         Book book = searchSuchBooks(ID);
@@ -113,11 +113,12 @@ public class LibrarianImpl extends AbstractPerson implements Librarian {
         for (Bookcase wardrobe : Library.getLibraryBookcase().values()) {
             for (Shelf shelf : wardrobe.getShelfInBookcase().values()) {
                 for (Book book : shelf.getBookShelf().values()) {
-                    if (book.getName().equals(name)
-                    && book.getAuthor().equals(author)) {
-                        return shelf
-                            .getBookShelf()
-                            .remove(book);
+                    if (book != null
+                        && book.getName().equals(name)
+                        && book.getAuthor().equals(author)) {
+
+                        shelf.getBookShelf().put(book.getShelfNumber(), null);
+                        return book;
                     }
                 }
             }
@@ -129,15 +130,21 @@ public class LibrarianImpl extends AbstractPerson implements Librarian {
         for (Bookcase wardrobe : Library.getLibraryBookcase().values()) {
             for (Shelf shelf : wardrobe.getShelfInBookcase().values()) {
                 for (Book book : shelf.getBookShelf().values()) {
-                    if (book.getID() == ID) {
-                        return shelf
-                            .getBookShelf()
-                            .remove(book);
+                    if (book != null && book.getID() == ID) {
+                        shelf.getBookShelf().put(book.getShelfNumber(), null);
+                        return book;
                     }
                 }
             }
         }
         throw new NoSuchBookException("Such book not found");
+    }
+
+    void updateInfoAfterTakenBook(Book book, VisitorImpl visitor){
+        book.setTimeOfReceiptTheBook(setupTimeTakenBook());
+        book.setTimeOfReturnTheBook(setupTimeGiveAwayBook());
+        book.setUser(visitor);
+        Library.getBusyBooks().add(book);
     }
 
     LocalDateTime setupTimeTakenBook() {
@@ -168,26 +175,18 @@ public class LibrarianImpl extends AbstractPerson implements Librarian {
     Book searchPlaceForBook(Book book) {
         for (Bookcase bookcase : Library.getLibraryBookcase().values()) {
             for (Shelf shelf : bookcase.getShelfInBookcase().values()) {
-                int space = 0;
-                while (shelf.getBookShelf().containsKey(++space))
-                {}
-                if (space <= shelf.getCapacity()) {
-                    shelf.getBookShelf().put(space, book);
-                    book.setShelfSpace(space);
-                    book.setShelfNumber(shelf.getShelfNumber());
-                    book.setBookcaseNumber(bookcase.getBookcaseNumber());
-                    return book;
+                for (int i = 0; i < shelf.getCapacity(); i++) {
+                    if (shelf.getBookShelf().get(i + 1) == null) {
+                        shelf.getBookShelf().put(i + 1, book);
+                        book.setShelfSpace(i + 1);
+                        book.setShelfNumber(shelf.getShelfNumber());
+                        book.setBookcaseNumber(bookcase.getBookcaseNumber());
+                        return book;
+                    }
                 }
             }
         }
         throw new NoSpaceForBookException("Haven't space in Library for this book");
-    }
-
-    void updateInfoAfterTakenBook(Book book, VisitorImpl visitor){
-        book.setTimeOfReceiptTheBook(setupTimeTakenBook());
-        book.setTimeOfReturnTheBook(setupTimeGiveAwayBook());
-        book.setUser(visitor);
-        Library.getBusyBooks().add(book);
     }
 
     void InfoAboutUserSpecificBook(VisitorImpl visitor) {
@@ -202,7 +201,7 @@ public class LibrarianImpl extends AbstractPerson implements Librarian {
         }
     }
 
-    boolean toBeInVlackList(VisitorImpl visitor) {
+    boolean toBeInBlackList(VisitorImpl visitor) {
         return Library
             .getBlackListOfVisitors()
             .contains(visitor);

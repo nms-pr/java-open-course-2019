@@ -22,7 +22,6 @@ public class VisitorImpl extends AbstractPerson implements Visitor {
         this.gender = gender;
         this.salary = salary;
         this.age = age;
-        this.salary = salary;
         takenBooks = new ArrayList<>();
     }
 
@@ -41,12 +40,18 @@ public class VisitorImpl extends AbstractPerson implements Visitor {
 
     @Override
     public void takeBook(String[] names, String[] authors) {
-        if (names.length != authors.length) {
+        if (names.length != authors.length
+            || names.length == 0) {
             throw new IllegalArgumentException("Incorrect request");
         }
-        List<Book> books = new ArrayList<>();
         for (int i = 0; i < names.length; i++) {
-            books.add(Library.librarian.giveBook(names[i], authors[i], this));
+            takenBooks.add(
+                Library.librarian.giveBook(
+                    names[i],
+                    authors[i],
+                    this
+                )
+            );
         }
     }
 
@@ -61,9 +66,11 @@ public class VisitorImpl extends AbstractPerson implements Visitor {
 
     @Override
     public void takeBook(long[] IDs) {
-        List<Book> books = new ArrayList<>();
+        if (IDs.length == 0) {
+            throw new IllegalArgumentException("Incorrect request");
+        }
         for (int i = 0; i < IDs.length; i++) {
-            books.add(Library.librarian.giveBook(IDs[i], this));
+            takenBooks.add(Library.librarian.giveBook(IDs[i], this));
         }
     }
 
@@ -112,7 +119,8 @@ public class VisitorImpl extends AbstractPerson implements Visitor {
             gender,
             name,
             surname,
-            patronymic
+            patronymic,
+            takenBooks
         );
     }
 
@@ -126,7 +134,8 @@ public class VisitorImpl extends AbstractPerson implements Visitor {
             && gender == visitor.getGender()
             && Objects.equals(name, visitor.getName())
             && Objects.equals(surname, visitor.getSurname())
-            && Objects.equals(patronymic, visitor.getPatronymic());
+            && Objects.equals(patronymic, visitor.getPatronymic())
+            && Objects.equals(takenBooks, visitor.getTakenBooks());
     }
 
     public int getAge() {
@@ -162,4 +171,6 @@ public class VisitorImpl extends AbstractPerson implements Visitor {
             book.toString();
         }
     }
+
+
 }

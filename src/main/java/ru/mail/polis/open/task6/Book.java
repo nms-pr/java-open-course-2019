@@ -39,6 +39,8 @@ public class Book {
         this.author = author;
         this.section = section;
         this.user = null;
+        this.timeOfReceiptTheBook = LocalDateTime.now();
+        this.timeOfReturnTheBook = LocalDateTime.now();
     }
 
     public long getID() {
@@ -111,8 +113,12 @@ public class Book {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Book book = (Book) o;
         return ID == book.getID()
             && pages == book.getPages()
