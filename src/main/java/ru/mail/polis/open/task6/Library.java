@@ -245,4 +245,12 @@ public final class Library {
                 );
         }
     }
+
+    void comeVisitor(VisitorImpl visitor) {
+        visitors.add(visitor);
+    }
+
+    void leaveVisitor(VisitorImpl visitor) {
+        visitors.remove(visitor);
+    }
 }
