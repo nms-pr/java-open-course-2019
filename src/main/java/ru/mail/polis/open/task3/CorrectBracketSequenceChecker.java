@@ -42,12 +42,12 @@ public final class CorrectBracketSequenceChecker {
      * 1. Круглые '(', ')'
      * 2. Квадратные '[', ']'
      * 3. Фигурные '{', '}'
+     *
      * @param sequence — входная строка
      * @return {@code true} — если скобочная последовательность корректна и {@code false} иначе
      * @throws IllegalArgumentException если в строке содержатся символы, не являющиеся скобками
      *                                  или если входная строка содержит больше ста символов
      */
-
     public static boolean checkSequence(@Nullable String sequence) {
         throw new UnsupportedOperationException("todo: implement this");
     }
