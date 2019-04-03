@@ -23,6 +23,9 @@ public class LibrarianImpl extends AbstractPerson implements Librarian {
 
     @Override
     public Book giveBook(String name, String author, VisitorImpl visitor) {
+        if (toBeInVlackList(visitor)) {
+            throw new PresenceOfTheBlackListException("You are in black list. We cannot give you book");
+        }
         Book book = searchSuchBooks(name, author);
         updateInfoAfterTakenBook(book, visitor);
         Library.getBusyBooks().add(book);
@@ -32,6 +35,9 @@ public class LibrarianImpl extends AbstractPerson implements Librarian {
 
     @Override
     public Book giveBook(long ID, VisitorImpl visitor) {
+        if (toBeInVlackList(visitor)) {
+            throw new PresenceOfTheBlackListException("You are in black list. We cannot give you book");
+        }
         Book book = searchSuchBooks(ID);
         updateInfoAfterTakenBook(book, visitor);
         Library.getBusyBooks().add(book);
@@ -40,9 +46,17 @@ public class LibrarianImpl extends AbstractPerson implements Librarian {
     }
 
     @Override
-    public void putBook(Book book) {
+    public void putBook(Book book, VisitorImpl visitor) {
         if (book == null) {
             throw new NullPointerException("Book cannot be a NULL");
+        }
+        if (LocalDateTime
+            .now()
+            .isAfter(
+                book.getTimeOfReturnTheBook()
+            )
+        ) {
+            Library.getBlackListOfVisitors().add(visitor);
         }
         book.setTimeOfReceiptTheBook(null);
         book.setTimeOfReturnTheBook(null);
@@ -183,8 +197,26 @@ public class LibrarianImpl extends AbstractPerson implements Librarian {
                     + " Surname " + visitor.getSurname()
                     + " Patronymic " + visitor.getPatronymic()
                     + " taken a book :");
-                visitor.takenBook();
+                visitor.infoAboutTakenBook();
             }
+        }
+    }
+
+    boolean toBeInVlackList(VisitorImpl visitor) {
+        return Library
+            .getBlackListOfVisitors()
+            .contains(visitor);
+    }
+
+    void remindToVisitor(VisitorImpl visitor) {
+        System.out.println("Dear " + visitor.getSurname()
+            + visitor.getName() + visitor.getPatronymic() + ",\n"
+            + "you taken following books : \n");
+
+        for (Book book : visitor.getTakenBooks()) {
+            book.toString();
+            System.out.println("you should return this book : "
+                + book.getTimeOfReturnTheBook());
         }
     }
 }

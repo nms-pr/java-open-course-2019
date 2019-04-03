@@ -18,13 +18,13 @@ public class Book {
     private VisitorImpl user;
 
     public Book(
-        int bookcaseNumber,
-        int shelfNumber,
-        int shelfSpace,
-        int pages,
         String name,
         String author,
-        String section
+        String section,
+        int pages,
+        int bookcaseNumber,
+        int shelfNumber,
+        int shelfSpace
     ) {
         this.ID = pages
             * name.length()
@@ -141,8 +141,6 @@ public class Book {
             + ", name='" + name + '\''
             + ", author='" + author + '\''
             + ", section='" + section + '\''
-            + ", timeOfReceiptTheBook=" + timeOfReceiptTheBook
-            + ", timeOfReturnTheBook=" + timeOfReturnTheBook
             + '}';
     }
 }

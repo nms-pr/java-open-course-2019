@@ -24,6 +24,7 @@ public final class Library {
     );
     static List<VisitorImpl> visitors = new ArrayList<>();
 
+    private static List<VisitorImpl> blackListOfVisitors = new ArrayList<>();
     private static List<Book> busyBooks = new ArrayList<>();
     private static List<Book> books = new ArrayList<>();
     private static final int QUANTITY_WARDROBE = 10;
@@ -53,6 +54,10 @@ public final class Library {
         return books;
     }
 
+    public static List<VisitorImpl> getBlackListOfVisitors() {
+        return blackListOfVisitors;
+    }
+
     static void startWorking() {
         if (isFirstDayWorking) {
             for (int i = 0; i < QUANTITY_WARDROBE; i++) {
@@ -64,6 +69,8 @@ public final class Library {
                     books.addAll(shelf.getBookShelf().values());
                 }
             }
+
+            initBasicBooks();
             isFirstDayWorking = false;
         }
 
@@ -118,5 +125,130 @@ public final class Library {
             .get(shelfNumber)
             .getBookShelf()
             .containsKey(placeNumber);
+    }
+
+    private static void initBasicBooks() {
+        books.add(
+            new Book(
+                "Мятная сказка",
+                "Полярный Александр",
+                "Проза",
+                208,
+                1,
+                1,
+                1
+            )
+        );
+        books.add(
+            new Book(
+                "Смертельная белизна",
+                "Гэлбрейт Роберт,",
+                "Детективы, боевики, триллеры",
+                672,
+                2,
+                1,
+                1
+            )
+        );
+        books.add(
+            new Book(
+                "Атлант расправил плечи",
+                "Рэнд Айн",
+                "Проза",
+                1394,
+                1,
+                1,
+                2
+            )
+        );
+        books.add(
+            new Book(
+                "Клатбище домашних жывотных",
+                "Кинг Стивен",
+                "Фантастика, мистика",
+                480,
+                3,
+                1,
+                1
+            )
+        );
+        books.add(
+            new Book(
+                "Брисбен",
+                "Водолазкин Евгений Германович",
+                "Проза",
+                416,
+                1,
+                1,
+                3
+            )
+        );
+        books.add(
+            new Book(
+                "Не такая, как все",
+                "Леви Марк",
+                "Проза",
+                368,
+                1,
+                1,
+                4
+            )
+        );
+        books.add(
+            new Book(
+                "Зов Кукушки",
+                "Гэлбрейт Роберт",
+                "Детективы, боевики, триллеры",
+                512,
+                2,
+                1,
+                2
+            )
+        );
+        books.add(
+            new Book(
+                "Уникальный экземпляр. Истории о том о сём",
+                "Хэнкс Том Джеффри",
+                "Проза",
+                416,
+                1,
+                1,
+                5
+            )
+        );
+        books.add(
+            new Book(
+                "Призрак Канта",
+                "Устинова Татьяна Витальевна",
+                "Детективы, боевики, триллеры",
+                352,
+                2,
+                1,
+                3
+            )
+        );
+        books.add(
+            new Book(
+                "Преступление и наказание",
+                "Достоевский Федор Михайлович",
+                "Проза",
+                592,
+                1,
+                1,
+                6
+            )
+        );
+
+        for (Book book : books) {
+            libraryBookcase
+                .get(book.getBookcaseNumber())
+                .getShelfInBookcase()
+                .get(book.getShelfNumber())
+                .getBookShelf()
+                .put(
+                    book.getShelfSpace(),
+                    book
+                );
+        }
     }
 }

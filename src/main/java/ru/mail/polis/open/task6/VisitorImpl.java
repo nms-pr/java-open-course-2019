@@ -74,7 +74,8 @@ public class VisitorImpl extends AbstractPerson implements Visitor {
             .librarian
             .putBook(
                 takenBooks
-                    .remove(number)
+                    .remove(number),
+                this
             );
     }
 
@@ -87,7 +88,8 @@ public class VisitorImpl extends AbstractPerson implements Visitor {
                 .librarian
                 .putBook(
                     takenBooks
-                        .remove(number)
+                        .remove(number),
+                    this
                 );
         }
     }
@@ -100,10 +102,6 @@ public class VisitorImpl extends AbstractPerson implements Visitor {
     @Override
     void farewell() {
         System.out.println("Спасибо, до свидания!");
-    }
-
-    public List<Book> getTakenBooks() {
-        return takenBooks;
     }
 
     @Override
@@ -155,7 +153,11 @@ public class VisitorImpl extends AbstractPerson implements Visitor {
         return patronymic;
     }
 
-    public void takenBook() {
+    public List<Book> getTakenBooks() {
+        return takenBooks;
+    }
+
+    public void infoAboutTakenBook() {
         for (Book book : takenBooks) {
             book.toString();
         }
