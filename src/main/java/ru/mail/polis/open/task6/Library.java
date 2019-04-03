@@ -1,5 +1,7 @@
 package ru.mail.polis.open.task6;
 
+import org.jetbrains.annotations.Contract;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -33,30 +35,6 @@ public final class Library {
     private static boolean isFirstDayWorking = true;
 
     private Library() {}
-
-    public static boolean isOpened() {
-        return isOpened;
-    }
-
-    public static void setOpened(boolean opened) {
-        isOpened = opened;
-    }
-
-    public static Map<Integer, Bookcase> getLibraryBookcase() {
-        return libraryBookcase;
-    }
-
-    public static List<Book> getBusyBooks() {
-        return busyBooks;
-    }
-
-    static List<Book> showAvailableBooks() {
-        return books;
-    }
-
-    public static List<VisitorImpl> getBlackListOfVisitors() {
-        return blackListOfVisitors;
-    }
 
     static void startWorking() {
         if (isFirstDayWorking) {
@@ -252,5 +230,29 @@ public final class Library {
 
     void leaveVisitor(VisitorImpl visitor) {
         visitors.remove(visitor);
+    }
+    
+    public static boolean isOpened() {
+        return isOpened;
+    }
+
+    public static void setOpened(boolean opened) {
+        isOpened = opened;
+    }
+
+    public static Map<Integer, Bookcase> getLibraryBookcase() {
+        return libraryBookcase;
+    }
+
+    public static List<Book> getBusyBooks() {
+        return busyBooks;
+    }
+
+    static List<Book> showAvailableBooks() {
+        return books;
+    }
+
+    public static List<VisitorImpl> getBlackListOfVisitors() {
+        return blackListOfVisitors;
     }
 }

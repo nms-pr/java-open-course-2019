@@ -43,6 +43,45 @@ public class Book {
         this.timeOfReturnTheBook = LocalDateTime.now();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Book book = (Book) o;
+        return ID == book.getID()
+            && pages == book.getPages()
+            && Objects.equals(name, book.getName())
+            && Objects.equals(author, book.getAuthor())
+            && Objects.equals(section, book.getSection());
+    }
+
+    @Override
+    public int hashCode() {
+        return
+            Objects.hash(
+                ID,
+                pages,
+                name,
+                author,
+                section
+            );
+    }
+
+    @Override
+    public String toString() {
+        return "Book{"
+            + "ID=" + ID
+            + ", pages=" + pages
+            + ", name='" + name + '\''
+            + ", author='" + author + '\''
+            + ", section='" + section + '\''
+            + '}';
+    }
+
     public long getID() {
         return ID;
     }
@@ -109,44 +148,5 @@ public class Book {
 
     public void setShelfSpace(int shelfSpace) {
         this.shelfSpace = shelfSpace;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        Book book = (Book) o;
-        return ID == book.getID()
-            && pages == book.getPages()
-            && Objects.equals(name, book.getName())
-            && Objects.equals(author, book.getAuthor())
-            && Objects.equals(section, book.getSection());
-    }
-
-    @Override
-    public int hashCode() {
-        return
-            Objects.hash(
-                ID,
-                pages,
-                name,
-                author,
-                section
-            );
-    }
-
-    @Override
-    public String toString() {
-        return "Book{"
-            + "ID=" + ID
-            + ", pages=" + pages
-            + ", name='" + name + '\''
-            + ", author='" + author + '\''
-            + ", section='" + section + '\''
-            + '}';
     }
 }

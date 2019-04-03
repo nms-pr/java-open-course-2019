@@ -24,22 +24,6 @@ public class Shelf {
         }
     }
 
-    public Map<Integer, Book> getBookShelf() {
-        return bookShelf;
-    }
-
-    public int getShelfNumber() {
-        return shelfNumber;
-    }
-
-    public int getCapacity() {
-        return capacity;
-    }
-
-    public int getBookcaseNumber() {
-        return bookcaseNumber;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -57,5 +41,21 @@ public class Shelf {
     @Override
     public int hashCode() {
         return Objects.hash(shelfNumber, capacity, bookcaseNumber);
+    }
+
+    public Map<Integer, Book> getBookShelf() {
+        return bookShelf;
+    }
+
+    public int getShelfNumber() {
+        return shelfNumber;
+    }
+
+    public int getCapacity() {
+        return capacity;
+    }
+
+    public int getBookcaseNumber() {
+        return bookcaseNumber;
     }
 }

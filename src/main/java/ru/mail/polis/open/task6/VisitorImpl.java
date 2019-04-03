@@ -138,6 +138,12 @@ public class VisitorImpl extends AbstractPerson implements Visitor {
             && Objects.equals(takenBooks, visitor.getTakenBooks());
     }
 
+    public void infoAboutTakenBook() {
+        for (Book book : takenBooks) {
+            book.toString();
+        }
+    }
+
     public int getAge() {
         return age;
     }
@@ -165,12 +171,4 @@ public class VisitorImpl extends AbstractPerson implements Visitor {
     public List<Book> getTakenBooks() {
         return takenBooks;
     }
-
-    public void infoAboutTakenBook() {
-        for (Book book : takenBooks) {
-            book.toString();
-        }
-    }
-
-
 }
