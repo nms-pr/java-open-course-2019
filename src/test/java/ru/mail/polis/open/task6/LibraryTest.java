@@ -19,7 +19,7 @@ class LibraryTest {
         Library.getBusyBooks().clear();
         Library.getVisitorsAtLibrary().clear();
         Library.getLibraryBookcase().clear();
-        Library.showAvailableBooks().clear();
+        Library.getBooks().clear();
     }
 
     @Test
@@ -30,7 +30,7 @@ class LibraryTest {
         assertTrue(Library.isOpened());
 
         //Каждое утро в библиотеку приходят 3 посетителя, но вот подошёл новый
-        Library.comeVisitor(
+        Library.onVisit(
             new VisitorImpl(
                 "Kvashnin",
                 "Artem",
@@ -62,7 +62,7 @@ class LibraryTest {
         assertEquals(
             11,
             Library
-                .showAvailableBooks()
+                .getBooks()
                 .size()
         );
         assertEquals(
@@ -124,7 +124,7 @@ class LibraryTest {
         assertEquals(
             10,
             Library
-                .showAvailableBooks()
+                .getBooks()
                 .size()
         );
 
@@ -164,17 +164,17 @@ class LibraryTest {
 
         //Менеджер заметил, что одну книгу никто не брал уже несколько лет, и решил убрать её из библиотеки
         Book book1 = Library
-            .showAvailableBooks()
+            .getBooks()
             .get(5);
         Library.manager.remove(
             Library
-                .showAvailableBooks()
+                .getBooks()
                 .get(5)
         );
         assertEquals(
             9,
             Library
-                .showAvailableBooks()
+                .getBooks()
                 .size()
         );
         assertThrows(
@@ -198,7 +198,7 @@ class LibraryTest {
         assertEquals(
             7,
             Library
-                .showAvailableBooks()
+                .getBooks()
                 .size()
         );
         assertEquals(
@@ -256,7 +256,7 @@ class LibraryTest {
         assertEquals(
             9,
             Library
-                .showAvailableBooks()
+                .getBooks()
                 .size()
         );
         assertEquals(

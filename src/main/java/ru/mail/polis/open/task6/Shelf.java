@@ -5,10 +5,11 @@ import java.util.Map;
 import java.util.Objects;
 
 public class Shelf {
+    private static final int CAPACITY = 4;
+
     private final int shelfNumber;
     private final int bookcaseNumber;
     private Map<Integer, Book> bookShelf;
-    private final int capacity;
 
     Shelf(
         int shelfNumber,
@@ -16,10 +17,9 @@ public class Shelf {
 
         this.shelfNumber = shelfNumber;
         this.bookcaseNumber = bookcaseNumber;
-        capacity = 4;
         this.bookShelf = new HashMap<>();
 
-        for (int i = 1; i <= capacity; i++) {
+        for (int i = 1; i <= CAPACITY; i++) {
             bookShelf.put(i, null);
         }
     }
@@ -34,13 +34,13 @@ public class Shelf {
         }
         Shelf shelf = (Shelf) o;
         return shelfNumber == shelf.getShelfNumber()
-            && capacity == shelf.getCapacity()
+            && CAPACITY == shelf.getCapacity()
             && bookcaseNumber == shelf.getBookcaseNumber();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(shelfNumber, capacity, bookcaseNumber);
+        return Objects.hash(shelfNumber, CAPACITY, bookcaseNumber);
     }
 
     Map<Integer, Book> getBookShelf() {
@@ -52,7 +52,7 @@ public class Shelf {
     }
 
     int getCapacity() {
-        return capacity;
+        return CAPACITY;
     }
 
     private int getBookcaseNumber() {

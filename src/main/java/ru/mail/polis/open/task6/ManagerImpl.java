@@ -19,7 +19,7 @@ public class ManagerImpl extends AbstractPerson implements Manager {
     }
 
     @Override
-    public Book add(Book book) {
+    public void add(Book book) {
         if (book == null) {
             throw new NullPointerException("Book cannot be a NULL");
         }
@@ -34,9 +34,9 @@ public class ManagerImpl extends AbstractPerson implements Manager {
                 .searchPlaceForBook(book);
 
             Library
-                .showAvailableBooks()
+                .getBooks()
                 .add(book);
-            return book;
+            return;
         }
         Library
             .getLibraryBookcase()
@@ -50,9 +50,8 @@ public class ManagerImpl extends AbstractPerson implements Manager {
             );
 
         Library
-            .showAvailableBooks()
+            .getBooks()
             .add(book);
-        return book;
     }
 
     @Override
@@ -85,11 +84,11 @@ public class ManagerImpl extends AbstractPerson implements Manager {
                 .remove(book.getShelfSpace());
 
             Library
-                .showAvailableBooks()
+                .getBooks()
                 .remove(book);
             return;
         }
-        throw new NoSuchBookException("Library haven't this book");
+        throw new NoSuchBookException("Library don't have this book");
     }
 
     @Override

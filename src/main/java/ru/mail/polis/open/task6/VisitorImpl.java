@@ -41,7 +41,8 @@ public class VisitorImpl extends AbstractPerson implements Visitor {
     @Override
     public void takeBook(String[] names, String[] authors) {
         if (names.length != authors.length
-            || names.length == 0) {
+            || names.length == 0
+        ) {
             throw new IllegalArgumentException("Incorrect request");
         }
         for (int i = 0; i < names.length; i++) {
@@ -73,7 +74,12 @@ public class VisitorImpl extends AbstractPerson implements Visitor {
             throw new IllegalArgumentException("Incorrect request");
         }
         for (int i = 0; i < ids.length; i++) {
-            takenBooks.add(Library.librarian.giveBook(ids[i], this));
+            takenBooks.add(Library
+                .librarian
+                .giveBook(
+                    ids[i],
+                    this)
+            );
         }
     }
 
@@ -83,8 +89,7 @@ public class VisitorImpl extends AbstractPerson implements Visitor {
         Library
             .librarian
             .putBook(
-                takenBooks
-                    .remove(number),
+                takenBooks.remove(number),
                 this
         );
     }
@@ -97,8 +102,7 @@ public class VisitorImpl extends AbstractPerson implements Visitor {
             Library
                 .librarian
                 .putBook(
-                    takenBooks
-                        .get(number),
+                    takenBooks.get(number),
                     this
             );
         }
@@ -152,7 +156,7 @@ public class VisitorImpl extends AbstractPerson implements Visitor {
 
     void infoAboutTakenBook() {
         for (Book book : takenBooks) {
-            book.toString();
+            System.out.println(book.toString());
         }
     }
 

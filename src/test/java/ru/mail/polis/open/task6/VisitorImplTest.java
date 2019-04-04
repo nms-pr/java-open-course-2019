@@ -44,7 +44,7 @@ class VisitorImplTest {
         authors = new String[]{"Устинова Татьяна Витальевна", "Достоевский Федор Михайлович"};
         takenBooks = new ArrayList<>();
         Library.startWorking();
-        quantityBooksInLibrary = Library.showAvailableBooks().size();
+        quantityBooksInLibrary = Library.getBooks().size();
     }
 
     @AfterAll
@@ -56,7 +56,7 @@ class VisitorImplTest {
         Library.getBusyBooks().clear();
         Library.getVisitorsAtLibrary().clear();
         Library.getLibraryBookcase().clear();
-        Library.showAvailableBooks().clear();
+        Library.getBooks().clear();
     }
 
     @Test
@@ -84,7 +84,7 @@ class VisitorImplTest {
         );
         assertEquals(
             quantityBooksInLibrary - takenBooks.size(),
-            Library.showAvailableBooks().size()
+            Library.getBooks().size()
         );
 
         //проверка на возврат 1 книги
@@ -96,7 +96,7 @@ class VisitorImplTest {
         );
         assertEquals(
             quantityBooksInLibrary - takenBooks.size(),
-            Library.showAvailableBooks().size()
+            Library.getBooks().size()
         );
 
         //проверка на получение книги по имени и автору
@@ -108,7 +108,7 @@ class VisitorImplTest {
         );
         assertEquals(
             quantityBooksInLibrary - takenBooks.size(),
-            Library.showAvailableBooks().size()
+            Library.getBooks().size()
         );
 
         //проверка на получение книг по имени и автору
@@ -141,7 +141,7 @@ class VisitorImplTest {
         );
         assertEquals(
             quantityBooksInLibrary - takenBooks.size(),
-            Library.showAvailableBooks().size()
+            Library.getBooks().size()
         );
 
         //проверка на возврат списка книг
@@ -153,7 +153,7 @@ class VisitorImplTest {
         );
         assertEquals(
             quantityBooksInLibrary - takenBooks.size(),
-            Library.showAvailableBooks().size()
+            Library.getBooks().size()
         );
 
         //проверка на получение книг по нескольким ID
@@ -190,7 +190,7 @@ class VisitorImplTest {
         );
         assertEquals(
             quantityBooksInLibrary - takenBooks.size(),
-            Library.showAvailableBooks().size()
+            Library.getBooks().size()
         );
     }
 

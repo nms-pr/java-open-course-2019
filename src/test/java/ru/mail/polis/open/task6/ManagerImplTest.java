@@ -47,7 +47,7 @@ class ManagerImplTest {
         Library.getBusyBooks().clear();
         Library.getVisitorsAtLibrary().clear();
         Library.getLibraryBookcase().clear();
-        Library.showAvailableBooks().clear();
+        Library.getBooks().clear();
     }
 
     @Test
@@ -78,13 +78,13 @@ class ManagerImplTest {
     void testWorkingAddAndRemove() {
         //проверка на добавление
         int sizeBeforeAdd = Library
-            .showAvailableBooks()
+            .getBooks()
             .size();
 
         manager.add(book);
 
         int sizeAfterAdd = Library
-            .showAvailableBooks()
+            .getBooks()
             .size();
 
         assertEquals(
@@ -92,7 +92,7 @@ class ManagerImplTest {
             sizeBeforeAdd);
 
         assertTrue(Library
-            .showAvailableBooks()
+            .getBooks()
             .contains(book));
 
         assertTrue(Library
@@ -105,13 +105,13 @@ class ManagerImplTest {
 
         //проверка на удаление
         sizeBeforeAdd = Library
-            .showAvailableBooks()
+            .getBooks()
             .size();
 
         manager.remove(book);
 
         sizeAfterAdd = Library
-            .showAvailableBooks()
+            .getBooks()
             .size();
 
         assertEquals(
@@ -120,7 +120,7 @@ class ManagerImplTest {
 
         assertFalse(
             Library
-                .showAvailableBooks()
+                .getBooks()
                 .contains(book)
         );
 

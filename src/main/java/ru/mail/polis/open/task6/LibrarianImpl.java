@@ -23,25 +23,25 @@ public class LibrarianImpl extends AbstractPerson implements Librarian {
 
     @Override
     public Book giveBook(String name, String author, VisitorImpl visitor) {
-        if (toBeInBlackList(visitor)) {
-            throw new PresenceOfTheBlackListException("You are in black list. We cannot give you book");
+        if (isInBlackList(visitor)) {
+            throw new PersonIsInBlackListException("You are in black list. We cannot give you book");
         }
         Book book = searchSuchBooks(name, author);
         updateInfoAfterTakenBook(book, visitor);
         Library.getBusyBooks().add(book);
-        Library.showAvailableBooks().remove(book);
+        Library.getBooks().remove(book);
         return book;
     }
 
     @Override
     public Book giveBook(long id, VisitorImpl visitor) {
-        if (toBeInBlackList(visitor)) {
-            throw new PresenceOfTheBlackListException("You are in black list. We cannot give you book");
+        if (isInBlackList(visitor)) {
+            throw new PersonIsInBlackListException("You are in black list. We cannot give you book");
         }
         Book book = searchSuchBooks(id);
         updateInfoAfterTakenBook(book, visitor);
         Library.getBusyBooks().add(book);
-        Library.showAvailableBooks().remove(book);
+        Library.getBooks().remove(book);
         return book;
     }
 
@@ -72,7 +72,7 @@ public class LibrarianImpl extends AbstractPerson implements Librarian {
             book = searchPlaceForBook(book);
 
             Library
-                .showAvailableBooks()
+                .getBooks()
                 .add(book);
             return;
         }
@@ -92,7 +92,7 @@ public class LibrarianImpl extends AbstractPerson implements Librarian {
             );
 
         Library
-            .showAvailableBooks()
+            .getBooks()
             .add(book);
     }
 
@@ -197,7 +197,7 @@ public class LibrarianImpl extends AbstractPerson implements Librarian {
         }
     }
 
-    private boolean toBeInBlackList(VisitorImpl visitor) {
+    private boolean isInBlackList(VisitorImpl visitor) {
         return Library
             .getBlackListOfVisitors()
             .contains(visitor);
@@ -205,11 +205,12 @@ public class LibrarianImpl extends AbstractPerson implements Librarian {
 
     void remindToVisitor(VisitorImpl visitor) {
         System.out.println("Dear " + visitor.getSurname()
-            + visitor.getName() + visitor.getPatronymic() + ",\n"
+            + " " + visitor.getName()
+            + " " + visitor.getPatronymic() + ",\n"
             + "you taken following books : \n");
 
         for (Book book : visitor.getTakenBooks()) {
-            book.toString();
+            System.out.println(book.toString());
             System.out.println("you should return this book : "
                 + book.getTimeOfReturnTheBook());
         }

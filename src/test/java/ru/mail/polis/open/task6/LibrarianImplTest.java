@@ -66,7 +66,7 @@ class LibrarianImplTest {
         Library.getBusyBooks().clear();
         Library.getVisitorsAtLibrary().clear();
         Library.getLibraryBookcase().clear();
-        Library.showAvailableBooks().clear();
+        Library.getBooks().clear();
     }
 
     @Test
@@ -76,11 +76,11 @@ class LibrarianImplTest {
             .add(visitor);
 
         assertThrows(
-            PresenceOfTheBlackListException.class,
+            PersonIsInBlackListException.class,
             () -> librarian.giveBook(34534525, visitor)
         );
         assertThrows(
-            PresenceOfTheBlackListException.class,
+            PersonIsInBlackListException.class,
             () -> librarian.giveBook("bsgsggg", "ggsgsrgg", visitor)
         );
 

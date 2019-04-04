@@ -6,13 +6,15 @@ import java.util.List;
 import java.util.Map;
 
 final class Library {
+    private static final int WARDROBE_QUANTITY = 4;
+
     static ManagerImpl manager = new ManagerImpl(
         "Petrov",
         "Artem",
         "Igorevich",
         'M',
         18,
-        50000
+        1000000
     );
     static LibrarianImpl librarian = new LibrarianImpl(
         "Ustinov",
@@ -28,7 +30,6 @@ final class Library {
     private static List<VisitorImpl> blackListOfVisitors = new ArrayList<>();
     private static List<Book> busyBooks = new ArrayList<>();
     private static List<Book> books = new ArrayList<>();
-    private static final int QUANTITY_WARDROBE = 4;
     private static Map<Integer, Bookcase> libraryBookcase = new HashMap<>();
     private static boolean isOpened = false;
     private static boolean isFirstDayWorking = true;
@@ -37,7 +38,7 @@ final class Library {
 
     static void startWorking() {
         if (isFirstDayWorking) {
-            for (int i = 1; i <= QUANTITY_WARDROBE; i++) {
+            for (int i = 1; i <= WARDROBE_QUANTITY; i++) {
                 libraryBookcase.put(i, new Bookcase(i));
             }
 
@@ -78,11 +79,6 @@ final class Library {
             for (Book book : busyBooks) {
                 librarian.remindToVisitor(book.getUser());
             }
-            //         for (VisitorImpl visitor : visitorsAtLibrary) {
-            //             if (visitor.equals(book.getUser())) {
-            //                 visitor.getTakenBooks().add(book);
-            //             }
-            //         }
         }
 
         //добавление постоянных посетитилей
@@ -236,7 +232,7 @@ final class Library {
         }
     }
 
-    static void comeVisitor(VisitorImpl visitor) {
+    static void onVisit(VisitorImpl visitor) {
         if (!isOpened) {
             throw new ClosedLibraryException("Now library is closed. Come back later!");
         }
@@ -251,7 +247,7 @@ final class Library {
         }
     }
 
-    static List<Book> showAvailableBooks() {
+    static List<Book> getBooks() {
         return books;
     }
 
