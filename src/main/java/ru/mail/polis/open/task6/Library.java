@@ -24,8 +24,8 @@ public final class Library {
         18,
         15000
     );
-    static List<VisitorImpl> visitors = new ArrayList<>();
 
+    private static List<VisitorImpl> visitors = new ArrayList<>();
     private static List<VisitorImpl> blackListOfVisitors = new ArrayList<>();
     private static List<Book> busyBooks = new ArrayList<>();
     private static List<Book> books = new ArrayList<>();
@@ -38,7 +38,7 @@ public final class Library {
 
     static void startWorking() {
         if (isFirstDayWorking) {
-            for (int i = 0; i < QUANTITY_WARDROBE; i++) {
+            for (int i = 1; i <= QUANTITY_WARDROBE; i++) {
                 libraryBookcase.put(i, new Bookcase(i));
             }
 
@@ -225,6 +225,9 @@ public final class Library {
     }
 
     void comeVisitor(VisitorImpl visitor) {
+        if (!isOpened) {
+            throw new ClosedLibraryException("Now library is closed. Come back later!");
+        }
         visitors.add(visitor);
     }
 
@@ -237,6 +240,11 @@ public final class Library {
     }
 
     public static void setOpened(boolean opened) {
+        if (!opened) {
+            startWorking();
+        } else {
+            endWorking();
+        }
         isOpened = opened;
     }
 
@@ -254,5 +262,9 @@ public final class Library {
 
     public static List<VisitorImpl> getBlackListOfVisitors() {
         return blackListOfVisitors;
+    }
+
+    public static void setIsFirstDayWorking(boolean setFirstDayWorking) {
+        isFirstDayWorking = setFirstDayWorking;
     }
 }

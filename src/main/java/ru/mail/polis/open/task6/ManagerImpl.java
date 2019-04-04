@@ -67,7 +67,15 @@ public class ManagerImpl extends AbstractPerson implements Manager {
             .getShelfInBookcase()
             .get(book.getShelfNumber())
             .getBookShelf()
-            .containsKey(book.getShelfSpace())
+            .get(book.getShelfSpace()) != null
+            && Library
+            .getLibraryBookcase()
+            .get(book.getBookcaseNumber())
+            .getShelfInBookcase()
+            .get(book.getShelfNumber())
+            .getBookShelf()
+            .get(book.getShelfSpace())
+            .equals(book)
         ) {
             Library
                 .getLibraryBookcase()

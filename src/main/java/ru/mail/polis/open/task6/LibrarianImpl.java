@@ -18,7 +18,6 @@ public class LibrarianImpl extends AbstractPerson implements Librarian {
         this.gender = gender;
         this.salary = salary;
         this.age = age;
-        this.salary = salary;
     }
 
     @Override
@@ -52,9 +51,7 @@ public class LibrarianImpl extends AbstractPerson implements Librarian {
         }
         if (LocalDateTime
             .now()
-            .isAfter(
-                book.getTimeOfReturnTheBook()
-            )
+            .isAfter(book.getTimeOfReturnTheBook())
         ) {
             Library.getBlackListOfVisitors().add(visitor);
         }

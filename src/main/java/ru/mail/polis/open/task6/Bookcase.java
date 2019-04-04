@@ -13,8 +13,8 @@ public class Bookcase {
         shelfQuantity = 4;
         this.bookcaseNumber = bookcaseNumber;
         this.shelfInBookcase = new HashMap<>();
-        for (int i = 0; i < shelfQuantity; i++) {
-            shelfInBookcase.put(i + 1, new Shelf(i + 1, bookcaseNumber));
+        for (int i = 1; i <= shelfQuantity; i++) {
+            shelfInBookcase.put(i, new Shelf(i, bookcaseNumber));
         }
     }
 

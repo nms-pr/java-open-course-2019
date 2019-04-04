@@ -19,8 +19,8 @@ public class Shelf {
         capacity = 4;
         this.bookShelf = new HashMap<>();
 
-        for (int i = 0; i < capacity; i++) {
-            bookShelf.put(i + 1, null);
+        for (int i = 1; i <= capacity; i++) {
+            bookShelf.put(i, null);
         }
     }
 
