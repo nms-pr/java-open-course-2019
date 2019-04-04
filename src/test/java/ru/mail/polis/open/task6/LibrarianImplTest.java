@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
-public class LibrarianImplTest {
+class LibrarianImplTest {
 
     private static LibrarianImpl librarian;
     private static Book book;
@@ -20,7 +20,7 @@ public class LibrarianImplTest {
         librarian = new LibrarianImpl(
             "Ustinov",
             "Artem",
-            "Andreevich",
+            "Germanovich",
             'M',
             18,
             15000
@@ -60,6 +60,7 @@ public class LibrarianImplTest {
     @AfterAll
     static void endWorkingLibrary() {
         Library.endWorking();
+        Library.setIsFirstDayWorking(true);
     }
 
     @Test

@@ -2,7 +2,7 @@ package ru.mail.polis.open.task6;
 
 public class ManagerImpl extends AbstractPerson implements Manager {
 
-    public ManagerImpl(
+    ManagerImpl(
         String surname,
         String name,
         String patronymic,
@@ -16,7 +16,6 @@ public class ManagerImpl extends AbstractPerson implements Manager {
         this.gender = gender;
         this.salary = salary;
         this.age = age;
-        this.salary = salary;
     }
 
     @Override
@@ -96,11 +95,13 @@ public class ManagerImpl extends AbstractPerson implements Manager {
     @Override
     public void openLibrary() {
         Library.setOpened(true);
+        Library.startWorking();
     }
 
     @Override
     public void closeLibrary() {
         Library.setOpened(false);
+        Library.endWorking();
     }
 
     @Override

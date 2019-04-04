@@ -1,13 +1,11 @@
 package ru.mail.polis.open.task6;
 
-import org.jetbrains.annotations.Contract;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public final class Library {
+final class Library {
     static ManagerImpl manager = new ManagerImpl(
         "Petrov",
         "Artem",
@@ -19,7 +17,7 @@ public final class Library {
     static LibrarianImpl librarian = new LibrarianImpl(
         "Ustinov",
         "Artem",
-        "Andreevich",
+        "Germanovich",
         'M',
         18,
         15000
@@ -44,6 +42,10 @@ public final class Library {
 
             initBasicBooks();
             isFirstDayWorking = false;
+        } else {
+            for (Book book : busyBooks) {
+                librarian.remindToVisitor(book.getUser());
+            }
         }
 
         visitors.add(
@@ -76,6 +78,14 @@ public final class Library {
                 30000
             )
         );
+
+        for (Book book : busyBooks) {
+            for (VisitorImpl visitor : visitors) {
+                if (visitor.equals(book.getUser())) {
+                    visitor.getTakenBooks().add(book);
+                }
+            }
+        }
 
         isOpened = true;
     }
@@ -114,7 +124,7 @@ public final class Library {
         books.add(
             new Book(
                 "Смертельная белизна",
-                "Гэлбрейт Роберт,",
+                "Гэлбрейт Роберт",
                 "Детективы, боевики, триллеры",
                 672,
                 2,
@@ -224,47 +234,51 @@ public final class Library {
         }
     }
 
-    void comeVisitor(VisitorImpl visitor) {
+    static void comeVisitor(VisitorImpl visitor) {
         if (!isOpened) {
             throw new ClosedLibraryException("Now library is closed. Come back later!");
         }
-        visitors.add(visitor);
-    }
-
-    void leaveVisitor(VisitorImpl visitor) {
-        visitors.remove(visitor);
-    }
-    
-    public static boolean isOpened() {
-        return isOpened;
-    }
-
-    public static void setOpened(boolean opened) {
-        if (!opened) {
-            startWorking();
-        } else {
-            endWorking();
+        for (Book book : busyBooks) {
+            if (visitor.equals(book.getUser())) {
+                visitor.getTakenBooks().add(book);
+            }
         }
-        isOpened = opened;
-    }
-
-    public static Map<Integer, Bookcase> getLibraryBookcase() {
-        return libraryBookcase;
-    }
-
-    public static List<Book> getBusyBooks() {
-        return busyBooks;
+        visitors.add(visitor);
     }
 
     static List<Book> showAvailableBooks() {
         return books;
     }
 
-    public static List<VisitorImpl> getBlackListOfVisitors() {
+    static void leaveVisitor(VisitorImpl visitor) {
+        visitors.remove(visitor);
+    }
+    
+    static boolean isOpened() {
+        return isOpened;
+    }
+
+    static void setOpened(boolean opened) {
+        isOpened = opened;
+    }
+
+    static Map<Integer, Bookcase> getLibraryBookcase() {
+        return libraryBookcase;
+    }
+
+    static List<Book> getBusyBooks() {
+        return busyBooks;
+    }
+
+    static List<VisitorImpl> getBlackListOfVisitors() {
         return blackListOfVisitors;
     }
 
-    public static void setIsFirstDayWorking(boolean setFirstDayWorking) {
+    static void setIsFirstDayWorking(boolean setFirstDayWorking) {
         isFirstDayWorking = setFirstDayWorking;
+    }
+
+    static List<VisitorImpl> getVisitors() {
+        return visitors;
     }
 }

@@ -10,7 +10,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class VisitorImplTest {
+class VisitorImplTest {
 
     private static VisitorImpl visitor;
     private static Book book;
@@ -50,6 +50,7 @@ public class VisitorImplTest {
     @AfterAll
     static void endWorkingLibrary() {
         Library.endWorking();
+        Library.setIsFirstDayWorking(true);
     }
 
     @Test

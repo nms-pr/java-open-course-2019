@@ -82,23 +82,23 @@ public class Book {
             + '}';
     }
 
-    public long getID() {
+    long getID() {
         return ID;
     }
 
-    public int getBookcaseNumber() {
+    int getBookcaseNumber() {
         return bookcaseNumber;
     }
 
-    public int getShelfNumber() {
+    int getShelfNumber() {
         return shelfNumber;
     }
 
-    public int getShelfSpace() {
+    int getShelfSpace() {
         return shelfSpace;
     }
 
-    public int getPages() {
+    private int getPages() {
         return pages;
     }
 
@@ -110,7 +110,7 @@ public class Book {
         return author;
     }
 
-    public String getSection() {
+    private String getSection() {
         return section;
     }
 
@@ -118,35 +118,35 @@ public class Book {
         return timeOfReceiptTheBook;
     }
 
-    public LocalDateTime getTimeOfReturnTheBook() {
+    LocalDateTime getTimeOfReturnTheBook() {
         return timeOfReturnTheBook;
     }
 
-    public void setTimeOfReceiptTheBook(LocalDateTime timeOfReceiptTheBook) {
+    void setTimeOfReceiptTheBook(LocalDateTime timeOfReceiptTheBook) {
         this.timeOfReceiptTheBook = timeOfReceiptTheBook;
     }
 
-    public void setTimeOfReturnTheBook(LocalDateTime timeOfReturnTheBook) {
+    void setTimeOfReturnTheBook(LocalDateTime timeOfReturnTheBook) {
         this.timeOfReturnTheBook = timeOfReturnTheBook;
     }
 
-    public VisitorImpl getUser() {
+    VisitorImpl getUser() {
         return user;
     }
 
-    public void setUser(VisitorImpl user) {
+    void setUser(VisitorImpl user) {
         this.user = user;
     }
 
-    public void setBookcaseNumber(int wardrobeNumber) {
+    void setBookcaseNumber(int wardrobeNumber) {
         this.bookcaseNumber = wardrobeNumber;
     }
 
-    public void setShelfNumber(int shelfNumber) {
+    void setShelfNumber(int shelfNumber) {
         this.shelfNumber = shelfNumber;
     }
 
-    public void setShelfSpace(int shelfSpace) {
+    void setShelfSpace(int shelfSpace) {
         this.shelfSpace = shelfSpace;
     }
 }

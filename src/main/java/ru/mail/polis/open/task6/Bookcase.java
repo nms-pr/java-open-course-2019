@@ -9,7 +9,7 @@ public class Bookcase {
     private Map<Integer, Shelf> shelfInBookcase;
     private final int shelfQuantity;
 
-    public Bookcase(int bookcaseNumber) {
+    Bookcase(int bookcaseNumber) {
         shelfQuantity = 4;
         this.bookcaseNumber = bookcaseNumber;
         this.shelfInBookcase = new HashMap<>();
@@ -36,15 +36,15 @@ public class Bookcase {
         return Objects.hash(bookcaseNumber, shelfQuantity);
     }
 
-    public int getBookcaseNumber() {
+    int getBookcaseNumber() {
         return bookcaseNumber;
     }
 
-    public Map<Integer, Shelf> getShelfInBookcase() {
+    Map<Integer, Shelf> getShelfInBookcase() {
         return shelfInBookcase;
     }
 
-    public int getShelfQuantity() {
+    private int getShelfQuantity() {
         return shelfQuantity;
     }
 }

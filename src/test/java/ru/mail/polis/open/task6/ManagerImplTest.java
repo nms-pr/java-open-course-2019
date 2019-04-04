@@ -9,12 +9,10 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class ManagerImplTest {
+class ManagerImplTest {
 
     private static ManagerImpl manager;
     private static Book book;
-    private static int sizeBeforeAdd;
-    private static int sizeAfterAdd;
 
     @BeforeAll
     static void createInstanceAndStartWorking() {
@@ -43,6 +41,7 @@ public class ManagerImplTest {
     @AfterAll
     static void endWorkingLibrary() {
         Library.endWorking();
+        Library.setIsFirstDayWorking(true);
     }
 
     @Test
@@ -72,13 +71,13 @@ public class ManagerImplTest {
     @Test
     void testWorkingAddAndRemove() {
         //проверка на добавление
-        sizeBeforeAdd = Library
+        int sizeBeforeAdd = Library
             .showAvailableBooks()
             .size();
 
         manager.add(book);
 
-        sizeAfterAdd = Library
+        int sizeAfterAdd = Library
             .showAvailableBooks()
             .size();
 

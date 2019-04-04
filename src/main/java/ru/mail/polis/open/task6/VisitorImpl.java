@@ -8,7 +8,7 @@ public class VisitorImpl extends AbstractPerson implements Visitor {
 
     private List<Book> takenBooks;
 
-    public VisitorImpl(
+    VisitorImpl(
         String surname,
         String name,
         String patronymic,
@@ -95,9 +95,13 @@ public class VisitorImpl extends AbstractPerson implements Visitor {
                 .librarian
                 .putBook(
                     takenBooks
-                        .remove(number),
+                        .get(number),
                     this
                 );
+        }
+        int size = books.size();
+        for (int i = size - 1; i >= 0; i--) {
+            takenBooks.remove(books.get(i));
         }
     }
 
@@ -142,21 +146,21 @@ public class VisitorImpl extends AbstractPerson implements Visitor {
             && Objects.equals(takenBooks, visitor.getTakenBooks());
     }
 
-    public void infoAboutTakenBook() {
+    void infoAboutTakenBook() {
         for (Book book : takenBooks) {
             book.toString();
         }
     }
 
-    public int getAge() {
+    private int getAge() {
         return age;
     }
 
-    public int getSalary() {
+    private int getSalary() {
         return salary;
     }
 
-    public char getGender() {
+    private char getGender() {
         return gender;
     }
 
@@ -164,15 +168,15 @@ public class VisitorImpl extends AbstractPerson implements Visitor {
         return name;
     }
 
-    public String getSurname() {
+    String getSurname() {
         return surname;
     }
 
-    public String getPatronymic() {
+    String getPatronymic() {
         return patronymic;
     }
 
-    public List<Book> getTakenBooks() {
+    List<Book> getTakenBooks() {
         return takenBooks;
     }
 }

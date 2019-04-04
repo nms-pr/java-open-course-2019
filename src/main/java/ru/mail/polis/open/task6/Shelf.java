@@ -10,7 +10,7 @@ public class Shelf {
     private Map<Integer, Book> bookShelf;
     private final int capacity;
 
-    public Shelf(
+    Shelf(
         int shelfNumber,
         int bookcaseNumber) {
 
@@ -43,19 +43,19 @@ public class Shelf {
         return Objects.hash(shelfNumber, capacity, bookcaseNumber);
     }
 
-    public Map<Integer, Book> getBookShelf() {
+    Map<Integer, Book> getBookShelf() {
         return bookShelf;
     }
 
-    public int getShelfNumber() {
+    int getShelfNumber() {
         return shelfNumber;
     }
 
-    public int getCapacity() {
+    int getCapacity() {
         return capacity;
     }
 
-    public int getBookcaseNumber() {
+    private int getBookcaseNumber() {
         return bookcaseNumber;
     }
 }

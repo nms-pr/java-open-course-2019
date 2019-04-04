@@ -144,11 +144,11 @@ public class LibrarianImpl extends AbstractPerson implements Librarian {
         Library.getBusyBooks().add(book);
     }
 
-    LocalDateTime setupTimeTakenBook() {
+    private LocalDateTime setupTimeTakenBook() {
         return LocalDateTime.now();
     }
 
-    LocalDateTime setupTimeGiveAwayBook() {
+    private LocalDateTime setupTimeGiveAwayBook() {
         LocalDateTime ldt = LocalDateTime.now();
         if (Month.of(12) == Month.DECEMBER) {
             return LocalDateTime.of(
@@ -186,19 +186,17 @@ public class LibrarianImpl extends AbstractPerson implements Librarian {
         throw new NoSpaceForBookException("Haven't space in Library for this book");
     }
 
-    void InfoAboutUserSpecificBook(VisitorImpl visitor) {
+    void InfoAboutUserSpecificBook() {
         for (Book book : Library.getBusyBooks()) {
-            if (book.getUser().equals(visitor)) {
-                System.out.println("Name " + visitor.getName()
-                    + " Surname " + visitor.getSurname()
-                    + " Patronymic " + visitor.getPatronymic()
-                    + " taken a book :");
-                visitor.infoAboutTakenBook();
-            }
+            System.out.println("Name " + book.getUser().getName()
+                + " Surname " + book.getUser().getSurname()
+                + " Patronymic " + book.getUser().getPatronymic()
+                + " taken a book :");
+            book.getUser().infoAboutTakenBook();
         }
     }
 
-    boolean toBeInBlackList(VisitorImpl visitor) {
+    private boolean toBeInBlackList(VisitorImpl visitor) {
         return Library
             .getBlackListOfVisitors()
             .contains(visitor);
