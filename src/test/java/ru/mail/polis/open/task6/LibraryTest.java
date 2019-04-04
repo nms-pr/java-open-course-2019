@@ -1,5 +1,6 @@
 package ru.mail.polis.open.task6;
 
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -8,6 +9,18 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class LibraryTest {
+
+    @AfterAll
+    static void endWorkingLibrary() {
+        Library.endWorking();
+        Library.setIsFirstDayWorking(true);
+        Library.getVisitors().clear();
+        Library.getBlackListOfVisitors().clear();
+        Library.getBusyBooks().clear();
+        Library.getVisitorsAtLibrary().clear();
+        Library.getLibraryBookcase().clear();
+        Library.showAvailableBooks().clear();
+    }
 
     @Test
     void testShowWorkingLibrary() {
@@ -29,7 +42,7 @@ class LibraryTest {
         );
         assertEquals(
             4,
-            Library.getVisitors().size()
+            Library.getVisitorsAtLibrary().size()
         );
 
         //Вышла новая книга, и менеджер решил поплнить библиотеку этой книгой
@@ -56,7 +69,7 @@ class LibraryTest {
             book,
             Library
                 .librarian
-                .searchSuchBooks(book.getID())
+                .searchSuchBooks(book.getId())
         );
 
         /*
@@ -65,7 +78,7 @@ class LibraryTest {
         он сразу говорит это библиотекарю и тот сразу ищет данную книгу
          */
         Library
-            .getVisitors()
+            .getVisitorsAtLibrary()
             .get(2)
             .takeBook(
                 "Клатбище домашних жывотных",
@@ -74,7 +87,7 @@ class LibraryTest {
         assertEquals(
             1,
             Library
-                .getVisitors()
+                .getVisitorsAtLibrary()
                 .get(2)
                 .getTakenBooks()
                 .size()
@@ -90,7 +103,7 @@ class LibraryTest {
                 1
             ),
             Library
-                .getVisitors()
+                .getVisitorsAtLibrary()
                 .get(2)
                 .getTakenBooks()
                 .get(0)
@@ -101,11 +114,11 @@ class LibraryTest {
                 .librarian
                 .searchSuchBooks(
                     Library
-                        .getVisitors()
+                        .getVisitorsAtLibrary()
                         .get(2)
                         .getTakenBooks()
                         .get(0)
-                        .getID()
+                        .getId()
                 )
         );
         assertEquals(
@@ -116,18 +129,18 @@ class LibraryTest {
         );
 
         //Менеджер попросил библиотекаря отчитаться за взятые книги
-        Library.librarian.InfoAboutUserSpecificBook();
+        Library.librarian.infoAboutUserSpecificBook();
 
         //Один из посетителей начитался и решил пойти домой, отдыхать тоже надо
         Library.leaveVisitor(
             Library
-                .getVisitors()
+                .getVisitorsAtLibrary()
                 .get(1)
         );
         assertEquals(
             3,
             Library
-                .getVisitors()
+                .getVisitorsAtLibrary()
                 .size()
         );
 
@@ -137,7 +150,7 @@ class LibraryTest {
         assertEquals(
             0,
             Library
-                .getVisitors()
+                .getVisitorsAtLibrary()
                 .size()
         );
 
@@ -176,7 +189,7 @@ class LibraryTest {
 
         //Другой из посетителей решил взять себе книги
         Library
-            .getVisitors()
+            .getVisitorsAtLibrary()
             .get(0)
             .takeBook(
                 new String[]{"Мятная сказка", "Смертельная белизна"},
@@ -191,7 +204,7 @@ class LibraryTest {
         assertEquals(
             2,
             Library
-                .getVisitors()
+                .getVisitorsAtLibrary()
                 .get(0)
                 .getTakenBooks()
                 .size()
@@ -207,7 +220,7 @@ class LibraryTest {
                 1
             ),
             Library
-                .getVisitors()
+                .getVisitorsAtLibrary()
                 .get(0)
                 .getTakenBooks()
                 .get(0)
@@ -223,7 +236,7 @@ class LibraryTest {
                 1
             ),
             Library
-                .getVisitors()
+                .getVisitorsAtLibrary()
                 .get(0)
                 .getTakenBooks()
                 .get(1)
@@ -231,11 +244,11 @@ class LibraryTest {
 
         //читатель, бравший 2 книги, прочитал их наконец-то и решил вернуть
         Library
-            .getVisitors()
+            .getVisitorsAtLibrary()
             .get(0)
             .giveAway(
                 Library
-                    .getVisitors()
+                    .getVisitorsAtLibrary()
                     .get(0)
                     .getTakenBooks()
             );
@@ -249,7 +262,7 @@ class LibraryTest {
         assertEquals(
             0,
             Library
-                .getVisitors()
+                .getVisitorsAtLibrary()
                 .get(0)
                 .getTakenBooks()
                 .size()
@@ -261,7 +274,7 @@ class LibraryTest {
         assertEquals(
             0,
             Library
-                .getVisitors()
+                .getVisitorsAtLibrary()
                 .size()
         );
     }

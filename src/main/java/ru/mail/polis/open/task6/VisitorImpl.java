@@ -56,21 +56,24 @@ public class VisitorImpl extends AbstractPerson implements Visitor {
     }
 
     @Override
-    public void takeBook(long ID) {
-         takenBooks.add(
-             Library
-            .librarian
-            .giveBook(ID, this)
-         );
+    public void takeBook(long id) {
+        takenBooks.add(
+            Library
+                .librarian
+                .giveBook(
+                    id,
+                    this
+                )
+        );
     }
 
     @Override
-    public void takeBook(long[] IDs) {
-        if (IDs.length == 0) {
+    public void takeBook(long[] ids) {
+        if (ids.length == 0) {
             throw new IllegalArgumentException("Incorrect request");
         }
-        for (int i = 0; i < IDs.length; i++) {
-            takenBooks.add(Library.librarian.giveBook(IDs[i], this));
+        for (int i = 0; i < ids.length; i++) {
+            takenBooks.add(Library.librarian.giveBook(ids[i], this));
         }
     }
 
@@ -83,7 +86,7 @@ public class VisitorImpl extends AbstractPerson implements Visitor {
                 takenBooks
                     .remove(number),
                 this
-            );
+        );
     }
 
     @Override
@@ -97,8 +100,9 @@ public class VisitorImpl extends AbstractPerson implements Visitor {
                     takenBooks
                         .get(number),
                     this
-                );
+            );
         }
+
         int size = books.size();
         for (int i = size - 1; i >= 0; i--) {
             takenBooks.remove(books.get(i));

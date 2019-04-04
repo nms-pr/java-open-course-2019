@@ -23,6 +23,7 @@ final class Library {
         15000
     );
 
+    private static List<VisitorImpl> visitorsAtLibrary = new ArrayList<>();
     private static List<VisitorImpl> visitors = new ArrayList<>();
     private static List<VisitorImpl> blackListOfVisitors = new ArrayList<>();
     private static List<Book> busyBooks = new ArrayList<>();
@@ -40,62 +41,63 @@ final class Library {
                 libraryBookcase.put(i, new Bookcase(i));
             }
 
+            visitors.add(
+                new VisitorImpl(
+                    "Fedorov",
+                    "Sergey",
+                    "Alekseevich",
+                    'M',
+                    19,
+                    25000
+                )
+            );
+            visitors.add(
+                new VisitorImpl(
+                    "Fedorov",
+                    "Dmitriy",
+                    "Mickhailovich",
+                    'M',
+                    18,
+                    23000
+                )
+            );
+            visitors.add(
+                new VisitorImpl(
+                    "Bogdanova",
+                    "Irina",
+                    "Genadievna",
+                    'F',
+                    23,
+                    30000
+                )
+            );
+
             initBasicBooks();
             isFirstDayWorking = false;
         } else {
             for (Book book : busyBooks) {
                 librarian.remindToVisitor(book.getUser());
             }
+            //         for (VisitorImpl visitor : visitorsAtLibrary) {
+            //             if (visitor.equals(book.getUser())) {
+            //                 visitor.getTakenBooks().add(book);
+            //             }
+            //         }
         }
 
-        visitors.add(
-            new VisitorImpl(
-                "Fedorov",
-                "Sergey",
-                "Alekseevich",
-                'M',
-                19,
-                25000
-            )
-        );
-        visitors.add(
-            new VisitorImpl(
-                "Fedorov",
-                "Dmitriy",
-                "Mickhailovich",
-                'M',
-                18,
-                23000
-            )
-        );
-        visitors.add(
-            new VisitorImpl(
-                "Bogdanova",
-                "Irina",
-                "Genadievna",
-                'F',
-                23,
-                30000
-            )
-        );
-
-        for (Book book : busyBooks) {
-            for (VisitorImpl visitor : visitors) {
-                if (visitor.equals(book.getUser())) {
-                    visitor.getTakenBooks().add(book);
-                }
-            }
+        //добавление постоянных посетитилей
+        for (int i = 0; i < 3; i++) {
+            visitorsAtLibrary.add(visitors.get(i));
         }
-
         isOpened = true;
     }
 
     static void endWorking() {
-        visitors.clear();
+        visitorsAtLibrary.clear();
         isOpened = false;
     }
 
-    static boolean isBusyPlace (
+    static boolean isBusyPlace(
         int bookcaseNumber,
         int shelfNumber,
         int placeNumber
@@ -243,7 +245,10 @@ final class Library {
                 visitor.getTakenBooks().add(book);
             }
         }
-        visitors.add(visitor);
+        visitorsAtLibrary.add(visitor);
+        if (!visitors.contains(visitor)) {
+            visitors.add(visitor);
+        }
     }
 
     static List<Book> showAvailableBooks() {
@@ -251,7 +256,7 @@ final class Library {
     }
 
     static void leaveVisitor(VisitorImpl visitor) {
-        visitors.remove(visitor);
+        visitorsAtLibrary.remove(visitor);
     }
     
     static boolean isOpened() {
@@ -278,7 +283,11 @@ final class Library {
         isFirstDayWorking = setFirstDayWorking;
     }
 
-    static List<VisitorImpl> getVisitors() {
+    static List<VisitorImpl> getVisitorsAtLibrary() {
+        return visitorsAtLibrary;
+    }
+
+    public static List<VisitorImpl> getVisitors() {
         return visitors;
     }
 }

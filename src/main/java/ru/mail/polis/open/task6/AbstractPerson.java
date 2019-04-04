@@ -9,5 +9,6 @@ public abstract class AbstractPerson {
     String patronymic;
 
     abstract void salut();
+
     abstract void farewell();
 }

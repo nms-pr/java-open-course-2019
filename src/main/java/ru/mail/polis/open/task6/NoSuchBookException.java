@@ -1,6 +1,6 @@
 package ru.mail.polis.open.task6;
 
-public class NoSuchBookException extends RuntimeException{
+public class NoSuchBookException extends RuntimeException {
     NoSuchBookException() {
         super("Something wrong");
     }

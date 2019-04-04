@@ -51,9 +51,9 @@ class LibrarianImplTest {
             "arbdabadba",
             "abgaagrg",
             1214,
+            2,
+            2,
             2
-            ,2
-            ,2
         );
     }
 
@@ -61,6 +61,12 @@ class LibrarianImplTest {
     static void endWorkingLibrary() {
         Library.endWorking();
         Library.setIsFirstDayWorking(true);
+        Library.getVisitors().clear();
+        Library.getBlackListOfVisitors().clear();
+        Library.getBusyBooks().clear();
+        Library.getVisitorsAtLibrary().clear();
+        Library.getLibraryBookcase().clear();
+        Library.showAvailableBooks().clear();
     }
 
     @Test
@@ -84,7 +90,7 @@ class LibrarianImplTest {
         );
         assertThrows(
             NoSuchBookException.class,
-            () -> librarian.searchSuchBooks(notExistBook.getID())
+            () -> librarian.searchSuchBooks(notExistBook.getId())
         );
         assertThrows(
             NoSuchBookException.class,
@@ -100,7 +106,7 @@ class LibrarianImplTest {
         //проверка поиска книги по её ID
         assertEquals(
             book,
-            librarian.searchSuchBooks(book.getID())
+            librarian.searchSuchBooks(book.getId())
         );
 
         librarian.putBook(book, visitor);
@@ -153,7 +159,7 @@ class LibrarianImplTest {
         assertEquals(
             book,
             librarian.giveBook(
-                book.getID(),
+                book.getId(),
                 visitor
             )
         );

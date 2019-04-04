@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Book {
-    private final long ID;
+    private final long id;
     private final int pages;
     private final String name;
     private final String author;
@@ -26,7 +26,7 @@ public class Book {
         int shelfNumber,
         int shelfSpace
     ) {
-        this.ID = pages
+        this.id = pages
             * name.length()
             * author.length()
             * section.length()
@@ -52,7 +52,7 @@ public class Book {
             return false;
         }
         Book book = (Book) o;
-        return ID == book.getID()
+        return id == book.getId()
             && pages == book.getPages()
             && Objects.equals(name, book.getName())
             && Objects.equals(author, book.getAuthor())
@@ -63,7 +63,7 @@ public class Book {
     public int hashCode() {
         return
             Objects.hash(
-                ID,
+                id,
                 pages,
                 name,
                 author,
@@ -74,7 +74,7 @@ public class Book {
     @Override
     public String toString() {
         return "Book{"
-            + "ID=" + ID
+            + "id=" + id
             + ", pages=" + pages
             + ", name='" + name + '\''
             + ", author='" + author + '\''
@@ -82,8 +82,8 @@ public class Book {
             + '}';
     }
 
-    long getID() {
-        return ID;
+    long getId() {
+        return id;
     }
 
     int getBookcaseNumber() {

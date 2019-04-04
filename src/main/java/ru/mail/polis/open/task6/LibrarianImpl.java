@@ -1,4 +1,5 @@
 package ru.mail.polis.open.task6;
+
 import java.time.LocalDateTime;
 import java.time.Month;
 
@@ -33,11 +34,11 @@ public class LibrarianImpl extends AbstractPerson implements Librarian {
     }
 
     @Override
-    public Book giveBook(long ID, VisitorImpl visitor) {
+    public Book giveBook(long id, VisitorImpl visitor) {
         if (toBeInBlackList(visitor)) {
             throw new PresenceOfTheBlackListException("You are in black list. We cannot give you book");
         }
-        Book book = searchSuchBooks(ID);
+        Book book = searchSuchBooks(id);
         updateInfoAfterTakenBook(book, visitor);
         Library.getBusyBooks().add(book);
         Library.showAvailableBooks().remove(book);
@@ -123,11 +124,11 @@ public class LibrarianImpl extends AbstractPerson implements Librarian {
         throw new NoSuchBookException("Such book not found");
     }
 
-    Book searchSuchBooks(long ID) {
+    Book searchSuchBooks(long id) {
         for (Bookcase wardrobe : Library.getLibraryBookcase().values()) {
             for (Shelf shelf : wardrobe.getShelfInBookcase().values()) {
                 for (Book book : shelf.getBookShelf().values()) {
-                    if (book != null && book.getID() == ID) {
+                    if (book != null && book.getId() == id) {
                         shelf.getBookShelf().put(book.getShelfNumber(), null);
                         return book;
                     }
@@ -137,7 +138,7 @@ public class LibrarianImpl extends AbstractPerson implements Librarian {
         throw new NoSuchBookException("Such book not found");
     }
 
-    void updateInfoAfterTakenBook(Book book, VisitorImpl visitor){
+    void updateInfoAfterTakenBook(Book book, VisitorImpl visitor) {
         book.setTimeOfReceiptTheBook(setupTimeTakenBook());
         book.setTimeOfReturnTheBook(setupTimeGiveAwayBook());
         book.setUser(visitor);
@@ -186,7 +187,7 @@ public class LibrarianImpl extends AbstractPerson implements Librarian {
         throw new NoSpaceForBookException("Haven't space in Library for this book");
     }
 
-    void InfoAboutUserSpecificBook() {
+    void infoAboutUserSpecificBook() {
         for (Book book : Library.getBusyBooks()) {
             System.out.println("Name " + book.getUser().getName()
                 + " Surname " + book.getUser().getSurname()

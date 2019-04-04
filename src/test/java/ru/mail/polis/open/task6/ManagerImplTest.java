@@ -32,9 +32,9 @@ class ManagerImplTest {
             "arbdabadba",
             "abgaagrg",
             1214,
+            2,
+            2,
             2
-            ,2
-            ,2
         );
     }
 
@@ -42,6 +42,12 @@ class ManagerImplTest {
     static void endWorkingLibrary() {
         Library.endWorking();
         Library.setIsFirstDayWorking(true);
+        Library.getVisitors().clear();
+        Library.getBlackListOfVisitors().clear();
+        Library.getBusyBooks().clear();
+        Library.getVisitorsAtLibrary().clear();
+        Library.getLibraryBookcase().clear();
+        Library.showAvailableBooks().clear();
     }
 
     @Test

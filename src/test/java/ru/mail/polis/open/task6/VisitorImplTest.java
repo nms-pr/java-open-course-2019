@@ -51,6 +51,12 @@ class VisitorImplTest {
     static void endWorkingLibrary() {
         Library.endWorking();
         Library.setIsFirstDayWorking(true);
+        Library.getVisitors().clear();
+        Library.getBlackListOfVisitors().clear();
+        Library.getBusyBooks().clear();
+        Library.getVisitorsAtLibrary().clear();
+        Library.getLibraryBookcase().clear();
+        Library.showAvailableBooks().clear();
     }
 
     @Test
@@ -70,7 +76,7 @@ class VisitorImplTest {
     @Test
     void testWorkingTakeBookAndGiveAway() {
         //проверка на получение книги по ID
-        visitor.takeBook(book.getID());
+        visitor.takeBook(book.getId());
         takenBooks.add(book);
         assertEquals(
             visitor.getTakenBooks(),
@@ -173,11 +179,11 @@ class VisitorImplTest {
                 2
             )
         );
-        long[] IDs = new long[takenBooks.size()];
-        for (int i = 0; i < IDs.length; i++) {
-            IDs[i] = takenBooks.get(i).getID();
+        long[] ids = new long[takenBooks.size()];
+        for (int i = 0; i < ids.length; i++) {
+            ids[i] = takenBooks.get(i).getId();
         }
-        visitor.takeBook(IDs);
+        visitor.takeBook(ids);
         assertEquals(
             visitor.getTakenBooks(),
             takenBooks
