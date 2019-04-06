@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import ru.mail.polis.open.task6.implementation.people.Librarian;
 import ru.mail.polis.open.task6.implementation.people.Manager;
+import ru.mail.polis.open.task6.implementation.people.Person;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -17,7 +18,7 @@ class LibraryTest {
     @BeforeAll
     static void createLibrary() {
         bookShelf = new BookShelf();
-        manager = new Manager();
+        manager = new Manager(new Person("first", "last"), library);
         librarian = new Librarian();
         library = new Library(bookShelf, manager, librarian);
     }
