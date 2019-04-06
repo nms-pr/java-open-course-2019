@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 public class BookInfo {
 
@@ -18,13 +19,18 @@ public class BookInfo {
     private List<HistoryEntry> history;
     public BookInfo(int id, int total, Set<Integer> shelfPlaces) {
 
+        if (total <= 0) {
+            throw new IllegalArgumentException("There must be at least one instance of book");
+        }
+
         if (total != shelfPlaces.size()) {
             throw new IllegalArgumentException("Quantity of books in stock should correspond to quantity of shelfPlaces");
         }
+
         this.id = id;
         this.total = total;
         this.inStock = total;
-        this.shelfPlaces = shelfPlaces;
+        this.shelfPlaces = new TreeSet<>(shelfPlaces);
         this.history = new ArrayList<>();
     }
 

@@ -30,6 +30,8 @@ class BookInfoTest {
 
         assertThrows(IllegalArgumentException.class, () -> new BookInfo(1, 3, Set.of(1, 5)));
         assertThrows(IllegalArgumentException.class, () -> new BookInfo(1, 1, Set.of(1, 5)));
+        assertThrows(IllegalArgumentException.class, () -> new BookInfo(1, 0, Set.of()));
+        assertThrows(IllegalArgumentException.class, () -> new BookInfo(1, -5, Set.of()));
     }
 
     @Test
