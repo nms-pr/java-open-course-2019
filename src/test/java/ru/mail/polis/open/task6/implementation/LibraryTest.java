@@ -18,8 +18,8 @@ class LibraryTest {
     @BeforeAll
     static void createLibrary() {
         bookShelf = new BookShelf();
-        manager = new Manager(new Person("first", "last"), library);
-        librarian = new Librarian();
+        manager = new Manager(new Person("first1", "last1"));
+        librarian = new Librarian(new Person("first2", "last2"));
         library = new Library(bookShelf, manager, librarian);
     }
 
