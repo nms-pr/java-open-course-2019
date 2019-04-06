@@ -9,7 +9,9 @@ import java.util.*;
 
 public class BookShelf implements BookProvider, BookStorage {
 
-    Map<Book, BookInfo> books;
+    private Map<Book, BookInfo> books;
+
+    private int notUsedId = 0;
 
     public BookShelf() {
 
@@ -32,7 +34,7 @@ public class BookShelf implements BookProvider, BookStorage {
 
         Set<Integer> shelfPlaces = new HashSet<>();
         shelfPlaces.add(findLowestShelfPlace());
-        books.put(book, new BookInfo(1, 1, shelfPlaces));
+        books.put(book, new BookInfo(notUsedId++, 1, shelfPlaces));
     }
 
     @Override
