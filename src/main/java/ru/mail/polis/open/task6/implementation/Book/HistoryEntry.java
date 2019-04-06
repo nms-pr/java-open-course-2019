@@ -10,11 +10,13 @@ public class HistoryEntry {
     private Customer customer;
     private Date beginDate;
     private Date endDate;
+    private boolean isReturned;
 
     public HistoryEntry(Customer customer, Date beginDate, Date endDate) {
         this.customer = customer;
         this.beginDate = beginDate;
         this.endDate = endDate;
+        isReturned = false;
     }
 
     public Customer getCustomer() {
@@ -27,6 +29,14 @@ public class HistoryEntry {
 
     public Date getEndDate() {
         return endDate;
+    }
+
+    public boolean isReturned() {
+        return isReturned;
+    }
+
+    public void doReturn() {
+        isReturned = true;
     }
 
     @Override

@@ -10,4 +10,5 @@ public interface BookProvider {
     BookInfo lendBook(Book book);
     BookInfo retrieveBook(Book book);
     Set<Book> getAllBooks();
+    BookInfo getBookInfo(Book book);
 }
