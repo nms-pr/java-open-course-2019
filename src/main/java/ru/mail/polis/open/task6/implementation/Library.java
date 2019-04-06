@@ -11,10 +11,6 @@ public class Library implements LibraryForCustomer, LibraryForLibrarian, Library
     private Librarian librarian;
     private boolean isOpened;
 
-    public Library(BookShelf bookShelf) {
-        this(bookShelf, new Manager(), new Librarian());
-    }
-
     public Library(BookShelf bookShelf, Manager manager, Librarian librarian) {
 
         this.bookShelf = bookShelf;
@@ -46,11 +42,6 @@ public class Library implements LibraryForCustomer, LibraryForLibrarian, Library
     }
 
     @Override
-    public boolean isOpened() {
-        return isOpened;
-    }
-
-    @Override
     public BookStorage getBookStorage() {
         return bookShelf;
     }
@@ -71,5 +62,10 @@ public class Library implements LibraryForCustomer, LibraryForLibrarian, Library
         }
 
         isOpened = false;
+    }
+
+    @Override
+    public boolean isOpened() {
+        return isOpened;
     }
 }
