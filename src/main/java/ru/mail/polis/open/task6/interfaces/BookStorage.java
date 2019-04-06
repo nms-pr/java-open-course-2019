@@ -6,4 +6,5 @@ public interface BookStorage {
 
     void addBook(Book book);
     boolean removeBook(Book book);
+    boolean removeAllBookInstances(Book book);
 }
