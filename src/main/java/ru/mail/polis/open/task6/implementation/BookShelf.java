@@ -17,7 +17,7 @@ public class BookShelf implements BookProvider, BookStorage {
     }
 
     @Override
-    public Iterable<Book> getAllBooks() {
+    public Set<Book> getAllBooks() {
 
         return books.keySet();
     }
