@@ -31,11 +31,13 @@ public class Librarian extends Person {
     }
 
     public Set<Book> getAllBooks() {
+        ifLibraryClosed();
         return library.getBookProvider().getAllBooks();
     }
 
     public Set<Book> getBooksByCategory(Category category) {
 
+        ifLibraryClosed();
         Set<Book> allBooks = getAllBooks();
 
         Set<Book> filteredBooks = new HashSet<>();
@@ -50,6 +52,8 @@ public class Librarian extends Person {
     }
 
     public Set<Book> getBooksByAuthor(String author) {
+
+        ifLibraryClosed();
         Set<Book> allBooks = getAllBooks();
 
         Set<Book> filteredBooks = new HashSet<>();
@@ -64,6 +68,8 @@ public class Librarian extends Person {
     }
 
     public Book lendBook(Customer customer, Book book) {
+
+        ifLibraryClosed();
         BookInfo bookInfo = library.getBookProvider().lendBook(book);
 
         Date bebinTime = new Date();
@@ -75,6 +81,7 @@ public class Librarian extends Person {
 
     public Set<Book> lendAllBooks(Customer customer, Set<Book> books) {
 
+        ifLibraryClosed();
         for (Book book : books) {
             lendBook(customer, book);
         }
@@ -83,11 +90,13 @@ public class Librarian extends Person {
 
     public void retrieveBook(Book book) {
 
+        ifLibraryClosed();
         library.getBookProvider().retrieveBook(book);
     }
 
     public void notifyAllCustomersWithBooks() {
 
+        ifLibraryClosed();
         BookProvider provider = library.getBookProvider();
 
         Set<Book> books = provider.getAllBooks();
@@ -98,6 +107,13 @@ public class Librarian extends Person {
                     entry.getCustomer().notifyAboutBook("Please, return book" + book);
                 }
             }
+        }
+    }
+
+    private void ifLibraryClosed() {
+
+        if (!library.isOpened()) {
+            throw new IllegalStateException("Library is closed( Come back later!");
         }
     }
 
