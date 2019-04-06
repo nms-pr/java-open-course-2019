@@ -13,7 +13,6 @@ public class Librarian extends Person {
     private LibraryForLibrarian library;
 
     public Librarian(Person self) {
-        super(self.getFirstName(), self.getLastName());
         this.self = self;
     }
 
@@ -74,5 +73,15 @@ public class Librarian extends Person {
     void retrieveBook(Book book) {
 
         library.getBookProvider().retrieveBook(book);
+    }
+
+    @Override
+    public String getFirstName() {
+        return self.getFirstName();
+    }
+
+    @Override
+    public String getLastName() {
+        return self.getLastName();
     }
 }

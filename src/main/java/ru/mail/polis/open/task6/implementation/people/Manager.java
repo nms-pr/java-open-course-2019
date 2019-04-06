@@ -12,7 +12,6 @@ public class Manager extends Person {
     private  LibraryForManager library;
 
     public Manager(Person self) {
-        super(self.getFirstName(), self.getLastName());
         this.self = self;
     }
 
@@ -60,5 +59,15 @@ public class Manager extends Person {
 
     public void closeLibrary() {
         library.close();
+    }
+
+    @Override
+    public String getFirstName() {
+        return self.getFirstName();
+    }
+
+    @Override
+    public String getLastName() {
+        return self.getLastName();
     }
 }
