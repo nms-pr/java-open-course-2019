@@ -48,7 +48,7 @@ public class Customer extends Person {
         Random r = new Random();
         Book bookToTake = books[r.nextInt(books.length)];
 
-        librarian.lendBook(bookToTake);
+        librarian.lendBook(null, bookToTake);
         this.books.add(bookToTake);
     }
 
@@ -58,6 +58,7 @@ public class Customer extends Person {
 
         books.addAll(
             librarian.lendAllBooks(
+                null,
                 librarian.getBooksByCategory(category)
             )
         );
@@ -69,6 +70,7 @@ public class Customer extends Person {
 
         books.addAll(
             librarian.lendAllBooks(
+                null,
                 librarian.getBooksByAuthor(author)
             )
         );

@@ -63,7 +63,7 @@ class ManagerTest {
 
         manager.addBook(book1);
         assertEquals(Set.of(book1), bookShelf.getAllBooks());
-        librarian.lendBook(book1);
+        librarian.lendBook(null, book1);
 
         assertThrows(NoSuchElementException.class, () -> manager.deleteBook(book1));
     }
@@ -97,7 +97,7 @@ class ManagerTest {
 
         manager.addBook(book1);
         assertEquals(Set.of(book1), bookShelf.getAllBooks());
-        librarian.lendBook(book1);
+        librarian.lendBook(null, book1);
 
         assertFalse(manager.deleteBookIfPresent(book1));
     }

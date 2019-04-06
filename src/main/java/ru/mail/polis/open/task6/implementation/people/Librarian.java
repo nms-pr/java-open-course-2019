@@ -1,13 +1,17 @@
 package ru.mail.polis.open.task6.implementation.people;
 
 import ru.mail.polis.open.task6.implementation.Book.Book;
+import ru.mail.polis.open.task6.implementation.Book.BookInfo;
 import ru.mail.polis.open.task6.implementation.Book.Category;
 import ru.mail.polis.open.task6.interfaces.LibraryForLibrarian;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
 public class Librarian extends Person {
+
+    private final long WEEK = 604800000;
 
     private final Person self;
     private LibraryForLibrarian library;
@@ -57,15 +61,20 @@ public class Librarian extends Person {
         return filteredBooks;
     }
 
-    Book lendBook(Book book) {
-        library.getBookProvider().lendBook(book);
+    Book lendBook(Customer customer, Book book) {
+        BookInfo bookInfo = library.getBookProvider().lendBook(book);
+
+        Date bebinTime = new Date();
+        Date endDate = new Date();
+        endDate.setTime(endDate.getTime() + WEEK);
+        bookInfo.addToHistory(customer, bebinTime, endDate);
         return book;
     }
 
-    Set<Book> lendAllBooks(Set<Book> books) {
+    Set<Book> lendAllBooks(Customer customer, Set<Book> books) {
 
         for (Book book : books) {
-            lendBook(book);
+            lendBook(customer, book);
         }
         return books;
     }

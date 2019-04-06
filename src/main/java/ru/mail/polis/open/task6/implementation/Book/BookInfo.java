@@ -11,12 +11,11 @@ import java.util.TreeSet;
 public class BookInfo {
 
     private int id;
-
     private int total;
-
     private int inStock;
     private Set<Integer> shelfPlaces;
     private List<HistoryEntry> history;
+
     public BookInfo(int id, int total, Set<Integer> shelfPlaces) {
 
         if (total <= 0) {

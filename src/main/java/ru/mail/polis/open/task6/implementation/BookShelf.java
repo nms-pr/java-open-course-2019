@@ -86,7 +86,7 @@ public class BookShelf implements BookProvider, BookStorage {
         return null;
     }
 
-    BookInfo getBookInfo(Book book) {
+    public BookInfo getBookInfo(Book book) {
         return books.get(book);
     }
 

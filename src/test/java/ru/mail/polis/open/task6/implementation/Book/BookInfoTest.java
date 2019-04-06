@@ -42,7 +42,7 @@ class BookInfoTest {
         assertEquals(0, bookInfo.getHistory().size());
 
         try {
-            Customer customer = new Customer(new Person("first", "last"));
+            Customer customer = new Customer(new Person("first", "last"), null);
             Date beginDate = dateFormat.parse("01/01/2019 12:00");
             Date endDate = dateFormat.parse("08/01/2019 12:00");
 
@@ -66,7 +66,7 @@ class BookInfoTest {
         BookInfo bookInfo = new BookInfo(1, 3, Set.of(1, 3, 5));
 
         try {
-            Customer customer = new Customer(new Person("first", "last"));
+            Customer customer = new Customer(new Person("first", "last"), null);
             Date beginDate = dateFormat.parse("08/01/2019 12:00");
             Date endDate = dateFormat.parse("01/01/2019 12:00");
 
