@@ -88,6 +88,7 @@ class BookInfoTest {
 
         assertEquals(Set.of(1, 3, 5, 2), bookInfo.getShelfPlaces());
         assertEquals(4, bookInfo.getInStock());
+        assertEquals(4, bookInfo.getTotal());
     }
 
     @Test
@@ -101,5 +102,106 @@ class BookInfoTest {
         BookInfo bookInfo = new BookInfo(1, 3, initialShelfPlaces);
 
         assertThrows(IllegalArgumentException.class, () -> bookInfo.onNewInstanceAdded(3));
+    }
+
+    @Test
+    void onInstanceRemoved_WorksCorrectly() {
+
+        Set<Integer> initialShelfPlaces = new HashSet<>();
+        initialShelfPlaces.add(1);
+        initialShelfPlaces.add(3);
+        initialShelfPlaces.add(5);
+        BookInfo bookInfo = new BookInfo(1, 3, initialShelfPlaces);
+
+        bookInfo.onInstanceRemoved(3);
+
+        assertEquals(Set.of(1, 5), bookInfo.getShelfPlaces());
+        assertEquals(2, bookInfo.getInStock());
+        assertEquals(2, bookInfo.getTotal());
+    }
+
+    @Test
+    void onInstanceRemoved_ThrowsWhenBookIsAbsentAtPlace() {
+
+        Set<Integer> initialShelfPlaces = new HashSet<>();
+        initialShelfPlaces.add(1);
+        initialShelfPlaces.add(3);
+        initialShelfPlaces.add(5);
+
+        BookInfo bookInfo = new BookInfo(1, 3, initialShelfPlaces);
+
+        assertThrows(IllegalArgumentException.class, () -> bookInfo.onInstanceRemoved(2));
+    }
+
+    @Test
+    void onInstanceLent_WorksCorrectly() {
+
+        Set<Integer> initialShelfPlaces = new HashSet<>();
+        initialShelfPlaces.add(1);
+        initialShelfPlaces.add(3);
+        initialShelfPlaces.add(5);
+        BookInfo bookInfo = new BookInfo(1, 3, initialShelfPlaces);
+
+        bookInfo.onInstanceLent(3);
+
+        assertEquals(Set.of(1, 5), bookInfo.getShelfPlaces());
+        assertEquals(2, bookInfo.getInStock());
+        assertEquals(3, bookInfo.getTotal());
+    }
+
+    @Test
+    void onInstanceLent_ThrowsWhenBookIAbsentAtPlace() {
+
+        Set<Integer> initialShelfPlaces = new HashSet<>();
+        initialShelfPlaces.add(1);
+        initialShelfPlaces.add(3);
+        initialShelfPlaces.add(5);
+
+        BookInfo bookInfo = new BookInfo(1, 3, initialShelfPlaces);
+
+        assertThrows(IllegalArgumentException.class, () -> bookInfo.onInstanceLent(2));
+    }
+
+    @Test
+    void onInstanceReturned_WorksCorrectly() {
+
+        Set<Integer> initialShelfPlaces = new HashSet<>();
+        initialShelfPlaces.add(1);
+        initialShelfPlaces.add(3);
+        initialShelfPlaces.add(5);
+        BookInfo bookInfo = new BookInfo(1, 3, initialShelfPlaces);
+
+        bookInfo.onInstanceLent(3);
+        bookInfo.onInstanceReturned(3);
+
+        assertEquals(Set.of(1, 3, 5), bookInfo.getShelfPlaces());
+        assertEquals(3, bookInfo.getInStock());
+        assertEquals(3, bookInfo.getTotal());
+    }
+
+    @Test
+    void onInstanceReturned_ThrowsWhenBookIsAlreadyPresentInPlace() {
+
+        Set<Integer> initialShelfPlaces = new HashSet<>();
+        initialShelfPlaces.add(1);
+        initialShelfPlaces.add(3);
+        initialShelfPlaces.add(5);
+
+        BookInfo bookInfo = new BookInfo(1, 3, initialShelfPlaces);
+
+        assertThrows(IllegalArgumentException.class, () -> bookInfo.onInstanceReturned(3));
+    }
+
+    @Test
+    void onInstanceReturned_ThrowsWhenBookWasNotTakenButReturned() {
+
+        Set<Integer> initialShelfPlaces = new HashSet<>();
+        initialShelfPlaces.add(1);
+        initialShelfPlaces.add(3);
+        initialShelfPlaces.add(5);
+
+        BookInfo bookInfo = new BookInfo(1, 3, initialShelfPlaces);
+
+        assertThrows(IllegalArgumentException.class, () -> bookInfo.onInstanceReturned(4));
     }
 }

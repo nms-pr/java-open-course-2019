@@ -10,17 +10,20 @@ import java.util.Set;
 public class BookInfo {
 
     private int id;
+
+    private int total;
+
     private int inStock;
     private Set<Integer> shelfPlaces;
     private List<HistoryEntry> history;
+    public BookInfo(int id, int total, Set<Integer> shelfPlaces) {
 
-    public BookInfo(int id, int inStock, Set<Integer> shelfPlaces) {
-
-        if (inStock != shelfPlaces.size()) {
+        if (total != shelfPlaces.size()) {
             throw new IllegalArgumentException("Quantity of books in stock should correspond to quantity of shelfPlaces");
         }
         this.id = id;
-        this.inStock = inStock;
+        this.total = total;
+        this.inStock = total;
         this.shelfPlaces = shelfPlaces;
         this.history = new ArrayList<>();
     }
@@ -33,6 +36,10 @@ public class BookInfo {
         return inStock;
     }
 
+    public int getTotal() {
+        return total;
+    }
+
     public Set<Integer> getShelfPlaces() {
         return Set.copyOf(shelfPlaces);
     }
@@ -40,8 +47,43 @@ public class BookInfo {
     public void onNewInstanceAdded(int shelfPlace) {
 
         if (shelfPlaces.contains(shelfPlace)) {
-            throw new IllegalArgumentException("Thi book is already present at this place");
+            throw new IllegalArgumentException("This book is already present at this place");
         }
+        shelfPlaces.add(shelfPlace);
+        inStock++;
+        total++;
+    }
+
+    public void onInstanceRemoved(int shelfPlace) {
+
+        if(!shelfPlaces.contains(shelfPlace)) {
+            throw new IllegalArgumentException("No such book present at this place");
+        }
+
+        shelfPlaces.remove(shelfPlace);
+        total--;
+        inStock--;
+    }
+
+    public void onInstanceLent(int shelfPlace) {
+
+        if (!shelfPlaces.contains(shelfPlace)) {
+            throw new IllegalArgumentException("No such book present at this place");
+        }
+        shelfPlaces.remove(shelfPlace);
+        inStock--;
+    }
+
+
+    public void onInstanceReturned(int shelfPlace) {
+        if (shelfPlaces.contains(shelfPlace)) {
+            throw new IllegalArgumentException("This book is already present at this place");
+        }
+
+        if (inStock + 1 > total) {
+            throw new IllegalArgumentException("This book was not lent yet, but already returned");
+        }
+
         shelfPlaces.add(shelfPlace);
         inStock++;
     }
