@@ -8,17 +8,24 @@ import java.util.NoSuchElementException;
 
 public class Manager extends Person {
 
-    private final Person himself;
-    private final LibraryForManager library;
+    private final Person self;
+    private  LibraryForManager library;
 
-    public Manager(Person himself, LibraryForManager library) {
-        super(himself.getFirstName(), himself.getLastName());
-        this.himself = himself;
+    public Manager(Person self) {
+        super(self.getFirstName(), self.getLastName());
+        this.self = self;
+    }
+
+    public void assignToLibrary(LibraryForManager library) {
         this.library = library;
     }
 
-    public void addBook(Book book) {
+    public Person getSelf() {
+        return self;
+    }
 
+    public void addBook(Book book) {
+        library.getBookStorage().addBook(book);
     }
 
     public void addBook(String name, String author, Category category) {
@@ -36,10 +43,22 @@ public class Manager extends Person {
     }
 
     public boolean deleteBookIfPresent(Book book) {
-
+        try {
+            return library.getBookStorage().removeBook(book);
+        } catch (NoSuchElementException e) {
+            return false;
+        }
     }
 
     public boolean deleteBookIfPresent(String name, String author, Category category) {
-        deleteBook(new Book(name, author, category));
+        return deleteBookIfPresent(new Book(name, author, category));
+    }
+
+    public void openLibrary() {
+        library.open();
+    }
+
+    public void closeLibrary() {
+        library.close();
     }
 }
