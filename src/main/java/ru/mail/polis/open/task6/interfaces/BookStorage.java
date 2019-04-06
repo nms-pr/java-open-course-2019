@@ -1,7 +1,9 @@
 package ru.mail.polis.open.task6.interfaces;
 
+import ru.mail.polis.open.task6.implementation.Book.Book;
+
 public interface BookStorage {
 
-    void addBook();
-    void deleteBook();
+    void addBook(Book book);
+    boolean removeBook(Book book);
 }
