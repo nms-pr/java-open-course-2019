@@ -1,9 +1,14 @@
-package ru.mail.polis.open.task6.LibraryOffice;
+package ru.mail.polis.open.task6.office;
 
 import ru.mail.polis.open.task6.Genres;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.ArrayList;
+import java.util.Iterator;
+
+
 
 class LibraryStorage {
 
@@ -94,5 +99,38 @@ class LibraryStorage {
         } else {
             throw new IllegalArgumentException();
         }
+    }
+
+    public List<Book> getBooksForGenre(List<Genres> wantedGenres) {
+        List<Book> suitableBooks = new ArrayList<>();
+        for (Genres genre: wantedGenres) {
+            suitableBooks.add(bookStorage.get(genre));
+        }
+        return suitableBooks;
+    }
+
+    public List<Book> getBooksForName(List<String> wantedBookNames) {
+        List<Book> suitableBooks = new ArrayList<>();
+        Book currentBook;
+        Iterator storageIterator = bookStorage.entrySet().iterator();
+        while (storageIterator.hasNext()) {
+            Map.Entry bookInStorage = (Map.Entry) storageIterator.next();
+            currentBook = (Book) bookInStorage.getValue();
+            if (wantedBookNames.contains(currentBook.getName())) {
+                suitableBooks.add(currentBook);
+            }
+        }
+        return suitableBooks;
+    }
+
+    public List<Book> getBooksForGenreAndName(List<String> wantedBookNames, List<Genres> wantedGenres) {
+        List<Book> suitableBooks;
+        suitableBooks = getBooksForGenre(wantedGenres);
+        for (Book currentBook: suitableBooks) {
+            if (wantedBookNames.contains(currentBook.getName())) {
+                suitableBooks.add(currentBook);
+            }
+        }
+        return suitableBooks;
     }
 }

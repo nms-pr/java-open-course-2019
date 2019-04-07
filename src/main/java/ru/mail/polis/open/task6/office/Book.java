@@ -1,4 +1,4 @@
-package ru.mail.polis.open.task6.LibraryOffice;
+package ru.mail.polis.open.task6.office;
 
 import ru.mail.polis.open.task6.Genres;
 
@@ -51,4 +51,23 @@ class Book {
         return genre;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Book book = (Book) o;
+        return place == book.place
+            && name.equals(book.name)
+            && genre == book.genre;
+    }
+
+    @Override
+    public int hashCode() {
+        return (31 * Integer.valueOf(name) + place)
+            * Integer.valueOf(String.valueOf(genre));
+    }
 }
