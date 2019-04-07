@@ -94,7 +94,7 @@ public class Customer extends Person {
 
     public void readBooks() {
 
-        books.forEach(book -> System.out.println(book.toString()));
+        books.forEach(book -> System.out.println(book + ". What a nice book!"));
     }
 
     public void retrieveBook(Book book) {
