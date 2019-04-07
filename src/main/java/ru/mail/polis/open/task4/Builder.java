@@ -4,6 +4,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.EmptyStackException;
 import java.util.Stack;
+import java.util.regex.Pattern;
 
 public class Builder implements ExprBuilder {
 
@@ -25,21 +26,23 @@ public class Builder implements ExprBuilder {
     private static final int MIN_DISTANCE_BETWEEN_BRACKETS = 3;
     private static final int MIN_DISTANCE_BETWEEN_BRACKET_EXPR = 2;
     private static final int LAST_CLOSING_BRACKET_START_POS = -2;
-    private static final String LEADING_MINUS_REPLACEMENT = "0" + String.valueOf(SUBSTR_OPERAND);
-    private static final String CONST_REGEX = String.valueOf(SUBSTR_OPERAND) + "?\\d+";
+    private static final String LEADING_MINUS_REPLACEMENT = "0" + SUBSTR_OPERAND;
+    private static final Pattern CONST_REGEX = Pattern.compile(SUBSTR_OPERAND + "?\\d+");
     private static final String BRACKETS_REGEX = "["
-            + String.valueOf(CLOSING_BRACKET)
-            + String.valueOf(OPENING_BRACKET)
+            + CLOSING_BRACKET
+            + OPENING_BRACKET
             + "]";
-    private static final String CORRECT_INPUT_REGEX = "[\\d"
-            + String.valueOf(SUBSTR_OPERAND)
-            + String.valueOf(MULT_OPERAND)
-            + String.valueOf(DIV_OPERAND)
-            + String.valueOf(ADD_OPERAND)
-            + String.valueOf(POW_OPERAND)
-            + String.valueOf(CLOSING_BRACKET)
-            + String.valueOf(OPENING_BRACKET)
-            + "]+";
+    private static final Pattern CORRECT_INPUT_REGEX = Pattern.compile(
+            "[\\d"
+            + SUBSTR_OPERAND
+            + MULT_OPERAND
+            + DIV_OPERAND
+            + ADD_OPERAND
+            + POW_OPERAND
+            + CLOSING_BRACKET
+            + OPENING_BRACKET
+            + "]+"
+    );
 
     private boolean bracketsCheckedAndCorrect = false;
     private boolean firstIteration = true;
@@ -58,10 +61,10 @@ public class Builder implements ExprBuilder {
         if (spacelessInput.startsWith(String.valueOf(SUBSTR_OPERAND))) {
             spacelessInput = spacelessInput.replaceFirst(String.valueOf(SUBSTR_OPERAND), LEADING_MINUS_REPLACEMENT);
         }
-        if (spacelessInput.matches(CONST_REGEX)) {
+        if (CONST_REGEX.matcher(spacelessInput).matches()) {
             return new Const(Integer.parseInt(spacelessInput.replaceAll(BRACKETS_REGEX, "")));
         }
-        if (!spacelessInput.matches(CORRECT_INPUT_REGEX)) {
+        if (!CORRECT_INPUT_REGEX.matcher(spacelessInput).matches()) {
             throw new IllegalArgumentException(ERROR_MESSAGE);
         }
         boolean wholeExpressionInBrackets = false;
