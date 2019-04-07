@@ -172,7 +172,7 @@ class BookShelfTest {
     }
 
     @Test
-    void retrieveBook() {
+    void retrieveBook_WorksCorrectly() {
 
         Book book = new Book("n1", "a1", Category.PROGRAMMING);
         bookShelf.addBook(book);
@@ -181,5 +181,14 @@ class BookShelfTest {
         bookShelf.retrieveBook(book);
 
         assertEquals(Set.of(book), bookShelf.getAllBooks());
+        assertEquals(1, bookShelf.getBookInfo(book).getInStock());
+    }
+
+    @Test
+    void retrieveBook_ThrowsWhenBookIsNotFoundInLibrary() {
+
+        Book book = new Book("n1", "a1", Category.PROGRAMMING);
+
+        assertThrows(NoSuchElementException.class, () -> bookShelf.retrieveBook(book));
     }
 }

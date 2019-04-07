@@ -85,7 +85,16 @@ public class BookShelf implements BookProvider, BookStorage {
 
     @Override
     public BookInfo retrieveBook(Book book) {
-        return null;
+
+        if (!books.containsKey(book)) {
+            throw new NoSuchElementException("No such book in bookshelf");
+        }
+
+        BookInfo bookInfo = books.get(book);
+
+        bookInfo.onInstanceReturned(findLowestShelfPlace());
+
+        return bookInfo;
     }
 
     @Override

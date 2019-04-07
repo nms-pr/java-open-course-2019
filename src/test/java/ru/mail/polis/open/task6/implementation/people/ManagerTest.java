@@ -27,6 +27,7 @@ class ManagerTest {
         library = new Library(bookShelf, manager, librarian);
         librarian.assignToLibrary(library);
         manager.assignToLibrary(library);
+        library.open();
     }
 
     @Test
@@ -115,6 +116,10 @@ class ManagerTest {
     @Test
     void openLibrary() {
 
+        if (library.isOpened()) {
+            library.close();
+        }
+
         manager.openLibrary();
 
         assertTrue(library.isOpened());
@@ -123,8 +128,10 @@ class ManagerTest {
     @Test
     void closeLibrary() {
 
-        manager.openLibrary();
-        assertTrue(library.isOpened());
+        if (!library.isOpened()) {
+            library.open();
+        }
+
         manager.closeLibrary();
 
         assertFalse(library.isOpened());

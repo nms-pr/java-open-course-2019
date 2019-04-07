@@ -28,6 +28,8 @@ class LibrarianTest {
         Library library = new Library(bookShelf, new Manager(new Person("name", "surname")), librarian);
         librarian.assignToLibrary(library);
 
+        library.open();
+
         book1 = new Book("n1", "a1", Category.PROGRAMMING);
         book2 = new Book("n1", "a1", Category.PROGRAMMING);
         book3 = new Book("n2", "a2", Category.PROGRAMMING);
