@@ -32,29 +32,67 @@ class LibraryStorage {
     private boolean isOpen;
     private HashMap<Genres, Book> bookStorage;
 
+    LibraryStorage(HashMap<Genres, Book> bookStorage) {
+        this.bookStorage = bookStorage;
+    }
+
     boolean isOpen() {
         return isOpen;
     }
 
-    void setOpen(boolean open) {
-        isOpen = open;
+    void setOpen() {
+        isOpen = true;
+    }
+
+    void setClosed() {
+        isOpen = false;
     }
 
     boolean putBook(Book book) {
         if (book != null) {
             bookStorage.put(book.getGenre(), book);
             return true;
+        } else {
+            throw new IllegalArgumentException();
         }
-        return false;
     }
 
     boolean putBook(List<Book> bookList) {
-        for (Book currentBook: bookList) {
-            if (putBook(currentBook)) {
-                continue;
+        if (bookList != null) {
+            for (Book currentBook: bookList) {
+                if (putBook(currentBook)) {
+                    continue;
+                }
+                return false;
             }
-            return false;
+            return true;
+        } else {
+            throw new IllegalArgumentException();
         }
-        return true;
+
+    }
+
+    boolean removeBook(Book book) {
+        if (book != null) {
+            bookStorage.remove(book.getGenre(), book);
+            return true;
+        } else {
+            throw new IllegalArgumentException();
+        }
+
+    }
+
+    boolean removeBook(List<Book> bookList) {
+        if (bookList != null) {
+            for (Book book: bookList) {
+                if (removeBook(book)) {
+                    continue;
+                }
+                return false;
+            }
+            return true;
+        } else {
+            throw new IllegalArgumentException();
+        }
     }
 }
