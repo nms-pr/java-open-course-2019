@@ -99,7 +99,7 @@ public class Customer extends Person {
 
     public void retrieveBook(Book book) {
 
-        library.getLibrarian().retrieveBook(book);
+        library.getLibrarian().retrieveBook(this, book);
     }
 
     public void retrieveAllBooks() {

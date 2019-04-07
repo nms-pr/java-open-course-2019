@@ -9,6 +9,7 @@ import ru.mail.polis.open.task6.interfaces.LibraryForLibrarian;
 
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class Librarian extends Person {
@@ -88,10 +89,20 @@ public class Librarian extends Person {
         return books;
     }
 
-    public void retrieveBook(Book book) {
+    public void retrieveBook(Customer customer, Book book) {
 
         ifLibraryClosed();
-        library.getBookProvider().retrieveBook(book);
+        List<HistoryEntry> history =  library.getBookProvider().retrieveBook(book).getHistory();
+
+        for (HistoryEntry entry: history) {
+            if (entry.getCustomer().equals(customer)) {
+
+                entry.doReturn();
+                return;
+            }
+        }
+
+        throw new IllegalArgumentException("You have not borrowed this book");
     }
 
     public void notifyAllCustomersWithBooks() {
