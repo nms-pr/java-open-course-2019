@@ -13,7 +13,7 @@ import java.util.Set;
 
 public class Librarian extends Person {
 
-    private final long WEEK = 604800000;
+    private static final long WEEK = 604800000;
 
     private final Person self;
     private LibraryForLibrarian library;
@@ -104,7 +104,7 @@ public class Librarian extends Person {
         for (Book book : books) {
             for (HistoryEntry entry : provider.getBookInfo(book).getHistory()) {
                 if (!entry.isReturned()) {
-                    entry.getCustomer().notifyAboutBook("Please, return book" + book);
+                    entry.getCustomer().notifyAboutBook("Dear " + entry.getCustomer() + "! Please, return book " + book);
                 }
             }
         }
@@ -125,5 +125,10 @@ public class Librarian extends Person {
     @Override
     public String getLastName() {
         return self.getLastName();
+    }
+
+    @Override
+    public String toString() {
+        return "librarian" + self.toString();
     }
 }

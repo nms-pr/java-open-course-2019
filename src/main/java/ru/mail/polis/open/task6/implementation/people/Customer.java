@@ -7,6 +7,7 @@ import ru.mail.polis.open.task6.interfaces.LibraryForCustomer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 public class Customer extends Person {
 
@@ -40,6 +41,11 @@ public class Customer extends Person {
         System.out.println(message);
     }
 
+    public void takeBook(Book book) {
+
+        this.books.add(library.getLibrarian().lendBook(this, book));
+    }
+
     public void takeAnyBook() {
 
         Librarian librarian = library.getLibrarian();
@@ -48,37 +54,47 @@ public class Customer extends Person {
         Random r = new Random();
         Book bookToTake = books[r.nextInt(books.length)];
 
-        librarian.lendBook(null, bookToTake);
+        librarian.lendBook(this, bookToTake);
         this.books.add(bookToTake);
     }
 
-    public void takeBookByCategory(Category category) {
+    public void takeBooksByCategory(Category category) {
 
         Librarian librarian = library.getLibrarian();
 
         books.addAll(
             librarian.lendAllBooks(
-                null,
+                this,
                 librarian.getBooksByCategory(category)
             )
         );
     }
 
-    public void takeBookByAuthor(String author) {
+    public void takeBooksByAuthor(String author) {
 
         Librarian librarian = library.getLibrarian();
 
         books.addAll(
             librarian.lendAllBooks(
-                null,
+                this,
                 librarian.getBooksByAuthor(author)
             )
         );
     }
 
+    public Set<Book> getBooksByCategory(Category category) {
+
+        return library.getLibrarian().getBooksByCategory(category);
+    }
+
+    public Set<Book> getBooksByAuthor(String author) {
+
+        return library.getLibrarian().getBooksByAuthor(author);
+    }
+
     public void readBooks() {
 
-        books.forEach(book -> System.out.println(book.toString() + "\n\n"));
+        books.forEach(book -> System.out.println(book.toString()));
     }
 
     public void retrieveBook(Book book) {
@@ -92,5 +108,10 @@ public class Customer extends Person {
             retrieveBook(book);
         }
         books.clear();
+    }
+
+    @Override
+    public String toString() {
+        return "customer "  + self.toString();
     }
 }

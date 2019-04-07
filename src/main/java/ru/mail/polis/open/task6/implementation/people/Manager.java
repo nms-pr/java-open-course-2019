@@ -70,4 +70,9 @@ public class Manager extends Person {
     public String getLastName() {
         return self.getLastName();
     }
+
+    @Override
+    public String toString() {
+        return "Manager " + self.toString();
+    }
 }
