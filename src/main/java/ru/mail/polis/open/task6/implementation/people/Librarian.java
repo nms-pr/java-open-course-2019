@@ -33,7 +33,18 @@ public class Librarian extends Person {
 
     public Set<Book> getAllBooks() {
         ifLibraryClosed();
-        return library.getBookProvider().getAllBooks();
+
+        Set<Book> allBooks = library.getBookProvider().getAllBooks();
+
+        Set<Book> filteredBooks = new HashSet<>();
+
+        allBooks.forEach(book -> {
+            if (library.getBookProvider().getBookInfo(book).getInStock() > 0) {
+                filteredBooks.add(book);
+            }
+        });
+
+        return filteredBooks;
     }
 
     public Set<Book> getBooksByCategory(Category category) {
@@ -44,7 +55,8 @@ public class Librarian extends Person {
         Set<Book> filteredBooks = new HashSet<>();
 
         allBooks.forEach(book -> {
-            if (book.getCategory() == category) {
+            if (book.getCategory() == category
+                && library.getBookProvider().getBookInfo(book).getInStock() > 0) {
                 filteredBooks.add(book);
             }
         });
@@ -60,7 +72,8 @@ public class Librarian extends Person {
         Set<Book> filteredBooks = new HashSet<>();
 
         allBooks.forEach(book -> {
-            if (book.getAuthor().equals(author)) {
+            if (book.getAuthor().equals(author)
+                && library.getBookProvider().getBookInfo(book).getInStock() > 0) {
                 filteredBooks.add(book);
             }
         });
@@ -92,9 +105,9 @@ public class Librarian extends Person {
     public void retrieveBook(Customer customer, Book book) {
 
         ifLibraryClosed();
-        List<HistoryEntry> history =  library.getBookProvider().retrieveBook(book).getHistory();
+        List<HistoryEntry> history = library.getBookProvider().retrieveBook(book).getHistory();
 
-        for (HistoryEntry entry: history) {
+        for (HistoryEntry entry : history) {
             if (entry.getCustomer().equals(customer)) {
 
                 entry.doReturn();

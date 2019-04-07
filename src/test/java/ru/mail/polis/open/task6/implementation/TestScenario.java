@@ -1,5 +1,6 @@
 package ru.mail.polis.open.task6.implementation;
 
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import ru.mail.polis.open.task6.implementation.Book.Book;
@@ -9,10 +10,12 @@ import ru.mail.polis.open.task6.implementation.people.Librarian;
 import ru.mail.polis.open.task6.implementation.people.Manager;
 import ru.mail.polis.open.task6.implementation.people.Person;
 
+import java.io.ByteArrayOutputStream;
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestScenario {
 
@@ -20,6 +23,17 @@ public class TestScenario {
     private static Librarian librarian;
     private static Library library;
     private static BookShelf bookShelf;
+
+    private static OutputStream defaultOutputStream;
+    private static ByteArrayOutputStream testOutputStream;
+
+    @BeforeAll
+    static void initializeUtils() {
+
+        testOutputStream = new ByteArrayOutputStream();
+        defaultOutputStream = System.out;
+        System.setOut(new PrintStream(testOutputStream));
+    }
 
     @BeforeAll
     static void init() {
@@ -53,6 +67,7 @@ public class TestScenario {
         customer1.retrieveAllBooks();
         checkForFirstBooks();
 
+        checkWhetherSomethingIsWrittenToOutputStream();
 
         // О, хочу о паттернах и о C#!
         Set<Book> books = customer1.getBooksByAuthor("Ayn Rand");
@@ -77,8 +92,12 @@ public class TestScenario {
         // Никто не забыл сдать книги?
         librarian.notifyAllCustomersWithBooks();
 
+        checkWhetherSomethingIsWrittenToOutputStream();
+
         //Надо быстро дочитать, пока по шапке не надавали
         customer1.readBooks();
+
+        checkWhetherSomethingIsWrittenToOutputStream();
 
         customer1.retrieveAllBooks();
 
@@ -100,6 +119,7 @@ public class TestScenario {
         }
 
         librarian.notifyAllCustomersWithBooks();
+        checkWhetherSomethingIsWrittenToOutputStream();
 
         // Просрочил книгу, но не хочешь связываться с библиотекарем?
         // Превысь свои должностные полномочия и сам стань библиотекарем!
@@ -142,11 +162,28 @@ public class TestScenario {
         manager.openLibrary();
 
         librarian.notifyAllCustomersWithBooks();
+        checkWhetherSomethingIsWrittenToOutputStream();
 
         customer1.retrieveAllBooks();
         checkForFirstBooks();
 
+        manager.deleteBook("Atlas Shrugged",
+            "Ayn Rand",
+            Category.FICTION
+        );
+
+        assertEquals(
+            2,
+            bookShelf.getBookInfo(new Book("Atlas Shrugged",
+                "Ayn Rand",
+                Category.FICTION)).getTotal());
+
         // Жизнь продолжается ...
+    }
+
+    private void checkWhetherSomethingIsWrittenToOutputStream() {
+        assertTrue(testOutputStream.size() > 0);
+        testOutputStream.reset();
     }
 
     private void checkForFirstBooks() {
@@ -289,5 +326,10 @@ public class TestScenario {
                 Category.HISTORY
             )
         );
+    }
+
+    @AfterAll
+    static void revertAllChanges() {
+        System.setOut(new PrintStream(defaultOutputStream));
     }
 }
