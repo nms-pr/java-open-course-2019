@@ -3,8 +3,8 @@ package ru.mail.polis.open.task6.implementation;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import ru.mail.polis.open.task6.implementation.Book.Book;
-import ru.mail.polis.open.task6.implementation.Book.Category;
+import ru.mail.polis.open.task6.implementation.book.Book;
+import ru.mail.polis.open.task6.implementation.book.Category;
 import ru.mail.polis.open.task6.implementation.people.Customer;
 import ru.mail.polis.open.task6.implementation.people.Librarian;
 import ru.mail.polis.open.task6.implementation.people.Manager;
@@ -15,7 +15,9 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TestScenario {
 
@@ -82,7 +84,7 @@ public class TestScenario {
         }
 
         // Пока первый смотрит UMLки, у нас новый посетитель
-        Customer customer2 = new Customer(new Person("NotVova", "NotVovovich"), library); // надо все-таки начинать гуглить имена и фамилии
+        Customer customer2 = new Customer(new Person("NotVova", "NotVovovich"), library);
 
         customer2.takeAnyBook();
 

@@ -1,4 +1,4 @@
-package ru.mail.polis.open.task6.implementation.Book;
+package ru.mail.polis.open.task6.implementation.book;
 
 import ru.mail.polis.open.task6.implementation.people.Customer;
 
@@ -41,12 +41,16 @@ public class HistoryEntry {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         HistoryEntry that = (HistoryEntry) o;
-        return Objects.equals(customer, that.customer) &&
-            Objects.equals(beginDate, that.beginDate) &&
-            Objects.equals(endDate, that.endDate);
+        return Objects.equals(customer, that.customer)
+            && Objects.equals(beginDate, that.beginDate)
+            && Objects.equals(endDate, that.endDate);
     }
 
     @Override

@@ -1,4 +1,4 @@
-package ru.mail.polis.open.task6.implementation.Book;
+package ru.mail.polis.open.task6.implementation.book;
 
 import ru.mail.polis.open.task6.implementation.people.Customer;
 
@@ -23,7 +23,9 @@ public class BookInfo {
         }
 
         if (total != shelfPlaces.size()) {
-            throw new IllegalArgumentException("Quantity of books in stock should correspond to quantity of shelfPlaces");
+            throw new IllegalArgumentException(
+                "Quantity of books in stock should correspond to quantity of shelfPlaces"
+            );
         }
 
         this.id = id;
@@ -61,7 +63,7 @@ public class BookInfo {
 
     public void onInstanceRemoved(int shelfPlace) {
 
-        if(!shelfPlaces.contains(shelfPlace)) {
+        if (!shelfPlaces.contains(shelfPlace)) {
             throw new IllegalArgumentException("No such book present at this place");
         }
 

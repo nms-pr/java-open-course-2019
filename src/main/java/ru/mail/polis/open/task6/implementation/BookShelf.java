@@ -1,11 +1,15 @@
 package ru.mail.polis.open.task6.implementation;
 
-import ru.mail.polis.open.task6.implementation.Book.Book;
-import ru.mail.polis.open.task6.implementation.Book.BookInfo;
+import ru.mail.polis.open.task6.implementation.book.Book;
+import ru.mail.polis.open.task6.implementation.book.BookInfo;
 import ru.mail.polis.open.task6.interfaces.BookProvider;
 import ru.mail.polis.open.task6.interfaces.BookStorage;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.NoSuchElementException;
+import java.util.Set;
 
 public class BookShelf implements BookProvider, BookStorage {
 

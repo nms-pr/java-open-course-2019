@@ -1,12 +1,11 @@
 package ru.mail.polis.open.task6.implementation;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import ru.mail.polis.open.task6.implementation.people.Librarian;
 import ru.mail.polis.open.task6.implementation.people.Manager;
 import ru.mail.polis.open.task6.implementation.people.Person;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class LibraryTest {
 
@@ -25,22 +24,22 @@ class LibraryTest {
 
     @Test
     void getManager() {
-        assertEquals(manager, library.getManager());
+        Assertions.assertEquals(manager, library.getManager());
     }
 
     @Test
     void getLibrarian() {
-        assertEquals(librarian, library.getLibrarian());
+        Assertions.assertEquals(librarian, library.getLibrarian());
     }
 
     @Test
     void getBookProvider() {
-        assertEquals(bookShelf, library.getBookProvider());
+        Assertions.assertEquals(bookShelf, library.getBookProvider());
     }
 
     @Test
     void getBookStorage() {
-        assertEquals(bookShelf, library.getBookStorage());
+        Assertions.assertEquals(bookShelf, library.getBookStorage());
     }
 
 
@@ -52,7 +51,7 @@ class LibraryTest {
 
         library.open();
 
-        assertTrue(library.isOpened());
+        Assertions.assertTrue(library.isOpened());
     }
 
     @Test
@@ -64,9 +63,9 @@ class LibraryTest {
 
         library.open();
 
-        assertTrue(library.isOpened());
+        Assertions.assertTrue(library.isOpened());
 
-        assertThrows(IllegalStateException.class, ()-> library.open());
+        Assertions.assertThrows(IllegalStateException.class, () -> library.open());
     }
 
     @Test
@@ -88,9 +87,9 @@ class LibraryTest {
 
         library.close();
 
-        assertFalse(library.isOpened());
+        Assertions.assertFalse(library.isOpened());
 
-        assertThrows(IllegalStateException.class, ()-> library.close());
+        Assertions.assertThrows(IllegalStateException.class, () -> library.close());
     }
 
 }

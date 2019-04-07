@@ -2,14 +2,14 @@ package ru.mail.polis.open.task6.implementation.people;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import ru.mail.polis.open.task6.implementation.Book.Book;
-import ru.mail.polis.open.task6.implementation.Book.Category;
+import ru.mail.polis.open.task6.implementation.book.Book;
+import ru.mail.polis.open.task6.implementation.book.Category;
 import ru.mail.polis.open.task6.implementation.BookShelf;
 import ru.mail.polis.open.task6.implementation.Library;
 
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class LibrarianTest {
 

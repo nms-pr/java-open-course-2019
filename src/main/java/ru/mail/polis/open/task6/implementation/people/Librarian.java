@@ -1,9 +1,9 @@
 package ru.mail.polis.open.task6.implementation.people;
 
-import ru.mail.polis.open.task6.implementation.Book.Book;
-import ru.mail.polis.open.task6.implementation.Book.BookInfo;
-import ru.mail.polis.open.task6.implementation.Book.Category;
-import ru.mail.polis.open.task6.implementation.Book.HistoryEntry;
+import ru.mail.polis.open.task6.implementation.book.Book;
+import ru.mail.polis.open.task6.implementation.book.BookInfo;
+import ru.mail.polis.open.task6.implementation.book.Category;
+import ru.mail.polis.open.task6.implementation.book.HistoryEntry;
 import ru.mail.polis.open.task6.interfaces.BookProvider;
 import ru.mail.polis.open.task6.interfaces.LibraryForLibrarian;
 
@@ -128,7 +128,9 @@ public class Librarian extends Person {
         for (Book book : books) {
             for (HistoryEntry entry : provider.getBookInfo(book).getHistory()) {
                 if (!entry.isReturned()) {
-                    entry.getCustomer().notifyAboutBook("Dear " + entry.getCustomer() + "! Please, return book " + book);
+                    entry.getCustomer().notifyAboutBook(
+                        "Dear " + entry.getCustomer() + "! Please, return book " + book
+                    );
                 }
             }
         }

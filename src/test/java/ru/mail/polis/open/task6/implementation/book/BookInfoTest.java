@@ -1,4 +1,4 @@
-package ru.mail.polis.open.task6.implementation.Book;
+package ru.mail.polis.open.task6.implementation.book;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -13,7 +13,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.fail;
 
 class BookInfoTest {
 
@@ -70,7 +72,7 @@ class BookInfoTest {
             Date beginDate = dateFormat.parse("08/01/2019 12:00");
             Date endDate = dateFormat.parse("01/01/2019 12:00");
 
-            assertThrows(IllegalArgumentException.class, ()-> bookInfo.addToHistory(customer, beginDate, endDate));
+            assertThrows(IllegalArgumentException.class, () -> bookInfo.addToHistory(customer, beginDate, endDate));
 
         } catch (ParseException e) {
             fail(e.getMessage());

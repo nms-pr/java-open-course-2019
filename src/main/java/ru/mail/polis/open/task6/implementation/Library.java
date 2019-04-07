@@ -2,7 +2,11 @@ package ru.mail.polis.open.task6.implementation;
 
 import ru.mail.polis.open.task6.implementation.people.Librarian;
 import ru.mail.polis.open.task6.implementation.people.Manager;
-import ru.mail.polis.open.task6.interfaces.*;
+import ru.mail.polis.open.task6.interfaces.BookProvider;
+import ru.mail.polis.open.task6.interfaces.BookStorage;
+import ru.mail.polis.open.task6.interfaces.LibraryForCustomer;
+import ru.mail.polis.open.task6.interfaces.LibraryForLibrarian;
+import ru.mail.polis.open.task6.interfaces.LibraryForManager;
 
 public class Library implements LibraryForCustomer, LibraryForLibrarian, LibraryForManager {
 

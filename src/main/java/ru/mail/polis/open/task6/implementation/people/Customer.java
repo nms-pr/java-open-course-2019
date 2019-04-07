@@ -1,7 +1,7 @@
 package ru.mail.polis.open.task6.implementation.people;
 
-import ru.mail.polis.open.task6.implementation.Book.Book;
-import ru.mail.polis.open.task6.implementation.Book.Category;
+import ru.mail.polis.open.task6.implementation.book.Book;
+import ru.mail.polis.open.task6.implementation.book.Category;
 import ru.mail.polis.open.task6.interfaces.LibraryForCustomer;
 
 import java.util.ArrayList;

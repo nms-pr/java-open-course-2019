@@ -1,7 +1,7 @@
 package ru.mail.polis.open.task6.implementation.people;
 
-import ru.mail.polis.open.task6.implementation.Book.Book;
-import ru.mail.polis.open.task6.implementation.Book.Category;
+import ru.mail.polis.open.task6.implementation.book.Book;
+import ru.mail.polis.open.task6.implementation.book.Category;
 import ru.mail.polis.open.task6.interfaces.LibraryForManager;
 
 import java.util.NoSuchElementException;
@@ -32,7 +32,7 @@ public class Manager extends Person {
     }
 
     public void deleteBook(Book book) {
-        if(!deleteBookIfPresent(book)) {
+        if (!deleteBookIfPresent(book)) {
             throw new NoSuchElementException("No such book in library: " + book);
         }
     }
