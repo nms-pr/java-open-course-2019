@@ -5,11 +5,20 @@ import ru.mail.polis.open.task6.implementation.people.Customer;
 import java.util.Date;
 import java.util.Objects;
 
+/**
+ * Data class that stores information about book borrowing
+ */
 public class HistoryEntry {
 
+    // Who borrowed
     private Customer customer;
+
+    // When borrowed
     private Date beginDate;
+
+    // When customer has to return book
     private Date endDate;
+
     private boolean isReturned;
 
     public HistoryEntry(Customer customer, Date beginDate, Date endDate) {

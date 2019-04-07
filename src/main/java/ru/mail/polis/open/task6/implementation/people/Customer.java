@@ -9,6 +9,10 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
+/**
+ * Person, who can take books from library
+ * Works as wrapper around Person class
+ */
 public class Customer extends Person {
 
     private Person self;
@@ -36,16 +40,29 @@ public class Customer extends Person {
         return self.getLastName();
     }
 
-    public void notifyAboutBook(String message) {
+    /**
+     * Invoked when librarian has to notify customer that books were not returned
+     *
+     * @param message - message from librarian
+     */
+    void notifyAboutBook(String message) {
 
         System.out.println(message);
     }
 
+    /**
+     * Take book from library
+     *
+     * @param book - book to take
+     */
     public void takeBook(Book book) {
 
         this.books.add(library.getLibrarian().lendBook(this, book));
     }
 
+    /**
+     * Take random book from libraty
+     */
     public void takeAnyBook() {
 
         Librarian librarian = library.getLibrarian();
@@ -58,6 +75,10 @@ public class Customer extends Person {
         this.books.add(bookToTake);
     }
 
+    /**
+     * Take all books that match specified Category
+     * @param category - category
+     */
     public void takeBooksByCategory(Category category) {
 
         Librarian librarian = library.getLibrarian();
@@ -70,6 +91,11 @@ public class Customer extends Person {
         );
     }
 
+    /**
+     * Take all books that match specified author
+     *
+     * @param author - author
+     */
     public void takeBooksByAuthor(String author) {
 
         Librarian librarian = library.getLibrarian();
@@ -82,11 +108,21 @@ public class Customer extends Person {
         );
     }
 
+    /**
+     * Returns filtered set of books
+     *
+     * @return set of books filtered by category
+     */
     public Set<Book> getBooksByCategory(Category category) {
 
         return library.getLibrarian().getBooksByCategory(category);
     }
 
+    /**
+     * Returns filtered set of books
+     *
+     * @return set of books filtered by author
+     */
     public Set<Book> getBooksByAuthor(String author) {
 
         return library.getLibrarian().getBooksByAuthor(author);
@@ -97,11 +133,23 @@ public class Customer extends Person {
         books.forEach(book -> System.out.println(book + ". What a nice book!"));
     }
 
+    /**
+     * Returns book to library
+     *
+     * @param book - book to return
+     */
     public void retrieveBook(Book book) {
+
+        if (!books.contains(book)) {
+            throw new IllegalArgumentException("This book does not belong to this customer");
+        }
 
         library.getLibrarian().retrieveBook(this, book);
     }
 
+    /**
+     * Returns all books to library
+     */
     public void retrieveAllBooks() {
 
         for (Book book : books) {

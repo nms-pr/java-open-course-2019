@@ -169,7 +169,7 @@ public class TestScenario {
         customer1.retrieveAllBooks();
         checkForFirstBooks();
 
-        manager.deleteBook("Atlas Shrugged",
+        manager.removeBook("Atlas Shrugged",
             "Ayn Rand",
             Category.FICTION
         );

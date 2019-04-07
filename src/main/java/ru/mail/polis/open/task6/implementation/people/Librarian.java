@@ -12,9 +12,15 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+
+/**
+ * Person, who can lend and retrieve books and provide information about them
+ * Works as wrapper around Person class
+ */
 public class Librarian extends Person {
 
-    private static final long WEEK = 604800000;
+    // One week in ms
+    private static final long LEND_TIME = 604800000;
 
     private final Person self;
     private LibraryForLibrarian library;
@@ -31,6 +37,9 @@ public class Librarian extends Person {
         this.library = library;
     }
 
+    /**
+     * @return - all (unique) books available in library at the moment
+     */
     public Set<Book> getAllBooks() {
         ifLibraryClosed();
 
@@ -47,6 +56,10 @@ public class Librarian extends Person {
         return filteredBooks;
     }
 
+    /**
+     * @return - all (unique) books available in library at the moment,
+     * filtered by category
+     */
     public Set<Book> getBooksByCategory(Category category) {
 
         ifLibraryClosed();
@@ -64,6 +77,10 @@ public class Librarian extends Person {
         return filteredBooks;
     }
 
+    /**
+     * @return - all (unique) books available in library at the moment,
+     * filtered by author
+     */
     public Set<Book> getBooksByAuthor(String author) {
 
         ifLibraryClosed();
@@ -81,18 +98,32 @@ public class Librarian extends Person {
         return filteredBooks;
     }
 
+    /**
+     * Lends
+     * @param book - book
+     * to
+     * @param customer - customer
+     * @return book
+     */
     public Book lendBook(Customer customer, Book book) {
 
         ifLibraryClosed();
         BookInfo bookInfo = library.getBookProvider().lendBook(book);
 
-        Date bebinTime = new Date();
+        Date beginTime = new Date();
         Date endDate = new Date();
-        endDate.setTime(endDate.getTime() + WEEK);
-        bookInfo.addToHistory(customer, bebinTime, endDate);
+        endDate.setTime(endDate.getTime() + LEND_TIME);
+        bookInfo.addToHistory(customer, beginTime, endDate);
         return book;
     }
 
+    /**
+     * Lends all
+     * @param books - books
+     * to
+     * @param customer - customer
+     * @return books
+     */
     public Set<Book> lendAllBooks(Customer customer, Set<Book> books) {
 
         ifLibraryClosed();
@@ -102,6 +133,12 @@ public class Librarian extends Person {
         return books;
     }
 
+    /**
+     * Retrieves book
+     * @param book - book
+     * from
+     * @param customer - customer
+     */
     public void retrieveBook(Customer customer, Book book) {
 
         ifLibraryClosed();
@@ -118,6 +155,9 @@ public class Librarian extends Person {
         throw new IllegalArgumentException("You have not borrowed this book");
     }
 
+    /**
+     * Notifies all customers, who are having books at the moment about it
+     */
     public void notifyAllCustomersWithBooks() {
 
         ifLibraryClosed();
@@ -136,6 +176,10 @@ public class Librarian extends Person {
         }
     }
 
+    /**
+     * Checks whether library is closed
+     * If so, throws an exception
+     */
     private void ifLibraryClosed() {
 
         if (!library.isOpened()) {

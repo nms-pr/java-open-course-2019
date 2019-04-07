@@ -6,6 +6,10 @@ import ru.mail.polis.open.task6.interfaces.LibraryForManager;
 
 import java.util.NoSuchElementException;
 
+/**
+ * Person, who can open and close library, add and remove books
+ * Works as wrapper around Person class
+ */
 public class Manager extends Person {
 
     private final Person self;
@@ -23,25 +27,46 @@ public class Manager extends Person {
         return self;
     }
 
+    /**
+     * Adds book to library
+     */
     public void addBook(Book book) {
         library.getBookStorage().addBook(book);
     }
 
+    /**
+     * Adds book to library
+     */
     public void addBook(String name, String author, Category category) {
         addBook(new Book(name, author, category));
     }
 
-    public void deleteBook(Book book) {
-        if (!deleteBookIfPresent(book)) {
+    /**
+     * Removes book from library
+     * Throws an exception, if book was not found
+     */
+    public void removeBook(Book book) {
+        if (!removeBookIfPresent(book)) {
             throw new NoSuchElementException("No such book in library: " + book);
         }
     }
 
-    public void deleteBook(String name, String author, Category category) {
-        deleteBook(new Book(name, author, category));
+    /**
+     * Removes book from library
+     * Throws an exception if book was not found
+     */
+    public void removeBook(String name, String author, Category category) {
+        removeBook(new Book(name, author, category));
     }
 
-    public boolean deleteBookIfPresent(Book book) {
+    /**
+     * Removes book from library
+     *
+     * @return
+     *      true - if removal was successful
+     *      false - if book was not found
+     */
+    public boolean removeBookIfPresent(Book book) {
         try {
             return library.getBookStorage().removeBook(book);
         } catch (NoSuchElementException e) {
@@ -49,8 +74,15 @@ public class Manager extends Person {
         }
     }
 
-    public boolean deleteBookIfPresent(String name, String author, Category category) {
-        return deleteBookIfPresent(new Book(name, author, category));
+    /**
+     * Removes book from library
+     *
+     * @return
+     *      true - if removal was successful
+     *      false - if book was not found
+     */
+    public boolean removeBookIfPresent(String name, String author, Category category) {
+        return removeBookIfPresent(new Book(name, author, category));
     }
 
     public void openLibrary() {

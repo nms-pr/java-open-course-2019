@@ -8,11 +8,21 @@ import ru.mail.polis.open.task6.interfaces.LibraryForCustomer;
 import ru.mail.polis.open.task6.interfaces.LibraryForLibrarian;
 import ru.mail.polis.open.task6.interfaces.LibraryForManager;
 
+/**
+ * Library itself,
+ * contains its employees,
+ * may be opened or closed
+ */
 public class Library implements LibraryForCustomer, LibraryForLibrarian, LibraryForManager {
 
+    // Stores books
     private BookShelf bookShelf;
+
+    // Opens/close library, adds/removes books
     private Manager manager;
+    // Provides info about available books, lends and retrieves them
     private Librarian librarian;
+
     private boolean isOpened;
 
     public Library(BookShelf bookShelf, Manager manager, Librarian librarian) {

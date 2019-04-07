@@ -56,7 +56,7 @@ class ManagerTest {
 
         manager.addBook(book1);
         assertEquals(Set.of(book1), bookShelf.getAllBooks());
-        manager.deleteBook(book1);
+        manager.removeBook(book1);
 
         assertEquals(Set.of(), bookShelf.getAllBooks());
     }
@@ -69,7 +69,7 @@ class ManagerTest {
         assertEquals(Set.of(book1), bookShelf.getAllBooks());
         librarian.lendBook(null, book1);
 
-        assertThrows(NoSuchElementException.class, () -> manager.deleteBook(book1));
+        assertThrows(NoSuchElementException.class, () -> manager.removeBook(book1));
     }
 
     @Test
@@ -77,7 +77,7 @@ class ManagerTest {
 
         Book book1 = new Book("n1", "a1", Category.PROGRAMMING);
 
-        assertThrows(NoSuchElementException.class, () -> manager.deleteBook(book1));
+        assertThrows(NoSuchElementException.class, () -> manager.removeBook(book1));
     }
 
     @Test
@@ -88,7 +88,7 @@ class ManagerTest {
         manager.addBook(book1);
         assertEquals(Set.of(book1), bookShelf.getAllBooks());
 
-        assertTrue(manager.deleteBookIfPresent(book1));
+        assertTrue(manager.removeBookIfPresent(book1));
 
         assertEquals(Set.of(), bookShelf.getAllBooks());
     }
@@ -103,7 +103,7 @@ class ManagerTest {
         assertEquals(Set.of(book1), bookShelf.getAllBooks());
         librarian.lendBook(null, book1);
 
-        assertFalse(manager.deleteBookIfPresent(book1));
+        assertFalse(manager.removeBookIfPresent(book1));
     }
 
 
@@ -113,7 +113,7 @@ class ManagerTest {
         Book book1 = new Book("n1", "a1", Category.PROGRAMMING);
 
         assertFalse(
-            manager.deleteBookIfPresent(book1));
+            manager.removeBookIfPresent(book1));
     }
 
     @Test

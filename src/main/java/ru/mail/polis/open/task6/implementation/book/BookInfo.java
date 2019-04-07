@@ -8,12 +8,18 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
+/**
+ * Information about all instances of book
+ */
 public class BookInfo {
 
     private int id;
     private int total;
+    // Quantity of instances of book currently available
     private int inStock;
+    // Places on shelf, where books are stored
     private Set<Integer> shelfPlaces;
+    // History: who and when borrowed instance of this book
     private List<HistoryEntry> history;
 
     public BookInfo(int id, int total, Set<Integer> shelfPlaces) {

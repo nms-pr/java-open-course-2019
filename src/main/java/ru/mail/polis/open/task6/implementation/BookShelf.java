@@ -11,10 +11,16 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
+
+/**
+ * Storage for books
+ * Stores pairs (Book, BookInfo)
+ */
 public class BookShelf implements BookProvider, BookStorage {
 
     private Map<Book, BookInfo> books;
 
+    // All books have id, this variable ensures they are all unique
     private int notUsedId = 0;
 
     public BookShelf() {
@@ -28,6 +34,10 @@ public class BookShelf implements BookProvider, BookStorage {
         return books.keySet();
     }
 
+    /**
+     * Adds book to storage
+     * Member of BookStorage interface
+     */
     @Override
     public void addBook(Book book) {
 
@@ -41,6 +51,10 @@ public class BookShelf implements BookProvider, BookStorage {
         books.put(book, new BookInfo(notUsedId++, 1, shelfPlaces));
     }
 
+    /**
+     * Removes book from storage
+     * Member of BookStorage interface
+     */
     @Override
     public boolean removeBook(Book book) {
 
@@ -58,6 +72,10 @@ public class BookShelf implements BookProvider, BookStorage {
 
     }
 
+    /**
+     * Removes all instances of book from storage
+     * Member of BookStorage interface
+     */
     @Override
     public boolean removeAllBookInstances(Book book) {
 
@@ -69,6 +87,10 @@ public class BookShelf implements BookProvider, BookStorage {
         return true;
     }
 
+    /**
+     * @param book - book to lend
+     * @return information about book
+     */
     @Override
     public BookInfo lendBook(Book book) {
 
@@ -87,6 +109,10 @@ public class BookShelf implements BookProvider, BookStorage {
         return bookInfo;
     }
 
+    /**
+     * @param book - book to retrieve
+     * @return information about book
+     */
     @Override
     public BookInfo retrieveBook(Book book) {
 
@@ -106,6 +132,20 @@ public class BookShelf implements BookProvider, BookStorage {
         return books.get(book);
     }
 
+    /**
+     * Finds lowest place at shelf
+     *
+     * For example (books are represented with '*', empty places with '-')
+     * Assuming books are standing from left to right, most right place has index 0
+     *
+     * ---------- - returns 0
+     * **-------- - returns 2
+     * ******---- - returns 6
+     * -*****---- - returns 0
+     * ***--***** - returns 3
+     *
+     * @return lowest place
+     */
     private int findLowestShelfPlace() {
 
         for (int lowest = 0; ; lowest++) {

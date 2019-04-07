@@ -2,9 +2,12 @@ package ru.mail.polis.open.task6.implementation.book;
 
 import java.util.Objects;
 
+/**
+ * Data class representing book
+ */
 public class Book {
-    private final String name;
 
+    private final String name;
     private final String author;
     private final Category category;
 

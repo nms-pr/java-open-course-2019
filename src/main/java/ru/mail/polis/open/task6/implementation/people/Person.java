@@ -1,5 +1,8 @@
 package ru.mail.polis.open.task6.implementation.people;
 
+/**
+ * Data class, base class for everyone else
+ */
 public class Person {
 
     private String firstName;
