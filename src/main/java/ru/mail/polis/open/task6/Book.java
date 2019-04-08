@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
+import java.util.logging.Logger;
 
 /**
  * Есть книги
@@ -19,12 +20,13 @@ import java.util.Objects;
 
 public class Book {
 
+    private static final Logger logger = Logger.getLogger(Book.class.getName());
+
     private int identifier;
     private String name;
     private String shelfSpace;
     private TypeOfLiterature typeOfLiterature;
     private List<InformationWhoTook> informationWhoTooks;
-
 
     public Book(int identifier, String name, String shelfSpace, TypeOfLiterature typeOfLiterature) {
         this.identifier = identifier;
@@ -35,7 +37,7 @@ public class Book {
     }
 
     //Вид лит-ры
-    enum TypeOfLiterature {
+    protected enum TypeOfLiterature {
         Fiction,
         Documentary,
         Memoirs,
@@ -62,7 +64,7 @@ public class Book {
         return Objects.hash(identifier, name, shelfSpace, typeOfLiterature, informationWhoTooks);
     }
 
-    class InformationWhoTook {
+    protected static class InformationWhoTook {
         private Calendar timeOfIssue;
         private Calendar timeReturn;
         private Visitor visitor;
@@ -72,5 +74,10 @@ public class Book {
             this.timeReturn = timeReturn;
             this.visitor = visitor;
         }
+    }
+
+    protected void addInformationWhoTooks(InformationWhoTook iwt) {
+        Objects.requireNonNull(iwt);
+        this.informationWhoTooks.add(iwt);
     }
 }
