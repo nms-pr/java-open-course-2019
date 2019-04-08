@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SimpleVisitor implements Visitor {
-    Librarian librarian;
-    String visitorName;
-    List<Book> books;
+    private Librarian librarian;
+    private String visitorName;
+    private List<Book> books;
 
     SimpleVisitor(String visitorName, Librarian librarian) {
         this.librarian = librarian;

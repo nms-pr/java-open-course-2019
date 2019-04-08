@@ -4,7 +4,7 @@ import java.util.List;
 
 public class SimpleLibrarian implements Librarian {
 
-    BorrowableLibrary library;
+    private BorrowableLibrary library;
 
     SimpleLibrarian(BorrowableLibrary library) {
         this.library = library;

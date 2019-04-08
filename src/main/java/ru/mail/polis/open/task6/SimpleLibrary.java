@@ -13,10 +13,10 @@ public class SimpleLibrary implements ManagableLibrary, BorrowableLibrary {
     private Map<Book, BookInfo> booksInfo;
     private boolean isOpen;
 
-    public SimpleLibrary(int shelfCapacity) {
+    SimpleLibrary(int shelfCapacity) {
         isOpen = true;
         shelf = new Book[shelfCapacity];
-        booksInfo = new HashMap<Book, BookInfo>();
+        booksInfo = new HashMap<Book, BookInfo>(shelfCapacity);
     }
 
     @Override

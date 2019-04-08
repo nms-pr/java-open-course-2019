@@ -1,12 +1,14 @@
 package ru.mail.polis.open.task6;
 
+import java.util.Objects;
+
 public class Book {
 
     private String title;
     private String genre;
     private int id;
 
-    public Book(String title, String genre, int id) {
+    Book(String title, String genre, int id) {
         this.title = title;
         this.genre = genre;
         this.id = id;
@@ -25,27 +27,21 @@ public class Book {
     }
 
     @Override
-    public String toString() {
-        return title + "\t" + genre + "\t" + id;
-    }
-
-    @Override
     public int hashCode() {
-        return title.hashCode() + genre.hashCode() + id;
+        return Objects.hash(title, genre, id);
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (obj.getClass() != Book.class) {
+        if (obj == null || obj.getClass() != getClass()) {
             return false;
         }
         Book book = (Book) obj;
         if (this == book) {
             return true;
-        } else if (this.title.equals(book.getTitle()) && this.genre.equals(book.getGenre())
-                && this.id == book.getId()) {
-            return true;
+        } else {
+            return this.title.equals(book.getTitle()) && this.genre.equals(book.getGenre())
+                    && this.id == book.getId();
         }
-        return false;
     }
 }

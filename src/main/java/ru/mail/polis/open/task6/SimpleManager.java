@@ -3,9 +3,9 @@ package ru.mail.polis.open.task6;
 import java.util.Collection;
 
 public class SimpleManager implements Manager {
-    ManagableLibrary library;
+    private ManagableLibrary library;
 
-    public SimpleManager(ManagableLibrary library) {
+    SimpleManager(ManagableLibrary library) {
         this.library = library;
     }
 

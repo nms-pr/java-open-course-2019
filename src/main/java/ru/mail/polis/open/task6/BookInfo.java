@@ -4,29 +4,28 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class BookInfo {
+class BookInfo {
 
-    int shelfPlaceId;
-
+    private int shelfPlaceId;
     private long takeTimestamp;
     private Visitor currentTaker;
 
-    List<TakerInfo> takersHistory;
+    private List<TakerInfo> takersHistory;
 
-    public BookInfo(int shelfPlaceId) {
+    BookInfo(int shelfPlaceId) {
         this.shelfPlaceId = shelfPlaceId;
         takersHistory = new ArrayList<TakerInfo>();
     }
 
-    public int getShelfPlaceId() {
+    int getShelfPlaceId() {
         return shelfPlaceId;
     }
 
-    public List<TakerInfo> getTakersHistory() {
+    List<TakerInfo> getTakersHistory() {
         return Collections.unmodifiableList(takersHistory);
     }
 
-    public void markBookAsTaken(Visitor visitor) throws LibraryException {
+    void markBookAsTaken(Visitor visitor) throws LibraryException {
         if (currentTaker != null) {
             throw new LibraryException("Book is already taken");
         }
@@ -35,7 +34,7 @@ public class BookInfo {
         shelfPlaceId = -1;
     }
 
-    public void markBookAsReturned(int shelfPlaceId) throws LibraryException {
+    void markBookAsReturned(int shelfPlaceId) throws LibraryException {
         if (currentTaker == null) {
             throw new LibraryException("Book isn't was taken");
         }
@@ -47,11 +46,11 @@ public class BookInfo {
         currentTaker = null;
     }
 
-    public Visitor getCurrentTaker() {
+    Visitor getCurrentTaker() {
         return currentTaker;
     }
 
-    public boolean isBookTaken() {
+    boolean isBookTaken() {
         return currentTaker != null;
     }
 
