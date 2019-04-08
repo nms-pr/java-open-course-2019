@@ -2,8 +2,7 @@ package ru.mail.polis.open.task6;
 
 import java.util.Date;
 
-public class
-Book {
+public class Book {
     private final int id;
     private final String name;
     private int shelfSpace;
