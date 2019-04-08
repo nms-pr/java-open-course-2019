@@ -2,11 +2,8 @@ package ru.mail.polis.open.task6.office;
 
 import ru.mail.polis.open.task6.Genres;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 
 
@@ -35,9 +32,9 @@ class LibraryStorage {
      */
 
     private boolean isOpen;
-    private HashMap<Genres, Book> bookStorage;
+    private List<Book> bookStorage;
 
-    LibraryStorage(HashMap<Genres, Book> bookStorage) {
+    LibraryStorage(List<Book> bookStorage) {
         this.bookStorage = bookStorage;
     }
 
@@ -55,7 +52,7 @@ class LibraryStorage {
 
     boolean putBook(Book book) {
         if (book != null) {
-            bookStorage.put(book.getGenre(), book);
+            bookStorage.add(book);
             return true;
         } else {
             throw new IllegalArgumentException();
@@ -79,12 +76,11 @@ class LibraryStorage {
 
     boolean removeBook(Book book) {
         if (book != null) {
-            bookStorage.remove(book.getGenre(), book);
+            bookStorage.remove(book);
             return true;
         } else {
             throw new IllegalArgumentException();
         }
-
     }
 
     boolean removeBook(List<Book> bookList) {
@@ -101,34 +97,32 @@ class LibraryStorage {
         }
     }
 
-    public List<Book> getBooksForGenre(List<Genres> wantedGenres) {
+    List<Book> getBooksForGenre(List<Genres> wantedGenres) {
         List<Book> suitableBooks = new ArrayList<>();
-        for (Genres genre: wantedGenres) {
-            suitableBooks.add(bookStorage.get(genre));
-        }
-        return suitableBooks;
-    }
-
-    public List<Book> getBooksForName(List<String> wantedBookNames) {
-        List<Book> suitableBooks = new ArrayList<>();
-        Book currentBook;
-        Iterator storageIterator = bookStorage.entrySet().iterator();
-        while (storageIterator.hasNext()) {
-            Map.Entry bookInStorage = (Map.Entry) storageIterator.next();
-            currentBook = (Book) bookInStorage.getValue();
-            if (wantedBookNames.contains(currentBook.getName())) {
-                suitableBooks.add(currentBook);
+        for (Book book: bookStorage) {
+            if (wantedGenres.contains(book.getGenre())) {
+                suitableBooks.add(book);
             }
         }
         return suitableBooks;
     }
 
-    public List<Book> getBooksForGenreAndName(List<String> wantedBookNames, List<Genres> wantedGenres) {
-        List<Book> suitableBooks;
-        suitableBooks = getBooksForGenre(wantedGenres);
-        for (Book currentBook: suitableBooks) {
-            if (wantedBookNames.contains(currentBook.getName())) {
-                suitableBooks.add(currentBook);
+    List<Book> getBooksForName(List<String> wantedBookNames) {
+        List<Book> suitableBooks = new ArrayList<>();
+        for (Book book: bookStorage) {
+            if (wantedBookNames.contains(book.getName())) {
+                suitableBooks.add(book);
+            }
+        }
+        return suitableBooks;
+    }
+
+    List<Book> getBooksForGenreAndName(List<String> wantedBookNames, List<Genres> wantedGenres) {
+        List<Book> suitableBooks = new ArrayList<>();
+        for (Book book: bookStorage) {
+            if (wantedGenres.contains(book.getGenre())
+                && wantedBookNames.contains(book.getName())) {
+                suitableBooks.add(book);
             }
         }
         return suitableBooks;

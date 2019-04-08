@@ -5,9 +5,11 @@ import java.util.List;
 class Manager {
 
     private LibraryStorage bookStorage;
+    private Librarian librarian;
 
-    Manager(LibraryStorage bookStorage) {
+    Manager(LibraryStorage bookStorage, Librarian librarian) {
         this.bookStorage = bookStorage;
+        this.librarian = librarian;
     }
 
     boolean closeLibrary() {
@@ -21,6 +23,7 @@ class Manager {
     boolean openLibrary() {
         if (!bookStorage.isOpen()) {
             bookStorage.setOpen();
+            librarian.checkDebts();
             return true;
         }
         return false;

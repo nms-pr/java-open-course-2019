@@ -1,8 +1,9 @@
 package ru.mail.polis.open.task6.office;
 
 import ru.mail.polis.open.task6.Genres;
+import ru.mail.polis.open.task6.Guest;
 
-import java.util.ArrayList;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
@@ -10,52 +11,45 @@ public class GuestOrder {
 
     private List<String> getWantedBookNames;
     private List<Genres> wantedGenres;
-    private int amount = 1;
+    private Guest owner;
+    private LocalDateTime orderDate;
+    private List<Book> takenBooks;
 
-    GuestOrder(List<String> names) {
+    GuestOrder(List<String> names, Guest owner) {
         this.getWantedBookNames = names;
+        orderDate = LocalDateTime.now();
+        this.owner = owner;
     }
 
-    GuestOrder(List<String> names, List<Genres> genres) {
-        new GuestOrder(names);
+    GuestOrder(List<String> names, List<Genres> genres, Guest owner) {
+        new GuestOrder(names, owner);
         this.wantedGenres = genres;
     }
 
-    GuestOrder(String name) {
-        this.getWantedBookNames = new ArrayList<>();
-        getWantedBookNames.add(name);
-    }
-
-    GuestOrder(Genres genre) {
-        assignGenre(genre);
-    }
-
-    GuestOrder(String name, Genres genre) {
-        new GuestOrder(name);
-        assignGenre(genre);
-    }
-
-
-    public List<String> getGetWantedBookNames() {
+    List<String> getGetWantedBookNames() {
         return getWantedBookNames;
     }
 
-    public List<Genres> getWantedGenres() {
+    List<Genres> getWantedGenres() {
         return wantedGenres;
     }
 
-    public int getAmount() {
-        return amount;
+    public Guest getOwner() {
+        return owner;
     }
 
-    public void setAmount(int amount) {
-        this.amount = amount;
+    LocalDateTime getOrderDate() {
+        return orderDate;
     }
 
-    private void assignGenre(Genres genre) {
-        this.wantedGenres = new ArrayList<>();
-        wantedGenres.add(genre);
+    List<Book> getTakenBooks() {
+        return takenBooks;
     }
+
+    void setTakenBooks(List<Book> takenBooks) {
+        this.takenBooks = takenBooks;
+    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -66,13 +60,13 @@ public class GuestOrder {
             return false;
         }
         GuestOrder that = (GuestOrder) o;
-        return amount == that.amount
-            && Objects.equals(getWantedBookNames, that.getWantedBookNames)
-            && Objects.equals(wantedGenres, that.wantedGenres);
+        return getWantedBookNames.equals(that.getWantedBookNames)
+            && wantedGenres.equals(that.wantedGenres);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getWantedBookNames, wantedGenres, amount);
+        return 31 * getWantedBookNames.hashCode() + 13 * wantedGenres.hashCode();
     }
+
 }

@@ -2,14 +2,12 @@ package ru.mail.polis.open.task6.office;
 
 import ru.mail.polis.open.task6.Genres;
 
-import java.util.Date;
 
-class Book {
+public class Book {
 
     private int id;
     private String name;
     private int place;
-    private Date lastTimePicked;
     private boolean isOnPlace;
     private Genres genre;
 
@@ -17,7 +15,6 @@ class Book {
         id = this.hashCode();
         this.name = name;
         this.place = place;
-        lastTimePicked = new Date();
         isOnPlace = true;
         this.genre = genre;
     }
@@ -37,10 +34,6 @@ class Book {
 
     int getPlace() {
         return place;
-    }
-
-    Date getLastTimePicked() {
-        return lastTimePicked;
     }
 
     boolean isOnPlace() {
