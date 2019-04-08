@@ -8,9 +8,10 @@ import ru.mail.polis.open.task6.interfaces.BookProvider;
 import ru.mail.polis.open.task6.interfaces.LibraryForLibrarian;
 
 import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
+import java.util.Optional;
 import java.util.Set;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 
 /**
@@ -41,20 +42,29 @@ public class Librarian extends Person {
      * @return - all (unique) books available in library at the moment
      */
     public Set<Book> getAllBooks() {
+
         ifLibraryClosed();
 
-        Set<Book> allBooks = library.getBookProvider().getAllBooks();
-
-        Set<Book> filteredBooks = new HashSet<>();
-
-        allBooks.forEach(book -> {
-            if (library.getBookProvider().getBookInfo(book).getInStock() > 0) {
-                filteredBooks.add(book);
-            }
-        });
-
-        return filteredBooks;
+        BookProvider bookProvider  = library.getBookProvider();
+        return bookProvider.getAllBooks()
+            .stream()
+            .filter(book ->
+                bookProvider.getBookInfo(book).getInStock() > 0)
+            .collect(Collectors.toSet());
     }
+
+    /**
+     * @return all (unique) books available in library at the moment,
+     * that match predicate
+     */
+    public Set<Book> getBooksWhen(Predicate<Book> predicate) {
+
+        return getAllBooks()
+            .stream()
+            .filter(predicate)
+            .collect(Collectors.toSet());
+    }
+
 
     /**
      * @return - all (unique) books available in library at the moment,
@@ -62,19 +72,7 @@ public class Librarian extends Person {
      */
     public Set<Book> getBooksByCategory(Category category) {
 
-        ifLibraryClosed();
-        Set<Book> allBooks = getAllBooks();
-
-        Set<Book> filteredBooks = new HashSet<>();
-
-        allBooks.forEach(book -> {
-            if (book.getCategory() == category
-                && library.getBookProvider().getBookInfo(book).getInStock() > 0) {
-                filteredBooks.add(book);
-            }
-        });
-
-        return filteredBooks;
+        return getBooksWhen(book -> book.getCategory() == category);
     }
 
     /**
@@ -83,19 +81,7 @@ public class Librarian extends Person {
      */
     public Set<Book> getBooksByAuthor(String author) {
 
-        ifLibraryClosed();
-        Set<Book> allBooks = getAllBooks();
-
-        Set<Book> filteredBooks = new HashSet<>();
-
-        allBooks.forEach(book -> {
-            if (book.getAuthor().equals(author)
-                && library.getBookProvider().getBookInfo(book).getInStock() > 0) {
-                filteredBooks.add(book);
-            }
-        });
-
-        return filteredBooks;
+        return getBooksWhen(book -> book.getAuthor().equals(author));
     }
 
     /**
@@ -142,17 +128,18 @@ public class Librarian extends Person {
     public void retrieveBook(Customer customer, Book book) {
 
         ifLibraryClosed();
-        List<HistoryEntry> history = library.getBookProvider().retrieveBook(book).getHistory();
 
-        for (HistoryEntry entry : history) {
-            if (entry.getCustomer().equals(customer)) {
+        Optional<HistoryEntry> first = library.getBookProvider().retrieveBook(book).getHistory()
+            .stream()
+            .filter(entry ->
+                entry.getCustomer().equals(customer))
+            .findFirst();
 
-                entry.doReturn();
-                return;
-            }
+        if (first.isEmpty()) {
+            throw new IllegalArgumentException("You have not borrowed this book");
         }
 
-        throw new IllegalArgumentException("You have not borrowed this book");
+        first.get().doReturn();
     }
 
     /**
