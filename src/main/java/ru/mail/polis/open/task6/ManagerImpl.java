@@ -1,6 +1,7 @@
 package ru.mail.polis.open.task6;
 
 import java.util.List;
+import java.util.Objects;
 
 public class ManagerImpl implements Manager {
 
@@ -16,6 +17,7 @@ public class ManagerImpl implements Manager {
     public boolean bringBook(Book book) {
         if (!books.contains(book)) {
             books.add(book);
+            library.getBooksAvailable().add(book);
             return true;
         }
         return false;
@@ -25,6 +27,7 @@ public class ManagerImpl implements Manager {
     public boolean removeBook(Book book) {
         if (books.contains(book)) {
             books.remove(book);
+            library.getBooksAvailable().remove(book);
             return true;
         }
         return false;
