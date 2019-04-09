@@ -36,7 +36,6 @@ public class Book {
         this.informationWhoTooks = new ArrayList<>();
     }
 
-    //Вид лит-ры
     protected enum TypeOfLiterature {
         Fiction,
         Documentary,
@@ -77,7 +76,10 @@ public class Book {
     }
 
     protected void addInformationWhoTooks(InformationWhoTook iwt) {
-        Objects.requireNonNull(iwt);
+        if(iwt == null){
+            logger.warning("Информация о том, кто взял книгу не добавлена");
+            return;
+        }
         this.informationWhoTooks.add(iwt);
     }
 }

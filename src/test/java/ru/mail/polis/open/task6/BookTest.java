@@ -8,19 +8,18 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class BookTest {
 
-    private Book b1 = new Book(123, "Test", "A2", Book.TypeOfLiterature.Documentary);
-    private Book b2 = new Book(123, "Test", "A2", Book.TypeOfLiterature.Documentary);
-    private Book b3 = new Book(123, "Test1", "A2", Book.TypeOfLiterature.Documentary);
-    private Book b4 = new Book(123, "Test1", "A2", Book.TypeOfLiterature.Memoirs);
+    protected static Book b1 = new Book(123, "Test", "A2", Book.TypeOfLiterature.Documentary);
+    protected static Book b2 = new Book(123, "Test", "A2", Book.TypeOfLiterature.Documentary);
+    protected static Book b3 = new Book(123, "Test1", "A2", Book.TypeOfLiterature.Documentary);
+    protected static Book b4 = new Book(123, "Test1", "A2", Book.TypeOfLiterature.Memoirs);
 
     @Test
     void equalsTest() {
         assertEquals(b1, b2);
 
-        Visitor slava = new Visitor("Slava");
         Calendar issueTime = Calendar.getInstance();
         Calendar returnTime = Calendar.getInstance();
-        Book.InformationWhoTook informationWhoTook = new Book.InformationWhoTook(issueTime, returnTime, slava);
+        Book.InformationWhoTook informationWhoTook = new Book.InformationWhoTook(issueTime, returnTime, VisitorTest.slava);
 
         b1.addInformationWhoTooks(informationWhoTook);
         assertNotEquals(b1, b2);
@@ -28,8 +27,7 @@ class BookTest {
         b2.addInformationWhoTooks(informationWhoTook);
         assertEquals(b1, b2);
 
-        Visitor kostya = new Visitor("Kostya");
-        b1.addInformationWhoTooks(new Book.InformationWhoTook(issueTime, returnTime, kostya));
+        b1.addInformationWhoTooks(new Book.InformationWhoTook(issueTime, returnTime, VisitorTest.kostya));
         assertNotEquals(b1, b2);
 
         assertNotEquals(b2, b3);

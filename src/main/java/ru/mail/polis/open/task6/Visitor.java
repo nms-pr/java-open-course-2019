@@ -9,6 +9,7 @@ import java.util.List;
 public class Visitor {
 
     private String name;
+
     private List<Book> booksOnHand;
 
     public Visitor(String name) {
@@ -23,11 +24,13 @@ public class Visitor {
         return true;
     }
 
-    boolean givesBooks(Book... books) {
-        for (int i = 0; i < books.length; i++) {
-
+    boolean givesBooks(Book books) {
+        if (booksOnHand.contains(books)) {
+            booksOnHand.remove(books);
+        } else {
+            return false;
         }
-        return false;
+        return true;
     }
 
     public String getName() {
@@ -37,5 +40,9 @@ public class Visitor {
     @Override
     public String toString() {
         return name + "[" + booksOnHand.toString() + "]";
+    }
+
+    protected List<Book> getBooksOnHand() {
+        return booksOnHand;
     }
 }
