@@ -94,6 +94,8 @@ public class Book {
     protected void addInformationWhoTooks(InformationWhoTook iwt) {
         if (iwt == null) {
             logger.warning("Информация о том, кто взял книгу не добавлена");
+            informationWhoTooks.add(new InformationWhoTook(Calendar.getInstance(), null,
+                    new Visitor("Unknown")));
             return;
         }
         this.informationWhoTooks.add(iwt);
@@ -101,5 +103,10 @@ public class Book {
 
     protected List<InformationWhoTook> getInformationWhoTooks() {
         return informationWhoTooks;
+    }
+
+    @Override
+    public String toString() {
+        return name + " " + shelfSpace + " " + typeOfLiterature;
     }
 }

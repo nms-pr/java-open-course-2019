@@ -56,9 +56,70 @@ public class Library {
         return name;
     }
 
+    public boolean addBook(Book book) {
+        if (working) {
+            return manager.bringBook(book);
+        }
+        return false;
+    }
+
+    public boolean addBooks(Book... books) {
+        if (isWorking()) {
+            for (int i = 0; i < books.length; i++) {
+                addBook(books[i]);
+            }
+            return true;
+        }
+        return false;
+    }
+
+    public boolean removeBook(Book book) {
+        if (working) {
+            return manager.removeBook(book);
+        }
+        return false;
+    }
+
+    public Book getBook(Book book) {
+        if (working) {
+            return librarian.issueBook(book);
+        }
+        return null;
+    }
+
+    public List<Book> getBooks(Book... books) {
+        if (working) {
+            List<Book> bookList = new ArrayList<>();
+            for (int i = 0; i < books.length; i++) {
+                bookList.add(librarian.issueBook(books[i]));
+            }
+            return bookList;
+        }
+        return null;
+    }
+
+    public List<Book> searhBook(String data) {
+        if (working) {
+            List<Book> books = new ArrayList<>();
+            for (Book b : booksAvailable) {
+                if (b.toString().toLowerCase().contains(data.toLowerCase())) {
+                    books.add(b);
+                }
+            }
+        }
+        return null;
+    }
+
+    public boolean returnBook(Book book) {
+        if (working && booksAll.contains(book)) {
+            librarian.addBook(book);
+        }
+        return false;
+    }
+
     public List<Book.InformationWhoTook> getJournal() {
         List<Book.InformationWhoTook> joutnal = new ArrayList<>();
-        for (Book book : getBooksAll()) {
+        for (Book book : booksAll) {
             joutnal.addAll(book.getInformationWhoTooks());
         }
         return joutnal;
@@ -71,7 +132,9 @@ public class Library {
         booksOnHands.removeAll(booksAvailable);
 
         for (Book b : booksOnHands) {
-            Visitor lastVisitor = b.getInformationWhoTooks().get(b.getInformationWhoTooks().size() - 1).getVisitor();
+            List<Book.InformationWhoTook> iwt = b.getInformationWhoTooks();
+            int lastIndex = iwt.size() - 1;
+            Visitor lastVisitor = iwt.get(lastIndex).getVisitor();
             booksReturn.put(b, lastVisitor);
         }
         return booksReturn;
