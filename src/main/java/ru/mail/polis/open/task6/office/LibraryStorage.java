@@ -4,38 +4,19 @@ import ru.mail.polis.open.task6.Genres;
 
 import java.util.List;
 import java.util.ArrayList;
-
+import java.util.function.Predicate;
 
 
 class LibraryStorage {
 
-    /**
-     * - Библиотека
-     * - - Есть менеджер
-     * - - приносит/убирает новые/старые книги
-     * - - открывает/закрывает библиотеку
-     * - Есть библиотекарь (добавляет и выдаёт книги)
-     * - Есть посетители (берёт и отдаёт книги)
-     * - Есть книги
-     * - - У книги есть
-     * - - - Идентификатор
-     * - - - Название
-     * - - - Место на полке
-     * - - - Раздел к которому она относится
-     * - - - Время выдачи и возврата
-     * - - - Информация о том кто взял
-     * - - Книг с одинаковыми идентификатором несколько
-     * - Можно узнать список доступных книг
-     * - Можно взять сразу несколько книг
-     * - Узнать кто что и когда брал
-     * - Напомнить о том что книгу нужно вернуть
-     */
-
     private boolean isOpen;
     private List<Book> bookStorage;
+    private int capacity;
 
-    LibraryStorage(List<Book> bookStorage) {
-        this.bookStorage = bookStorage;
+    LibraryStorage() {
+        this.bookStorage = new ArrayList<>();
+        isOpen = false;
+        capacity = 64;
     }
 
     boolean isOpen() {
@@ -50,9 +31,14 @@ class LibraryStorage {
         isOpen = false;
     }
 
+    public int getCapacity() {
+        return capacity;
+    }
+
     boolean putBook(Book book) {
-        if (book != null) {
+        if (capacity > 0 && book != null) {
             bookStorage.add(book);
+            capacity--;
             return true;
         } else {
             throw new IllegalArgumentException();
@@ -77,6 +63,7 @@ class LibraryStorage {
     boolean removeBook(Book book) {
         if (book != null) {
             bookStorage.remove(book);
+            capacity--;
             return true;
         } else {
             throw new IllegalArgumentException();
@@ -97,31 +84,10 @@ class LibraryStorage {
         }
     }
 
-    List<Book> getBooksForGenre(List<Genres> wantedGenres) {
+    List<Book> getBooks(Predicate<Book> predicate) {
         List<Book> suitableBooks = new ArrayList<>();
         for (Book book: bookStorage) {
-            if (wantedGenres.contains(book.getGenre())) {
-                suitableBooks.add(book);
-            }
-        }
-        return suitableBooks;
-    }
-
-    List<Book> getBooksForName(List<String> wantedBookNames) {
-        List<Book> suitableBooks = new ArrayList<>();
-        for (Book book: bookStorage) {
-            if (wantedBookNames.contains(book.getName())) {
-                suitableBooks.add(book);
-            }
-        }
-        return suitableBooks;
-    }
-
-    List<Book> getBooksForGenreAndName(List<String> wantedBookNames, List<Genres> wantedGenres) {
-        List<Book> suitableBooks = new ArrayList<>();
-        for (Book book: bookStorage) {
-            if (wantedGenres.contains(book.getGenre())
-                && wantedBookNames.contains(book.getName())) {
+            if (predicate.test(book)) {
                 suitableBooks.add(book);
             }
         }

@@ -26,9 +26,13 @@ public class Librarian {
     }
 
     public void giveBooks(List<Book> books, GuestOrder order) {
-        ledger.put(order.getOwner(), order);
-        order.setTakenBooks(books);
-        bookStorage.removeBook(books);
+        if (books != null) {
+            ledger.put(order.getOwner(), order);
+            order.setTakenBooks(books);
+            bookStorage.removeBook(books);
+        } else {
+            throw new NullPointerException();
+        }
     }
 
     private List<Book> findInStorage(GuestOrder order) {
@@ -38,13 +42,20 @@ public class Librarian {
             throw new IllegalArgumentException();
         } else if (order.getGetWantedBookNames() == null) {
             availableBooks = bookStorage
-                .getBooksForGenre(order.getWantedGenres());
+                .getBooks(
+                    book -> order.getWantedGenres().contains(book.getGenre())
+                );
         } else if (order.getWantedGenres() == null) {
             availableBooks = bookStorage
-                .getBooksForName(order.getGetWantedBookNames());
+                .getBooks(
+                    book -> order.getGetWantedBookNames().contains(book.getName())
+                );
         } else {
             availableBooks = bookStorage
-                .getBooksForGenreAndName(order.getGetWantedBookNames(),order.getWantedGenres());
+                .getBooks(
+                    book -> order.getWantedGenres().contains(book.getGenre())
+                        && order.getGetWantedBookNames().contains(book.getName())
+                );
         }
         return availableBooks;
     }
@@ -59,12 +70,16 @@ public class Librarian {
         }
     }
 
-    private void sendMessageToGuest(Guest guest) {
+    public void sendMessageToGuest(Guest guest) {
         guest.getWarned();
     }
 
     public void receiveReturnedBooks(GuestOrder order) {
         bookStorage.putBook(order.getTakenBooks());
         ledger.remove(order.getOwner(), order);
+    }
+
+    public HashMap<Guest, GuestOrder> getLedger() {
+        return ledger;
     }
 }

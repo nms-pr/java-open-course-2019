@@ -5,29 +5,28 @@ import ru.mail.polis.open.task6.Guest;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Objects;
 
 public class GuestOrder {
 
-    private List<String> getWantedBookNames;
+    private List<String> wantedNames;
     private List<Genres> wantedGenres;
     private Guest owner;
     private LocalDateTime orderDate;
     private List<Book> takenBooks;
 
     GuestOrder(List<String> names, Guest owner) {
-        this.getWantedBookNames = names;
+        this.wantedNames = names;
         orderDate = LocalDateTime.now();
         this.owner = owner;
     }
 
     GuestOrder(List<String> names, List<Genres> genres, Guest owner) {
-        new GuestOrder(names, owner);
+        this(names, owner);
         this.wantedGenres = genres;
     }
 
     List<String> getGetWantedBookNames() {
-        return getWantedBookNames;
+        return wantedNames;
     }
 
     List<Genres> getWantedGenres() {
@@ -42,14 +41,14 @@ public class GuestOrder {
         return orderDate;
     }
 
-    List<Book> getTakenBooks() {
+    public List<Book> getTakenBooks() {
         return takenBooks;
     }
 
     void setTakenBooks(List<Book> takenBooks) {
+        owner.setTakenBooks(takenBooks);
         this.takenBooks = takenBooks;
     }
-
 
     @Override
     public boolean equals(Object o) {
@@ -60,13 +59,13 @@ public class GuestOrder {
             return false;
         }
         GuestOrder that = (GuestOrder) o;
-        return getWantedBookNames.equals(that.getWantedBookNames)
+        return wantedNames.equals(that.wantedNames)
             && wantedGenres.equals(that.wantedGenres);
     }
 
     @Override
     public int hashCode() {
-        return 31 * getWantedBookNames.hashCode() + 13 * wantedGenres.hashCode();
+        return 31 * wantedNames.hashCode() + 13 * wantedGenres.hashCode();
     }
 
 }

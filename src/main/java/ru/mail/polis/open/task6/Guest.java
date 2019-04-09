@@ -10,18 +10,19 @@ public abstract class Guest {
 
     private Librarian librarian;
     private boolean isWarned;
+    private List<Book> takenBooks;
 
-    Guest(Librarian librarian) {
+    public Guest(Librarian librarian) {
         this.librarian = librarian;
         isWarned = false;
     }
 
-    //choose from assortment
-    abstract List<Book> processAvailableBooks(List<Book> availableBooks);
+    // выбор из предложенного
+    public abstract List<Book> processAvailableBooks(List<Book> availableBooks);
 
-    abstract GuestOrder makeAnOrder();
+    public abstract GuestOrder makeAnOrder();
 
-    List<Book> askTheLibrarianAboutOrder(GuestOrder order) {
+    public List<Book> askTheLibrarianAboutOrder(GuestOrder order) {
         if (librarian.libraryIsOpen()) {
             return librarian.lookForAvailableBooks(order);
         } else {
@@ -29,15 +30,28 @@ public abstract class Guest {
         }
     }
 
+    public List<Book> getTakenBooks() {
+        return takenBooks;
+    }
+
+    public void setTakenBooks(List<Book> takenBooks) {
+        this.takenBooks = takenBooks;
+    }
+
+    public boolean isWarned() {
+        return isWarned;
+    }
+
     public void getWarned() {
         isWarned = true;
     }
 
-    public void returnTheBooks(GuestOrder order) {
-        if (order.getOwner() == this) {
+    public void returnTheBooks(GuestOrder order) throws IllegalAccessException {
+        if (order.getOwner() == this && librarian.libraryIsOpen()) {
+            takenBooks.removeAll(order.getTakenBooks());
             librarian.receiveReturnedBooks(order);
         } else {
-            throw new IllegalArgumentException();
+            throw new IllegalAccessException();
         }
     }
 }

@@ -2,25 +2,23 @@ package ru.mail.polis.open.task6.office;
 
 import ru.mail.polis.open.task6.Genres;
 
+import java.util.Random;
+
 
 public class Book {
 
     private int id;
     private String name;
-    private int place;
-    private boolean isOnPlace;
     private Genres genre;
 
-    Book(String name, int place, Genres genre) {
-        id = this.hashCode();
+    Book(String name, Genres genre) {
+        id = new Random().nextInt();
         this.name = name;
-        this.place = place;
-        isOnPlace = true;
         this.genre = genre;
     }
 
-    Book(int id, String name, int place, Genres genre) {
-        new Book(name, place, genre);
+    Book(int id, String name, Genres genre) {
+        this(name, genre);
         this.id = id;
     }
 
@@ -30,14 +28,6 @@ public class Book {
 
     String getName() {
         return name;
-    }
-
-    int getPlace() {
-        return place;
-    }
-
-    boolean isOnPlace() {
-        return isOnPlace;
     }
 
     Genres getGenre() {
@@ -53,14 +43,13 @@ public class Book {
             return false;
         }
         Book book = (Book) o;
-        return place == book.place
-            && name.equals(book.name)
+        return name.equals(book.name)
             && genre == book.genre;
     }
 
     @Override
     public int hashCode() {
-        return (31 * Integer.valueOf(name) + place)
-            * Integer.valueOf(String.valueOf(genre));
+        return 31 * Integer.valueOf(name)
+            * genre.hashCode();
     }
 }
