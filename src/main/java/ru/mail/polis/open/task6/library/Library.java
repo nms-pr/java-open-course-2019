@@ -1,6 +1,5 @@
 package ru.mail.polis.open.task6.library;
 
-
 import java.util.List;
 
 public class Library {
@@ -26,15 +25,15 @@ public class Library {
         return librarian;
     }
 
-    void open(){
+    void open() {
         isOpen = true;
     }
 
-    void close(){
+    void close() {
         isOpen = false;
     }
 
-    public List<Book> getAvailableBooks(){
+    public List<Book> getAvailableBooks() {
         return shelf.availableBooks();
     }
 }

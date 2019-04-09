@@ -11,38 +11,38 @@ import ru.mail.polis.open.task6.library.Manager;
 
 public class LibraryTest {
     @Test
-    void test(){
+    void test() {
         Manager manager = new Manager("Sasha");
         Librarian librarian = new Librarian("Liza");
-        Customer Pavel = new Customer("Pavel","Malyshev");
+        Customer pavel = new Customer("Pavel", "Malyshev");
 
-        Library library = new Library(manager,librarian);
+        Library library = new Library(manager, librarian);
 
         manager.linkWithLibrary(library);
         librarian.linkWithLibrary(library);
-        Pavel.linkWithLibrary(library);
+        pavel.linkWithLibrary(library);
 
-        assertEquals(true,library.isOpen());
+        assertEquals(true, library.isOpen());
 
-        Book Java8 = new Book(1,"Java8","Programming",1);
-        Book C = new Book(2,"C","Programming",1);
-        Book Java11 = new Book(1,"Java11","Programming",1);
-        Book Kotlin = new Book(3,"Kotlin","Programming",1);
-        Book HTML = new Book(4,"HTML","Programming",1);
-        manager.put(Java8);
-        manager.put(Java11);
-        manager.put(C);
-        manager.put(Kotlin);
-        manager.put(HTML);
-        assertEquals(5,library.getAvailableBooks().size());
+        Book java8 = new Book(1, "Java8", "Programming", 1);
+        Book c = new Book(2, "C", "Programming", 1);
+        Book java11 = new Book(1, "Java11", "Programming", 1);
+        Book kotlin = new Book(3, "Kotlin", "Programming", 1);
+        Book html = new Book(4, "HTML", "Programming", 1);
+        manager.put(java8);
+        manager.put(java11);
+        manager.put(c);
+        manager.put(kotlin);
+        manager.put(html);
+        assertEquals(5, library.getAvailableBooks().size());
 
-        assertEquals(Java8,Pavel.get("Java8"));
-        assertEquals(Java11,Pavel.get("Java11"));
-        assertEquals(3,library.getAvailableBooks().size());
-        assertEquals(2,Pavel.getMyBooks().size());
-        Pavel.put("Java8");
-        assertEquals(1,Pavel.getMyBooks().size());
-        assertEquals(4,library.getAvailableBooks().size());
+        assertEquals(java8, pavel.get("Java8"));
+        assertEquals(java11, pavel.get("Java11"));
+        assertEquals(3, library.getAvailableBooks().size());
+        assertEquals(2, pavel.getMyBooks().size());
+        pavel.put("Java8");
+        assertEquals(1, pavel.getMyBooks().size());
+        assertEquals(4, library.getAvailableBooks().size());
 
         /*assertThrows(
                 IllegalArgumentException.class,

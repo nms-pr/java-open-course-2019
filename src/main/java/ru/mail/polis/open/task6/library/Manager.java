@@ -18,15 +18,17 @@ public class Manager {
         if (library.isOpen()) {
             library.getShelf().add(book);
             return;
-        } throw new IllegalArgumentException("The library is closed");
+        }
+        throw new IllegalArgumentException("The library is closed");
     }
 
 
-    public void remove (Book book) {
+    public void remove(Book book) {
         if (library.isOpen()) {
             library.getShelf().remove(book);
             return;
-        } throw new IllegalArgumentException("The library is closed");
+        }
+        throw new IllegalArgumentException("The library is closed");
     }
 
     public void open() {

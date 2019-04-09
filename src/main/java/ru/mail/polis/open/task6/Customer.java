@@ -12,12 +12,13 @@ public class Customer {
     private String name;
     private Library library;
     private String surname;
+
     public Customer(String name, String surname) {
         this.name = name;
         this.surname = surname;
     }
 
-    public void linkWithLibrary(Library library){
+    public void linkWithLibrary(Library library) {
         this.library = library;
     }
 
@@ -26,8 +27,8 @@ public class Customer {
     }
 
     public Book get(String bookName) {
-        if(library.isOpen()) {
-            book = library.getLibrarian().get(bookName,this);
+        if (library.isOpen()) {
+            book = library.getLibrarian().get(bookName, this);
             myBooks.add(book);
             return book;
         }
@@ -35,8 +36,8 @@ public class Customer {
     }
 
     public void put(String bookname) {
-        for (Book e:myBooks) {
-            if(bookname == e.getName()) {
+        for (Book e : myBooks) {
+            if (bookname == e.getName()) {
                 myBooks.remove(e);
                 library.getLibrarian().put(e);
             }

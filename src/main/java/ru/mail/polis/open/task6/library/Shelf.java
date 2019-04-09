@@ -17,11 +17,13 @@ public class Shelf {
 
     void remove(Book book) {
         for (Book e : shelf) {
-            if (book.equals(e) ) {
-                if(e.getowner() == null) {
+            if (book.equals(e)) {
+                if (e.getowner() == null) {
                     shelf.remove(e);
                     availableBooks.remove(e);
-                } else throw new IllegalArgumentException("can't remove this book, it's not in library now");
+                } else {
+                    throw new IllegalArgumentException("can't remove this book, it's not in library now");
+                }
             }
         }
     }

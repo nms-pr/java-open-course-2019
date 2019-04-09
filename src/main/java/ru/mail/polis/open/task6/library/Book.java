@@ -1,6 +1,5 @@
 package ru.mail.polis.open.task6.library;
 
-
 import ru.mail.polis.open.task6.Customer;
 
 import java.util.Date;
@@ -46,13 +45,17 @@ public class Book {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Book book = (Book) o;
-        return id == book.id &&
-                shelfPlace == book.shelfPlace &&
-                Objects.equals(name, book.name) &&
-                Objects.equals(section, book.section);
+        return id == book.id
+                && shelfPlace == book.shelfPlace
+                && Objects.equals(name, book.name)
+                && Objects.equals(section, book.section);
     }
 
 }

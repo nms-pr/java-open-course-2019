@@ -12,6 +12,7 @@ public abstract class People {
     }
 
     public abstract void put(Book book);
+
     public abstract List get(Book book);
 
 }
