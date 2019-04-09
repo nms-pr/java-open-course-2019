@@ -26,6 +26,7 @@ public class Book {
     private String name;
     private String shelfSpace;
     private TypeOfLiterature typeOfLiterature;
+
     private List<InformationWhoTook> informationWhoTooks;
 
     public Book(int identifier, String name, String shelfSpace, TypeOfLiterature typeOfLiterature) {
@@ -44,6 +45,7 @@ public class Book {
         Reference,
         Training,
         Technical;
+
     }
 
     @Override
@@ -68,6 +70,7 @@ public class Book {
     }
 
     protected static class InformationWhoTook {
+
         private Calendar timeOfIssue;
         private Calendar timeReturn;
         private Visitor visitor;
@@ -77,6 +80,15 @@ public class Book {
             this.timeReturn = timeReturn;
             this.visitor = visitor;
         }
+
+        public Visitor getVisitor() {
+            return visitor;
+        }
+
+        public Calendar getTimeOfIssue() {
+            return timeOfIssue;
+        }
+
     }
 
     protected void addInformationWhoTooks(InformationWhoTook iwt) {
@@ -85,5 +97,9 @@ public class Book {
             return;
         }
         this.informationWhoTooks.add(iwt);
+    }
+
+    protected List<InformationWhoTook> getInformationWhoTooks() {
+        return informationWhoTooks;
     }
 }

@@ -1,7 +1,9 @@
 package ru.mail.polis.open.task6;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 public class Library {
 
@@ -30,7 +32,7 @@ public class Library {
         return booksAll;
     }
 
-    protected List<Book> getBooksAvailable() {
+    public List<Book> getBooksAvailable() {
         if (booksAvailable == null) {
             booksAvailable = new ArrayList<>(booksAll);
         }
@@ -52,5 +54,26 @@ public class Library {
 
     public String getName() {
         return name;
+    }
+
+    public List<Book.InformationWhoTook> getJournal() {
+        List<Book.InformationWhoTook> joutnal = new ArrayList<>();
+        for (Book book : getBooksAll()) {
+            joutnal.addAll(book.getInformationWhoTooks());
+        }
+        return joutnal;
+    }
+
+    public Map<Book, Visitor> expectedReturnOfBooks() {
+        Map<Book, Visitor> booksReturn = Collections.emptyMap();
+
+        List<Book> booksOnHands = new ArrayList<>(booksAll);
+        booksOnHands.removeAll(booksAvailable);
+
+        for (Book b : booksOnHands) {
+            Visitor lastVisitor = b.getInformationWhoTooks().get(b.getInformationWhoTooks().size() - 1).getVisitor();
+            booksReturn.put(b, lastVisitor);
+        }
+        return booksReturn;
     }
 }

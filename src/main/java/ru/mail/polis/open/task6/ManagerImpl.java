@@ -1,7 +1,6 @@
 package ru.mail.polis.open.task6;
 
 import java.util.List;
-import java.util.Objects;
 
 public class ManagerImpl implements Manager {
 
