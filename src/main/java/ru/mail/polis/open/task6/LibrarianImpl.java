@@ -23,7 +23,7 @@ public class LibrarianImpl implements Librarian {
 
     @Override
     public Book issueBook(Book book) {
-        if(books.contains(book)){
+        if (books.contains(book)) {
             books.remove(book);
             return book;
         }

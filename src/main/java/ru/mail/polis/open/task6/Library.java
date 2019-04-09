@@ -24,14 +24,14 @@ public class Library {
     }
 
     protected List<Book> getBooksAll() {
-        if(booksAll == null){
+        if (booksAll == null) {
             booksAll = new ArrayList<>();
         }
         return booksAll;
     }
 
     protected List<Book> getBooksAvailable() {
-        if(booksAvailable == null){
+        if (booksAvailable == null) {
             booksAvailable = new ArrayList<>(booksAll);
         }
         return booksAvailable;

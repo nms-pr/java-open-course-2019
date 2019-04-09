@@ -48,14 +48,18 @@ public class Book {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Book book = (Book) o;
-        return identifier == book.identifier &&
-                name.equals(book.name) &&
-                shelfSpace.equals(book.shelfSpace) &&
-                typeOfLiterature == book.typeOfLiterature &&
-                Objects.equals(informationWhoTooks, book.informationWhoTooks);
+        return identifier == book.identifier
+                && name.equals(book.name)
+                && shelfSpace.equals(book.shelfSpace)
+                && typeOfLiterature == book.typeOfLiterature
+                && Objects.equals(informationWhoTooks, book.informationWhoTooks);
     }
 
     @Override

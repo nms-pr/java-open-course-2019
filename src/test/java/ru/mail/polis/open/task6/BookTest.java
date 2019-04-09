@@ -4,7 +4,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Calendar;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 class BookTest {
 
@@ -19,7 +20,8 @@ class BookTest {
 
         Calendar issueTime = Calendar.getInstance();
         Calendar returnTime = Calendar.getInstance();
-        Book.InformationWhoTook informationWhoTook = new Book.InformationWhoTook(issueTime, returnTime, VisitorTest.slava);
+        Book.InformationWhoTook informationWhoTook =
+                new Book.InformationWhoTook(issueTime, returnTime, VisitorTest.slava);
 
         b1.addInformationWhoTooks(informationWhoTook);
         assertNotEquals(b1, b2);
