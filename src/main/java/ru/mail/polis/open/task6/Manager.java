@@ -7,10 +7,10 @@ package ru.mail.polis.open.task6;
  */
 public interface Manager {
 
-    Book bringBook();
-    void removeBook(Book book);
+    boolean bringBook(Book book);
+    boolean removeBook(Book book);
 
-    boolean openInstitution();
-    boolean closeInstitution();
+    void openInstitution();
+    void closeInstitution();
 
 }

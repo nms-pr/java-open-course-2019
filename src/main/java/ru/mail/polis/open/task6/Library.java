@@ -1,42 +1,49 @@
 package ru.mail.polis.open.task6;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class Library implements Manager, Librarian {
+public class Library {
 
     private String name;
 
+    private boolean working;
+
+    private Manager manager;
+
+    private List<Book> booksAll;
+
+    private List<Book> booksAvailable;
+
     public Library(String name) {
         this.name = name;
+        this.booksAll = new ArrayList<>();
+        manager = new ManagerImpl(this);
+        manager.openInstitution();
     }
 
-    @Override
-    public boolean addBook(Book book) {
-        return false;
+    protected List<Book> getBooksAll() {
+        return booksAll;
     }
 
-    @Override
-    public Book issueBook(Book book) {
-        return null;
+    protected List<Book> getBooksAvailable() {
+        return booksAvailable;
     }
 
-    @Override
-    public boolean openInstitution() {
-        return false;
+    protected void open() {
+        working = true;
     }
 
-    @Override
-    public boolean closeInstitution() {
-        return false;
+
+    protected void close() {
+        working = false;
     }
 
-    @Override
-    public Book bringBook() {
-        return null;
+    public boolean isWorking() {
+        return working;
     }
 
-    @Override
-    public void removeBook(Book book) {
-
+    public String getName() {
+        return name;
     }
 }
