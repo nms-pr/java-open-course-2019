@@ -14,7 +14,7 @@ public class ManagerImpl implements Manager {
 
     @Override
     public boolean bringBook(Book book) {
-        if (!books.contains(book)){
+        if (!books.contains(book)) {
             books.add(book);
             return true;
         }
@@ -23,7 +23,7 @@ public class ManagerImpl implements Manager {
 
     @Override
     public boolean removeBook(Book book) {
-        if(books.contains(book)){
+        if (books.contains(book)) {
             books.remove(book);
             return true;
         }

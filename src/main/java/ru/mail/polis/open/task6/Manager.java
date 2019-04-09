@@ -8,9 +8,11 @@ package ru.mail.polis.open.task6;
 public interface Manager {
 
     boolean bringBook(Book book);
+
     boolean removeBook(Book book);
 
     void openInstitution();
+
     void closeInstitution();
 
 }

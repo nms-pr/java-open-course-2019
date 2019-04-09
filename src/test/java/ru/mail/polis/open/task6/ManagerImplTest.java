@@ -26,7 +26,6 @@ class ManagerImplTest {
 
         manager.bringBook(BookTest.b1);
         assertEquals(books, library.getBooksAll());
-
     }
 
     @Test
@@ -43,8 +42,6 @@ class ManagerImplTest {
 
         books.remove(BookTest.b1);
         assertEquals(books, library.getBooksAll());
-
-
     }
 
     @Test

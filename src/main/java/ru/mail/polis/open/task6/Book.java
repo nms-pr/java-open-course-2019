@@ -76,7 +76,7 @@ public class Book {
     }
 
     protected void addInformationWhoTooks(InformationWhoTook iwt) {
-        if(iwt == null){
+        if (iwt == null) {
             logger.warning("Информация о том, кто взял книгу не добавлена");
             return;
         }

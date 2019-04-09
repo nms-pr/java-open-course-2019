@@ -6,6 +6,7 @@ package ru.mail.polis.open.task6;
 public interface Librarian {
 
     boolean addBook(Book book);
+
     Book issueBook(Book book);
 
 }
