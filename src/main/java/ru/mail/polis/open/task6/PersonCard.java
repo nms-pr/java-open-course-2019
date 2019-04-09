@@ -23,7 +23,7 @@ public class PersonCard extends Person {
         this.listBookHistory = new ArrayList<>(50);
     }
 
-    public void takeBooks(BookGiven ... books) {
+    public void takeBooks(BookGiven... books) {
         listCurrentBooks.addAll(Arrays.asList(books));
     }
 
@@ -31,7 +31,7 @@ public class PersonCard extends Person {
         return finder(name, author);
     }
 
-    public List<BookGiven> returnBook(int ... id) {
+    public List<BookGiven> returnBook(int... id) {
         List<BookGiven> listReturn = new ArrayList<>(id.length);
         BookGiven book;
         for (int oneId: id) {
@@ -91,7 +91,7 @@ public class PersonCard extends Person {
     private BookGiven finder(@NotNull String name, @NotNull String author) {
         for (BookGiven book : listCurrentBooks) {
             if (book.name.equals(name)
-            && book.author.equals(author)) {
+                && book.author.equals(author)) {
                 listCurrentBooks.remove(book);
                 listBookHistory.add(book);
                 return book;

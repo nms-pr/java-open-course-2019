@@ -5,8 +5,13 @@ import java.util.List;
 public interface Manager {
 
     void addNewBooks(BookCard... bookCards);
+
     void openLibrary();
+
     void closeLibrary();
-    void deleteBooks(int ... idArray);
-    List<PersonCard> getGuestCards();
+
+    void deleteBooks(int... idArray);
+
+    List<BookCard> getDepository();
+
 }

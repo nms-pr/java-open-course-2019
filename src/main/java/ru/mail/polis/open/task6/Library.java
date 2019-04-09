@@ -73,8 +73,8 @@ public class Library {
         }
 
         @Override
-        public List<PersonCard> getGuestCards() {
-            return personCardList;
+        public List<BookCard> getDepository() {
+            return depository;
         }
 
         @Override
@@ -92,7 +92,7 @@ public class Library {
         public BookGiven giveBook(String name, String author) {
             for (BookCard card : depository) {
                 if (card.author.equals(author)
-                && card.name.equals(name)) {
+                    && card.name.equals(name)) {
                     return card.getBook(guest);
                 }
             }

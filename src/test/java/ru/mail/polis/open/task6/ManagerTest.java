@@ -2,6 +2,9 @@ package ru.mail.polis.open.task6;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ManagerTest {
@@ -11,8 +14,7 @@ public class ManagerTest {
 
     private static final String CLOSED_TEXT = "Библиотека закрыта";
     private static final String OPENED_TEXT = "Библиотека открыта";
-
-    private static final String ONE_BOOK = "С.В.Мильке, \"Научная наука\", Жанр: Scientific, ID: 1, В наличии: 15";
+    private static final String ONE_BOOK_S = "С.В.Мильке, \"Научная наука\", Жанр: Scientific, ID: 2, В наличии: 15";
 
 
     @BeforeAll
@@ -27,7 +29,7 @@ public class ManagerTest {
         manager.addNewBooks(
                 new BookCard("Научная наука", "С.В.Мильке", Section.Scientific, 15)
         );
-        assertEquals(librarian.getAvailableBooks()[0], ONE_BOOK );
+        assertEquals(librarian.getAvailableBooks()[0], ONE_BOOK_S);
     }
 
     @Test
@@ -44,14 +46,11 @@ public class ManagerTest {
 
     @Test
     void deleteBooks() {
-        manager.addNewBooks(
-                new BookCard("Научная наука", "С.В.Мильке", Section.Scientific, 15)
-        );
+        manager.deleteBooks(1);
     }
 
     @Test
-    void getGuestCards() {
+    void getDepository() {
 
     }
-
 }

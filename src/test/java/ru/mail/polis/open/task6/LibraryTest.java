@@ -11,7 +11,6 @@ public class LibraryTest {
 
     private static Library library;
 
-
     @BeforeAll
     static void fillLibrary() {
         library = new Library(15, 15);
@@ -28,8 +27,8 @@ public class LibraryTest {
         String word = librarian.sayHello(person);
         String[] str = librarian.getAvailableBooks();
         PersonCard card = librarian.getPersonCard();
-        BookGiven bookGiven = librarian.giveBook(5);
+        BookGiven bookGiven = librarian.giveBook(1);
         card.takeBooks(bookGiven);
-        librarian.takeBooks(card.returnBook(5));
+        librarian.takeBooks(card.returnBook(1));
     }
 }
