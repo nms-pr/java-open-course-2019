@@ -11,35 +11,45 @@ public class Book {
     private String name;
     private String section;
     private int shelfPlace;
-    private Date dateOfIssue;
+    private Date date;
     private Customer owner;
+    private int counter;
 
     public Book(int id, String name, String section, int shelfPlace) {
         this.id = id;
         this.name = name;
         this.section = section;
         this.shelfPlace = shelfPlace;
-        this.dateOfIssue = null;
+        this.date = null;
         this.owner = null;
+        this.counter = 0;
     }
 
-    public void setDateOfIssue(Date dateOfIssue) {
-        this.dateOfIssue = dateOfIssue;
+    void setDate(Date date) {
+        this.date = date;
     }
 
-    public void setOuner(Customer ouner) {
+    Date getDate() {
+        return date;
+    }
+
+    int getCounter() {
+        return ++counter;
+    }
+
+    void setOwner(Customer ouner) {
         this.owner = ouner;
-    }
-
-    public Date getDateOfIssue() {
-        return dateOfIssue;
     }
 
     public String getName() {
         return name;
     }
 
-    public Object getowner() {
+    String getSection() {
+        return section;
+    }
+
+    Object getowner() {
         return owner;
     }
 

@@ -3,47 +3,79 @@ package ru.mail.polis.open.task6.library;
 import ru.mail.polis.open.task6.Customer;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Date;
 
-public class Shelf {
-    List<Book> shelf = new ArrayList<>();
-    List<Book> availableBooks = new ArrayList<>();
-    private Book book;
+
+class Shelf {
+    private Map<String, List<Book>> shelf = new HashMap<>();
+    private List<Book> availableBooks = new ArrayList<>();
+    private Book localBook;
+    private List<String> sections = new ArrayList<>();
+
 
     void add(Book book) {
-        shelf.add(book);
+        if (!shelf.containsKey(book.getSection())) {
+            shelf.put(book.getSection(), new ArrayList<>());
+            sections.add(book.getSection());
+        }
+        shelf.get(book.getSection()).add(book);
         availableBooks.add(book);
     }
 
     void remove(Book book) {
-        for (Book e : shelf) {
+        if (!shelf.containsKey(book.getSection())) {
+            throw new IllegalArgumentException("no such section");
+        }
+        for (Book e : shelf.get(book.getSection())) {
             if (book.equals(e)) {
                 if (e.getowner() == null) {
-                    shelf.remove(e);
+                    localBook = e;
                     availableBooks.remove(e);
                 } else {
                     throw new IllegalArgumentException("can't remove this book, it's not in library now");
                 }
             }
         }
+        if (localBook == null) {
+            throw new IllegalArgumentException("no such book");
+        }
+        shelf.get(book.getSection()).remove(localBook);
+        if (shelf.get(book.getSection()).isEmpty()) {
+            shelf.remove(book.getSection());
+            sections.remove(book.getSection());
+        }
+        localBook = null;
     }
 
-    void put(Book book) {
-        for (Book e : shelf) {
+    void returnBook(Book book) {
+        if (!shelf.containsKey(book.getSection())) {
+            throw new IllegalArgumentException("no such section");
+        }
+        for (Book e : shelf.get(book.getSection())) {
             if (e.equals(book)) {
-                e.setOuner(null);
+                e.setOwner(null);
+                e.setDate(null);
                 availableBooks.add(e);
+                return;
             }
         }
+        throw new IllegalArgumentException("it'n not our book");
     }
 
-    Book take(String bookName, Customer customer) {
-        for (Book e : shelf) {
-            if (e.getName() == bookName) {
+    Book takeBook(String section, String bookName, Customer customer) {
+        if (!sections.contains(section)) {
+            throw new IllegalArgumentException("no such section");
+        }
+        for (Book e : shelf.get(section)) {
+            if (e.getName().equals(bookName)) {
                 if (e.getowner() != null) {
                     throw new IllegalArgumentException("this book is already taken");
                 }
-                e.setOuner(customer);
+                e.setOwner(customer);
+                e.setDate(new Date());
                 availableBooks.remove(e);
                 return e;
             }
@@ -56,13 +88,4 @@ public class Shelf {
         return availableBooks;
     }
 
-    //список нужных книг
-    List giveBooks() {
-        return null;
-    }
-
-    //напоминалка о возврате книг
-    String reminde() {
-        return null;
-    }
 }

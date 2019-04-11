@@ -3,12 +3,8 @@ package ru.mail.polis.open.task6;
 import ru.mail.polis.open.task6.library.Book;
 import ru.mail.polis.open.task6.library.Library;
 
-import java.util.ArrayList;
-import java.util.List;
 
 public class Customer {
-    private List<Book> myBooks = new ArrayList<>();
-    private Book book;
     private String name;
     private Library library;
     private String surname;
@@ -18,29 +14,33 @@ public class Customer {
         this.surname = surname;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public void linkWithLibrary(Library library) {
         this.library = library;
     }
 
-    public List<Book> getMyBooks() {
-        return myBooks;
-    }
 
-    public Book get(String bookName) {
+    public Book takeBook(String section, String bookName) {
         if (library.isOpen()) {
-            book = library.getLibrarian().get(bookName, this);
-            myBooks.add(book);
-            return book;
+            return library.getLibrarian().get(section, bookName, this);
+
         }
         throw new IllegalArgumentException("The library is closed");
     }
 
-    public void put(String bookname) {
-        for (Book e : myBooks) {
-            if (bookname == e.getName()) {
-                myBooks.remove(e);
-                library.getLibrarian().put(e);
-            }
+    public void returnBook(Book book) {
+        if (library.isOpen()) {
+            library.getLibrarian().put(book, this);
+            return;
         }
+        throw new IllegalArgumentException("The library is closed");
+    }
+
+    public void phone(Book book) {
+        returnBook(book);
+        //or ignore
     }
 }
