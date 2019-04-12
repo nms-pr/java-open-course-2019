@@ -1,7 +1,6 @@
 package ru.mail.polis.open.task6.library;
 
 import ru.mail.polis.open.task6.Customer;
-import ru.mail.polis.open.task6.People;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +33,7 @@ public class Librarian {
         return book;
     }
 
-    public List<Book> get (Customer customer, String ... request){
+    public List<Book> get(Customer customer, String...request) {
         books.clear();
         for (int i = 1; i < request.length; i++) {
             books.add(get(customer,request[0],request[i]));

@@ -31,7 +31,7 @@ class Shelf {
         }
         for (Book e : shelf.get(book.getSection())) {
             if (book.equals(e)) {
-                if (e.getowner() == null) {
+                if (e.getOwner() == null) {
                     localBook = e;
                     availableBooks.remove(e);
                 } else {
@@ -71,7 +71,7 @@ class Shelf {
         }
         for (Book e : shelf.get(section)) {
             if (e.getName().equals(bookName)) {
-                if (e.getowner() != null) {
+                if (e.getOwner() != null) {
                     throw new IllegalArgumentException("this book is already taken");
                 }
                 e.setOwner(customer);

@@ -37,8 +37,8 @@ public class Book {
         return ++counter;
     }
 
-    void setOwner(Customer ouner) {
-        this.owner = ouner;
+    void setOwner(Customer owner) {
+        this.owner = owner;
     }
 
     public String getName() {
@@ -49,7 +49,7 @@ public class Book {
         return section;
     }
 
-    Object getowner() {
+    Object getOwner() {
         return owner;
     }
 

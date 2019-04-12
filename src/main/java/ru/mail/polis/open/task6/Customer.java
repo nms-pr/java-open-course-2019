@@ -33,7 +33,7 @@ public class Customer {
         throw new IllegalArgumentException("The library is closed");
     }
 
-    public List<Book> takeBook(String ... request){
+    public List<Book> takeBook(String...request) {
         if (library.isOpen()) {
             return library.getLibrarian().get(this,request);
 
@@ -41,9 +41,9 @@ public class Customer {
         throw new IllegalArgumentException("The library is closed");
     }
 
-    public void returnBook(Book ... book) {
+    public void returnBook(Book...book) {
         if (library.isOpen()) {
-            for (int i = 0; i <book.length ; i++) {
+            for (int i = 0; i < book.length; i++) {
                 library.getLibrarian().put(book[i], this);
             }
             return;
