@@ -123,6 +123,7 @@ public class LibraryTest {
         manager.put(java10);
         manager.put(java11);
         assertEquals(new ArrayList<>(Arrays.asList(java9, java10, java11)) ,pavel.takeBook("programming", "Java9", "Java10", "Java11"));
+        pavel.returnBook(java8,java9,java10);
         library.listOfTakenBooks();
 
     }
