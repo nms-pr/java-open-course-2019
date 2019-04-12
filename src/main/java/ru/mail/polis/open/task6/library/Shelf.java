@@ -12,8 +12,10 @@ import java.util.Date;
 class Shelf {
     private Map<String, List<Book>> shelf = new HashMap<>();
     private List<Book> availableBooks = new ArrayList<>();
+    private List<Book> takenBooks = new ArrayList<>();
     private Book localBook;
     private List<String> sections = new ArrayList<>();
+    private List<TakenBookState> takenBooksInfo = new ArrayList<>();
 
 
     void add(Book book) {
@@ -59,6 +61,7 @@ class Shelf {
                 e.setOwner(null);
                 e.setDate(null);
                 availableBooks.add(e);
+                takenBooks.remove(e);
                 return;
             }
         }
@@ -76,6 +79,7 @@ class Shelf {
                 }
                 e.setOwner(customer);
                 e.setDate(new Date());
+                takenBooks.add(e);
                 availableBooks.remove(e);
                 return e;
             }
@@ -86,6 +90,14 @@ class Shelf {
 
     List<Book> availableBooks() {
         return availableBooks;
+    }
+
+    List<TakenBookState> takenBooksInfo() {
+        takenBooksInfo.clear();
+        for (Book e : takenBooks) {
+            takenBooksInfo.add(new TakenBookState(e.getName(),e.getOwner().getName(),e.getDate()));
+        }
+        return takenBooksInfo;
     }
 
 }

@@ -3,11 +3,13 @@ package ru.mail.polis.open.task6;
 import org.junit.jupiter.api.Test;
 import ru.mail.polis.open.task6.library.Book;
 import ru.mail.polis.open.task6.library.Librarian;
+import ru.mail.polis.open.task6.library.TakenBookState;
 import ru.mail.polis.open.task6.library.Library;
 import ru.mail.polis.open.task6.library.Manager;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -122,10 +124,13 @@ public class LibraryTest {
         manager.put(java9);
         manager.put(java10);
         manager.put(java11);
+        //возьмём сразу много книг из бтблиотеки
         assertEquals(new ArrayList<>(Arrays.asList(java9, java10, java11)),
                 pavel.takeBook("programming", "Java9", "Java10", "Java11"));
+        //вернём сразу много
         pavel.returnBook(java8,java9,java10);
-        library.listOfTakenBooks();
-
+        //итак, на руках у нас одна книга
+        assertEquals(1,library.takenBooksInfo().size());
+        library.takenBooksInfo();
     }
 }

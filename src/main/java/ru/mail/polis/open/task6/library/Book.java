@@ -49,7 +49,7 @@ public class Book {
         return section;
     }
 
-    Object getOwner() {
+    Customer getOwner() {
         return owner;
     }
 

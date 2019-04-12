@@ -15,7 +15,7 @@ public class Library {
     private Librarian librarian;
     private Shelf shelf = new Shelf();
     private boolean isOpen = true;
-    private SimpleDateFormat formatForDateNow = new SimpleDateFormat("dd.MM.yyyy ");
+
 
     public Library(Manager manager, Librarian librarian) {
         this.manager = manager;
@@ -61,13 +61,7 @@ public class Library {
         }
     }
 
-    public void listOfTakenBooks() {
-        System.out.println("Кто \t Что \t Когда");
-        for (Map.Entry<Customer, ArrayList<Book>> customer : customers.entrySet()) {
-            for (Book book : customer.getValue()) {
-                System.out.println(customer.getKey().getName() + "\t" + book.getName() + "\t"
-                        + formatForDateNow.format(book.getDate()));
-            }
-        }
+    public List<TakenBookState> takenBooksInfo() {
+        return shelf.takenBooksInfo();
     }
 }
