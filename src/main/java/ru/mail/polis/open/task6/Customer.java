@@ -3,6 +3,8 @@ package ru.mail.polis.open.task6;
 import ru.mail.polis.open.task6.library.Book;
 import ru.mail.polis.open.task6.library.Library;
 
+import java.util.List;
+
 
 public class Customer {
     private String name;
@@ -25,7 +27,15 @@ public class Customer {
 
     public Book takeBook(String section, String bookName) {
         if (library.isOpen()) {
-            return library.getLibrarian().get(section, bookName, this);
+            return library.getLibrarian().get(this,section, bookName);
+
+        }
+        throw new IllegalArgumentException("The library is closed");
+    }
+
+    public List<Book> takeBook(String ... request){
+        if (library.isOpen()) {
+            return library.getLibrarian().get(this,request);
 
         }
         throw new IllegalArgumentException("The library is closed");

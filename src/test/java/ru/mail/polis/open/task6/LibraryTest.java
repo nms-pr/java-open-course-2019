@@ -6,6 +6,9 @@ import ru.mail.polis.open.task6.library.Librarian;
 import ru.mail.polis.open.task6.library.Library;
 import ru.mail.polis.open.task6.library.Manager;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -27,6 +30,9 @@ public class LibraryTest {
         librarian.linkWithLibrary(library);
         
         final Book java8 = new Book(1, "Java8", "programming", 1);
+        final Book java9 = new Book(1, "Java9", "programming", 1);
+        final Book java10 = new Book(1, "Java10", "programming", 1);
+        final Book java11 = new Book(1, "Java11", "programming", 1);
         final Book martinEden = new Book(1, "Martin Eden", "fiction", 1);
         final Book c = new Book(2, "C", "programming", 1);
 
@@ -113,6 +119,11 @@ public class LibraryTest {
         );
         pavel.returnBook(martinEden);
         assertEquals(1, library.getAvailableBooks().size());
+        manager.put(java9);
+        manager.put(java10);
+        manager.put(java11);
+        assertEquals(new ArrayList<>(Arrays.asList(java9, java10, java11)) ,pavel.takeBook("programming", "Java9", "Java10", "Java11"));
         library.listOfTakenBooks();
+
     }
 }
