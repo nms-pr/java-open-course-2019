@@ -1,6 +1,7 @@
 package ru.mail.polis.open.task4;
 
 import org.jetbrains.annotations.Nullable;
+import java.util.LinkedList;
 
 public class SolutionExpr implements ExprBuilder {
 
@@ -25,7 +26,7 @@ public class SolutionExpr implements ExprBuilder {
     @Override
     public Expr build(@Nullable String input) {
         if (input == null) {
-            throw new IllegalArgumentException("Imput is null!");
+            throw new IllegalArgumentException("Input is null!");
         }
 
         input = input.replaceAll("\\s","");
@@ -34,128 +35,106 @@ public class SolutionExpr implements ExprBuilder {
             throw new IllegalArgumentException("Input is empty!");
         }
 
-        Result result = plusMinus(input);
+        Result result = make(input);
         if (!result.raw.isEmpty()) {
             throw new IllegalArgumentException("Error: can't full parse. rest: " + result.raw);
         }
         return result.answer;
     }
 
-    private Result plusMinus(String s) {
-        Result current = mulDiv(s);
-        Expr result = current.answer;
+    public boolean isOperation(char symbol) {
+        return symbol == PLUS || symbol == SUBSTRACT || symbol == DEVIDE || symbol == POWER || symbol == MULTIPLY;
+    }
 
-        while (current.raw.length() > 0) {
-            if (!(current.raw.charAt(0) == PLUS || current.raw.charAt(0) == SUBSTRACT)) {
+    public boolean interval(char symbol) {
+        return symbol == ' ';
+    }
+
+    public int opearatorsPriority(char operand) {
+        switch (operand) {
+            case PLUS:
+            case SUBSTRACT:
+                return 1;
+            case POWER:
+            case DEVIDE:
+            case MULTIPLY:
+                return 2;
+            case OPENBRACKET:
+            case CLOSEBRACKET:
+                return -1;
+            default:
+                throw new IllegalArgumentException("Operation not found!");
+        }
+    }
+
+    public void operator(LinkedList<Integer> number, char operation) {
+        int right = number.removeLast();
+        int left = number.removeLast();
+        switch (operation) {
+            case PLUS:
+                number.add(new Add(new Const(left),new Const(right)).evaluate());
                 break;
+            case SUBSTRACT:
+                number.add(new Sub(new Const(left),new Const(right)).evaluate());
+                break;
+            case MULTIPLY:
+                number.add(new Mult(new Const(left),new Const(right)).evaluate());
+                break;
+            case DEVIDE:
+                if (new Const(right).evaluate() == 0) {
+                    throw new IllegalArgumentException("Divide by zero!");
+                } else {
+                    number.add(new Div(new Const(left), new Const(right)).evaluate());
+                }
+                break;
+            case POWER:
+                number.add(new Pow(new Const(left),new Const(right)).evaluate());
+                break;
+            default:
+                throw new IllegalArgumentException("Operator not found!");
+        }
+    }
+
+
+    public Result make(@Nullable String str) {
+        SolutionExpr obj = new SolutionExpr();
+        LinkedList<Integer> number = new LinkedList<Integer>();
+        LinkedList<Character> operation = new LinkedList<Character>();
+
+        for (int i = 0; i < str.length(); i++) {
+            char symbol = str.charAt(i);
+
+            if (obj.interval(symbol)) {
+                continue;
             }
 
-            char sign = current.raw.charAt(0);
-            String next = current.raw.substring(1);
-
-            current = mulDiv(next);
-            if (sign == PLUS) {
-                result = new Add(result, current.answer);
+            if (symbol == OPENBRACKET) {
+                operation.add(OPENBRACKET);
+            } else if (symbol == CLOSEBRACKET) {
+                while (operation.getLast() != OPENBRACKET) {
+                    operator(number, operation.removeLast());
+                }
+                operation.removeLast();
+            } else if (obj.isOperation(symbol)) {
+                while (!operation.isEmpty() && obj.opearatorsPriority(operation.getLast())
+                        >= obj.opearatorsPriority(symbol)) {
+                    operator(number, operation.removeLast());
+                }
+                operation.add(symbol);
             } else {
-                result = new Sub(result, current.answer);
+                String operand = "";
+                while (i < str.length() && Character.isDigit(str.charAt(i))) {
+                    operand += str.charAt(i++);
+                }
+                --i;
+                number.add(new Const(Integer.parseInt(operand)).evaluate());
             }
         }
-        return new Result(result, current.raw);
+
+        while (!operation.isEmpty()) {
+            operator(number, operation.removeLast());
+        }
+        return new Result(new Const(number.get(0)),"");
+
     }
-
-    private Result mulDiv(String s) {
-        Result current = pow(s);
-
-        Expr result = current.answer;
-        while (true) {
-            if (current.raw.length() == 0) {
-                return current;
-            }
-            char sign = current.raw.charAt(0);
-            if ((sign != MULTIPLY && sign != DEVIDE)) {
-                return current;
-            }
-
-            String next = current.raw.substring(1);
-            Result right = pow(next);
-
-            if (sign == '*') {
-                result = new Mult(result, right.answer);
-            } else if (right.answer.evaluate() == 0) {
-                throw new IllegalArgumentException("Dividing by 0!");
-            } else {
-                result = new Div(result, right.answer);
-            }
-
-            current = new Result(result, right.raw);
-        }
-    }
-
-    private Result pow(String s) {
-        Result current = bracket(s);
-        Expr result = current.answer;
-
-        while (true) {
-            if (current.raw.length() == 0) {
-                return current;
-            }
-            char sign = current.raw.charAt(0);
-            if (sign != POWER) {
-                return current;
-            }
-
-            String next = current.raw.substring(1);
-            Result right = bracket(next);
-
-            result = new Pow(result, right.answer);
-
-            current = new Result(result, right.raw);
-        }
-    }
-
-    private Result bracket(String s) {
-        char zeroChar = s.charAt(0);
-        if (zeroChar == OPENBRACKET) {
-            Result r = plusMinus(s.substring(1));
-            if (!r.raw.isEmpty() && r.raw.charAt(0) == CLOSEBRACKET) {
-                r.raw = r.raw.substring(1);
-            } else {
-                throw new IllegalArgumentException("CLOSEBRACKET not found!");
-            }
-            return r;
-        }
-        return num(s);
-    }
-
-    private Result num(String line) {
-        int i = 0;
-        int exprPart;
-        boolean minus = false;
-        if (line.charAt(0) == SUBSTRACT) {
-            minus = true;
-            line = line.substring(1);
-        }
-        while (i < line.length() && Character.isDigit(line.charAt(i))) {
-            i++;
-        }
-
-        if ((line.charAt(0) == OPENBRACKET || line.charAt(0) == '-') && minus) {
-            Result r = plusMinus(line);
-            exprPart = -r.answer.evaluate();
-            return new Result(new Const(exprPart), r.raw);
-        }
-
-        if (i == 0) {
-            throw new IllegalArgumentException("Can't get valid number in '" + line + "'!");
-        }
-
-        exprPart = Integer.parseInt(line.substring(0, i));
-        if (minus) {
-            exprPart = -exprPart;
-        }
-        String restPart = line.substring(i);
-
-        return new Result(new Const(exprPart), restPart);
-    }
-
 }
