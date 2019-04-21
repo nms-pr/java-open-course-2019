@@ -1,5 +1,6 @@
 package ru.mail.polis.open.task6;
 
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -7,6 +8,12 @@ import org.junit.jupiter.api.Test;
 public class VisitorTest {
 
     private Visitor testVisitor;
+
+    @AfterAll
+    static void cleanLibraryStorage() {
+        LibraryStorage.getAvailableBooks().clear();
+        LibraryStorage.getGivenBooks().clear();
+    }
 
     @BeforeEach
     void refreshStore() {
@@ -17,6 +24,7 @@ public class VisitorTest {
 
     @BeforeEach
     void fillLibrary() {
+
         Book firstBook = new Book("Курсы мертвых магов", 10);
         LibraryStorage.addNewBook(firstBook);
         firstBook.setShelfSpace(0);
@@ -40,8 +48,6 @@ public class VisitorTest {
 
     @Test
     void getBookByNameTest() {
-        //String[] names = {"Курсы мертвых магов", "Тайная зима"};
-        //int[] sections = {10, 23};
 
         Assertions.assertNotNull(LibraryStorage.getAvailableBooks().get(10).get(0));
         Assertions.assertNotNull(LibraryStorage.getAvailableBooks().get(23).get(0));
@@ -57,8 +63,6 @@ public class VisitorTest {
 
     @Test
     void getBookByIdTest() {
-        //int[] ids = {"Море убитой веры".hashCode(), "Одноглазая ловушка".hashCode()};
-        //int[] sections = {17, 23};
 
         Assertions.assertNotNull(LibraryStorage.getAvailableBooks().get(17).get(0));
         Assertions.assertNotNull(LibraryStorage.getAvailableBooks().get(23).get(1));
@@ -76,9 +80,10 @@ public class VisitorTest {
 
     @Test
     void giveBookByBookTest() {
-        String[] names = {"Страницы каждой жизни", "Одноглазая ловушка"};
-        int[] sections = {10, 23};
-        testVisitor.getBooks(names, sections);
+
+        testVisitor.getBooks(
+                new String[] {"Страницы каждой жизни", "Одноглазая ловушка"},
+                new int[] {10, 23});
 
         Assertions.assertNull(LibraryStorage.getAvailableBooks().get(23).get(1));
         Assertions.assertEquals(2, LibraryStorage.getGivenBooks().size());
@@ -99,9 +104,10 @@ public class VisitorTest {
 
     @Test
     void giveBookByIndexTest() {
-        String[] names = {"Страницы каждой жизни", "Море убитой веры"};
-        int[] sections = {10, 17};
-        testVisitor.getBooks(names, sections);
+
+        testVisitor.getBooks(
+                new String[] {"Страницы каждой жизни", "Море убитой веры"},
+                new int[] {10, 17});
 
         Assertions.assertEquals(2, testVisitor.getTakenBooks().size());
         Assertions.assertEquals(2, LibraryStorage.getGivenBooks().size());

@@ -1,5 +1,6 @@
 package ru.mail.polis.open.task6;
 
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -8,6 +9,12 @@ public class ManagerTest {
 
     private Manager manager;
 
+    @AfterAll
+    static void cleanLibraryStorage() {
+        LibraryStorage.getGivenBooks().clear();
+        LibraryStorage.getAvailableBooks().clear();
+    }
+
     @BeforeEach
     void refreshStore() {
         manager = new Manager();
@@ -15,15 +22,19 @@ public class ManagerTest {
         LibraryStorage.getAvailableBooks().clear();
     }
 
-    @Test
-    void addBookTest() {
-
+    private void fillLibraryViaManager() {
         manager.addBook(new Book("new book 1", 1));
         manager.addBook(new Book("new book 2", 1));
         manager.addBook(new Book("new book 3", 2));
 
         manager.addBook("new book 4", 3);
         manager.addBook("new book 5", 4);
+    }
+
+    @Test
+    void addBookTest() {
+
+        fillLibraryViaManager();
 
         Assertions.assertEquals(4, LibraryStorage.getAvailableBooks().size());
         Assertions.assertEquals(0, LibraryStorage.getGivenBooks().size());
@@ -35,11 +46,8 @@ public class ManagerTest {
 
     @Test
     void removeBookTest() {
-        manager.addBook(new Book("new book 1", 1));
-        manager.addBook(new Book("new book 2", 1));
-        manager.addBook(new Book("new book 3", 2));
-        manager.addBook("new book 4", 3);
-        manager.addBook("new book 5", 4);
+
+        fillLibraryViaManager();
 
         Book removingBook = new Book("new book 2", 1);
         removingBook.setShelfSpace(1);

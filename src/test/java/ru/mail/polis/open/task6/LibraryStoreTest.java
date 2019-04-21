@@ -1,10 +1,18 @@
 package ru.mail.polis.open.task6;
 
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class LibraryStoreTest {
+
+
+    @AfterAll
+    static void cleanLibraryStorage() {
+        LibraryStorage.getGivenBooks().clear();
+        LibraryStorage.getAvailableBooks().clear();
+    }
 
     @BeforeEach
     void refreshStore() {

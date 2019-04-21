@@ -1,5 +1,6 @@
 package ru.mail.polis.open.task6;
 
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,6 +19,13 @@ public class LibraryTest {
     private Book fifthBook;
     private Book notExistingBook;
     private Visitor visitor;
+
+    @AfterAll
+    static void cleanLibraryStorage() {
+        LibraryStorage.getAvailableBooks().clear();
+        LibraryStorage.getGivenBooks().clear();
+        Library.getGiveOutInformationList().clear();
+    }
 
     @BeforeEach
     void refreshStore() {
