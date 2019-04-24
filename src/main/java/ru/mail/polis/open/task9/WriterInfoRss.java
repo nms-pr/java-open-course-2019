@@ -1,6 +1,5 @@
 package ru.mail.polis.open.task9;
 
-import com.rometools.rome.feed.synd.SyndContent;
 import com.rometools.rome.feed.synd.SyndEntry;
 import com.rometools.rome.feed.synd.SyndFeed;
 import com.rometools.rome.io.FeedException;
@@ -20,25 +19,22 @@ public class WriterInfoRss {
     private SyndFeed feed;
     private boolean building;
 
-    WriterInfoRss(String link, String file) {
+    public WriterInfoRss(String link, String file) {
         try {
             this.url = new URL(link);
         } catch (MalformedURLException e) {
             e.printStackTrace();
+            throw new IllegalArgumentException("URL cannot be a NULL");
         }
 
         this.file = new File(file);
         this.building = false;
     }
 
-    void build() {
+    public void build() {
         SyndFeedInput input = new SyndFeedInput();
 
         try {
-            if (url == null) {
-                throw new IllegalArgumentException("URL cannot be a NULL");
-            }
-
             feed = input.build(new XmlReader(url));
             building = true;
         } catch (IOException | FeedException e) {
@@ -46,7 +42,7 @@ public class WriterInfoRss {
         }
     }
 
-    void writeToFile() {
+    public void writeToFile() {
         if (!building) {
             throw new NotDoneBuildException("You didn't build");
         }
@@ -57,26 +53,17 @@ public class WriterInfoRss {
                         ? entry.getTitle()
                         : "title : NULL") + "\n"
                         + (entry.getDescription() != null
-                        ? entry.getDescription()
+                        ? entry.getDescription().getValue()
                         : "description : NULL") + "\n"
                         + (entry.getPublishedDate() != null
                         ? entry.getPublishedDate().toString()
                         : "time : NULL") + "\n"
-                        + entry.getLink() + "\n"
+                        + entry.getLink() + "\n\n"
                 );
 
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-        public static void main(String[] args) {
-        WriterInfoRss writer = new WriterInfoRss(
-            "https://www.fontanka.ru/fontanka.rss",
-            "result.txt"
-        );
-        writer.build();
-        writer.writeToFile();
     }
 }
