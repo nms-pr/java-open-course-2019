@@ -1,5 +1,7 @@
 package ru.mail.polis.open.task9;
 
+import com.rometools.rome.feed.synd.SyndContent;
+import com.rometools.rome.feed.synd.SyndEntry;
 import com.rometools.rome.feed.synd.SyndFeed;
 import com.rometools.rome.io.FeedException;
 import com.rometools.rome.io.SyndFeedInput;
@@ -16,6 +18,7 @@ public class WriterInfoRss {
     private URL url;
     private File file;
     private SyndFeed feed;
+    private boolean building;
 
     WriterInfoRss(String link, String file) {
         try {
@@ -25,6 +28,10 @@ public class WriterInfoRss {
         }
 
         this.file = new File(file);
+        this.building = false;
+    }
+
+    void build() {
         SyndFeedInput input = new SyndFeedInput();
 
         try {
@@ -33,42 +40,43 @@ public class WriterInfoRss {
             }
 
             feed = input.build(new XmlReader(url));
+            building = true;
         } catch (IOException | FeedException e) {
             e.printStackTrace();
         }
     }
 
-    void writeInFile() {
+    void writeToFile() {
+        if (!building) {
+            throw new NotDoneBuildException("You didn't build");
+        }
         try (FileWriter fw = new FileWriter(file)) {
-            fw.write(
-                (feed.getTitle() != null
-                    ? feed.getTitle()
-                    : "title : NULL")
-                + "\n");
+            for (SyndEntry entry : feed.getEntries()) {
+                fw.write(
+                    (entry.getTitle() != null
+                        ? entry.getTitle()
+                        : "title : NULL") + "\n"
+                        + (entry.getDescription() != null
+                        ? entry.getDescription()
+                        : "description : NULL") + "\n"
+                        + (entry.getPublishedDate() != null
+                        ? entry.getPublishedDate().toString()
+                        : "time : NULL") + "\n"
+                        + entry.getLink() + "\n"
+                );
 
-            fw.write(
-                (feed.getDescription() != null
-                    ? feed.getDescription()
-                    : "description : NULL")
-                + "\n");
-
-            fw.write(
-                (feed.getPublishedDate() != null
-                    ? feed.getPublishedDate().toString()
-                    : "time : NULL")
-                + "\n");
-
-            fw.write(feed.getLink() + "\n");
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public static void main(String[] args) {
+        public static void main(String[] args) {
         WriterInfoRss writer = new WriterInfoRss(
             "https://www.fontanka.ru/fontanka.rss",
             "result.txt"
         );
-        writer.writeInFile();
+        writer.build();
+        writer.writeToFile();
     }
 }
