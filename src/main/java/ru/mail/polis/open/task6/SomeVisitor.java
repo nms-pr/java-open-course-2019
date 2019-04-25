@@ -5,7 +5,6 @@ import java.util.List;
 
 public class SomeVisitor extends People implements Visitor {
 
-    private final int LIST_OF_BOOKS_CAPACITY = 5; // todo: Проверять емкость
     private List<Book> listOfBookForVisitor;
 
     SomeVisitor(String name, int age, char gender) {
@@ -13,14 +12,15 @@ public class SomeVisitor extends People implements Visitor {
         this.age = age;
         this.gender = gender;
         listOfBookForVisitor = new ArrayList<>();
-        for (int i = 0; i < LIST_OF_BOOKS_CAPACITY; i++) {
-            listOfBookForVisitor.add(null);
-        }
+    }
+
+    List<Book> getTakenBooks() {
+        return listOfBookForVisitor;
     }
 
     public void returnBook(Book book) {
-       Library.librarian.takeBookIn(book, this);
-       listOfBookForVisitor.remove(book);
+        Library.librarian.takeBookIn(book, this);
+        listOfBookForVisitor.remove(book);
     }
 
     public void getBook(String bookName) {
@@ -29,14 +29,14 @@ public class SomeVisitor extends People implements Visitor {
         }
         Book book = Library.librarian.giveOutBook(bookName, this);
         if (book == null) {
-            System.out.println("Запрашиваемая книга не найдена");
+            throw new IllegalArgumentException("Запрашиваемая книга не найдена");
         } else {
             listOfBookForVisitor.add(book);
         }
     }
 
-//  В методе ниже подразумеваем, что книга всегда существует во владении у пользователя,
-//  поэтому не проверяем название книги на ее существование у пользователя
+    //  В методе ниже подразумеваем, что книга всегда существует во владении у пользователя,
+    //  поэтому не проверяем название книги на ее существование у пользователя
 
     public void prolongBook(Book book) {
         Library.librarian.takeBookForProlong(book);

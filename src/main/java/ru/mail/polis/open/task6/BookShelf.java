@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BookShelf {
-    private final int SHELF_QUANTITY = 20;
+    private static final int SHELF_QUANTITY = 20;
     public int shelf;
     private List<Book> booksOnShelf;
 
@@ -24,5 +24,7 @@ public class BookShelf {
         return booksOnShelf;
     }
 
-    public int getBookShelf() { return shelf - 1 ; }
+    public int getBookShelf() {
+        return shelf - 1;
+    }
 }

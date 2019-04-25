@@ -67,8 +67,8 @@ public class Book {
 
     @Override
     public String toString() {
-        return "Book: { Номер: " + id + ", Название: " + name +
-                ", Автор: " + author + ", Секция: " + section;
+        return "Book: { Номер: " + id + ", Название: " + name
+               + ", Автор: " + author + ", Секция: " + section;
     }
 
     @Override

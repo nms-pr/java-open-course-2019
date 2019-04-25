@@ -6,7 +6,10 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 
 class SomeLibrarianTest {
 
@@ -36,7 +39,11 @@ class SomeLibrarianTest {
 
     @AfterAll
     static void clear() {
-
+        Library.setLibStatus(false);
+        Library.getAllShelfsInLib().clear();
+        Library.getAllBooks().clear();
+        Library.getBusyBooksInLib().clear();
+        visitor.getTakenBooks().clear();
     }
 
 }

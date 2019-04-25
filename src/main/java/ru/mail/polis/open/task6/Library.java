@@ -29,7 +29,7 @@ public class Library {
     }
 
     static void libInit() {
-        for(int i = 0; i < SHELFS_NUMBER; i++) {
+        for (int i = 0; i < SHELFS_NUMBER; i++) {
             bookShelfList.add(new BookShelf(i + 1));
         }
         status = true;
@@ -42,7 +42,7 @@ public class Library {
         books.add(new Book("Кристина","Кинг","Триллер",3,1));
         books.add(new Book("Вспоминая моих грустных шлюх","Маркес","Роман",3,2));
         books.add(new Book("Майн Кампф","Гитлер","Автобиография",3,3));
-        for(Book book : books) {
+        for (Book book : books) {
             Library.getAllShelfsInLib().get(book.getBookShelf()).getBooksFromShelf().add(book.getSpaceNumber(), book);
         }
     }
@@ -71,5 +71,9 @@ public class Library {
             }
         }
         throw new IllegalArgumentException("В библиотеке нет места");
+    }
+
+    static List<Book> getBusyBooksInLib() {
+        return busyBooks;
     }
 }

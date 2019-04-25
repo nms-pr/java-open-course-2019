@@ -13,6 +13,19 @@ public class SomeManager extends People implements Manager {
         Library.libInit();
     }
 
+    public void addBook(Book book) {
+        if (book == null) {
+            throw new IllegalArgumentException("Книга не может быть null");
+        }
+        if (Library.placeIsBusy(book.getBookShelf(), book.getSpaceNumber())) {
+            book = Library.findPlaceForBook(book);
+            Library.getAllBooks().add(book);
+        } else {
+            Library.getAllShelfsInLib().get(book.getBookShelf()).getBooksFromShelf().add(book.getSpaceNumber(), book);
+            Library.getAllBooks().add(book);
+        }
+    }
+
     public void closeLibrary() {
         Library.setLibStatus(false);
     }

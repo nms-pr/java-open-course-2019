@@ -23,8 +23,11 @@ public class SomeLibrarian extends People implements Librarian {
             throw new IllegalArgumentException("Название книги не может быть null");
         }
         Book book = findBook(name);
-        if (book!= null) {
+        Library.getAllBooks().remove(book);
+        if (book != null) {
             book.setUser(visitor);
+            visitor.getTakenBooks().add(book);
+            Library.getBusyBooksInLib().add(book);
             book.setTakenDate(LocalDateTime.now());
             return book;
         } else {
@@ -32,20 +35,26 @@ public class SomeLibrarian extends People implements Librarian {
         }
     }
 
-    public void takeBookIn(Book book, SomeVisitor visitor){
+    public void takeBookIn(Book book, SomeVisitor visitor) {
         if (book == null) {
             throw new IllegalArgumentException("Название не может быть null");
         }
-        if(Library.placeIsBusy(book.getBookShelf(), book.getSpaceNumber())) {
+        if (Library.placeIsBusy(book.getBookShelf(), book.getSpaceNumber())) {
             Book internalBook = Library.findPlaceForBook(book);
             internalBook.setUser(null);
             internalBook.setTakenDate(null);
+            visitor.getTakenBooks().remove(internalBook);
+            Library.getBusyBooksInLib().remove(internalBook);
             internalBook.setReturnDate(LocalDateTime.now());
+            Library.getAllBooks().add(internalBook);
         } else {
             book.setUser(null);
             book.setTakenDate(null);
+            visitor.getTakenBooks().remove(book);
+            Library.getBusyBooksInLib().remove(book);
             book.setReturnDate(LocalDateTime.now());
             Library.getAllShelfsInLib().get(book.getBookShelf()).getBooksFromShelf().add(book);
+            Library.getAllBooks().add(book);
         }
     }
 
