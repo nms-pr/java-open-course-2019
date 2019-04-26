@@ -1,6 +1,7 @@
 package ru.mail.polis.open.task9;
 
-import com.rometools.rome.feed.synd.*;
+import com.rometools.rome.feed.synd.SyndEntry;
+import com.rometools.rome.feed.synd.SyndFeed;
 import com.rometools.rome.io.FeedException;
 import com.rometools.rome.io.SyndFeedInput;
 import com.rometools.rome.io.XmlReader;
@@ -20,15 +21,15 @@ public class RssDataProvider {
         FileWriter writer = new FileWriter(fileName);
 
         for (SyndEntry entry: newsFeed.getEntries()) {
-            writer.write("Title: " +
-                    entry.getTitle() +
-                    "\nDescription: " +
-                    entry.getDescription().getValue() +
-                    "\nLink: " +
-                    entry.getLink() +
-                    "\nPublishing date: " +
-                    entry.getPublishedDate() +
-                    "\n-------------------\n");
+            writer.write("Title: "
+                    + entry.getTitle()
+                    + "\nDescription: "
+                    + entry.getDescription().getValue()
+                    + "\nLink: "
+                    + entry.getLink()
+                    + "\nPublishing date: "
+                    + entry.getPublishedDate()
+                    + "\n-------------------\n");
         }
 
         writer.close();
