@@ -24,11 +24,11 @@ class RssToFileSaverTest {
     @Test
     void saveToFileTest() {
         try {
-            String inputFilePath = "src/test/java/ru/mail/polis/open/task9/test_input";
-            URL inputFileUrl = new File(inputFilePath).toURI().toURL();
 
-            String expectedFilePath = "src/test/java/ru/mail/polis/open/task9/test_expected_result";
-            String resultFilePath = "src/test/java/ru/mail/polis/open/task9/test_real_result";
+            URL inputFileUrl = getClass().getResource("test_input");
+
+            String expectedFilePath = getClass().getResource("test_expected_result").getPath();
+            String resultFilePath = getClass().getResource("test_real_result").getPath();
 
             assertAll(() -> rssToFileSaver.saveToFile(inputFileUrl, resultFilePath));
 
