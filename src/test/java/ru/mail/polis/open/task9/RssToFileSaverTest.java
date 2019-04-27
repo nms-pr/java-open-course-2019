@@ -8,6 +8,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -28,7 +30,11 @@ class RssToFileSaverTest {
             URL inputFileUrl = getClass().getResource("test_input");
 
             String expectedFilePath = getClass().getResource("test_expected_result").getPath();
-            String resultFilePath = getClass().getResource("test_real_result").getPath();
+
+            Path path = Paths.get(expectedFilePath);
+
+            String resultFilePath =
+                    Paths.get(path.getParent().toString(), "test_real_result").toString();
 
             assertAll(() -> rssToFileSaver.saveToFile(inputFileUrl, resultFilePath));
 
