@@ -22,13 +22,15 @@ public class RssDataProvider {
 
         for (SyndEntry entry: newsFeed.getEntries()) {
             writer.write("Title: "
-                    + entry.getTitle()
+                    + (entry.getTitle() == null ? "null" : entry.getTitle())
                     + "\nDescription: "
-                    + entry.getDescription().getValue()
+                    + (entry.getDescription() == null ? "null" :
+                            entry.getDescription().getValue() == null ? "null" :
+                                    entry.getDescription().getValue())
                     + "\nLink: "
-                    + entry.getLink()
+                    + (entry.getLink() == null ? "null" : entry.getLink())
                     + "\nPublishing date: "
-                    + entry.getPublishedDate()
+                    + (entry.getPublishedDate() == null ? "null" : entry.getPublishedDate())
                     + "\n-------------------\n");
         }
 

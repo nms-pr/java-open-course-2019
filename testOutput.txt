@@ -1,0 +1,27 @@
+Title: Star City
+Description: How do Americans get ready to work with Russians aboard the
+                International Space Station? They take a crash course in culture, language
+                and protocol at Russia's Star City.
+Link: http://liftoff.msfc.nasa.gov/news/2003/news-starcity.asp
+Publishing date: Tue Jun 03 17:39:21 KRAST 2003
+-------------------
+Title: Space Exploration
+Description: Sky watchers in Europe, Asia, and parts of Alaska and Canada
+                will experience a partial eclipse of the Sun on Saturday, May 31st.
+Link: http://liftoff.msfc.nasa.gov/
+Publishing date: Fri May 30 19:06:42 KRAST 2003
+-------------------
+Title: The Engine That Does More
+Description: Before man travels to Mars, NASA hopes to design new engines
+                that will let us fly through the Solar System more quickly. The proposed
+                VASIMR engine would do that.
+Link: http://liftoff.msfc.nasa.gov/news/2003/news-VASIMR.asp
+Publishing date: Tue May 27 16:37:32 KRAST 2003
+-------------------
+Title: Astronauts' Dirty Laundry
+Description: Compared to earlier spacecraft, the International Space
+                Station has many luxuries, but laundry facilities are not one of them.
+                Instead, astronauts have other options.
+Link: http://liftoff.msfc.nasa.gov/news/2003/news-laundry.asp
+Publishing date: Tue May 20 16:56:02 KRAST 2003
+-------------------
