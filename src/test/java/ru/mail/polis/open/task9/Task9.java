@@ -1,22 +1,27 @@
 package ru.mail.polis.open.task9;
 
 import com.rometools.rome.feed.synd.SyndFeed;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import java.io.*;
 
-import static org.junit.jupiter.api.Assertions.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 
-public class task9 {
+
+
+public class Task9 {
 
     @Test
-    void RssDataProviderTest() {
+    void rssDataProviderTest() {
 
         try {
             SyndFeed result = new RssDataProvider().getNewsFeed("file:testInput.xml");
             new RssDataProvider().writeNewsFeedToFile("testOutput.txt", result);
 
             if (!compareFiles("testOutput.txt", "expectedOutput.txt")) {
-                fail();
+                Assertions.fail();
             }
 
         } catch (Exception e) {
