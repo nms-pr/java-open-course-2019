@@ -13,6 +13,7 @@ import java.io.OutputStreamWriter;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.nio.charset.StandardCharsets;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -39,7 +40,7 @@ class RssToFileTest {
         try (InputStream inputStream = new FileInputStream("test-rss.xml");
              XmlReader inputStreamReader = new XmlReader(inputStream);
              OutputStream outputStream = new FileOutputStream("test-result.txt");
-             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream)
+             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream, StandardCharsets.UTF_8)
         ) {
             assertDoesNotThrow(() -> RssToFile.transfer(inputStreamReader, outputStreamWriter));
         } catch (IOException e) {
@@ -48,8 +49,8 @@ class RssToFileTest {
 
         try {
             assertEquals(
-                Files.readAllLines(Paths.get("expected.txt")).toString(),
-                Files.readAllLines(Paths.get("test-result.txt")).toString()
+                Files.readAllLines(Paths.get("expected.txt"), StandardCharsets.UTF_8).toString(),
+                Files.readAllLines(Paths.get("test-result.txt"), StandardCharsets.UTF_8).toString()
             );
         } catch (IOException e) {
             fail(e);
