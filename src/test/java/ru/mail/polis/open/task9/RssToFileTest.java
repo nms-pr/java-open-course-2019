@@ -49,8 +49,24 @@ class RssToFileTest {
 
         try {
             assertEquals(
-                Files.readAllLines(Paths.get("expected.txt"), StandardCharsets.UTF_8).toString(),
-                Files.readAllLines(Paths.get("test-result.txt"), StandardCharsets.UTF_8).toString()
+                Files.readAllLines(
+                    Paths.get("expected.txt"),
+                    StandardCharsets.UTF_8
+                ).toString()
+                    .replaceAll(System.lineSeparator(), "")
+                    .replaceAll("\r", "")
+                    .replaceAll("\n", "")
+                    .replaceAll("\r\n", "")
+                    .replaceAll(" ", ""),
+                Files.readAllLines(
+                    Paths.get("test-result.txt"),
+                    StandardCharsets.UTF_8
+                ).toString()
+                    .replaceAll(System.lineSeparator(), "")
+                    .replaceAll("\r", "")
+                    .replaceAll("\n", "")
+                    .replaceAll("\r\n", "")
+                    .replaceAll(" ", "")
             );
         } catch (IOException e) {
             fail(e);
