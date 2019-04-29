@@ -38,7 +38,7 @@ class RssToFileTest {
     void transfer_FromStreamToStream_WorksCorrectly() {
 
         try (InputStream inputStream = new FileInputStream("test-rss.xml");
-             XmlReader inputStreamReader = new XmlReader(inputStream);
+             XmlReader inputStreamReader = new XmlReader(inputStream, true, "UTF_8");
              OutputStream outputStream = new FileOutputStream("test-result.txt");
              OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream, StandardCharsets.UTF_8)
         ) {
