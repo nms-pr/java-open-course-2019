@@ -16,20 +16,35 @@ public class WriteRssToFile {
     private static final Logger LOGGER = Logger.getLogger(WriteRssToFile.class.getName());
 
     public WriteRssToFile(URL feedSource, String fileName) {
-//        this.feedSource = feedSource;
-//        this.fileName = fileName;
-
         SyndFeed feed = readAnExternalFeed(feedSource);
         File file = createFile(fileName);
         writeFeedToFile(feed, file);
     }
 
+    public WriteRssToFile(File fileXml, String fileName) {
+        SyndFeed feed = readAnExternalFeed(fileXml);
+        File file = createFile(fileName);
+        writeFeedToFile(feed, file);
+    }
 
     private SyndFeed readAnExternalFeed(URL feedSource) {
         SyndFeedInput input = new SyndFeedInput();
         SyndFeed feed = null;
         try {
             feed = input.build(new XmlReader(feedSource));
+        } catch (FeedException e) {
+            LOGGER.warning(e.getMessage());
+        } catch (IOException e) {
+            LOGGER.warning(e.getMessage());
+        }
+        return feed;
+    }
+
+    private SyndFeed readAnExternalFeed(File fileXml) {
+        SyndFeedInput input = new SyndFeedInput();
+        SyndFeed feed = null;
+        try {
+            feed = input.build(new XmlReader(fileXml));
         } catch (FeedException e) {
             LOGGER.warning(e.getMessage());
         } catch (IOException e) {
@@ -56,11 +71,10 @@ public class WriteRssToFile {
             fileWriter = new FileWriter(file);
 
             for (SyndEntry entry : feed.getEntries()) {
-                fileWriter.append((char) Character.LINE_SEPARATOR);
                 fileWriter.append(entry.getTitle());
                 fileWriter.append((char) Character.LINE_SEPARATOR);
                 fileWriter.append(entry.getDescription().getValue());
-//                fileWriter.append((char) Character.LINE_SEPARATOR);
+                fileWriter.append((char) Character.LINE_SEPARATOR);
                 fileWriter.append(entry.getLink());
                 fileWriter.append((char) Character.LINE_SEPARATOR);
                 fileWriter.append(entry.getPublishedDate().toString());
