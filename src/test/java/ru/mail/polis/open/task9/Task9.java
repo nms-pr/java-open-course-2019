@@ -44,11 +44,11 @@ public class Task9 {
 
             if (!firstFileLine
                     .replaceAll("\n", "")
-                    .replaceAll("\t", "")
+                    .replaceAll("\r", "")
                     .replaceAll(" ", "")
                     .equals(secondFileLine
                             .replaceAll("\n", "")
-                            .replaceAll("\t", "")
+                            .replaceAll("\r", "")
                             .replaceAll(" ", ""))) {
                 return false;
             }
