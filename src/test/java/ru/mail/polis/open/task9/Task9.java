@@ -42,7 +42,14 @@ public class Task9 {
 
         while (firstFileLine != null && secondFileLine != null) {
 
-            if (!firstFileLine.equals(secondFileLine)) {
+            if (!firstFileLine
+                    .replaceAll("\n", "")
+                    .replaceAll("\t", "")
+                    .replaceAll(" ", "")
+                    .equals(secondFileLine
+                            .replaceAll("\n", "")
+                            .replaceAll("\t", "")
+                            .replaceAll(" ", ""))) {
                 return false;
             }
 
