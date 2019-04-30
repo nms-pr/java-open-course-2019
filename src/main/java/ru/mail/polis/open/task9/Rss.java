@@ -11,33 +11,29 @@ import java.io.IOException;
 import java.net.URL;
 
 public class Rss {
-    public static void main(String[] args) {
-        if (args.length < 2) {
-            throw new IllegalArgumentException();
-        }
+    public static void romeParse(String url, String output) {
         String separator = System.lineSeparator();
         try {
-            URL feedSource = new URL(args[0]);
+            URL feedSource = new URL(url);
             SyndFeedInput input = new SyndFeedInput();
             SyndFeed feed = input.build(new XmlReader(feedSource));
-            try (FileWriter writer = new FileWriter(args[1], false)) {
+
+            try (FileWriter writer = new FileWriter(output, false)) {
                 for (SyndEntry entry : feed.getEntries()) {
-                    writer.write(entry.getTitle() == null ? "null" : entry.getTitle());
+                    writer.write(entry.getTitle());
                     writer.append(separator);
-                    writer.write(entry.getDescription().getValue() == null ? "null"
-                            : entry.getDescription().getValue());
+                    writer.write(entry.getDescription().getValue());
                     writer.append(separator);
-                    writer.write(entry.getLink() == null ? "null" : entry.getLink());
+                    writer.write(entry.getLink());
                     writer.append(separator);
-                    writer.write(entry.getPublishedDate().toString() == null ? "null"
-                            : entry.getPublishedDate().toString());
+                    writer.write(entry.getPublishedDate().toString());
                     writer.append(separator);
                 }
             }
         } catch (FeedException e) {
-            System.out.println("Feed Exception");
+            e.printStackTrace();
         } catch (IOException e) {
-            System.out.println("IOException");
+            e.printStackTrace();
         }
     }
 }
