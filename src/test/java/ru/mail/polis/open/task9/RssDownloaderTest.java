@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
 import java.nio.file.Path;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -19,8 +20,7 @@ class RssDownloaderTest {
     @Test
     void download() throws IOException {
         url = new URL("https://news.rambler.ru/rss/head/?limit=100");
-        fileName = "/home/mksnkv/IdeaProjects/java-open-course-2019/src/test/"
-            + "java/ru/mail/polis/open/task9/localRssContent";
+        fileName = "src/test/java/ru/mail/polis/open/task9/localRssContent";
         downloader = new RssDownloader(url, fileName);
         try {
             downloader.download();
@@ -28,13 +28,14 @@ class RssDownloaderTest {
             e.printStackTrace();
         }
         assertNotEquals(0, Path.of(fileName).toFile().length());
+        Files.deleteIfExists(Path.of(fileName));
     }
 
     @Test
     void emptyDownload() throws IOException {
         url = new URL("https://news.rambler.ru/rss/head/?limit=100");
         fileName = "";
-        downloader = new RssDownloader(url, fileName);
-        assertThrows(FileNotFoundException.class, () -> downloader.download());
+
+        assertThrows(FileNotFoundException.class, () -> new RssDownloader(url, fileName));
     }
 }
