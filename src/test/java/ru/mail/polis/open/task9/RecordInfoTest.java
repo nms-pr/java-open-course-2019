@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
@@ -54,11 +53,15 @@ class RecordInfoTest {
     }
 
     @Test
-    void testRecording() throws IOException {
-        record.recordingToTheFile();
+    void testRecording() throws IOException, FeedException {
+        try {
+            record.setup();
+        } catch (FeedException e) {
+            e.getStackTrace();
+        }
         List<String[]> dataList = new ArrayList<>();
         try {
-            SyndFeed feed = new SyndFeedInput().build(new XmlReader(new File(file)));
+            SyndFeed feed = new SyndFeedInput().build(new XmlReader(new File("top7.xml")));
             for (SyndEntry entry : feed.getEntries()) {
                 String[] data = new String[4];
                 data[0] = entry.getTitle();
@@ -70,6 +73,8 @@ class RecordInfoTest {
         } catch (IOException | FeedException e) {
             e.getStackTrace();
         }
+        record.setup();
+        record.recordingToTheFile();
 
         try (BufferedReader reader = new BufferedReader(new FileReader(new File(file)))) {
             for (String[] data : dataList) {

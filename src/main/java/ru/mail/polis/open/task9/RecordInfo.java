@@ -35,13 +35,7 @@ public class RecordInfo {
     }
 
     public void recordingToTheFile() {
-        try {
-            setup();
-        } catch (IOException | FeedException e) {
-            e.getStackTrace();
-        }
-        try {
-            FileWriter writer = new FileWriter(file);
+        try (FileWriter writer = new FileWriter(file)) {
             for (SyndEntry entry : feed.getEntries()) {
                 if (entry.getTitle() != null) {
                     writer.write(entry.getTitle() + "\n");
