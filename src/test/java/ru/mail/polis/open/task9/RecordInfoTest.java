@@ -30,7 +30,7 @@ class RecordInfoTest {
     @BeforeAll
     static void setup() throws MalformedURLException {
         link = "https://lenta.ru/rss/top7";
-        file = "TestRecordInfo";
+        file = "TestRecordInfo.txt";
         record = new RecordInfo(link, file);
     }
 
