@@ -6,7 +6,7 @@ import java.util.HashMap;
 
 public class Librarian extends ManagingPerson {
 
-    private static HashMap<LibraryClient, ArrayList<Manager.Book>> booksByClients = new HashMap<>();
+    private static HashMap<LibraryClient, ArrayList<Book>> booksByClients = new HashMap<>();
     private static HashMap<String, Person> librarianDatabase = new HashMap<>();
 
     private boolean isBusy = false;
@@ -20,8 +20,8 @@ public class Librarian extends ManagingPerson {
         return librarianDatabase;
     }
 
-    protected Manager.Book findBookByFullDescription(int id, String name, ArrayList<String> partitions) {
-        Manager.Book book = new Manager.Book(id, name, partitions);
+    protected Book findBookByFullDescription(int id, String name, ArrayList<String> partitions) {
+        Book book = new Book(id, name, partitions);
         if (store.containsKey(book)) {
             return book;
         }
@@ -29,7 +29,7 @@ public class Librarian extends ManagingPerson {
         return null;
     }
 
-    private <T> boolean condition(T parameterValue, BookSearchParameter parameterType, Manager.Book book) {
+    private <T> boolean condition(T parameterValue, BookSearchParameter parameterType, Book book) {
         switch (parameterType) {
             case BY_NAME: return book.name.equals(parameterValue);
             case BY_PARTITION: return book.partitions.contains(parameterValue);
@@ -42,7 +42,7 @@ public class Librarian extends ManagingPerson {
         booksByClients.put(client, new ArrayList<>());
     }
 
-    protected  <T> ArrayList<Manager.Book> findAllBooksByParameter(
+    protected  <T> ArrayList<Book> findAllBooksByParameter(
             T parameterValue,
             BookSearchParameter parameterType
     ) {
@@ -51,8 +51,8 @@ public class Librarian extends ManagingPerson {
                 || parameterType.equals(BookSearchParameter.BY_PARTITIONS) && !(parameterValue instanceof ArrayList)) {
             throw  new IllegalArgumentException("The type of parameter is specified incorrectly");
         }
-        ArrayList<Manager.Book> res = new ArrayList<>();
-        for (Manager.Book book: store.keySet()) {
+        ArrayList<Book> res = new ArrayList<>();
+        for (Book book: store.keySet()) {
             if (condition(parameterValue, parameterType, book) && !res.contains(book)) {
                 res.add(book);
             }
@@ -72,7 +72,7 @@ public class Librarian extends ManagingPerson {
         return null;
     }
 
-    protected void connectBookToAClient(LibraryClient client, Manager.Book book) {
+    protected void connectBookToAClient(LibraryClient client, Book book) {
         if (!booksByClients.containsKey(client)) {
             System.out.println("You must sign up in the Library first!");
             return;
@@ -82,7 +82,7 @@ public class Librarian extends ManagingPerson {
         book.setTakeAndReturnTime();
     }
 
-    public String remindClientAboutBookReturnTime(LibraryClient client, Manager.Book book) {
+    public String remindClientAboutBookReturnTime(LibraryClient client, Book book) {
         if (!booksByClients.get(client).contains(book)) {
             throw new IllegalArgumentException("This book is not owned by this client currently");
         }
@@ -94,15 +94,15 @@ public class Librarian extends ManagingPerson {
                 + "until " + book.getReturnTime().getTime();
     }
 
-    public HashMap<LibraryClient, ArrayList<Manager.Book>> getBooksByClients() {
+    public HashMap<LibraryClient, ArrayList<Book>> getBooksByClients() {
         return booksByClients;
     }
 
-    protected void extendBook(Manager.Book book) {
+    protected void extendBook(Book book) {
         book.extend();
     }
 
-    protected void markBookAsUnused(Manager.Book book) {
+    protected void markBookAsUnused(Book book) {
         book.markAsUnused();
     }
 

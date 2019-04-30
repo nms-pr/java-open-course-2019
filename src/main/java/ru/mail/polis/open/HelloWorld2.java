@@ -1,6 +1,5 @@
 package ru.mail.polis.open;
 
-
 /**
  * @author mikhail.nechaev
  * Since 25/02/2019

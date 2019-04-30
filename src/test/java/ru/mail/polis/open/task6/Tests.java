@@ -20,7 +20,7 @@ public class Tests {
     private Manager.Book winnie = new Manager.Book(1,
             "Winnie the Pooh",
             new ArrayList<>(Arrays.asList("Fairytale", "Children", "Alan Milne")));
-    private Manager.Book narnia1 = new Manager.Book(2,
+    private ManagingPerson.Book narnia1 = new Manager.Book(2,
             "Chronicles of Narnia",
             new ArrayList<>(Arrays.asList("Fairytale", "Family", "Children", "Mythology", "Part 1")));
     private Manager.Book myths = new Manager.Book(3,

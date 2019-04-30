@@ -13,7 +13,7 @@ public abstract class Person {
 
     private final String name;
 
-    public Person(String name) {
+    protected Person(String name) {
         if (getDatabase() instanceof HashMap) {
             HashMap database = (HashMap) getDatabase();
             if (database.containsKey(name)) {
@@ -42,12 +42,12 @@ public abstract class Person {
         return name;
     }
 
-    protected void bookHashMapOperating(HashMap collection, Manager.Book book, int amountChange) {
+    protected void bookHashMapOperating(HashMap collection, ManagingPerson.Book book, int amountChange) {
         int previousAmount = (int) collection.get(book);
         collection.put(book, previousAmount + amountChange);
     }
 
-    protected Manager.Book removeOneBookFromCollection(Manager.Book bookToRemove) {
+    protected ManagingPerson.Book removeOneBookFromCollection(ManagingPerson.Book bookToRemove) {
         if (getCollection() instanceof HashMap) {
             HashMap collection = (HashMap) getCollection();
             if (collection.containsKey(bookToRemove)) {
@@ -68,7 +68,7 @@ public abstract class Person {
         return bookToRemove;
     }
 
-    protected void addOneBookToCollection(Manager.Book bookToAdd) {
+    protected void addOneBookToCollection(ManagingPerson.Book bookToAdd) {
         if (getCollection() instanceof HashMap) {
             HashMap collection = (HashMap) getCollection();
             if (collection.containsKey(bookToAdd)) {
@@ -88,4 +88,9 @@ public abstract class Person {
     protected abstract Serializable getDatabase();
 
     protected abstract Serializable getCollection();
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 }
