@@ -56,8 +56,6 @@ class RecordInfoTest {
     @Test
     void testRecording() throws IOException {
         record.recordingToTheFile();
-        BufferedReader br = new BufferedReader(new FileReader(new File(file)));
-        assertNotEquals(null, br.readLine());
         List<String[]> dataList = new ArrayList<>();
         try {
             SyndFeed feed = new SyndFeedInput().build(new XmlReader(new File(file)));
