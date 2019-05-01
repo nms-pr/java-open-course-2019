@@ -9,24 +9,27 @@ public abstract class Person {
     private static final String UNSUPPORTED_COLLECTION_TYPE_MESSAGE =
             "This Person's Book Collection is something strange";
     private static final String NON_UNIQUE_NAME_MESSAGE = "Name must be unique!";
+
     protected static final String LINE_SEPARATOR = System.getProperty("line.separator");
 
     private final String name;
+    
+    private static int primitiveOperationsDone = 0;
 
-    protected Person(String name) {
-        if (getDatabase() instanceof HashMap) {
-            HashMap database = (HashMap) getDatabase();
-            if (database.containsKey(name)) {
+    protected Person(String name, Serializable database) {
+        if (database instanceof HashMap) {
+            HashMap hashDatabase = (HashMap) database;
+            if (hashDatabase.containsKey(name)) {
                 throw new IllegalArgumentException(NON_UNIQUE_NAME_MESSAGE);
             }
-            database.put(name, this);
+            hashDatabase.put(name, this);
         } else {
-            if (getDatabase() instanceof ArrayList) {
-                ArrayList database = (ArrayList) getDatabase();
-                if (database.contains(name)) {
+            if (database instanceof ArrayList) {
+                ArrayList arrayDatabase = (ArrayList) database;
+                if (arrayDatabase.contains(name)) {
                     throw new IllegalArgumentException(NON_UNIQUE_NAME_MESSAGE);
                 }
-                database.add(name);
+                arrayDatabase.add(name);
             } else {
                 throw new IllegalArgumentException(UNSUPPORTED_COLLECTION_TYPE_MESSAGE);
             }
@@ -35,32 +38,49 @@ public abstract class Person {
     }
 
     public enum BookSearchParameter {
-        BY_NAME, BY_PARTITIONS, BY_PARTITION
+        BY_ID, BY_NAME, BY_PARTITIONS, BY_PARTITION
     }
 
     public String getName() {
         return name;
     }
 
-    protected void bookHashMapOperating(HashMap collection, ManagingPerson.Book book, int amountChange) {
-        int previousAmount = (int) collection.get(book);
+    private void checkProperOperating() {
+        if (primitiveOperationsDone != Manager.getManagerOperationsDone() + LibraryClient.getClientOperationsDone()) {
+            throw new IllegalCallerException("Someone's committing a crime!");
+        }
+    }
+
+    protected void bookHashMapOperating(ManagingPerson.Store collection, Book book, int amountChange) {
+        primitiveOperationsDone++;
+        checkProperOperating();
+        int previousAmount = collection.get(book);
         collection.put(book, previousAmount + amountChange);
     }
 
-    protected ManagingPerson.Book removeOneBookFromCollection(ManagingPerson.Book bookToRemove) {
-        if (getCollection() instanceof HashMap) {
-            HashMap collection = (HashMap) getCollection();
-            if (collection.containsKey(bookToRemove)) {
-                if ((int) collection.get(bookToRemove) == 1) {
-                    collection.remove(bookToRemove);
+    protected <V> Book removeOneBookFromCollection(Book bookToRemove, V collection) {
+        primitiveOperationsDone++;
+        checkProperOperating();
+        if (collection instanceof ManagingPerson.Store) {
+            ManagingPerson.Store store = (ManagingPerson.Store) collection;
+            if (store.containsKey(bookToRemove)) {
+                if (store.get(bookToRemove) == 1) {
+                    store.remove(bookToRemove);
                 } else {
-                    bookHashMapOperating(collection, bookToRemove, -1);
+                    primitiveOperationsDone--;
+                    bookHashMapOperating(store, bookToRemove, -1);
                 }
+            } else {
+                return null;
             }
         } else {
-            if (getCollection() instanceof ArrayList) {
-                ArrayList collection = (ArrayList) getCollection();
-                collection.remove(bookToRemove);
+            if (collection instanceof ArrayList) {
+                ArrayList arrayCollection = (ArrayList) collection;
+                if (arrayCollection.contains(bookToRemove)) {
+                    arrayCollection.remove(bookToRemove);
+                } else {
+                    return null;
+                }
             } else {
                 throw new IllegalArgumentException(UNSUPPORTED_COLLECTION_TYPE_MESSAGE);
             }
@@ -68,29 +88,23 @@ public abstract class Person {
         return bookToRemove;
     }
 
-    protected void addOneBookToCollection(ManagingPerson.Book bookToAdd) {
-        if (getCollection() instanceof HashMap) {
-            HashMap collection = (HashMap) getCollection();
-            if (collection.containsKey(bookToAdd)) {
-                bookHashMapOperating(collection, bookToAdd, 1);
+    protected <V> void addOneBookToCollection(Book bookToAdd, V collection) {
+        primitiveOperationsDone++;
+        checkProperOperating();
+        if (collection instanceof ManagingPerson.Store) {
+            ManagingPerson.Store store = (ManagingPerson.Store) collection;
+            if (store.containsKey(bookToAdd)) {
+                primitiveOperationsDone--;
+                bookHashMapOperating(store, bookToAdd, 1);
             } else {
-                collection.put(bookToAdd, 1);
+                store.put(bookToAdd, 1);
             }
         } else {
-            if (getCollection() instanceof ArrayList) {
-                ((ArrayList) getCollection()).add(bookToAdd);
+            if (collection instanceof ArrayList) {
+                ((ArrayList) collection).add(bookToAdd);
             } else {
                 throw new IllegalArgumentException(UNSUPPORTED_COLLECTION_TYPE_MESSAGE);
             }
         }
-    }
-
-    protected abstract Serializable getDatabase();
-
-    protected abstract Serializable getCollection();
-
-    @Override
-    public int hashCode() {
-        return super.hashCode();
     }
 }
