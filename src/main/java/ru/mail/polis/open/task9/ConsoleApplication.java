@@ -14,7 +14,9 @@ public class ConsoleApplication {
         String link = in.nextLine();
         try {
             parser = new RssParser(link);
-            while (showMenu(parser));
+            while (showMenu(parser)) {
+
+            }
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
