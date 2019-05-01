@@ -1,22 +1,21 @@
 package ru.mail.polis.open.task6;
 
-import java.util.ArrayList;
-import java.util.Date;
+public class Manager {
+    private String name;
+    private Library library = Library.getInstance();
 
-public class Manager extends Person implements ManagerActions {
+    public Manager(String name) {
+        this.name = name;
+    }
 
-
-    @Override
     public void openLib() {
         if (Library.isOpened) {
             System.out.println("Библиотека уже открыта");
         } else {
             Library.isOpened = true;
         }
-
     }
 
-    @Override
     public void closeLib() {
         if (!Library.isOpened) {
             System.out.println("Библиотека уже закрыта");
@@ -25,13 +24,11 @@ public class Manager extends Person implements ManagerActions {
         }
     }
 
-    @Override
-    public void bringBook(Book book) {
-
+    public void bringBookToLibrary(String bookName) {
+        library.addBook(bookName);
     }
 
-    @Override
-    public void removeBook(Book book) {
-
+    public void removeBookFromLibrary(String bookName) {
+        library.removeBook(bookName);
     }
 }

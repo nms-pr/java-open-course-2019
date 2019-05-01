@@ -1,18 +1,21 @@
 package ru.mail.polis.open.task6;
 
-import java.util.*;
-
 public class Main {
 
     public static void main(String[] args) {
-        Library library = new Library(new HashMap<>());
-        library.getLibrary().put("BookType1", new ArrayList<>());
-        library.getLibrary().get("BookType1").add(new Book(1, "Book1", new GregorianCalendar()));
-        Calendar calendar = new GregorianCalendar();
-        System.out.println(calendar.getTime());
-        calendar.add(5, 30);
-        System.out.println(calendar.getTime());
-        System.out.println();
-        System.out.println(library.getLibrary().get("BookType1"));
+        Library library = Library.getInstance();
+        BookShelf bookShelf = BookShelf.getShelf();
+        Manager manager = new Manager("Manager");
+        Customer customer = new Customer("Customer");
+        Librarian librarian = new Librarian("Librarian");
+        manager.openLib();
+        manager.bringBookToLibrary("Book1");
+        manager.bringBookToLibrary("Book2");
+        manager.bringBookToLibrary("Book3");
+        librarian.addBookToShelf("Genre1", "Book1", 1);
+        librarian.addBookToShelf("Genre1", "Book2", 2);
+        librarian.addBookToShelf("Genre2", "Book3", 3);
+        System.out.println(bookShelf.getBookShelf().size());
+
     }
 }
