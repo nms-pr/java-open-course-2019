@@ -24,16 +24,16 @@ public class Manager extends ManagingPerson {
 
     }
 
+    public void addNewBookToStore(Book newBook) {
+        addNewBookToStore(newBook, 1);
+    }
+
     protected static int getPutsAmount() {
         return putsAmount;
     }
 
     protected static int getManagerOperationsDone() {
         return managerOperationsDone;
-    }
-
-    public void addNewBookToStore(Book newBook) {
-        addNewBookToStore(newBook, 1);
     }
 
     public void closeLibrary() {

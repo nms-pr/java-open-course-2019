@@ -13,6 +13,7 @@ public class LibraryClient extends Person {
     private static int extendCount = 0;
     private static int putsAmount = 0;
     private static int removesAmount = 0;
+    private static int takes = 0;
 
     private Librarian currentWorkingLibrarian = null;
 
@@ -20,18 +21,23 @@ public class LibraryClient extends Person {
         super(name, clientDatabase);
     }
 
-    public void askLibrarian() {
+    public String askLibrarian() {
         Manager.checkIfLibraryIsClosed();
         if (currentWorkingLibrarian != null) {
             System.out.println("You are already talking to a Librarian");
-            return;
+            return null;
         }
         busyClients++;
         currentWorkingLibrarian = Librarian.getAFreeLibrarian();
+        return currentWorkingLibrarian == null ? null : currentWorkingLibrarian.getName();
     }
 
     protected static int getPutsAmount() {
         return putsAmount;
+    }
+
+    protected static int getTakes() {
+        return takes;
     }
 
     protected static int getRemovesAmount() {
@@ -57,18 +63,23 @@ public class LibraryClient extends Person {
         }
     }
 
-    public void takeBook(Book book) {
+    public int takeBook(Book book) {
         check();
-        if (booksTaken.contains(book)) {
-            System.out.println("You've already got this book");
-            return;
+        for (Book have: booksTaken) {
+            if (have.equals(book)) {
+                return -1;
+            }
         }
-        removesAmount++;
+        if (store.get(book) == 1) {
+            removesAmount++;
+        }
+        takes++;
         clientOperationsDone++;
         Book bookTaken = currentWorkingLibrarian.removeOneBookFromCollection(book, store);
         clientOperationsDone++;
         addOneBookToCollection(bookTaken, booksTaken);
         currentWorkingLibrarian.newBookInfo(book, this);
+        return booksTaken.indexOf(book);
     }
 
     public void takeBook(int id, String name, ArrayList<String> partitions) {

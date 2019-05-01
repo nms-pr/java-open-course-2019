@@ -1,6 +1,10 @@
 package ru.mail.polis.open.task6;
 
-import java.util.*;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.ArrayList;
 
 public class Librarian extends ManagingPerson {
     private class BookInfo {
@@ -154,7 +158,7 @@ public class Librarian extends ManagingPerson {
 
     protected void newBookInfo(Book book, LibraryClient client) {
         newBookInfos++;
-        if (newBookInfos != LibraryClient.getRemovesAmount()) {
+        if (newBookInfos != LibraryClient.getTakes()) {
             throw new IllegalCallerException();
         }
         bookInfos.put(book.toString() + client.getName(), new BookInfo(client, book));

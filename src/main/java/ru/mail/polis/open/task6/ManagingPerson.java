@@ -12,13 +12,23 @@ public abstract class ManagingPerson extends Person {
         private HashMap<Book, Integer> store = new HashMap<>();
 
         protected void put(Book book, Integer amount) {
-            if (amount > 0) {
+            if (!containsKey(book) || amount > get(book)) {
                 putsAmount++;
             }
             if (putsAmount != Manager.getPutsAmount() + LibraryClient.getPutsAmount()) {
                 throw new IllegalCallerException("Cheating!");
             }
+            justRemove(book);
             store.put(book, amount);
+        }
+
+        private void justRemove(Book key) {
+            for (Book book: store.keySet()) {
+                if (book.equals(key)) {
+                    store.remove(book);
+                    return;
+                }
+            }
         }
 
         protected void remove(Book book) {
@@ -39,7 +49,12 @@ public abstract class ManagingPerson extends Person {
         }
 
         protected int get(Book key) {
-            return store.get(key);
+            for (Book book: store.keySet()) {
+                if (book.equals(key)) {
+                    return store.get(book);
+                }
+            }
+            throw new NullPointerException();
         }
 
         protected Set<Book> keySet() {
