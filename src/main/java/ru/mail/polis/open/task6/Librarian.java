@@ -67,7 +67,6 @@ public class Librarian {
                 tmpBook = book;
             }
         }
-        //return bookShelf.getBookShelf().get(Genre).remove(bookShelf.getBookShelf().get(Genre).indexOf(tmpBook));
         bookShelf.getBookShelf().get(Genre).remove(library.getBookByName(bookName));
         return tmpBook;
     }
