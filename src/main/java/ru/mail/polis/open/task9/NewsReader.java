@@ -7,27 +7,23 @@ import com.rometools.rome.io.SyndFeedInput;
 import com.rometools.rome.io.XmlReader;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.rmi.server.ExportException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
 public class NewsReader {
 
-    private URL feedURL;
+    private URL feedUrl;
     private String fileName;
     private DateFormat dateFormat;
 
-    public NewsReader(@NotNull URL feedURL, @NotNull String fileName) throws FileNotFoundException {
-        this.feedURL = feedURL;
+    public NewsReader(@NotNull URL feedUrl, @NotNull String fileName) throws FileNotFoundException {
+        this.feedUrl = feedUrl;
         if (fileName.isEmpty()) {
             throw new FileNotFoundException();
         }
@@ -37,7 +33,7 @@ public class NewsReader {
 
     public void read() throws IOException, FeedException {
         SyndFeedInput input = new SyndFeedInput();
-        SyndFeed syndFeed = input.build(new XmlReader(feedURL));
+        SyndFeed syndFeed = input.build(new XmlReader(feedUrl));
         Path file = Path.of(fileName);
         if (!file.toFile().exists()) {
             Files.createFile(file);
