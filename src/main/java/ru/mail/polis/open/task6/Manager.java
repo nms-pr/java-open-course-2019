@@ -3,6 +3,7 @@ package ru.mail.polis.open.task6;
 public class Manager extends Person implements IManager {
 
     public Manager(String name, String surname, int age) {
+        
         this.name = name;
         this.surname = surname;
         this.age = age;
