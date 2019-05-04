@@ -27,8 +27,8 @@ class Customer {
         return bookList;
     }
 
-    public void takeBook(String Genre, String bookName, Librarian librarian, Customer customer) {
-        bookList.add(librarian.giveOutBook(Genre, bookName, customer));
+    public void takeBook(String genre, String bookName, Librarian librarian, Customer customer) {
+        bookList.add(librarian.giveOutBook(genre, bookName, customer));
         hasABooks = true;
     }
 

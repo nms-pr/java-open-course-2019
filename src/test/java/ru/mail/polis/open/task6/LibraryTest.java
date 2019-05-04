@@ -1,6 +1,9 @@
 package ru.mail.polis.open.task6;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.awt.print.Book;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -11,6 +14,11 @@ public class LibraryTest {
     Manager manager = new Manager("Manager");
     Customer customer = new Customer("Customer");
     Librarian librarian = new Librarian("Librarian");
+
+    @BeforeEach
+    void beforeAll() {
+        BookShelf.setBooksCount(0);
+    }
 
     @Test
     void takeOneBook() {
@@ -39,8 +47,8 @@ public class LibraryTest {
         librarian.addBookToShelf("Genre2", "Book3", 3);
         librarian.addBookToShelf("Genre2", "Book4", 4);
         customer.askForBooks(librarian);
-        customer.takeBook("Genre1","Book1",librarian,customer);
-        customer.takeBook("Genre2","Book4",librarian,customer);
+        customer.takeBook("Genre1", "Book1", librarian, customer);
+        customer.takeBook("Genre2", "Book4", librarian, customer);
         customer.returnBook("Book1");
         customer.returnBook("Book4");
         librarian.addBookToShelf("Genre1", "Book1", 1);

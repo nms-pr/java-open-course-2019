@@ -32,8 +32,8 @@ public class Librarian {
     }
 
     public boolean addBookToShelf(String genre, String bookName, int numberAtShelf) {
-        if (library.getLibrary().contains(library.getBookByName(bookName))){
-            if (bookShelf.getBookShelf().containsKey(genre)){
+        if (library.getLibrary().contains(library.getBookByName(bookName))) {
+            if (bookShelf.getBookShelf().containsKey(genre)) {
                 library.getBookByName(bookName).setPlaceAtShelf(numberAtShelf);
                 bookShelf.getBookShelf().get(genre).add(library.getBookByName(bookName));
                 library.removeBook(bookName);
@@ -41,7 +41,7 @@ public class Librarian {
                 return true;
             } else {
                 library.getBookByName(bookName).setPlaceAtShelf(numberAtShelf);
-                bookShelf.getBookShelf().put(genre,new ArrayList<>());
+                bookShelf.getBookShelf().put(genre, new ArrayList<>());
                 bookShelf.getBookShelf().get(genre).add(library.getBookByName(bookName));
                 library.removeBook(bookName);
                 BookShelf.booksCount++;
@@ -51,11 +51,11 @@ public class Librarian {
         return false;
     }
 
-    public Book giveOutBook(String Genre, String bookName, Customer customer) {
+    public Book giveOutBook(String genre, String bookName, Customer customer) {
         Calendar returnTime;
         clientList.add(customer);
         Book tmpBook = null;
-        for (Book book : bookShelf.getBookShelf().get(Genre)) {
+        for (Book book : bookShelf.getBookShelf().get(genre)) {
             if (book.getBookName().equals(bookName)) {
                 book.setPlaceAtShelf(0);
                 book.setReturned(false);
@@ -67,7 +67,7 @@ public class Librarian {
                 tmpBook = book;
             }
         }
-        bookShelf.getBookShelf().get(Genre).remove(library.getBookByName(bookName));
+        bookShelf.getBookShelf().get(genre).remove(library.getBookByName(bookName));
         return tmpBook;
     }
 

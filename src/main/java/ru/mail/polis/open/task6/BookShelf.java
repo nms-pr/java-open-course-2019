@@ -14,6 +14,9 @@ public class BookShelf {
         shelf = new HashMap<>();
     }
 
+    public static void setBooksCount(int booksCount) {
+        BookShelf.booksCount = booksCount;
+    }
 
     public static BookShelf getShelf() {
         return bookShelf;
