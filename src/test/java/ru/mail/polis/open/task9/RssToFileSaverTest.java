@@ -3,7 +3,6 @@ package ru.mail.polis.open.task9;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -26,20 +25,21 @@ class RssToFileSaverTest {
     @Test
     void saveToFileTest() {
         try {
+            Path basePath =
+                    Paths.get("src", "test", "java", "ru", "mail", "polis", "open", "task9");
 
-            URL inputFileUrl = getClass().getResource("test_input");
+            Path inputFilePath = basePath.resolve("test_input");
 
-            String expectedFilePath = getClass().getResource("test_expected_result").getPath();
+            URL inputFileUrl = inputFilePath.toUri().toURL();
 
-            Path path = Paths.get(expectedFilePath);
+            Path expectedFilePath = basePath.resolve("test_expected_result");
+            Path resultFilePath = basePath.resolve("test_real_result");
 
-            String resultFilePath =
-                    Paths.get(path.getParent().toString(), "test_real_result").toString();
+            assertAll(() -> rssToFileSaver.saveToFile(inputFileUrl,
+                    resultFilePath.toAbsolutePath().toString()));
 
-            assertAll(() -> rssToFileSaver.saveToFile(inputFileUrl, resultFilePath));
-
-            try (InputStream expected = new FileInputStream(new File(expectedFilePath));
-                    InputStream real = new FileInputStream(new File(resultFilePath))) {
+            try (InputStream expected = new FileInputStream(expectedFilePath.toFile());
+                    InputStream real = new FileInputStream(resultFilePath.toFile())) {
                 assertTrue(Arrays.equals(expected.readAllBytes(), real.readAllBytes()));
             }
         } catch (IOException e) {
