@@ -2,7 +2,6 @@ package ru.mail.polis.open.task9;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -43,7 +42,7 @@ class RssToFileSaverTest {
                 assertTrue(Arrays.equals(expected.readAllBytes(), real.readAllBytes()));
             }
         } catch (IOException e) {
-            fail(e);
+            e.printStackTrace();
         }
     }
 
