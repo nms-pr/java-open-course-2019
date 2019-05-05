@@ -17,11 +17,14 @@ public class RssToFileSaver {
     private SyndFeedInput feedBuilder;
     private String lineSeparator;
     private SimpleDateFormat dateFormat;
+    private String charset;
 
-    public RssToFileSaver(@NotNull String lineSeparator, @NotNull String dateFormatPattern) {
+    public RssToFileSaver(@NotNull String lineSeparator, @NotNull String dateFormatPattern,
+            @NotNull String charset) {
         feedBuilder = new SyndFeedInput();
         this.lineSeparator = lineSeparator;
         dateFormat = new SimpleDateFormat(dateFormatPattern);
+        this.charset = charset;
     }
 
     public void saveToFile(@NotNull URL feedSource, @NotNull String filePath)
@@ -31,18 +34,18 @@ public class RssToFileSaver {
 
         try (OutputStream fileOut = new FileOutputStream(new File(filePath))) {
             for (SyndEntry entry : feed.getEntries()) {
-                fileOut.write(entry.getTitle().getBytes());
-                fileOut.write(lineSeparator.getBytes());
+                fileOut.write(entry.getTitle().getBytes(charset));
+                fileOut.write(lineSeparator.getBytes(charset));
 
-                fileOut.write(entry.getDescription().getValue().getBytes());
-                fileOut.write(lineSeparator.getBytes());
+                fileOut.write(entry.getDescription().getValue().getBytes(charset));
+                fileOut.write(lineSeparator.getBytes(charset));
 
-                fileOut.write(entry.getLink().getBytes());
-                fileOut.write(lineSeparator.getBytes());
+                fileOut.write(entry.getLink().getBytes(charset));
+                fileOut.write(lineSeparator.getBytes(charset));
 
-                fileOut.write(dateFormat.format(entry.getPublishedDate()).getBytes());
-                fileOut.write(lineSeparator.getBytes());
-                fileOut.write(lineSeparator.getBytes());
+                fileOut.write(dateFormat.format(entry.getPublishedDate()).getBytes(charset));
+                fileOut.write(lineSeparator.getBytes(charset));
+                fileOut.write(lineSeparator.getBytes(charset));
             }
         }
     }

@@ -1,6 +1,7 @@
 package ru.mail.polis.open.task9;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,7 +19,7 @@ class RssToFileSaverTest {
     @BeforeAll
     static void init() {
         String lineSeparator = System.getProperty("line.separator");
-        rssToFileSaver = new RssToFileSaver(lineSeparator, "dd-MM-yyyy HH:mm:ss");
+        rssToFileSaver = new RssToFileSaver(lineSeparator, "dd-MM-yyyy HH:mm:ss", "UTF-8");
     }
 
     @Test
@@ -41,7 +42,7 @@ class RssToFileSaverTest {
                 assertTrue(Arrays.equals(expected.readAllBytes(), real.readAllBytes()));
             }
         } catch (IOException | FeedException e) {
-            e.printStackTrace();
+            fail(e);
         }
     }
 
