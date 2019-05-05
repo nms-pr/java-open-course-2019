@@ -1,6 +1,5 @@
 package ru.mail.polis.open.task9;
 
-import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -11,6 +10,7 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import com.rometools.rome.io.FeedException;
 
 class RssToFileSaverTest {
     static RssToFileSaver rssToFileSaver;
@@ -34,14 +34,13 @@ class RssToFileSaverTest {
             Path expectedFilePath = basePath.resolve("test_expected_result");
             Path resultFilePath = basePath.resolve("test_real_result");
 
-            assertAll(() -> rssToFileSaver.saveToFile(inputFileUrl,
-                    resultFilePath.toAbsolutePath().toString()));
+            rssToFileSaver.saveToFile(inputFileUrl, resultFilePath.toAbsolutePath().toString());
 
             try (InputStream expected = new FileInputStream(expectedFilePath.toFile());
                     InputStream real = new FileInputStream(resultFilePath.toFile())) {
                 assertTrue(Arrays.equals(expected.readAllBytes(), real.readAllBytes()));
             }
-        } catch (IOException e) {
+        } catch (IOException | FeedException e) {
             e.printStackTrace();
         }
     }
