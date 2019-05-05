@@ -7,11 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class BookTest {
 
-    @Test
-    void getId() {
-        Book book1 = new Book(1, 2, "Карта дней", "Фантастика");
-        assertEquals(1000765, book1.getId());
-    }
 
     @Test
     void getName() {
