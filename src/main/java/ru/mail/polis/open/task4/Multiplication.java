@@ -4,19 +4,19 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
-public final class Add implements Expr {
+public class Multiplication implements Expr {
 
     private final @NotNull Expr left;
     private final @NotNull Expr right;
 
-    public Add(final @NotNull Expr left, final @NotNull Expr right) {
+    public Multiplication(final @NotNull Expr left, final @NotNull Expr right) {
         this.left = Objects.requireNonNull(left);
         this.right = Objects.requireNonNull(right);
     }
 
     @Override
     public int evaluate() {
-        return left.evaluate() + right.evaluate();
+        return left.evaluate() * right.evaluate();
     }
 
     @Override
@@ -30,8 +30,9 @@ public final class Add implements Expr {
             return false;
         }
 
-        Add add = (Add) o;
+        Multiplication that = (Multiplication) o;
 
-        return Objects.equals(left, add.left) && Objects.equals(right, add.right);
+        return Objects.equals(left, that.left) && Objects.equals(right, that.right);
     }
+
 }
