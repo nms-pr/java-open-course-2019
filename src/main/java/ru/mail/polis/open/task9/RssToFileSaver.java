@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.util.TimeZone;
 import org.jetbrains.annotations.NotNull;
 import com.rometools.rome.feed.synd.SyndEntry;
 import com.rometools.rome.feed.synd.SyndFeed;
@@ -24,6 +25,7 @@ public class RssToFileSaver {
         feedBuilder = new SyndFeedInput();
         this.lineSeparator = lineSeparator;
         dateFormat = new SimpleDateFormat(dateFormatPattern);
+        dateFormat.setTimeZone(TimeZone.getTimeZone("Greenwich"));
         this.charset = charset;
     }
 

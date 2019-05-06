@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import com.rometools.rome.io.FeedException;
@@ -17,7 +18,7 @@ class RssToFileSaverTest {
 
     @BeforeAll
     static void init() {
-        String lineSeparator = "-------";
+        String lineSeparator = "\n";
         rssToFileSaver = new RssToFileSaver(lineSeparator, "dd-MM-yyyy HH:mm:ss", "UTF-8");
     }
 
@@ -38,19 +39,7 @@ class RssToFileSaverTest {
 
             try (InputStream expected = new FileInputStream(expectedFilePath.toFile());
                     InputStream real = new FileInputStream(resultFilePath.toFile())) {
-
-                if (!resultFilePath.toFile().exists() || !expectedFilePath.toFile().exists()) {
-                    fail("файл не существует");
-                }
-
-                String s1 = new String(expected.readAllBytes(), "UTF-8");
-                String s2 = new String(real.readAllBytes(), "UTF-8");
-
-                if (s1.length() < 10 || s2.length() < 10) {
-                    fail("что-то не так со строками");
-                }
-
-                assertTrue(s1.equals(s2));
+                assertTrue(Arrays.equals(expected.readAllBytes(), real.readAllBytes()));
             }
         } catch (IOException | FeedException e) {
             fail(e);
