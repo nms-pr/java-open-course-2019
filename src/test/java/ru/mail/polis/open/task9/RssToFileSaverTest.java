@@ -17,7 +17,7 @@ class RssToFileSaverTest {
 
     @BeforeAll
     static void init() {
-        String lineSeparator = "\n";
+        String lineSeparator = "-------";
         rssToFileSaver = new RssToFileSaver(lineSeparator, "dd-MM-yyyy HH:mm:ss", "UTF-8");
     }
 
