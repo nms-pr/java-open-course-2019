@@ -39,8 +39,16 @@ class RssToFileSaverTest {
             try (InputStream expected = new FileInputStream(expectedFilePath.toFile());
                     InputStream real = new FileInputStream(resultFilePath.toFile())) {
 
+                if (!resultFilePath.toFile().exists() || !expectedFilePath.toFile().exists()) {
+                    fail("файл не существует");
+                }
+
                 String s1 = new String(expected.readAllBytes(), "UTF-8");
                 String s2 = new String(real.readAllBytes(), "UTF-8");
+
+                if (s1.length() < 10 || s2.length() < 10) {
+                    fail("что-то не так со строками");
+                }
 
                 assertTrue(s1.equals(s2));
             }
