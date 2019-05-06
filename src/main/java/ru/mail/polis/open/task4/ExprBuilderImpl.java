@@ -1,160 +1,173 @@
 package ru.mail.polis.open.task4;
 
-import jdk.swing.interop.SwingInterOpUtils;
-import org.jetbrains.annotations.Nullable;
-
 import java.util.ArrayDeque;
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.Deque;
 import java.util.StringTokenizer;
 
-
 public class ExprBuilderImpl implements ExprBuilder {
-    private static final String PLUS = "+";
-    private static final String MINUS = "-";
-    private static final String DIVISION = "/";
-    private static final String MULTIPLY = "*";
-    private static final String POW = "^";
-    private static final String UNAR_MINUS = "-";
-    private static final String OPEN_ROUND_BRACKET = "(";
-    private static final String CLOSE_ROUND_BRACKET = ")";
-    private static final int PRIORITY_OF_OPERATION_1 = 1;
-    private static final int PRIORITY_OF_OPERATION_2 = 2;
-    private static final int PRIORITY_OF_OPERATION_3 = 3;
-    private static final int PRIORITY_OF_OPERATION_4 = 4;
-    private static HashMap<String, Integer> listOfPriority;
-    private HashSet<String> otherSymbols;
-    private ArrayDeque<String> operationsOfExpr;
-    private ArrayDeque<Expr> constructorOfExpression;
 
-    public ExprBuilderImpl() {
-        listOfPriority = new HashMap<>();
-        otherSymbols = new HashSet<>(listOfPriority.keySet());
-        operationsOfExpr = new ArrayDeque<>();
-        constructorOfExpression = new ArrayDeque<>();
-        listOfPriority.put(PLUS, PRIORITY_OF_OPERATION_4);
-        listOfPriority.put(MINUS, PRIORITY_OF_OPERATION_4);
-        listOfPriority.put(DIVISION, PRIORITY_OF_OPERATION_3);
-        listOfPriority.put(MULTIPLY, PRIORITY_OF_OPERATION_3);
-        listOfPriority.put(POW, PRIORITY_OF_OPERATION_2);
-        listOfPriority.put(UNAR_MINUS, PRIORITY_OF_OPERATION_1);
-        otherSymbols.add(OPEN_ROUND_BRACKET);
-        otherSymbols.add(CLOSE_ROUND_BRACKET);
-    }
-
+    private static final char PLUS = '+';
+    private static final char MINUS = '-';
+    private static final char MULTI = '*';
+    private static final char DIVISION = '/';
+    private static final char POW = '^';
+    private static final char UNAR_MINUS = 'M';
+    private static final char OPEN_BRACKET = '(';
+    private static final char CLOSE_BRACKET = ')';
+    private static Deque<Expr> expr = new ArrayDeque<>();
 
     @Override
-    public Expr build(@Nullable String input) {
-        String fixedExpr = readyString(input);
-        StringTokenizer tokenizer = new StringTokenizer(fixedExpr, " ");
-        constructorOfExpression.clear();
+    public Expr build(String input) {
+
+        expr.clear();
+        String readyString = expressionToPostFix(input);
+        StringTokenizer tokenizer = new StringTokenizer(readyString, " ");
+
         while (tokenizer.hasMoreTokens()) {
-            String oneToken = tokenizer.nextToken();
-            if (!listOfPriority.containsKey(oneToken)) {
-                int operanda = Integer.parseInt(oneToken);
-                constructorOfExpression.push(new Const(operanda));
-            } else {
-                Expr operanda2 = constructorOfExpression.pop();
-                if (oneToken.equals(UNAR_MINUS) && constructorOfExpression.isEmpty()) {
-                    constructorOfExpression.push(new UnarMinus(operanda2));
 
+            String token = tokenizer.nextToken();
+
+            if (getPriority(token.charAt(0)) == 0) {
+                int operand = Integer.parseInt(token);
+                expr.push(new Const(operand));
+            } else {
+
+                if (expr.isEmpty()) {
+                    throw new IllegalArgumentException("Syntax error!");
+                }
+                Expr right = expr.pop();
+
+                if (token.charAt(0) == UNAR_MINUS) {
+                    expr.push(new UnarMinus(right));
                 } else {
-                    if (!constructorOfExpression.isEmpty()) {
-                        Expr operanda1 = constructorOfExpression.pop();
-                        if (oneToken.equals(POW)) {
-                            constructorOfExpression.push(new Power(operanda1, operanda2));
-                        } else if (oneToken.equals(MULTIPLY)) {
-                            constructorOfExpression.push(new Multiply(operanda1, operanda2));
-                        } else if (oneToken.equals(DIVISION)) {
-                            constructorOfExpression.push(new Division(operanda1, operanda2));
-                        } else if (oneToken.equals(PLUS)) {
-                            constructorOfExpression.push(new Add(operanda1, operanda2));
-                        } else if (oneToken.equals(MINUS)) {
-                            constructorOfExpression.push(new Subtract(operanda1, operanda2));
-                        } else if (checkDigits(oneToken) == false) {
-                            throw new IllegalArgumentException("Wrong symbol in expression.");
-                        }
+
+                    if (expr.isEmpty()) {
+                        throw new IllegalArgumentException("Syntax error!");
+                    }
+                    Expr left = expr.pop();
+
+                    switch (token.charAt(0)) {
+                        case PLUS:
+                            expr.addFirst(new Add(left, right));
+                            break;
+                        case MINUS:
+                            expr.addFirst(new Subtract(left, right));
+                            break;
+                        case MULTI:
+                            expr.addFirst(new Multiply(left, right));
+                            break;
+                        case DIVISION:
+                            expr.addFirst(new Division(left, right));
+                            break;
+                        case POW:
+                            expr.addFirst(new Power(left, right));
+                            break;
+                        default:
+                            throw new IllegalArgumentException("Error in expression!");
+                    }
+                }
+            }
+        }
+
+        if (expr.size() != 1) {
+            throw new IllegalArgumentException("Syntax error!");
+        }
+
+        return expr.peekFirst();
+    }
+
+
+    public static String expressionToPostFix(String input) {
+
+        if (input == null) {
+            throw new IllegalArgumentException("Input cannot be null!");
+        }
+
+        String currentExpr = "";
+        Deque<Character> exprPriority = new ArrayDeque<>();
+        int priority;
+
+        String resultString = input.replaceAll(" ", "");
+
+        if (input == "") {
+            throw new IllegalArgumentException("Input nothing ");
+        }
+
+        for (int i = 0; i < resultString.length(); i++) {
+            priority = getPriority(resultString.charAt(i));
+
+            if (priority == 0) {
+                currentExpr += resultString.charAt(i);
+            } else if (priority == 1) {
+                exprPriority.addFirst(resultString.charAt(i));
+            } else if (priority > 1) {
+                currentExpr += ' ';
+                while (!exprPriority.isEmpty()) {
+                    if (getPriority(exprPriority.peekFirst()) >= priority) {
+                        currentExpr += exprPriority.pollFirst();
                     } else {
-                        throw new IllegalArgumentException("Wrong expression");
+                        break;
                     }
+                    currentExpr += ' ';
                 }
-            }
-        }
-        if (constructorOfExpression.size() != 1) {
-            throw new IllegalArgumentException("Error in the expression");
-        }
-        return constructorOfExpression.pop();
-    }
+                exprPriority.addFirst(resultString.charAt(i));
+            } else if (priority == -1) {
 
-    private String readyString(String expression) {
-        if (expression == null) {
-            throw new IllegalArgumentException("Expression cannot be null");
-        }
-        expression = expression.replace(" ", "");
-        if (expression.isEmpty()) {
-            throw new IllegalArgumentException("Wrong expression");
-        }
-        StringBuilder readyString = new StringBuilder();
-        int indexOfLastOperation = 0;
-        boolean searchingTheNext = true;
-        while (searchingTheNext) {
-            int nextOperationIndex = expression.length();
-            String nextOperation = "";
-            for (String operation : otherSymbols) {
-                int i = expression.indexOf(operation, indexOfLastOperation);
-                if (i >= 0 && i < nextOperationIndex) {
-                    nextOperation = operation;
-                    nextOperationIndex = i;
+                while (!exprPriority.isEmpty() && getPriority(exprPriority.peekFirst()) != 1) {
+                    currentExpr += ' ';
+                    currentExpr += exprPriority.pollFirst();
                 }
-            }
-            if (nextOperationIndex == expression.length()) {
-                searchingTheNext = false;
-            } else {
-                if (indexOfLastOperation != nextOperationIndex) {
-                    readyString.append(expression.substring(indexOfLastOperation, nextOperationIndex)).append(" ");
-                }
-                if (nextOperation.equals(OPEN_ROUND_BRACKET)) {
-                    operationsOfExpr.push(nextOperation);
-                } else if (nextOperation.equals(CLOSE_ROUND_BRACKET)) {
-                    while (!operationsOfExpr.peek().equals(OPEN_ROUND_BRACKET)) {
-                        readyString.append(operationsOfExpr.pop()).append(" ");
-                        if (operationsOfExpr.isEmpty()) {
-                            throw new IllegalArgumentException("You put expression in brackets that do not match.");
-                        }
-                    }
-                    operationsOfExpr.pop();
+                if (exprPriority.isEmpty()) {
+                    throw new IllegalArgumentException(" not left bracket");
                 } else {
-                    while (!operationsOfExpr.isEmpty()
-                            && !operationsOfExpr.peek().equals(OPEN_ROUND_BRACKET)
-                            && listOfPriority.get(nextOperation)
-                            >= listOfPriority.get(operationsOfExpr.peek())) {
-                        readyString.append(operationsOfExpr.pop()).append(" ");
-                    }
-                    operationsOfExpr.push(nextOperation);
+                    exprPriority.pollFirst();
                 }
-                indexOfLastOperation = nextOperationIndex + nextOperation.length();
             }
         }
-        if (indexOfLastOperation != expression.length()) {
-            readyString.append(expression.substring(indexOfLastOperation)).append(" ");
-        }
-        while (!operationsOfExpr.isEmpty()) {
-            readyString.append(operationsOfExpr.pop()).append(" ");
-        }
-        readyString.deleteCharAt(readyString.lastIndexOf("") - 1);
-        return readyString.toString();
-    }
 
-    private static boolean checkDigits(String number) {
-        String[] digits = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"};
-        boolean check;
-        check = false;
-        for (String digit : digits) {
-            if (digit == number) {
-                check = true;
+        while (!exprPriority.isEmpty()) {
+            if (getPriority(exprPriority.peekFirst()) == 1) {
+                throw new IllegalArgumentException(" Error");
             }
+            currentExpr += ' ';
+            currentExpr += exprPriority.pollFirst();
         }
-        return check;
+
+        return currentExpr;
     }
 
+    public static int getPriority(char token) {
+        if (token == '1'
+                || token == '2'
+                || token == '3'
+                || token == '4'
+                || token == '5'
+                || token == '6'
+                || token == '7'
+                || token == '8'
+                || token == '9'
+                || token == '0') {
+            return 0;
+        }
+        if (token == UNAR_MINUS) {
+            return 5;
+        }
+        if (token == POW) {
+            return 4;
+        }
+        if (token == MULTI || token == DIVISION) {
+            return 3;
+        }
+        if (token == PLUS || token == MINUS) {
+            return 2;
+        }
+        if (token == OPEN_BRACKET) {
+            return 1;
+        }
+        if (token == CLOSE_BRACKET) {
+            return -1;
+        } else {
+            throw new IllegalArgumentException("No correct char in your expression!");
+        }
+    }
 }
