@@ -9,6 +9,7 @@ public abstract class Person {
     private static final String UNSUPPORTED_COLLECTION_TYPE_MESSAGE =
             "This Person's Book Collection is something strange";
     private static final String NON_UNIQUE_NAME_MESSAGE = "Name must be unique!";
+    protected static String ILLEGAL_CALL_MESSAGE = "Illegal call to ";
 
     protected static final String LINE_SEPARATOR = System.getProperty("line.separator");
 
@@ -45,9 +46,9 @@ public abstract class Person {
         return name;
     }
 
-    private void checkProperOperating() {
+    protected void checkProperOperating() {
         if (primitiveOperationsDone != Manager.getManagerOperationsDone() + LibraryClient.getClientOperationsDone()) {
-            throw new IllegalCallerException("Someone's committing a crime!");
+            throw new IllegalCallerException(ILLEGAL_CALL_MESSAGE);
         }
     }
 

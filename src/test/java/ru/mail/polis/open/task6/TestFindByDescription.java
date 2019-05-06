@@ -42,7 +42,7 @@ public class TestFindByDescription {
         ArrayList<Book> byPartition =
                 annaLibrarian.findAllBooksByParameter("Education",
                         Person.BookSearchParameter.BY_PARTITION);
-        ArrayList<Book> correctByPartition = new ArrayList<>(Arrays.asList(myths, physics));
+        ArrayList<Book> correctByPartition = new ArrayList<>(Arrays.asList(physics, myths));
         assertArrayLists(correctByPartition, byPartition);
         ArrayList<Book> byPartitions =
                 jackLibrarian.findAllBooksByParameter(
