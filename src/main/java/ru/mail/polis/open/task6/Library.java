@@ -10,13 +10,14 @@ public class Library {
     private boolean openClosed;
     private Manager currentManager;
     private Librarian currentLibrarian;
-    private Boolean[] shelfPlacesStatus = new Boolean[maxCountOfPlaces];
     private ArrayList<Customer> customerList = new ArrayList<>();
+    private  boolean[] shelfPlacesStatus;
 
     Library(Manager manager, Librarian librarian, int maxCountOfPlaces) {
         this.currentManager = manager;
         this.currentLibrarian = librarian;
         this.maxCountOfPlaces = maxCountOfPlaces;
+        this.shelfPlacesStatus = new boolean[maxCountOfPlaces];
     }
 
     public void changeManager(Manager manager) {
@@ -66,13 +67,14 @@ public class Library {
     }
 
     public void giveBook(Book book, Customer customer) {
-        if (book.isAvailable()) {
+        if (isOpen() && book.isAvailable()) {
             book.setDateOfGiving(Calendar.getInstance());
             Calendar date = Calendar.getInstance();
             date.add(Calendar.MONTH, 1);
             book.setDateOfReturn(date);
             book.setAvailabilityFalse();
             book.setCustomerInfo(customer);
+            customer.whatOnHands().add(book);
             if (!customerList.contains(customer)) {
                 customerList.add(customer);
             }
@@ -81,13 +83,18 @@ public class Library {
         }
     }
 
-    public void returnBook(Library library, Book book, Customer customer) {
-        book.setDateOfGiving(null);
-        book.setDateOfReturn(null);
-        book.setAvailabilityTrue();
-        book.setCustomerInfo(null);
-        if (customer.whatInStock(library).isEmpty()) {
-            customerList.remove(customer);
+    public void returnBook(Book book, Customer customer) {
+        if (isOpen() && customer.whatOnHands().contains(book)) {
+            book.setDateOfGiving(null);
+            book.setDateOfReturn(null);
+            book.setAvailabilityTrue();
+            book.setCustomerInfo(null);
+            customer.whatOnHands().remove(book);
+            if (customer.whatOnHands().isEmpty()) {
+                customerList.remove(customer);
+            }
+        } else {
+            throw new IllegalArgumentException();
         }
     }
 

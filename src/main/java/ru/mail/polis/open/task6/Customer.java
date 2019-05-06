@@ -15,15 +15,17 @@ public class Customer extends Person {
 
     public void getBook(Library library, Book book) {
         library.giveBook(book, this);
-        onHands.add(book);
     }
 
     public void returnBook(Library library, Book book) {
-        onHands.remove(book);
-        library.returnBook(library, book, this);
+        library.returnBook(book, this);
     }
 
     public ArrayList<Book> whatInStock(Library library) {
-        return library.getAllBooks();
+        if (library.isOpen()) {
+            return library.getAllBooks();
+        } else {
+            throw new IllegalArgumentException();
+        }
     }
 }
