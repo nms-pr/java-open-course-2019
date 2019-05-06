@@ -10,11 +10,11 @@ class AddTest {
     @Test
     void test() {
         assertEquals(
-            3,
-            new Add(
-                new Const(1),
-                new Const(2)
-            ).evaluate()
+                3,
+                new Add(
+                        new Const(1),
+                        new Const(2)
+                ).evaluate()
         );
     }
 

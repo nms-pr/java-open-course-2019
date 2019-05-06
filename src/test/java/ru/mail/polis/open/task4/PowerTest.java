@@ -4,17 +4,15 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-//todo
-class ConstTest {
-
+public class PowerTest {
     @Test
     void test() {
         assertEquals(
-                5,
-                new Const(
-                        5
+                8,
+                new Power(
+                        new Const(2),
+                        new Const(3)
                 ).evaluate()
         );
     }
-
 }

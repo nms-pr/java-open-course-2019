@@ -4,17 +4,15 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-//todo
-class ConstTest {
-
+public class MultiplicationTest {
     @Test
     void test() {
         assertEquals(
-                5,
-                new Const(
-                        5
+                28,
+                new Multiplication(
+                        new Const(7),
+                        new Const(4)
                 ).evaluate()
         );
     }
-
 }

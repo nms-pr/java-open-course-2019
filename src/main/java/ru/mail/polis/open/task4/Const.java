@@ -12,4 +12,17 @@ public final class Const implements Expr {
     public int evaluate() {
         return value;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Const constant = (Const) o;
+        return value == constant.value;
+    }
+
 }

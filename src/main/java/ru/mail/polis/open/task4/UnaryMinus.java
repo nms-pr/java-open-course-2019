@@ -4,19 +4,17 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
-public final class Add implements Expr {
+public class UnaryMinus implements Expr {
 
-    private final @NotNull Expr left;
     private final @NotNull Expr right;
 
-    public Add(final @NotNull Expr left, final @NotNull Expr right) {
-        this.left = Objects.requireNonNull(left);
+    public UnaryMinus(final @NotNull Expr right) {
         this.right = Objects.requireNonNull(right);
     }
 
     @Override
     public int evaluate() {
-        return left.evaluate() + right.evaluate();
+        return - right.evaluate();
     }
 
     @Override
@@ -27,9 +25,8 @@ public final class Add implements Expr {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        Add add = (Add) o;
-        return Objects.equals(left, add.left)
-                && Objects.equals(right, add.right);
+        UnaryMinus that = (UnaryMinus) o;
+        return Objects.equals(right, that.right);
     }
 
 }
