@@ -6,10 +6,13 @@ public class BookCard extends BookInfo {
 
     private int booksCounter;
     private int totalBooksAmount;
-    private static int idCounter = 1;
 
-    public BookCard(@NotNull String name, @NotNull String author, @NotNull Section section, int totalBooksAmount) {
-        super(name, author, section, idCounter++);
+    public BookCard(@NotNull String name,
+                    @NotNull String author,
+                    @NotNull Section section,
+                    int totalBooksAmount,
+                    int id) {
+        super(name, author, section, id);
         this.totalBooksAmount = totalBooksAmount;
         booksCounter = totalBooksAmount;
     }
@@ -17,7 +20,7 @@ public class BookCard extends BookInfo {
     public BookGiven getBook(Person reader) {
         if (booksCounter > 0) {
             booksCounter--;
-            int term = 0;
+            int term;
             switch (this.section) {
                 case Other:
                     term = 7;

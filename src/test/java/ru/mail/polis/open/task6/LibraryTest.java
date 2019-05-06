@@ -16,7 +16,7 @@ public class LibraryTest {
         library = new Library(15, 15);
         Manager manager = library.getManager();
         manager.addNewBooks(
-                new BookCard("Научная наука", "С.В.Мильке", Section.Scientific, 15)
+                new BookCard("Научная наука", "С.В.Мильке", Section.Scientific, 15, 1)
         );
     }
 
