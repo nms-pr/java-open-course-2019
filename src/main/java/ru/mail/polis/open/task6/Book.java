@@ -21,16 +21,20 @@ public class Book {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Book book = (Book) o;
-        return id == book.id &&
-                placeAtShelf == book.placeAtShelf &&
-                isReturned == book.isReturned &&
-                Objects.equals(bookName, book.bookName) &&
-                Objects.equals(takeBook, book.takeBook) &&
-                Objects.equals(returnBook, book.returnBook) &&
-                Objects.equals(customerName, book.customerName);
+        return id == book.id
+                && placeAtShelf == book.placeAtShelf
+                && isReturned == book.isReturned
+                && Objects.equals(bookName, book.bookName)
+                && Objects.equals(takeBook, book.takeBook)
+                && Objects.equals(returnBook, book.returnBook)
+                && Objects.equals(customerName, book.customerName);
     }
 
     @Override
