@@ -15,7 +15,7 @@ public abstract class Person {
 
     private final String name;
     
-    private static int primitiveOperationsDone = 0;
+    private static int rawOperationsCount = 0;
 
     protected Person(String name, Serializable database) {
         if (database instanceof HashMap) {
@@ -46,29 +46,35 @@ public abstract class Person {
         return name;
     }
 
-    protected void checkProperOperating() {
-        if (primitiveOperationsDone != Manager.getManagerOperationsDone() + LibraryClient.getClientOperationsDone()) {
-            throw new IllegalCallerException(ILLEGAL_CALL_MESSAGE);
+    protected static void checkProperOperating(int legalOperationsCount, int actualOperationsCount, String methodName) {
+        if (legalOperationsCount != actualOperationsCount) {
+            throw new IllegalCallerException(ILLEGAL_CALL_MESSAGE + methodName);
         }
     }
 
+    private void checkProperOperatingForPerson(String methodName) {
+        checkProperOperating(rawOperationsCount,
+                Manager.getOperationsCount() + LibraryClient.getOperationsCount(),
+                methodName);
+    }
+
     protected void bookHashMapOperating(ManagingPerson.Store collection, Book book, int amountChange) {
-        primitiveOperationsDone++;
-        checkProperOperating();
+        rawOperationsCount++;
+        checkProperOperatingForPerson("bookHashMapOperating");
         int previousAmount = collection.get(book);
         collection.put(book, previousAmount + amountChange);
     }
 
     protected <V> Book removeOneBookFromCollection(Book bookToRemove, V collection) {
-        primitiveOperationsDone++;
-        checkProperOperating();
+        rawOperationsCount++;
+        checkProperOperatingForPerson("removeOneBookFromCollection");
         if (collection instanceof ManagingPerson.Store) {
             ManagingPerson.Store store = (ManagingPerson.Store) collection;
             if (store.containsKey(bookToRemove)) {
                 if (store.get(bookToRemove) == 1) {
                     store.remove(bookToRemove);
                 } else {
-                    primitiveOperationsDone--;
+                    rawOperationsCount--;
                     bookHashMapOperating(store, bookToRemove, -1);
                 }
             } else {
@@ -90,12 +96,12 @@ public abstract class Person {
     }
 
     protected <V> void addOneBookToCollection(Book bookToAdd, V collection) {
-        primitiveOperationsDone++;
-        checkProperOperating();
+        rawOperationsCount++;
+        checkProperOperatingForPerson("addOneBookToCollection");
         if (collection instanceof ManagingPerson.Store) {
             ManagingPerson.Store store = (ManagingPerson.Store) collection;
             if (store.containsKey(bookToAdd)) {
-                primitiveOperationsDone--;
+                rawOperationsCount--;
                 bookHashMapOperating(store, bookToAdd, 1);
             } else {
                 store.put(bookToAdd, 1);

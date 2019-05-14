@@ -5,19 +5,19 @@ import java.util.HashMap;
 import java.util.Set;
 
 public abstract class ManagingPerson extends Person {
-    private static int putsAmount = 0;
-    private static int removesAmount = 0;
+    private static int putsCount = 0;
+    private static int removesCount = 0;
 
     protected static class Store {
         private HashMap<Book, Integer> store = new HashMap<>();
 
         protected void put(Book book, Integer amount) {
             if (!containsKey(book) || amount > get(book)) {
-                putsAmount++;
+                putsCount++;
             }
-            if (putsAmount != Manager.getPutsAmount() + LibraryClient.getPutsAmount()) {
-                throw new IllegalCallerException("Cheating!");
-            }
+            checkProperOperating(putsCount,
+                    Manager.getPutsCount() + LibraryClient.getPutsCount(),
+                    "put");
             justRemove(book);
             store.put(book, amount);
         }
@@ -32,10 +32,8 @@ public abstract class ManagingPerson extends Person {
         }
 
         protected void remove(Book book) {
-            removesAmount++;
-            if (removesAmount != LibraryClient.getRemovesAmount()) {
-                throw new IllegalCallerException("Cheating!");
-            }
+            removesCount++;
+            checkProperOperating(removesCount, LibraryClient.getRemovesCount(), "remove");
             store.remove(book);
         }
 

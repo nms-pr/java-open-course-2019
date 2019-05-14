@@ -8,12 +8,12 @@ public class LibraryClient extends Person {
 
     private ArrayList<Book> booksTaken = new ArrayList<>();
     private static ArrayList<String> clientDatabase = new ArrayList<>();
-    private static int clientOperationsDone = 0;
+    private static int operationsCount = 0;
     private static int busyClients = 0;
     private static int extendCount = 0;
-    private static int putsAmount = 0;
-    private static int removesAmount = 0;
-    private static int takes = 0;
+    private static int putsCount = 0;
+    private static int removesCount = 0;
+    private static int takesCount = 0;
 
     private Librarian currentWorkingLibrarian = null;
 
@@ -32,16 +32,16 @@ public class LibraryClient extends Person {
         return currentWorkingLibrarian == null ? null : currentWorkingLibrarian.getName();
     }
 
-    protected static int getPutsAmount() {
-        return putsAmount;
+    protected static int getPutsCount() {
+        return putsCount;
     }
 
-    protected static int getTakes() {
-        return takes;
+    protected static int getTakesCount() {
+        return takesCount;
     }
 
-    protected static int getRemovesAmount() {
-        return removesAmount;
+    protected static int getRemovesCount() {
+        return removesCount;
     }
 
     protected static int getExtendCount() {
@@ -52,8 +52,8 @@ public class LibraryClient extends Person {
         return busyClients;
     }
 
-    protected static int getClientOperationsDone() {
-        return clientOperationsDone;
+    protected static int getOperationsCount() {
+        return operationsCount;
     }
 
     private void check() {
@@ -71,12 +71,12 @@ public class LibraryClient extends Person {
             }
         }
         if (store.get(book) == 1) {
-            removesAmount++;
+            removesCount++;
         }
-        takes++;
-        clientOperationsDone++;
+        takesCount++;
+        operationsCount++;
         Book bookTaken = currentWorkingLibrarian.removeOneBookFromCollection(book, store);
-        clientOperationsDone++;
+        operationsCount++;
         addOneBookToCollection(bookTaken, booksTaken);
         currentWorkingLibrarian.newBookInfo(book, this);
         return booksTaken.indexOf(book);
@@ -91,10 +91,10 @@ public class LibraryClient extends Person {
 
     public void returnBook(Book book) {
         check();
-        putsAmount++;
-        clientOperationsDone++;
+        putsCount++;
+        operationsCount++;
         Book retBook = removeOneBookFromCollection(book, booksTaken);
-        clientOperationsDone++;
+        operationsCount++;
         currentWorkingLibrarian.addOneBookToCollection(retBook, store);
         currentWorkingLibrarian.getBookBackFromClient(book, this);
     }

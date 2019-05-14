@@ -6,17 +6,17 @@ public class Manager extends ManagingPerson {
 
     private static ArrayList<String> managerDatabase = new ArrayList<>();
     private static boolean libraryClosed = true;
-    private static int managerOperationsDone = 0;
-    private static int putsAmount = 0;
+    private static int operationsCount = 0;
+    private static int putsCount = 0;
 
     public Manager(String name) {
         super(name, managerDatabase);
     }
 
     public void addNewBookToStore(Book newBook, int amount) {
-        putsAmount++;
+        putsCount++;
         if (store.containsKey(newBook)) {
-            managerOperationsDone++;
+            operationsCount++;
             bookHashMapOperating(store, newBook, amount);
         } else {
             store.put(newBook, amount);
@@ -28,12 +28,12 @@ public class Manager extends ManagingPerson {
         addNewBookToStore(newBook, 1);
     }
 
-    protected static int getPutsAmount() {
-        return putsAmount;
+    protected static int getPutsCount() {
+        return putsCount;
     }
 
-    protected static int getManagerOperationsDone() {
-        return managerOperationsDone;
+    protected static int getOperationsCount() {
+        return operationsCount;
     }
 
     public void closeLibrary() {

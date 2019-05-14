@@ -7,10 +7,6 @@ import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static ru.mail.polis.open.task6.UtilTest.paulManager;
-import static ru.mail.polis.open.task6.UtilTest.jackManager;
-import static ru.mail.polis.open.task6.UtilTest.peterClient;
-import static ru.mail.polis.open.task6.UtilTest.samClient;
 import static ru.mail.polis.open.task6.UtilTest.winnie;
 import static ru.mail.polis.open.task6.UtilTest.physics;
 import static ru.mail.polis.open.task6.UtilTest.narnia1;
@@ -21,6 +17,11 @@ import static ru.mail.polis.open.task6.UtilTest.winnie2;
 public class TestTakeAndReturn {
     @Test
     void testTakeAndReturn() {
+        Librarian lib1 = new Librarian("John");
+        Librarian lib2 = new Librarian("Helen");
+        Librarian lib3 = new Librarian("Samantha");
+        Manager jackManager = new Manager("Jack");
+        Manager paulManager = new Manager("Paul");
         paulManager.openLibrary();
         paulManager.addNewBookToStore(winnie, 13);
         jackManager.addNewBookToStore(winnie, 3);
@@ -29,10 +30,12 @@ public class TestTakeAndReturn {
         paulManager.addNewBookToStore(narnia2);
         paulManager.addNewBookToStore(myths);
         jackManager.addNewBookToStore(winnie2);
+        LibraryClient peterClient = new LibraryClient("Peter");
         peterClient.askLibrarian();
         peterClient.takeBook(1,
                 "Winnie the Pooh",
                 new ArrayList<>(Arrays.asList("Fairytale", "Children", "Alan Milne")));
+        LibraryClient samClient = new LibraryClient("Sam");
         samClient.askLibrarian();
         samClient.takeBook(narnia2);
         assertEquals(1, samClient.takeBook(physics));

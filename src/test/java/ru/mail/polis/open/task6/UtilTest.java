@@ -3,19 +3,7 @@ package ru.mail.polis.open.task6;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 class UtilTest {
-    
-    static Manager jackManager = new Manager("Jack");
-    static Manager paulManager = new Manager("Paul");
-    static Librarian jackLibrarian = new Librarian("Jack");
-    static Librarian annaLibrarian = new Librarian("Anna");
-    static Librarian peterLibrarian = new Librarian("Peter");
-    static LibraryClient peterClient = new LibraryClient("Peter");
-    static LibraryClient samClient = new LibraryClient("Sam");
-    static LibraryClient dannyClient = new LibraryClient("Danny");
-    static LibraryClient maxClient = new LibraryClient("Max");
     static Book winnie = new Book(1,
                               "Winnie the Pooh",
                               new ArrayList<>(Arrays.asList("Fairytale", "Children", "Alan Milne")));
@@ -36,10 +24,4 @@ class UtilTest {
     static Book winnie2 = new Book(1,
                                "Winnie the Pooh",
                                new ArrayList<>(Arrays.asList("Fairytale", "Children", "Alan Milne")));
-    
-    static <T> void assertArrayLists(ArrayList<T> expected, ArrayList<T> actual) {
-        for (int i = 0; i < expected.size(); i++) {
-            assertEquals(expected.get(i), actual.get(i));
-        }
-    }
 }

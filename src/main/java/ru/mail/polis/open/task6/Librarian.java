@@ -86,9 +86,7 @@ public class Librarian extends ManagingPerson {
 
     protected static Librarian getAFreeLibrarian() {
         busyLibrarians++;
-        if (LibraryClient.getBusyClients() != busyLibrarians) {
-            throw new IllegalCallerException("This Librarian is just pretending that he's working!");
-        }
+        checkProperOperating(LibraryClient.getBusyClients(), busyLibrarians, "getAFreeLibrarian");
         for (String librarianName: librarianDatabase.keySet()) {
             Librarian librarian = (Librarian)librarianDatabase.get(librarianName);
             if (!librarian.isBusy) {
@@ -100,11 +98,15 @@ public class Librarian extends ManagingPerson {
         return null;
     }
 
-    public String remindClientAboutBookReturnTime(LibraryClient client, Book book) {
-        String key = book.toString() + client.getName();
+    private static void checkPresenceOfBookInfo(String key) {
         if (!bookInfos.containsKey(key)) {
             throw new IllegalCallerException("This book is not owned by this client currently");
         }
+    }
+
+    public String remindClientAboutBookReturnTime(LibraryClient client, Book book) {
+        String key = book.toString() + client.getName();
+        checkPresenceOfBookInfo(key);
         return client.getName()
                 + " must return this book: "
                 + LINE_SEPARATOR
@@ -114,20 +116,21 @@ public class Librarian extends ManagingPerson {
                 + bookInfos.get(key).returnTime.getTime();
     }
 
+    private static void comboCheck(String key, int legalOperations, int actualOperations, String methodName) {
+        checkPresenceOfBookInfo(key);
+        checkProperOperating(legalOperations, actualOperations, methodName);
+    }
+
     protected void becomeFree() {
         busyLibrarians--;
-        if (busyLibrarians != LibraryClient.getBusyClients()) {
-            throw new IllegalCallerException("Go work you lazy man!");
-        }
+        checkProperOperating(busyLibrarians, LibraryClient.getBusyClients(), "becomeFree");
         isBusy = false;
     }
 
     protected void extendBook(Book book, LibraryClient client) {
         extendCount++;
         String key = book.toString() + client.getName();
-        if (extendCount != LibraryClient.getExtendCount() || !bookInfos.containsKey(key)) {
-            throw new IllegalCallerException("You're extending an unowned book!");
-        }
+        comboCheck(key, extendCount, LibraryClient.getExtendCount(), "extendBook");
         bookInfos.get(key).extend();
     }
 
@@ -150,17 +153,13 @@ public class Librarian extends ManagingPerson {
     protected void getBookBackFromClient(Book book, LibraryClient client) {
         getBackCount++;
         String key = book.toString() + client.getName();
-        if (!bookInfos.containsKey(key) || getBackCount != LibraryClient.getPutsAmount()) {
-            throw new IllegalCallerException();
-        }
+        comboCheck(key, getBackCount, LibraryClient.getPutsCount(), "getBookBackFromClient");
         bookInfos.get(key);
     }
 
     protected void newBookInfo(Book book, LibraryClient client) {
         newBookInfos++;
-        if (newBookInfos != LibraryClient.getTakes()) {
-            throw new IllegalCallerException();
-        }
+        checkProperOperating(newBookInfos, LibraryClient.getTakesCount(), "newBookInfo");
         bookInfos.put(book.toString() + client.getName(), new BookInfo(client, book));
     }
 }
