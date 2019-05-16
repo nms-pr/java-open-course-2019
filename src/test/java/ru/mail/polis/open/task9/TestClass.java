@@ -36,6 +36,7 @@ public class TestClass {
         assertEquals(parser.getNewsList().get(0), NEWS_LIST);
     }
 
+    /*
     @Test
     void readToFileTest() {
         StringBuilder result = new StringBuilder();
@@ -55,4 +56,6 @@ public class TestClass {
         }
         assertEquals(result.toString(), TEXT);
     }
+
+    */
 }
