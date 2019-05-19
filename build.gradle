@@ -31,9 +31,11 @@ repositories {
 }
 
 dependencies {
+    implementation "org.jsoup:jsoup:1.12.1"
     implementation "org.jetbrains:annotations:16.0.3"
     testImplementation "org.junit.jupiter:junit-jupiter-api:5.4.0"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.4.0"
+    compile group: 'postgresql', name: 'postgresql', version: '9.0-801.jdbc4'
 }
 
 test {
