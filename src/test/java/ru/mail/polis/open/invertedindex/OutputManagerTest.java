@@ -1,11 +1,20 @@
-package ru.mail.polis.open.invertedIndex;
+package ru.mail.polis.open.invertedindex;
 
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
-import java.io.*;
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.PrintStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.StringJoiner;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -17,7 +26,6 @@ public class OutputManagerTest {
     private static ByteArrayOutputStream testBuffer;
     private static Set<String> outputInformation;
     private static final String OUTPUT_FILE_NAME = "testOutputFile";
-
 
 
     @BeforeAll
@@ -53,7 +61,6 @@ public class OutputManagerTest {
     }
 
 
-
     @Test
     void writeToFileTest() {
         String request = "request";
@@ -66,10 +73,9 @@ public class OutputManagerTest {
             String expectedString = "Request:\n\t" + request + "\nResult:" + "\n\t123" + "\n\tabc" + "\n\t45rt";
 
             assertEquals(expectedString, actualString);
-        } catch (Exception ignore){
+        } catch (Exception ignore) {
             fail();
-        }
-        finally {
+        } finally {
             deleteTestFile();
         }
 
@@ -78,7 +84,7 @@ public class OutputManagerTest {
     private String makeStringFromFileLines(List<String> lines) {
         StringJoiner joiner = new StringJoiner("\n");
 
-        for (String line:lines) {
+        for (String line : lines) {
             joiner.add(line);
         }
 

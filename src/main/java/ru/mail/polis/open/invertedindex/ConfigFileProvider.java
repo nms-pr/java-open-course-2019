@@ -1,6 +1,9 @@
-package ru.mail.polis.open.invertedIndex;
+package ru.mail.polis.open.invertedindex;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 
 public class ConfigFileProvider {
 
@@ -22,12 +25,11 @@ public class ConfigFileProvider {
         while ((line = bufferedReader.readLine()) != null) {
             parseLine(line);
         }
-
         bufferedReader.close();
         fileReader.close();
     }
 
-    private static void parseLine(String line) throws IllegalArgumentException{
+    private static void parseLine(String line) throws IllegalArgumentException {
 
         String[] lineParts = line.split(":");
 

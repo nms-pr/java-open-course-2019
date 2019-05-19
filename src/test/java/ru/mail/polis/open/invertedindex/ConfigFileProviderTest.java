@@ -1,4 +1,4 @@
-package ru.mail.polis.open.invertedIndex;
+package ru.mail.polis.open.invertedindex;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,7 +29,7 @@ public class ConfigFileProviderTest {
             fail("Error creating test file.");
         }
 
-        try (FileWriter writer = new FileWriter(testFile)){
+        try (FileWriter writer = new FileWriter(testFile)) {
             writer.write("host: localhost\n");
             writer.write("database: postgres\n");
             writer.write("port: 5432\n");

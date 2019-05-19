@@ -1,4 +1,4 @@
-package ru.mail.polis.open.invertedIndex;
+package ru.mail.polis.open.invertedindex;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -32,7 +32,6 @@ public class Parser implements Callable<ArrayList<Word>> {
     @Override
     public ArrayList<Word> call() {
         try {
-            if (currentDepth > 3 ) System.out.println("Depth:" + currentDepth+ " Max:" + maxAllowedDepth );
             foundWords.add(new Word(currentPageLink));
             getPage();
             visitedPages.add(currentPageLink);
@@ -41,10 +40,8 @@ public class Parser implements Callable<ArrayList<Word>> {
                             getNotVisitedLinksFromCurrentPage()
                     )
             );
-
             processPageText();
             processHeaders();
-
             return foundWords;
         } catch (Exception e) {
             return new ArrayList<>();
@@ -88,7 +85,7 @@ public class Parser implements Callable<ArrayList<Word>> {
     private void processPageText() {
         Elements elements = document.body().getAllElements();
 
-        for (Element element: elements) {
+        for (Element element : elements) {
 
             String[] words = element.ownText()
                     .toLowerCase()
@@ -119,8 +116,7 @@ public class Parser implements Callable<ArrayList<Word>> {
 
         if (links != null && currentDepth < maxAllowedDepth) {
             for (String link : links) {
-                Parser newTask = new Parser(link, currentDepth+1, maxAllowedDepth, visitedPages);
-
+                Parser newTask = new Parser(link, currentDepth + 1, maxAllowedDepth, visitedPages);
                 if (!result.contains(newTask)) {
                     result.add(newTask);
                 }
@@ -147,7 +143,7 @@ public class Parser implements Callable<ArrayList<Word>> {
 
         Elements links = document.select("a[href]");
 
-        for (Element link: links) {
+        for (Element link : links) {
             if (linkIsRelated(link.attr("abs:href"))
                     && !visitedPages.contains(link.attr("abs:href"))
             ) {
@@ -163,8 +159,8 @@ public class Parser implements Callable<ArrayList<Word>> {
      * @return если ссылка ведёт на этот же сайт {@code true}, иначе {@code false}
      */
     private boolean linkIsRelated(String link) {
-        return (link.split("[/]+").length > 1 &&
-                currentPageLink.split("[/]+")[1].equals(link.split("[/]+")[1]));
+        return (link.split("[/]+").length > 1
+                && currentPageLink.split("[/]+")[1].equals(link.split("[/]+")[1]));
     }
 
 

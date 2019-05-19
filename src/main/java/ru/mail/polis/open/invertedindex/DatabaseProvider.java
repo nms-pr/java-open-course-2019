@@ -1,7 +1,15 @@
-package ru.mail.polis.open.invertedIndex;
+package ru.mail.polis.open.invertedindex;
 
-import java.sql.*;
-import java.util.*;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+
 
 public class DatabaseProvider {
     static void createConnection() throws SQLException {
@@ -9,7 +17,7 @@ public class DatabaseProvider {
     }
 
 
-    static List<String> selectHTTP() throws SQLException {
+    static List<String> selecthttp() throws SQLException {
         List<String> https = new ArrayList<>();
         String st = "SELECT url FROM url where NOT status;";
         Statement statement = DbConnection.getConnection().createStatement();
@@ -23,8 +31,8 @@ public class DatabaseProvider {
     }
 
     static Set<String> selectRequest(String request) throws SQLException {
-
-        String newReq = request.replaceAll("[^a-zA-Z0-9а-яА-Я]", " ");
+        String lower = request.toLowerCase();
+        String newReq = lower.replaceAll("[^a-zA-Z0-9а-яА-Я]", " ");
         String[] words = newReq.split("[ ]+");
         for (int i = 0; i < words.length; i++) {
             if (StopWordsList.getStopWords().contains(words[i])) {                //change
@@ -37,11 +45,6 @@ public class DatabaseProvider {
     private static List<Word> selectFromCache(String[] words) throws SQLException {
         List<Word> listFromCache = new ArrayList<>();
         List<String> listForDb = new ArrayList<>();
-
-        //вместо слов может быть null
-        //достаю нужное из кеша, остально в лист и базе
-
-
 
         List<Word> listFromDb = selectFromDb(words);
         if (!listFromCache.isEmpty() && !listFromDb.isEmpty()) {
@@ -79,14 +82,13 @@ public class DatabaseProvider {
                     for (int i = 0; i < parts.length; i += 3) {
                         //переделать сравнивая ключ
                         subParts = parts[i].split(":");
-                        url = subParts[1] + subParts[2];
+                        url = subParts[1] + ":" + subParts[2];
                         subParts = parts[i + 2].split(":");
                         repeat = Integer.parseInt(subParts[1]);
                         subParts = parts[i + 1].split(":");
                         head = Boolean.parseBoolean(subParts[1]);
                         result.add(new Word(url, repeat, head));
                     }
-
                 }
             }
         }
@@ -94,15 +96,21 @@ public class DatabaseProvider {
     }
 
     static HashSet<String> ranging(List<Word> result) {
-
-        if (result.isEmpty()) return null;
+        if (result.isEmpty()) {
+            return null;
+        }
         List<String> answer = new ArrayList<>();
         List<Word> firstPart = new ArrayList<>();
         List<Word> secondPart = new ArrayList<>();
-        if (result.isEmpty()) return null;
+        if (result.isEmpty()) {
+            return null;
+        }
         for (Word word : result) {
-            if (word.isContainedInTitle()) firstPart.add(word);
-            else secondPart.add(word);
+            if (word.isContainedInTitle()) {
+                firstPart.add(word);
+            } else {
+                secondPart.add(word);
+            }
         }
         Word[] first = firstPart.toArray(Word[]::new);
         Word[] second = secondPart.toArray(Word[]::new);
@@ -122,7 +130,7 @@ public class DatabaseProvider {
     static void insertData(String url, List<Word> words) throws SQLException {
         Statement statementSelect = DbConnection.getConnection().createStatement();
         Statement statementInsert = DbConnection.getConnection().createStatement();
-        DbConnection.getConnection().setAutoCommit(true);
+        DbConnection.getConnection().setAutoCommit(false);
         ResultSet rs;
         StringBuilder sql = new StringBuilder();
         for (Word word : words) {
@@ -140,8 +148,7 @@ public class DatabaseProvider {
                         .append("}') where word = '")
                         .append(word.getWord())
                         .append("';");
-                statementInsert.executeUpdate(sql.toString());
-                //statementInsert.addBatch(sql.toString());
+                statementInsert.addBatch(sql.toString());
             } else {
                 sql.delete(0, sql.length());
                 sql.append("INSERT INTO words (word, dataJson) VALUES('")
@@ -153,14 +160,11 @@ public class DatabaseProvider {
                         .append(",\"header\":")
                         .append(word.isContainedInTitle())
                         .append("}'::jsonb]);");
-                statementInsert.executeUpdate(sql.toString());
-                //statementInsert.addBatch(sql.toString());
+                statementInsert.addBatch(sql.toString());
             }
         }
-
-       /* statementInsert.executeBatch();
-        DbConnection.getConnection().commit();*/
-        DbConnection.getConnection().setAutoCommit(true);
+        statementInsert.executeBatch();
+        DbConnection.getConnection().commit();
         sql.delete(0, sql.length());
         sql.append("Select * from url where url = '").append(url).append("';");
         rs = statementSelect.executeQuery(sql.toString());
@@ -173,13 +177,13 @@ public class DatabaseProvider {
             sql.append("Insert into url (url,status) VALUES ('").append(url).append("',TRUE);");
             statementInsert.addBatch(sql.toString());
         }
-        statementInsert.executeUpdate(sql.toString());
+        statementInsert.executeBatch();
+        DbConnection.getConnection().commit();
         statementInsert.close();
         statementSelect.close();
-        //здесь индекс
     }
 
-    static boolean insertHTTP(String url) throws SQLException {
+    static boolean inserthttp(String url) throws SQLException {
         Statement statement = DbConnection.getConnection().createStatement();
         DbConnection.getConnection().setAutoCommit(false);
         StringBuilder sql = new StringBuilder();
@@ -197,14 +201,14 @@ public class DatabaseProvider {
 
     static boolean updateIndex() throws SQLException {
         Statement statement = DbConnection.getConnection().createStatement();
-        DbConnection.getConnection().setAutoCommit(true);
+        DbConnection.getConnection().setAutoCommit(false);
         StringBuilder sql = new StringBuilder();
         sql.append("CREATE INDEX words_idx ON words USING GIN (to_tsvector('english', word))");
         try {
-            statement.executeUpdate(sql.toString());
+            statement.executeBatch();
+            DbConnection.getConnection().commit();
             statement.close();
         } catch (SQLException e) {
-            e.printStackTrace();
             return false;
         }
         statement.close();

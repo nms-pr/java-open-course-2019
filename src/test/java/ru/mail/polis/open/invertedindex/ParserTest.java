@@ -1,4 +1,4 @@
-package ru.mail.polis.open.invertedIndex;
+package ru.mail.polis.open.invertedindex;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,7 +9,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+
 
 public class ParserTest {
 
@@ -27,14 +29,14 @@ public class ParserTest {
             fail("Error creating test file.");
         }
 
-        try (FileWriter writer = new FileWriter(testFile)){
-            writer.write("<!DOCTYPE html>\n" +
-                    "<html>\n" +
-                    "<head>\n" +
-                    "</head\n" +
-                    "<body>\n" +
-                    "</body>" +
-                    "</html>");
+        try (FileWriter writer = new FileWriter(testFile)) {
+            writer.write("<!DOCTYPE html>\n"
+                    + "<html>\n"
+                    + "<head>\n"
+                    + "</head\n"
+                    + "<body>\n"
+                    + "</body>"
+                    + "</html>");
 
             writer.flush();
         } catch (IOException e) {
@@ -44,7 +46,7 @@ public class ParserTest {
 
     @Test
     void test2() {
-        new Parser("file:" + TEST_FILE_NAME,1,1, new CopyOnWriteArrayList<>()).call();
+        new Parser("file:" + TEST_FILE_NAME, 1, 1, new CopyOnWriteArrayList<>()).call();
         assertTrue(ParsersManager.getFutures().isEmpty());
     }
 

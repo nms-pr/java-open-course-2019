@@ -1,4 +1,4 @@
-package ru.mail.polis.open.invertedIndex;
+package ru.mail.polis.open.invertedindex;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -16,12 +16,12 @@ class DbConnection {
     private static DbConnection instance;
 
     private DbConnection() throws SQLException {
-        String url = "jdbc:postgresql://" +
-                ConfigFileProvider.getHost() +
-                ":" +
-                ConfigFileProvider.getPort() +
-                "/" +
-                ConfigFileProvider.getDatabase();
+        String url = "jdbc:postgresql://"
+                + ConfigFileProvider.getHost()
+                + ":"
+                + ConfigFileProvider.getPort()
+                + "/"
+                + ConfigFileProvider.getDatabase();
         Properties props = new Properties();
         props.setProperty("user", ConfigFileProvider.getLogin());
         props.setProperty("password", ConfigFileProvider.getPassword());

@@ -1,4 +1,4 @@
-package ru.mail.polis.open.invertedIndex;
+package ru.mail.polis.open.invertedindex;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -21,7 +21,6 @@ public class Main {
             DatabaseProvider.createConnection();
         } catch (SQLException e) {
             System.out.println("Ошибка подключения к базе.");
-            e.printStackTrace();
         }
 
         try {

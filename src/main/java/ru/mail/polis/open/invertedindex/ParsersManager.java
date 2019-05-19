@@ -1,19 +1,24 @@
-package ru.mail.polis.open.invertedIndex;
+package ru.mail.polis.open.invertedindex;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.*;
+import java.util.concurrent.ConcurrentLinkedDeque;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.CopyOnWriteArrayList;
+
 
 public class ParsersManager {
 
-    private static ConcurrentLinkedDeque<Future<ArrayList<Word>>> futures = new ConcurrentLinkedDeque<>();;
+    private static ConcurrentLinkedDeque<Future<ArrayList<Word>>> futures = new ConcurrentLinkedDeque<>();
     private static ExecutorService service;
 
     static void parse(int maxNumberOfThreads, int maxDepthOfSearch) throws SQLException {
         service = Executors.newFixedThreadPool(maxNumberOfThreads);
 
-        ArrayList<String> links = (ArrayList<String>) DatabaseProvider.selectHTTP();
+        ArrayList<String> links = (ArrayList<String>) DatabaseProvider.selecthttp();
 
         for (String link : links) {
             futures.add(service.submit(new Parser(link, 1, maxDepthOfSearch, new CopyOnWriteArrayList<>())));
@@ -36,7 +41,6 @@ public class ParsersManager {
                 ignore.printStackTrace();
             } finally {
                 futures.pollFirst();
-                System.out.println(futures.size());
             }
         }
 

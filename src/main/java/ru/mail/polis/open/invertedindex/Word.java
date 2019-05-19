@@ -1,6 +1,6 @@
-package ru.mail.polis.open.invertedIndex;
+package ru.mail.polis.open.invertedindex;
 
-public class Word {
+public class Word implements Comparable<Word> {
 
     private String word;
     private int numberOfRepetitions;
@@ -9,13 +9,13 @@ public class Word {
     Word(String word) {
         this.word = word;
         this.numberOfRepetitions = 1;
-        this. containedInTitle = false;
+        this.containedInTitle = false;
     }
 
     Word(String word, int number, Boolean repeat) {
         this.word = word;
         this.numberOfRepetitions = number;
-        this. containedInTitle = repeat;
+        this.containedInTitle = repeat;
     }
 
     public void setContainsInTitle(boolean containedInTitle) {
@@ -50,5 +50,14 @@ public class Word {
 
         Word word = (Word) obj;
         return word.getWord().equals(this.word);
+    }
+
+    public int compareTo(Word other) {
+        if (this.getNumberOfRepetitions() > other.getNumberOfRepetitions()) {
+            return 1;
+        } else if (this.getNumberOfRepetitions() == other.getNumberOfRepetitions()) {
+            return 0;
+        }
+        return -1;
     }
 }

@@ -1,14 +1,23 @@
-package ru.mail.polis.open.invertedIndex;
+package ru.mail.polis.open.invertedindex;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+
 
 public class DatabaseProviderTest {
     private static Word one = new Word("one", 7, true);
@@ -21,26 +30,31 @@ public class DatabaseProviderTest {
     @Test
     static void connection() {
         try {
-            assertEquals(null, DbConnection.getConnection());
-            DatabaseProvider.createConnection();
-            assertNotEquals(null, DbConnection.getConnection());
-        } catch (SQLException e) {
-            System.out.println("Fail. Problems with connection");
+            ConfigFileProvider.readFile("InvertIndexConfiguration");
+            try {
+                assertEquals(null, DbConnection.getConnection());
+                DatabaseProvider.createConnection();
+                assertNotEquals(null, DbConnection.getConnection());
+            } catch (SQLException e) {
+                System.out.println("Fail. Problems with connection");
+            }
+        } catch (IOException e) {
+            System.out.println("Problems with configuration file");
         }
     }
 
     @Test
     void selectHttp() {
         try {
-            String url = "Teeesttt";
+            String url = "http://Test";
             DatabaseProvider.createConnection();
-            assertFalse(DatabaseProvider.selectHTTP().isEmpty());
-            assertFalse(DatabaseProvider.selectHTTP().contains(url));
-            assertTrue(DatabaseProvider.insertHTTP(url));
-            assertTrue(DatabaseProvider.selectHTTP().contains(url));
-            assertFalse(DatabaseProvider.insertHTTP(url));
+            assertFalse(DatabaseProvider.selecthttp().contains(url));
+            assertTrue(DatabaseProvider.inserthttp(url));
+            assertTrue(DatabaseProvider.selecthttp().contains(url));
+            assertFalse(DatabaseProvider.inserthttp(url));
             rollbackInsetHttp(url);
         } catch (SQLException e) {
+            e.printStackTrace();
             System.out.println("Fail.  Problems with connection(Http)");
         }
     }
@@ -49,41 +63,38 @@ public class DatabaseProviderTest {
     void insertData() {
         try {
             HashSet<String> res = new LinkedHashSet<>();
-            String url = "data";
+            String url = "http://data";
             res.add(url);
-            assertFalse(DatabaseProvider.selectHTTP().contains(url));
+            assertFalse(DatabaseProvider.selecthttp().contains(url));
             assertFalse(fullListOfUrl().contains(url));
-            assertEquals(null,DatabaseProvider.selectRequest("one"));
+            assertEquals(null, DatabaseProvider.selectRequest("one"));
             DatabaseProvider.insertData(url, new ArrayList<>(Arrays.asList(one, two)));
-            assertFalse(DatabaseProvider.selectHTTP().contains((url)));
+            assertFalse(DatabaseProvider.selecthttp().contains((url)));
             assertTrue(fullListOfUrl().contains(url));
-            assertEquals(res,DatabaseProvider.selectRequest("one"));
+            assertEquals(res, DatabaseProvider.selectRequest("one"));
             rollbackInsetWord(one.getWord());
             rollbackInsetWord(two.getWord());
             rollbackInsetHttp(url);
-
-
-
         } catch (SQLException e) {
             e.printStackTrace();
             System.out.println("Fail. Problems with connection(Data)");
         }
-
     }
 
     @Test
     void ranging() {
-        assertEquals(new HashSet<>(Arrays.asList(one.getWord(), three.getWord(), five.getWord(), two.getWord(), four.getWord())),
+        assertEquals(new HashSet<>(Arrays.asList(one.getWord(), three.getWord(), five.getWord(),
+                two.getWord(), four.getWord())),
                 DatabaseProvider.ranging(new ArrayList<>(Arrays.asList(one, two, three, four, five))));
 
     }
 
     @Test
-    void updateIndex(){
+    void updateIndex() {
         try {
             assertTrue(DatabaseProvider.updateIndex());
             dropIndex();
-        }catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
@@ -96,6 +107,7 @@ public class DatabaseProviderTest {
         statement.executeUpdate(sql.toString());
         statement.close();
     }
+
     private static void rollbackInsetWord(String word) throws SQLException {
         Statement statement = DbConnection.getConnection().createStatement();
         DbConnection.getConnection().setAutoCommit(true);
@@ -104,7 +116,8 @@ public class DatabaseProviderTest {
         statement.executeUpdate(sql.toString());
         statement.close();
     }
-    private static List<String> fullListOfUrl() throws SQLException{
+
+    private static List<String> fullListOfUrl() throws SQLException {
         List<String> https = new ArrayList<>();
         String st = "SELECT url FROM url;";
         Statement statement = DbConnection.getConnection().createStatement();
@@ -116,7 +129,8 @@ public class DatabaseProviderTest {
         rs.close();
         return https;
     }
-    private static boolean dropIndex() throws SQLException{
+
+    private static boolean dropIndex() throws SQLException {
         Statement statement = DbConnection.getConnection().createStatement();
         DbConnection.getConnection().setAutoCommit(true);
         StringBuilder sql = new StringBuilder();
@@ -124,7 +138,7 @@ public class DatabaseProviderTest {
         try {
             statement.executeUpdate(sql.toString());
             statement.close();
-        }catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
             return false;
         }

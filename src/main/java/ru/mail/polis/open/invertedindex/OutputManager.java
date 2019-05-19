@@ -1,6 +1,7 @@
-package ru.mail.polis.open.invertedIndex;
+package ru.mail.polis.open.invertedindex;
 
-import java.io.*;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Set;
 
 public class OutputManager {
