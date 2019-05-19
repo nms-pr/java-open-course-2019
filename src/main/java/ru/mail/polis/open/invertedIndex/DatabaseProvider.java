@@ -22,17 +22,16 @@ public class DatabaseProvider {
         return https;
     }
 
-    static Set<String> selectRequest(String request) throws SQLException{
-        List<String> stopWords = new ArrayList<>();//delete
+    static Set<String> selectRequest(String request) throws SQLException {
 
-        String newReq = request.replaceAll("[^a-zA-Z0-9]", " ");
+        String newReq = request.replaceAll("[^a-zA-Z0-9а-яА-Я]", " ");
         String[] words = newReq.split("[ ]+");
         for (int i = 0; i < words.length; i++) {
-            if (stopWords.contains(words[i])) {                //change
+            if (StopWordsList.getStopWords().contains(words[i])) {                //change
                 words[i] = null;
             }
         }
-        return ranging(selectFromCache(words));
+        return ranging(selectFromDb(words));
     }
 
     private static List<Word> selectFromCache(String[] words) throws SQLException {
@@ -43,10 +42,8 @@ public class DatabaseProvider {
         //достаю нужное из кеша, остально в лист и базе
 
 
-        for (String word:words) {
-            if(word !=null) listForDb.add(word);
-        }
-        List<Word> listFromDb = selectFromDb(listForDb);
+
+        List<Word> listFromDb = selectFromDb(words);
         if (!listFromCache.isEmpty() && !listFromDb.isEmpty()) {
             listFromCache.addAll(listFromDb);
             return listFromCache;
@@ -57,7 +54,7 @@ public class DatabaseProvider {
         }
     }
 
-    private static List<Word> selectFromDb(List<String> words) throws SQLException {
+    private static List<Word> selectFromDb(String[] words) throws SQLException {
         StringBuilder sql = new StringBuilder();
         List<Word> result = new ArrayList<>();
         String url;
@@ -66,47 +63,49 @@ public class DatabaseProvider {
         Statement statement = DbConnection.getConnection().createStatement();
         ResultSet rs;
         for (String word : words) {
-            sql.delete(0, sql.length());
-            sql.append("select dataJson from words where word = '").append(word).append("';");
-            rs = statement.executeQuery(sql.toString());
-            if(!rs.isBeforeFirst()){
-                return result;
-            }
-            while (rs.next()) {
-                String str =  rs.getArray("dataJson").toString();
-                str = str.replaceAll("\\\\","");
-                str = str.replaceAll("[\" {}]","");
-                String[] parts = str.split(",");
-                String[] subParts;
-                for (int i = 0; i < parts.length; i+=3) {
-                    //переделать сравнивая ключ
-                    subParts = parts[i].split(":");
-                    url=subParts[1];
-                    subParts = parts[i+2].split(":");
-                    repeat=Integer.parseInt(subParts[1]);
-                    subParts = parts[i+1].split(":");
-                    head=Boolean.parseBoolean(subParts[1]);
-                    result.add(new Word(url,repeat,head));
+            if (word != null) {
+                sql.delete(0, sql.length());
+                sql.append("select dataJson from words where word = '").append(word).append("';");
+                rs = statement.executeQuery(sql.toString());
+                if (!rs.isBeforeFirst()) {
+                    return result;
                 }
+                while (rs.next()) {
+                    String str = rs.getArray("dataJson").toString();
+                    str = str.replaceAll("\\\\", "");
+                    str = str.replaceAll("[\" {}]", "");
+                    String[] parts = str.split(",");
+                    String[] subParts;
+                    for (int i = 0; i < parts.length; i += 3) {
+                        //переделать сравнивая ключ
+                        subParts = parts[i].split(":");
+                        url = subParts[1] + subParts[2];
+                        subParts = parts[i + 2].split(":");
+                        repeat = Integer.parseInt(subParts[1]);
+                        subParts = parts[i + 1].split(":");
+                        head = Boolean.parseBoolean(subParts[1]);
+                        result.add(new Word(url, repeat, head));
+                    }
 
+                }
             }
-
         }
         return result;
     }
 
     static HashSet<String> ranging(List<Word> result) {
+
         if (result.isEmpty()) return null;
         List<String> answer = new ArrayList<>();
         List<Word> firstPart = new ArrayList<>();
         List<Word> secondPart = new ArrayList<>();
         if (result.isEmpty()) return null;
-        for (Word word:result) {
-            if (word.isHeader()) firstPart.add(word);
+        for (Word word : result) {
+            if (word.isContainedInTitle()) firstPart.add(word);
             else secondPart.add(word);
         }
-        Word[]  first = firstPart.toArray(Word[]::new);
-        Word[]  second = secondPart.toArray(Word[]::new);
+        Word[] first = firstPart.toArray(Word[]::new);
+        Word[] second = secondPart.toArray(Word[]::new);
         Arrays.sort(first);
         Arrays.sort(second);
         for (int i = 0; i < first.length; i++) {
@@ -123,7 +122,7 @@ public class DatabaseProvider {
     static void insertData(String url, List<Word> words) throws SQLException {
         Statement statementSelect = DbConnection.getConnection().createStatement();
         Statement statementInsert = DbConnection.getConnection().createStatement();
-        DbConnection.getConnection().setAutoCommit(false);
+        DbConnection.getConnection().setAutoCommit(true);
         ResultSet rs;
         StringBuilder sql = new StringBuilder();
         for (Word word : words) {
@@ -135,13 +134,14 @@ public class DatabaseProvider {
                 sql.append("UPDATE words SET dataJson = array_append(dataJson,'{\"url\":\"")
                         .append(url)
                         .append("\",\"repeatNumb\":")
-                        .append(word.getRepeatNumb())
+                        .append(word.getNumberOfRepetitions())
                         .append(",\"header\":")
-                        .append(word.isHeader())
+                        .append(word.isContainedInTitle())
                         .append("}') where word = '")
                         .append(word.getWord())
                         .append("';");
-                statementInsert.addBatch(sql.toString());
+                statementInsert.executeUpdate(sql.toString());
+                //statementInsert.addBatch(sql.toString());
             } else {
                 sql.delete(0, sql.length());
                 sql.append("INSERT INTO words (word, dataJson) VALUES('")
@@ -149,15 +149,17 @@ public class DatabaseProvider {
                         .append("',array['{\"url\":\"")
                         .append(url)
                         .append("\",\"repeatNumb\" : ")
-                        .append(word.getRepeatNumb())
+                        .append(word.getNumberOfRepetitions())
                         .append(",\"header\":")
-                        .append(word.isHeader())
+                        .append(word.isContainedInTitle())
                         .append("}'::jsonb]);");
-                statementInsert.addBatch(sql.toString());
+                statementInsert.executeUpdate(sql.toString());
+                //statementInsert.addBatch(sql.toString());
             }
         }
-        statementInsert.executeBatch();
-        DbConnection.getConnection().commit();
+
+       /* statementInsert.executeBatch();
+        DbConnection.getConnection().commit();*/
         DbConnection.getConnection().setAutoCommit(true);
         sql.delete(0, sql.length());
         sql.append("Select * from url where url = '").append(url).append("';");
@@ -177,7 +179,7 @@ public class DatabaseProvider {
         //здесь индекс
     }
 
-    static boolean insertHTTP(String url) throws SQLException{
+    static boolean insertHTTP(String url) throws SQLException {
         Statement statement = DbConnection.getConnection().createStatement();
         DbConnection.getConnection().setAutoCommit(false);
         StringBuilder sql = new StringBuilder();
@@ -186,22 +188,22 @@ public class DatabaseProvider {
             statement.addBatch(sql.toString());
             statement.executeBatch();
             DbConnection.getConnection().commit();
-        }catch (SQLException e){
+        } catch (SQLException e) {
             return false;
         }
         statement.close();
         return true;
     }
 
-    static boolean updateIndex() throws SQLException{
+    static boolean updateIndex() throws SQLException {
         Statement statement = DbConnection.getConnection().createStatement();
         DbConnection.getConnection().setAutoCommit(true);
         StringBuilder sql = new StringBuilder();
         sql.append("CREATE INDEX words_idx ON words USING GIN (to_tsvector('english', word))");
         try {
-        statement.executeUpdate(sql.toString());
-        statement.close();
-        }catch (SQLException e){
+            statement.executeUpdate(sql.toString());
+            statement.close();
+        } catch (SQLException e) {
             e.printStackTrace();
             return false;
         }

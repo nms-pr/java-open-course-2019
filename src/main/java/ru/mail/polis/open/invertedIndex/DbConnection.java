@@ -16,10 +16,15 @@ class DbConnection {
     private static DbConnection instance;
 
     private DbConnection() throws SQLException {
-        String url = "jdbc:postgresql://localhost:5433/InvIndex";
+        String url = "jdbc:postgresql://" +
+                ConfigFileProvider.getHost() +
+                ":" +
+                ConfigFileProvider.getPort() +
+                "/" +
+                ConfigFileProvider.getDatabase();
         Properties props = new Properties();
-        props.setProperty("user","postgres");
-        props.setProperty("password","rupertgrint");
+        props.setProperty("user", ConfigFileProvider.getLogin());
+        props.setProperty("password", ConfigFileProvider.getPassword());
         connection = DriverManager.getConnection(url, props);
 
     }
