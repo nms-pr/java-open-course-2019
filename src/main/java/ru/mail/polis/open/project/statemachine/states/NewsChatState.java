@@ -72,7 +72,7 @@ public class NewsChatState implements ChatState {
 
             info.append("Source : ")
                 .append(URL_BEFORE_CITY_NAME)
-                .append(message);
+                .append(message.replaceAll(" ", ""));
 
             stateMachine.getStatisticsProvider().onRequest("News", message);
             Logger.addInfoAboutRequest(message, chatId, "News");
