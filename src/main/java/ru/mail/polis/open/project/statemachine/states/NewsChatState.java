@@ -43,7 +43,7 @@ public class NewsChatState implements ChatState {
             URL url = new URL(
                 URL_BEFORE_CITY_NAME
                 + RSS
-                + message
+                + message.replaceAll(" ", "")
             );
 
             SyndFeedInput input = new SyndFeedInput();
