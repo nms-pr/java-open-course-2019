@@ -37,8 +37,8 @@ public class ParsersManager {
                     }
                 }
 
-            } catch (Exception ignore) {
-
+            } catch (Exception e) {
+                e.getStackTrace();
             } finally {
                 futures.pollFirst();
             }
