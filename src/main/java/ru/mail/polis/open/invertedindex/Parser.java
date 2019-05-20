@@ -111,7 +111,7 @@ public class Parser implements Callable<ArrayList<Word>> {
      * @param links ссылки, на не посещённые страницы сайта
      * @return список "заданий" по обраотке страниц сайта
      */
-    private synchronized ArrayList<Parser> createNewTasks(ArrayList<String> links) {
+    private ArrayList<Parser> createNewTasks(ArrayList<String> links) {
         ArrayList<Parser> result = new ArrayList<>();
 
         if (links != null && currentDepth < maxAllowedDepth) {
