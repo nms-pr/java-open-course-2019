@@ -1,7 +1,14 @@
-package ru.mail.polis.open.final_task.client;
+package ru.mail.polis.open.finaltask.client;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JTextField;
+import javax.swing.JTextArea;
+import javax.swing.JPanel;
+import javax.swing.JLabel;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.WindowConstants;
+import javax.swing.JScrollPane;
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
@@ -102,6 +109,7 @@ public class ClientWindow extends JFrame {
                         }
                     }
                 } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
         }).start();
@@ -123,7 +131,7 @@ public class ClientWindow extends JFrame {
                     inMessage.close();
                     clientSocket.close();
                 } catch (IOException ex) {
-
+                    ex.printStackTrace();
                 }
             }
         });

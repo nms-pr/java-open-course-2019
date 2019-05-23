@@ -1,4 +1,4 @@
-package ru.mail.polis.open.final_task.server;
+package ru.mail.polis.open.finaltask.server;
 
 public class Main {
     public static void main(String[] args) {

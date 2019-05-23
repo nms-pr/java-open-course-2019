@@ -1,4 +1,4 @@
-package ru.mail.polis.open.final_task.server;
+package ru.mail.polis.open.finaltask.server;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -25,8 +25,7 @@ public class Server {
             }
         } catch (IOException ex) {
             ex.printStackTrace();
-        }
-        finally {
+        } finally {
             try {
                 clientSocket.close();
                 System.out.println("Сервер остановлен");

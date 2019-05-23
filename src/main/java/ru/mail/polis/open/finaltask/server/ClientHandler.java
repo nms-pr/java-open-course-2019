@@ -1,11 +1,11 @@
-package ru.mail.polis.open.final_task.server;
+package ru.mail.polis.open.finaltask.server;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
 
-public class ClientHandler implements Runnable{
+public class ClientHandler implements Runnable {
 
     private Server server;
 
@@ -52,8 +52,7 @@ public class ClientHandler implements Runnable{
             }
         } catch (InterruptedException ex) {
             ex.printStackTrace();
-        }
-        finally {
+        } finally {
             this.close();
         }
     }
